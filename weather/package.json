@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "ci": "CI=true node index.js",
     "dev": "nodemon index.js"
   },
   "author": "SOA-20-21-A",
