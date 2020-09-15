@@ -1,0 +1,16 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "Client for µservices ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "SOA-20-21-A",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "nodemon": "^2.0.4"
+  }
+}
