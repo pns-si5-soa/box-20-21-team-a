@@ -14,4 +14,5 @@ app.get('/rocket', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
+    if(process.env.CI !== undefined) process.exit(0)
 })

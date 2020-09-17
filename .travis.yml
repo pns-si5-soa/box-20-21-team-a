@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - 14
+
+jobs:
+  include:
+    - stage: weather
+      script:
+        - cd weather
+        - npm install
+        - CI=true npm run start
+    - stage: rocket
+      script:
+        - cd rocket
+        - npm install
+        - CI=true npm run start
+
+notifications:
+  slack: informatiquep-kyw7477:InXvtw4L5aLweMKgjOygoiZB
