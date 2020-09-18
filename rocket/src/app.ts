@@ -1,6 +1,7 @@
 import express = require('express')
+require('dotenv').config()
 const app: express.Application = express()
-const port = 3001
+const port = process.env.PORT
 
 const rocket_status = ["ready", "not ready"]
 
@@ -13,6 +14,6 @@ app.get('/rocket', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Rocket : Listening at http://localhost:${port}`)
     if(process.env.CI !== undefined) process.exit(0)
 })
