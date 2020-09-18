@@ -8,12 +8,12 @@ jobs:
       script:
         - cd weather
         - npm install
-        - CI=true npm run start
+        - npm run ci
     - stage: rocket
       script:
         - cd rocket
         - npm install
-        - CI=true npm run start
+        - npm run ci
 
 notifications:
   slack: informatiquep-kyw7477:InXvtw4L5aLweMKgjOygoiZB
