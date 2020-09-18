@@ -1,6 +1,9 @@
-import axios from 'axios'
+require('dotenv').config()
+import weatherAPI from './API/weatherAPI'
 
-axios.get('http://localhost:3000/weather').then(res => {
+const weatherAPIInstance = new weatherAPI()
+
+weatherAPIInstance.getWeather().then(res => {
     console.log("The weather is : " + res.data)
 }).catch(err => {
     console.log('There are an error : ', err)
