@@ -11,6 +11,6 @@ RUN npm install
 # Copying source files
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3001
 # Running the app
 CMD [ "npm", "start" ]

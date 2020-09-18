@@ -16,6 +16,21 @@ jobs:
         - cp .env.travis .env
         - npm install
         - npm run ci
+    - stage: client #Run cucumber (todo do only on master)
+      before_script:
+        - cd weather
+        - cp .env.travis .env
+        - npm install
+        - docker-compose build
+        - docker-compose up -d
+        - sleep 3
+      script:
+        - cd ../client
+        - cp .env.travis .env
+        - npm install
+        - npm run test
+      after-script:
+        - docker-compose kill
 
 notifications:
   slack: informatiquep-kyw7477:InXvtw4L5aLweMKgjOygoiZB
