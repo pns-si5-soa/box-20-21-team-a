@@ -1,4 +1,4 @@
-const axios = require('axios')
+import axios from 'axios'
 
 axios.get('http://localhost:3000/weather').then(res => {
     console.log("The weather is : " + res.data)
