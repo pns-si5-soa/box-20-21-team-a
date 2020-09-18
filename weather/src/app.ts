@@ -1,10 +1,10 @@
-const express = require('express')
-const app = express()
+import express = require('express')
+const app: express.Application = express()
 const port = 3000
 
 const weather = ["Sunny", "Cloudy", "Rainy"]
 
-function choice(tab) {
+function choice(tab: Array<String>): String {
     return tab[Math.floor(Math.random() * Math.floor(tab.length))]
 }
 
