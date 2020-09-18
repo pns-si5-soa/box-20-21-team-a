@@ -7,11 +7,13 @@ jobs:
     - stage: weather
       script:
         - cd weather
+        - cp .env.travis .env
         - npm install
         - npm run ci
     - stage: rocket
       script:
         - cd rocket
+        - cp .env.travis .env
         - npm install
         - npm run ci
 
