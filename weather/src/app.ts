@@ -1,7 +1,7 @@
 import express = require('express')
 require('dotenv').config()
 const app: express.Application = express()
-const port = process.env.PORT;
+const port = process.env.PORT ?? 3001;
 
 const weather = ["Sunny", "Cloudy", "Rainy"]
 
