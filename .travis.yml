@@ -15,7 +15,7 @@ jobs:
         - cd rocket
         - cp .env.travis .env
         - npm install
-        - npm run ci
+        - npm run test
     - stage: client #Run cucumber (todo do only on master)
       before_script:
         - cd weather

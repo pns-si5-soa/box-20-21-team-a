@@ -1,16 +1,13 @@
 import express = require('express')
+import choice from "./rocket"
 require('dotenv').config()
 const app: express.Application = express()
 const port = process.env.PORT ?? 3000
 
-const rocket_status = ["ready", "not ready"]
 
-function choice(tab: Array<String>): String {
-    return tab[Math.floor(Math.random() * Math.floor(tab.length))]
-}
 
 app.get('/rocket', (req, res) => {
-  res.send(choice(rocket_status))
+  res.send(choice())
 })
 
 app.listen(port, () => {
