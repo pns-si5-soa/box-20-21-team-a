@@ -9,7 +9,7 @@ jobs:
         - cd weather
         - cp .env.travis .env
         - npm install
-        - npm run ci
+        - npm run test
     - stage: rocket
       script:
         - cd rocket
