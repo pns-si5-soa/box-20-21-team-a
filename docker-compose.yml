@@ -1,8 +1,39 @@
-weather:
-    build: ./weather
-    dockerfile: ./Dockerfile
-    ports:
-      - "3001:3001"
-    environment:
-      - PORT=3001
-    command: "npm run start"
+version: "3"
+
+services:
+  weather:
+      image: blue-origin/weather
+      container_name: weather-container
+      build: ./weather
+      ports:
+        - "3001:3001"
+      environment:
+        - PORT=3001
+      command: "npm run start"
+
+  rocket:
+      image: blue-origin/rocket
+      container_name: rocket-container
+      build: ./rocket
+      ports:
+        - "3000:3000"
+      environment:
+        - PORT=3000
+      command: "npm run start"
+
+  client:
+      image: blue-origin/client
+      container_name: client-container
+      build: ./rocket
+      command: "npm run test"
+      environment:
+        - HOST_ROCKET=localhost
+        - PORT_ROCKET=3000
+        - HOST_WEATHER=localhost
+        - PORT_WEATHER=3001
+      depends_on:
+        - rocket
+        - weather
+      stdin_open: true
+      tty: true
+    
