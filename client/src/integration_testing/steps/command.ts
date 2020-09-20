@@ -27,7 +27,9 @@ Then("I receive a status code {int} and the parameters are {string} by default",
     {
         expect(await response.status).toEqual(status)
         expect(await response.data).not.toBe(undefined)
-        //expect(await response.data).toContain(param)
+        console.log(await response.data)
+        expect(await response.data.rockets.toString()).toEqual(param);
+        expect(await response.data.weather.toString()).toEqual(param);
     }
 
 )

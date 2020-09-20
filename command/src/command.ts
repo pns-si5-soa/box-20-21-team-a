@@ -1,12 +1,12 @@
-import poll = require("./entities/poll");
+import poll from "./entities/poll";
 
-let newPoll : poll.default;
+let newPoll : poll;
 
-export function createPoll(): poll.default {
-	newPoll = new poll.default();
+export function createPoll(): poll {
+	newPoll = new poll;
 	return newPoll;
 }
 
-export function getPoll(): poll.default{
+export function getPoll(): poll{
 	return newPoll;
 }
