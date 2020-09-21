@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  command:
+      image: blue_origin/command
+      container_name: command-container
+      build: ./command
+      ports:
+        - "3002:3002"
+      environment:
+        - PORT=3002
+      command: "npm run start"
+
   weather:
       image: blue-origin/weather
       container_name: weather-container
@@ -31,9 +41,12 @@ services:
         - PORT_ROCKET=3000
         - HOST_WEATHER=localhost
         - PORT_WEATHER=3001
+        - HOST_COMMAND=localhost
+        - PORT_COMMAND=3002
       depends_on:
         - rocket
         - weather
+        - command
       stdin_open: true
       tty: true
     
