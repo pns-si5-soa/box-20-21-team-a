@@ -1,4 +1,4 @@
-import weather from "../weather"
+import weather from "../weather-service"
 
 
 test('Test weather status...', () => {
