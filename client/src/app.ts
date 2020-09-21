@@ -2,10 +2,11 @@
 
 import RocketAPI from './API/rocketAPI'
 import weatherAPI from './API/weatherAPI'
-import CommandAPI from './API/commandAPI'
+import MissionAPI from './API/missionAPI'
 
 
 require('dotenv').config();
+
 
 const chalk = require('chalk');
 const clear = require('clear');
@@ -15,7 +16,7 @@ const program = require('commander');
 
 const weatherAPIInstance = new weatherAPI();
 const rocketAPIInstance = new RocketAPI();
-const commandAPIInstance = new CommandAPI();
+const commandAPIInstance = new MissionAPI();
 
 
 clear();

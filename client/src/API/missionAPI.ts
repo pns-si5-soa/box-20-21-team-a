@@ -2,7 +2,7 @@ import { AxiosPromise } from 'axios';
 import API from './API'
 
 
-class CommandAPI extends API {
+class MissionAPI extends API {
 
     public constructor() {
         const host: String = process.env.HOST_COMMAND ?? "localhost";
@@ -12,9 +12,9 @@ class CommandAPI extends API {
 
     public createPoll<T>(): AxiosPromise<any> {
         return this.axios({method: 'post',
-                            url:'/command/createpoll'});
+                            url:'/mission/createpoll'});
     }
 }
 
 
-export default CommandAPI;
+export default MissionAPI;

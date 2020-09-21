@@ -1,52 +1,51 @@
 version: "3"
 
 services:
-  command:
-      image: blue_origin/command
-      container_name: command-container
-      build: ./command
+  mission-service:
+      image: blue_origin/mission-service
+      container_name: mission-container
+      build: ./mission-service
       ports:
         - "3002:3002"
       environment:
         - PORT=3002
-      command: "npm run start"
 
-  weather:
-      image: blue-origin/weather
+
+  weather-service:
+      image: blue-origin/weather-service
       container_name: weather-container
-      build: ./weather
+      build: ./weather-service
       ports:
         - "3001:3001"
       environment:
         - PORT=3001
-      command: "npm run start"
 
-  rocket:
-      image: blue-origin/rocket
+
+  rocket-service:
+      image: blue-origin/rocket-service
       container_name: rocket-container
-      build: ./rocket
+      build: ./rocket-service
       ports:
         - "3000:3000"
       environment:
         - PORT=3000
-      command: "npm run start"
+
 
   client:
       image: blue-origin/client
       container_name: client-container
-      build: ./rocket
-      command: "npm run test"
+      build: ./client
       environment:
-        - HOST_ROCKET=localhost
+        - HOST_ROCKET=rocket-service
         - PORT_ROCKET=3000
-        - HOST_WEATHER=localhost
+        - HOST_WEATHER=weather-service
         - PORT_WEATHER=3001
-        - HOST_COMMAND=localhost
-        - PORT_COMMAND=3002
+        - HOST_MISSION=mission-service
+        - PORT_MISSION=3002
       depends_on:
-        - rocket
-        - weather
-        - command
+        - rocket-service
+        - weather-service
+        - mission-service
       stdin_open: true
       tty: true
     

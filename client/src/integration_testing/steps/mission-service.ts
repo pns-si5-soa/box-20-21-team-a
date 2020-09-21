@@ -5,16 +5,16 @@ const {
 } = require('cucumber');
 
 import expect = require('expect');
-import CommandAPI from '../../API/commandAPI';
+import MissionAPI from '../../API/missionAPI';
 
 let response: any;
 
-const commandAPI = new CommandAPI();
+const missionAPI = new MissionAPI();
 
 
 When('I create a Go\\/No Go poll', async function ()
 {
-    response = await commandAPI.getCommandStatus().then(function(res)
+    response = await missionAPI.createPoll().then(function(res)
     {
         return res;
     }).catch(function(err)

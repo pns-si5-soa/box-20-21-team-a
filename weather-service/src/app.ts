@@ -1,5 +1,5 @@
 import express = require('express')
-import weather from "./weather"
+import weather from "./weather-service"
 require('dotenv').config()
 const app: express.Application = express()
 const port = process.env.PORT ?? 3001;

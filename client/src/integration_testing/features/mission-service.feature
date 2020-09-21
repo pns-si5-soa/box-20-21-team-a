@@ -1,4 +1,4 @@
-Feature: Command
+Feature: Mission
   Get the launching state
 
   Scenario: As a Mission Commander
