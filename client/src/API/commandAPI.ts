@@ -10,7 +10,7 @@ class CommandAPI extends API {
         super(host, port)
     }
 
-    public getCommandStatus<T>(): AxiosPromise<any> {
+    public createPoll<T>(): AxiosPromise<any> {
         return this.axios({method: 'post',
                             url:'/command/createpoll'});
     }

@@ -47,8 +47,8 @@ if (program.weather) {
         console.log('There is an error : ', err);
     });
 } else if (program.mission) {
-    commandAPIInstance.getCommandStatus().then(res => {
-        console.log("The launching status is : " + res.data)
+    commandAPIInstance.createPoll().then(res => {
+        console.log("The poll is created, poll: " + res.data)
     }).catch(err => {
         console.log('There is an error : ', err)
     });

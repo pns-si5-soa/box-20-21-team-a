@@ -1,5 +1,5 @@
 import express = require('express');
-import {createPoll} from "./command"
+import command from "./command"
 
 const app: express.Application = express();
 const port = 3002;
@@ -8,7 +8,7 @@ const port = 3002;
 
 app.post('/command/createpoll', (req,res) => {
 	try {
-		res.send(createPoll())
+		res.send(command.createPoll())
 	}
 	catch (e: any) {
 		res.send(500).json({

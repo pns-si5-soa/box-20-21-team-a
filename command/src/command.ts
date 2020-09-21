@@ -1,12 +1,21 @@
 import poll from "./entities/poll";
 
-let newPoll : poll;
 
-export function createPoll(): poll {
-	newPoll = new poll;
-	return newPoll;
+class command {
+	newPoll : poll | undefined;
+
+	constructor() {
+	}
+
+	createPoll(): poll {
+		this.newPoll = new poll;
+		return this.newPoll;
+	}
+
+	getPoll(): poll | undefined{
+		return this.newPoll;
+	}
+
 }
 
-export function getPoll(): poll{
-	return newPoll;
-}
+export default new command();
