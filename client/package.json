@@ -13,15 +13,14 @@
   "author": "SOA-20-21-A",
   "license": "ISC",
   "dependencies": {
+    "@types/commander": "^2.12.2",
     "axios": "^0.20.0",
     "chalk": "^4.1.0",
-    "clear": "^0.1.0",
     "commander": "^6.1.0",
     "cucumber": "^7.0.0-rc.0",
     "dotenv": "^8.2.0",
     "expect": "^26.4.2",
     "figlet": "^1.5.0",
-    "path": "^0.12.7",
     "ts-node-dev": "^1.0.0-pre.62"
   },
   "devDependencies": {
