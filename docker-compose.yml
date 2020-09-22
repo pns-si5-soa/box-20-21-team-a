@@ -1,10 +1,20 @@
 version: "3"
 
 services:
+  waitforservices:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - rocket-service
+      - weather-service 
+      - mission-service  
+    command: rocket-service:3000 weather-service:3001 mission-service:3002
+
   mission-service:
       image: blue_origin/mission-service
       container_name: mission-container
       build: ./mission-service
+      expose: 
+        - "3002"
       ports:
         - "3002:3002"
       environment:
@@ -15,6 +25,8 @@ services:
       image: blue-origin/weather-service
       container_name: weather-container
       build: ./weather-service
+      expose: 
+        - "3001"
       ports:
         - "3001:3001"
       environment:
@@ -25,6 +37,8 @@ services:
       image: blue-origin/rocket-service
       container_name: rocket-container
       build: ./rocket-service
+      expose: 
+        - "3000"
       ports:
         - "3000:3000"
       environment:
@@ -46,6 +60,7 @@ services:
         - rocket-service
         - weather-service
         - mission-service
+        - waitforservices
       stdin_open: true
       tty: true
     
