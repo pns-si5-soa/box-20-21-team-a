@@ -5,8 +5,8 @@ import API from './API'
 class MissionAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_COMMAND ?? "localhost";
-        const port: String = process.env.PORT_COMMAND ?? "3002";
+        const host: String = process.env.HOST_MISSION ?? "localhost";
+        const port: String = process.env.PORT_MISSION ?? "3002";
         super(host, port)
     }
 
