@@ -12,6 +12,11 @@ class RocketAPI extends API {
     public getRocketStatus<T>(): AxiosPromise<any> {
         return this.axios('/rocket')
     }
+
+    public launchRocket<T>(): AxiosPromise<any> {
+        return this.axios({method: 'post',
+        url:'/rocket/launch'});
+    }
 }
 
 export default RocketAPI;

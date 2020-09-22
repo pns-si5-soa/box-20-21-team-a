@@ -1,9 +1,18 @@
-const rocket_status = ["ready", "not ready"]
+class rocketService{
 
-function choice(tab: Array<String>): String {
-    return tab[Math.floor(Math.random() * Math.floor(tab.length))]
+    rocket_status = ["ready", "not ready"]
+    launched = false;
+
+    getStatus(): String {
+        return this.rocket_status[Math.floor(Math.random() * Math.floor(this.rocket_status.length))]
+    }
+
+    launch(): String {
+        this.launched = true;
+        return "Launching ...";
+    }
+
 }
 
-export default function() : String{
-    return choice(rocket_status);
-}
+
+export default new rocketService();

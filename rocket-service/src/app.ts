@@ -1,5 +1,5 @@
 import express = require('express')
-import choice from "./rocket-service"
+import rocketService from "./rocket-service"
 require('dotenv').config()
 const app: express.Application = express()
 const port = process.env.PORT ?? 3000
@@ -7,7 +7,11 @@ const port = process.env.PORT ?? 3000
 
 
 app.get('/rocket', (req, res) => {
-  res.send(choice())
+  res.send(rocketService.getStatus())
+})
+
+app.post('/rocket/launch', (req, res) => {
+  res.send(rocketService.launch())
 })
 
 app.listen(port, () => {
