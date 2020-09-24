@@ -28,7 +28,7 @@ jobs:
         - docker-compose up -d
       after-script:
         - docker-compose kill
-      if: branch = master
+      if: branch = master OR branch = release
 
 notifications:
   slack: informatiquep-kyw7477:InXvtw4L5aLweMKgjOygoiZB
