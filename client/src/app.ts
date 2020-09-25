@@ -20,11 +20,17 @@ const commandAPIInstance = new MissionAPI();
 
 const flags = new FlagList();
 
+console.log(
+    chalk.blueBright(
+        figlet.textSync('BLUE HORIZON', {horizontalLayout: 'full'})
+    )
+);
+
 program
     .version('0.0.1')
     .description("The client of blue horizon project!");
 
-flags.build(program)
+flags.build(program);
 
 program.parse(process.argv);
 
