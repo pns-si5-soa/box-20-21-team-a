@@ -5,6 +5,7 @@ import weatherAPI from './API/weatherAPI'
 import MissionAPI from './API/missionAPI'
 import FlagList from './Flag/FlagList'
 import { exit } from 'process';
+import execute from './Services/Execute';
 
 
 require('dotenv').config();
@@ -35,3 +36,5 @@ flags.build(program);
 program.parse(process.argv);
 
 flags.execute(program) 
+
+execute.execute()
