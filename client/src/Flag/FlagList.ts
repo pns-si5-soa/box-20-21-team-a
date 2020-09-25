@@ -11,7 +11,8 @@ class FlagList {
 
     build(program: any) {
         this.flags.forEach(flag => {
-            program.option(flag.alias + ', --' + flag.name + (flag.arg !== null ? ' <' + flag.arg + '>' : ''), flag.descritpion)
+            program.option(`${flag.alias}, --${flag.name} ${(flag.arg !== null ? ' <' + flag.arg + '>' : '')}`, flag.descritpion);
+            // program.option(flag.alias + ', --' + flag.name + (flag.arg !== null ? ' <' + flag.arg + '>' : ''), flag.descritpion)
         })
     }
 
