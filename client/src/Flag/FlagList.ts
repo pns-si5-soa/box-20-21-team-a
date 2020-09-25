@@ -18,7 +18,6 @@ class FlagList {
 
     execute(program: any) {
         this.flags.forEach(flag => {
-            console.log(program[flag.name])
             if(program[flag.name] === undefined && flag.required) {
                 throw "The flag --"+ flag.name +" is required"
             }

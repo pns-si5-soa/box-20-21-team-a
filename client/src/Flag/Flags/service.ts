@@ -1,9 +1,10 @@
 import Flag from '../Flag';
+import execute from '../../Services/Execute'
 
 class Service extends Flag {
 
     execute(program: any): void {
-        console.log(">" + program.service)
+        execute.service = program.service
     }
     
 }
