@@ -21,4 +21,12 @@ export default class Poll {
 	toString(){
 		return " Weather : "+this.weather+"\n Rockets : "+this.rockets;
 	}
+
+	getRocket(){
+		return this.rockets;
+	}
+
+	getWeather(){
+		return this.weather;
+	}
 }

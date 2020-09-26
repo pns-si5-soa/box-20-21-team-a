@@ -86,6 +86,12 @@ class Execute
                         console.log("Parameters are required , Exemple : -p1 weather -p true");
                     }
                     break;
+            case "get":
+                missionAPI.getPoll().then(res => {
+                    console.log("Aswers : \n"+res.data.toString())
+                });
+                break;
+
             default: 
                 console.log("Mission undefined action : " + this.service_action)
                 break;

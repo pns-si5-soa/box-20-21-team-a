@@ -13,8 +13,8 @@ class MissionService {
 
 	}
 
-	getPoll(): poll | undefined{
-		return this.newPoll;
+	getPoll(): string | undefined{
+		return this.newPoll?.toString();
 	}
 
 	modifyPoll(serviceName:string, answer: boolean) : string|undefined{
@@ -28,8 +28,13 @@ class MissionService {
 				default:
 					return "Service Name was wrong";
 			}
+	}
 
-
+	getRocket(){
+		return this.newPoll?.getRocket();
+	}
+	getWeather(){
+		return this.newPoll?.getWeather();
 	}
 
 }

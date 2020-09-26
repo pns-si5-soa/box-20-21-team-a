@@ -29,6 +29,17 @@ app.put('/mission/modifypoll/:serviceName/:answer', (req,res) => {
 	}
 })
 
+app.get('/mission/getpoll', (req, res) => {
+	try {
+		res.send(mission.getPoll());
+	}
+	catch (e: any) {
+		res.send(500).json({
+			message : e.message
+		})
+	}
+})
+
 app.listen(port, () => {
 	console.log(`Mission : Listening at http://localhost:${port}`);
 })
