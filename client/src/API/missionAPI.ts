@@ -14,6 +14,12 @@ class MissionAPI extends API {
         return this.axios({method: 'post',
                             url:'/mission/createpoll'});
     }
+
+
+    public modifyPoll<T>(serviceName: String | undefined,answer: String|undefined) : AxiosPromise<any> {
+        return this.axios({method: 'put',
+                             url: '/mission/modifypoll/'+serviceName+'/'+answer});
+    }
 }
 
 

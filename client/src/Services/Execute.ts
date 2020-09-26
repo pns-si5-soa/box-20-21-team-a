@@ -10,6 +10,8 @@ class Execute
 {
     service: String|undefined
     service_action: String|undefined
+    parameter_1 : String|undefined
+    parameter_2 : String|undefined
 
     execute() 
     {
@@ -72,9 +74,18 @@ class Execute
         {
             case "create":
                 missionAPI.createPoll().then(res => {
-                    console.log(res.data)
+                    console.log("The poll has been created\nAswers : \n"+res.data.toString())
                 })
                 break;
+            case "put":
+                    if (typeof this.parameter_2 === "string" && typeof this.parameter_1 === "string") {
+                        missionAPI.modifyPoll(this.parameter_1, this.parameter_2).then(res => {
+                            console.log("Aswers : \n" + res.data.toString())
+                        })
+                    } else {
+                        console.log("Parameters are required , Exemple : -p1 weather -p true");
+                    }
+                    break;
             default: 
                 console.log("Mission undefined action : " + this.service_action)
                 break;

@@ -17,12 +17,16 @@ app.post('/mission/createpoll', (req,res) => {
 
 })
 
-app.put('/mission/setweather', (req,res) => {
-
-})
-
-app.put('/mission/setrockets', (req,res) => {
-	
+app.put('/mission/modifypoll/:serviceName/:answer', (req,res) => {
+	try {
+		const result = mission.modifyPoll(req.params.serviceName, JSON.parse(req.params.answer));
+		res.send(result);
+	}
+	catch (e: any) {
+		res.send(500).json({
+			message : e.message
+		})
+	}
 })
 
 app.listen(port, () => {

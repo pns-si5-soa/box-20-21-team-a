@@ -7,13 +7,29 @@ class MissionService {
 	constructor() {
 	}
 
-	createPoll(): poll {
+	createPoll(): string {
 		this.newPoll = new poll;
-		return this.newPoll;
+		return this.newPoll.toString();
+
 	}
 
 	getPoll(): poll | undefined{
 		return this.newPoll;
+	}
+
+	modifyPoll(serviceName:string, answer: boolean) : string|undefined{
+		switch (serviceName) {
+				case "weather":
+					this.newPoll?.setWeather(answer);
+					return this.newPoll?.toString();
+				case "rocket":
+					this.newPoll?.setRockets(answer);
+					return this.newPoll?.toString();
+				default:
+					return "Service Name was wrong";
+			}
+
+
 	}
 
 }

@@ -18,5 +18,7 @@ export default class Poll {
 		this.rockets= rockets;
 	}
 
-
+	toString(){
+		return " Weather : "+this.weather+"\n Rockets : "+this.rockets;
+	}
 }
