@@ -10,14 +10,14 @@ class Execute
 {
     service: String|undefined
     service_action: String|undefined
-    parameter_1 : String|undefined
-    parameter_2 : String|undefined
+    service_name : String|undefined
+    vote : String|undefined
 
     execute() 
     {
-
         switch(this.service)
         {
+
             case "weather":
                 this.weather()
                 break;
@@ -78,12 +78,12 @@ class Execute
                 })
                 break;
             case "put":
-                    if (typeof this.parameter_2 === "string" && typeof this.parameter_1 === "string") {
-                        missionAPI.modifyPoll(this.parameter_1, this.parameter_2).then(res => {
+                    if (typeof this.service_name === "string" && typeof this.vote === "string") {
+                        missionAPI.modifyPoll(this.service_name, this.vote).then(res => {
                             console.log("Aswers : \n" + res.data.toString())
                         })
                     } else {
-                        console.log("Parameters are required , Exemple : -p1 weather -p true");
+                        console.log("Parameters are required , Exemple : --service_name weather --vote true");
                     }
                     break;
             case "get":
