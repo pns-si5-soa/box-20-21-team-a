@@ -1,9 +1,9 @@
 import rocketService from "../rocket-service"
 
-test('Rocket test ...', () => {
-    expect(["ready", "not ready"]).toContain(rocketService.getStatus())
+test('Rocket status return test', () => {
+    expect(["Ready", "Not ready"].includes(rocketService.getStatus())).toBe(true);
   });
 
-test('Rocket launch test ...', () => {
-  expect("Launching ...").toBe(rocketService.launch())
+test('Rocket launch test', () => {
+  expect(rocketService.launch()).toBe("Launching Rocket...");
 });
