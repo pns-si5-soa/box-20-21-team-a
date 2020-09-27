@@ -8,10 +8,10 @@ const weatherAPI = new WeatherAPI();
 
 class Execute
 {
-    service: String|undefined;
-    service_action: String|undefined;
-    service_name : String|undefined;
-    vote : String|undefined;
+    service: string|undefined;
+    service_action: string|undefined;
+    service_name : string|undefined;
+    vote : string|undefined;
 
     execute() 
     {
