@@ -6,7 +6,7 @@ _todo create description_
 
 ## Installation
 
-To install each services, following the README to each services.
+To install each service, follow the README of each service.
 
 - [Client](client/README.md)
 - [Mission-Service](mission-service/README.md)
