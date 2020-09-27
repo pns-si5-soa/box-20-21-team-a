@@ -4,7 +4,6 @@ import RocketAPI from './API/rocketAPI'
 import weatherAPI from './API/weatherAPI'
 import MissionAPI from './API/missionAPI'
 import FlagList from './Flag/FlagList'
-import { exit } from 'process';
 import execute from './Services/Execute';
 
 
@@ -23,7 +22,7 @@ const flags = new FlagList();
 
 console.log(
     chalk.blueBright(
-        figlet.textSync('BLUE HORIZON', {horizontalLayout: 'full'})
+        figlet.textSync('Blue Horizon', {horizontalLayout: 'full'})
     )
 );
 
@@ -35,6 +34,10 @@ flags.build(program);
 
 program.parse(process.argv);
 
-flags.execute(program) 
+try {
+    flags.execute(program);
+} catch (e) {
+    console.log(e);
+}
 
-execute.execute()
+execute.execute();

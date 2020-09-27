@@ -1,32 +1,44 @@
-export default class Poll {
-	
-	weather: boolean;
 
-	rockets: boolean;
+// TODO the file should have a capital first letter
+class Poll {
+
+    weatherStatus: boolean; // todo this could be an object of its own (with a name and a status)
+    rocketStatus: boolean;
+    missionStatus: boolean;
 
 
-	constructor(weather: boolean = false, rockets: boolean = false) {
-		this.weather = weather;
-		this.rockets = rockets;
-	}
+    constructor(
+        weatherStatus: boolean = false,
+        rocketStatus: boolean = false,
+        missionStatus: boolean = false) {
+        this.weatherStatus = weatherStatus;
+        this.rocketStatus = rocketStatus;
+        this.missionStatus = missionStatus;
+    }
 
-	setWeather(weather: boolean){
-		this.weather= weather;
-	}
+    getRocketStatus() {
+        return this.rocketStatus;
+    }
 
-	setRockets(rockets: boolean){
-		this.rockets= rockets;
-	}
+    getWeatherStatus() {
+        return this.weatherStatus;
+    }
 
-	toString(){
-		return " Weather : "+this.weather+"\n Rockets : "+this.rockets;
-	}
+    setWeatherStatus(weatherStatus: boolean) {
+        this.weatherStatus = weatherStatus;
+    }
 
-	getRocket(){
-		return this.rockets;
-	}
+    setRocketStatus(rocketStatus: boolean) {
+        this.rocketStatus = rocketStatus;
+    }
 
-	getWeather(){
-		return this.weather;
-	}
+    setMissionStatus(missionStatus: boolean) {
+        this.missionStatus = missionStatus;
+    }
+
+    toString() {
+        return `Weather: ${this.weatherStatus}\nRocket: ${this.rocketStatus}\nMission: ${this.missionStatus}`;
+    }
 }
+
+export default Poll;
