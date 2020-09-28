@@ -37,6 +37,29 @@ app.get('/mission/getpoll', (req, res) => {
     }
 });
 
+app.get('/mission/getrocketstatus', (req, res) => {
+	try {
+		res.send(mission.getRocket());
+	}
+	catch (e: any) {
+		res.send(500).json({
+			message : e.message
+		})
+	}
+})
+
+app.get('/mission/getweatherstatus', (req, res) => {
+	try {
+		console.log(mission.getWeather());
+		res.send(mission.getWeather());
+	}
+	catch (e: any) {
+		res.send(500).json({
+			message : e.message
+		})
+	}
+})
+
 app.listen(port, () => {
     console.log(`Mission : Listening at http://localhost:${port}`);
 });

@@ -26,6 +26,18 @@ class MissionAPI extends API {
             '/mission/getpoll'
         );
     }
+
+    public getRocketStatus<T>(): AxiosPromise<any>{
+        return this.axios(
+            '/mission/getrocketstatus'
+        );
+    }
+
+    public getWeatherStatus<T>(): AxiosPromise<any>{
+        return this.axios(
+            '/mission/getweatherstatus'
+        );
+    }
 }
 
 
