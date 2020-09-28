@@ -2,7 +2,7 @@
 
 ## Description
 
-_todo create description_
+This project is a class project realized during the 5th year of engineer school. The aim of this project is to create a micro services architecture to set up a system respecting the Blue Galactic X ambitions.
 
 ## Installation
 
