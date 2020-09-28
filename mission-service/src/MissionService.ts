@@ -2,22 +2,22 @@ import Poll from './entities/poll';
 
 
 class MissionService {
-    poll: Poll | undefined;
+    poll!: Poll;
 
     constructor() {
     }
 
-    createPoll(): string {
+    createPoll(): Poll {
         this.poll = new Poll;
-        return this.poll.toString();
+        return this.poll;
 
     }
 
-    getPoll(): string | undefined {
-        return this.poll?.toString();
+    getPoll(): Poll {
+        return this.poll;
     }
 
-    modifyPoll(serviceName: string, answer: boolean): string | undefined {
+    modifyPoll(serviceName: string, answer: boolean): string | Poll {
         switch (serviceName) {
             case "weather":
                 this.poll?.setWeatherStatus(answer);
@@ -33,12 +33,12 @@ class MissionService {
         }
     }
 
-    getRocket() {
-        return this.poll?.getRocketStatus();
+    getRocket() : boolean {
+        return this.poll.getRocketStatus();
     }
 
-    getWeather() {
-        return this.poll?.getWeatherStatus();
+    getWeather() : boolean {
+        return this.poll.getWeatherStatus();
     }
 
 }
