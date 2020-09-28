@@ -139,11 +139,11 @@ elif [[ $PARAMS == "clean" ]]; then
     if [[ -z $PARG ]]; then
         runclean "client"
         cd ..
-        runclean "mission-service"
+        runclean "mission"
         cd ..
-        runclean "rocket-service"
+        runclean "rocket"
         cd ..
-        runclean "weather-service"
+        runclean "weather"
         cd ..
     else
         runclean $PARG
