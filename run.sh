@@ -85,11 +85,11 @@ function changedirectory() {
     if [[ $PROJECT == "client" ]]; then
         cd client
     elif [[ $PROJECT == "weather" ]]; then
-        cd weather-service
+        cd back/weather-service
     elif [[ $PROJECT == "rocket" ]]; then
-        cd rocket-service
+        cd back/rocket-service
     elif [[ $PROJECT == "mission" ]]; then
-        cd mission-service
+        cd back/mission-service
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
