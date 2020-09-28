@@ -17,19 +17,19 @@ class MissionService {
         return this.poll;
     }
 
-    modifyPoll(serviceName: string, answer: boolean): string | Poll {
+    modifyPoll(serviceName: string, answer: boolean): Poll {
         switch (serviceName) {
             case "weather":
-                this.poll?.setWeatherStatus(answer);
-                return this.poll?.toString();
+                this.poll.setWeatherStatus(answer);
+                return this.poll;
             case "rocket":
-                this.poll?.setRocketStatus(answer);
-                return this.poll?.toString();
+                this.poll.setRocketStatus(answer);
+                return this.poll;
             case "mission":
-                this.poll?.setMissionStatus(answer);
-                return this.poll?.toString();
+                this.poll.setMissionStatus(answer);
+                return this.poll;
             default:
-                return "The specified service name does not exist.";
+                throw "The specified service name does not exist.";
         }
     }
 
