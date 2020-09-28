@@ -1,6 +1,7 @@
 import MissionAPI from '../API/missionAPI'
 import RocketAPI from '../API/rocketAPI'
 import WeatherAPI from '../API/weatherAPI'
+import Poll from "../model/Poll"
 
 const missionAPI = new MissionAPI();
 const rocketAPI = new RocketAPI();
@@ -73,13 +74,13 @@ class Execute
         {
             case "create":
                 missionAPI.createPoll().then(res => {
-                    console.log("The poll has been created\nAnswers : \n"+res.data.toString());
+                    console.log(this.printPoll(res.data));
                 });
                 break;
             case "put":
                     if (typeof this.service_name === "string" && typeof this.vote === "string") {
                         missionAPI.modifyPoll(this.service_name, this.vote).then(res => {
-                            console.log("Answers : \n" + res.data.toString());
+                            console.log(this.printPoll(res.data));
                         });
                     } else {
                         console.log("Parameters are required , Example : --service_name weather --vote true");
@@ -87,7 +88,7 @@ class Execute
                     break;
             case "get":
                 missionAPI.getPoll().then(res => {
-                    console.log("Answers : \n"+res.data.toString());
+                    console.log(this.printPoll(res.data.toString()));
                 });
                 break;
 
@@ -95,6 +96,10 @@ class Execute
                 console.log("Mission undefined action : " + this.service_action);
                 break;
         }
+    }
+
+    printPoll(data : Poll){
+        return "Answers : \n WeatherStatus : "+data.weatherStatus+"\n RocketStatus : "+data.rocketStatus+"\n MissionStatus : "+data.missionStatus;
     }
 }
 
