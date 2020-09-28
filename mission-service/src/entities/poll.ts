@@ -16,29 +16,29 @@ class Poll {
         this.missionStatus = missionStatus;
     }
 
-    getRocketStatus() {
+    getRocketStatus(): boolean {
         return this.rocketStatus;
     }
 
-    getWeatherStatus() {
+    getWeatherStatus(): boolean {
         return this.weatherStatus;
     }
 
-    setWeatherStatus(weatherStatus: boolean) {
+    getMissionStatus(): boolean {
+        return this.missionStatus;
+    }
+
+    setWeatherStatus(weatherStatus: boolean): void {
         this.weatherStatus = weatherStatus;
     }
 
-    setRocketStatus(rocketStatus: boolean) {
+    setRocketStatus(rocketStatus: boolean): void {
         this.rocketStatus = rocketStatus;
     }
 
-    setMissionStatus(missionStatus: boolean) {
+    setMissionStatus(missionStatus: boolean): void {
         this.missionStatus = missionStatus;
-    }
-
-    toString() {
-        return `Weather: ${this.weatherStatus}\nRocket: ${this.rocketStatus}\nMission: ${this.missionStatus}`;
     }
 }
 
-export default Poll;
+export default Poll
