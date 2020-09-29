@@ -13,9 +13,9 @@ router.post('/', (req, res) => {
 });
 
 //todo insert name and answer at the body
-router.put('/:serviceName/:answer', (req, res) => {
+router.put('/', (req, res) => {
     try {
-        const result = mission.modifyPoll(req.params.serviceName, JSON.parse(req.params.answer));
+        const result = mission.modifyPoll(req.body.service_name, JSON.parse(req.body.answer));
         res.send(result);
     } catch (e: any) {
         res.send(500).json({

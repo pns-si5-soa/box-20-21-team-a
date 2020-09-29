@@ -18,7 +18,8 @@ class MissionAPI extends API {
 
     public modifyPoll<T>(serviceName: String | undefined,answer: String|undefined) : AxiosPromise<any> {
         return this.axios({method: 'put',
-                             url: '/poll/'+serviceName+'/'+answer});
+                             url: '/poll',
+                            data: {service_name: serviceName, answer: answer}});
     }
 
     public getPoll<T>(): AxiosPromise<any> {
