@@ -10,7 +10,7 @@ app.post('/mission/createpoll', (req, res) => {
     try {
         res.send(mission.createPoll());
     } catch (e: any) {
-        res.send(500).json({
+        res.status(500).json({
             message: e.message
         });
     }
