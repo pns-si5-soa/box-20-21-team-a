@@ -3,8 +3,8 @@ const {
     Then,
 } = require('cucumber');
 
-import expect = require('expect');
-import RocketAPI from '../../API/rocketAPI';
+import expect from 'expect';
+import RocketAPI from '../../../main/API/rocketAPI';
 
 let response: any;
 

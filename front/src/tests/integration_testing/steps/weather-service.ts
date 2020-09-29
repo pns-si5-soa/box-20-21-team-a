@@ -3,8 +3,8 @@ const {
     Then,
 } = require('cucumber');
 
-import expect = require('expect');
-import WeatherAPI from '../../API/weatherAPI';
+import expect from 'expect';
+import WeatherAPI from '../../../main/API/weatherAPI';
 
 let response: any;
 

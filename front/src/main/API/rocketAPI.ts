@@ -9,11 +9,11 @@ class RocketAPI extends API {
         super(host, port);
     }
 
-    public getRocketStatus<T>(): AxiosPromise<any> {
+    public getRocketStatus(): AxiosPromise<any> {
         return this.axios('/rocket')
     }
 
-    public launchRocket<T>(): AxiosPromise<any> {
+    public launchRocket(): AxiosPromise<any> {
         return this.axios({method: 'post',
         url:'/rocket/launch'});
     }

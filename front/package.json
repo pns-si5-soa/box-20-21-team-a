@@ -6,12 +6,17 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build; next export",
-    "start": "next start"
+    "start": "next start",
+    "test": "tsc && cucumber-js ./src/tests/integration_testing/features/ -r build/src/tests/integration_testing/steps/"
   },
   "author": "SOA-20-21-A",
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "axios": "^0.20.0",
+    "cucumber": "^7.0.0-rc.0",
+    "dotenv": "^8.2.0",
+    "expect": "^26.4.2",
     "next": "^9.5.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

@@ -4,8 +4,8 @@ const {
     Then,
 } = require('cucumber');
 
-import expect = require('expect');
-import MissionAPI from '../../API/missionAPI';
+import expect from 'expect';
+import MissionAPI from '../../../main/API/missionAPI';
 
 let response: any;
 
