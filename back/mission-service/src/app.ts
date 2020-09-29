@@ -1,65 +1,93 @@
-import express = require('express');
-import mission from "./MissionService";
+import express = require('express')
+import createError = require('http-errors');
+import indexRouter from "./routes";
+var http = require('http');
 
-require('dotenv').config();
+require('dotenv').config()
 const app: express.Application = express();
-const port = process.env.PORT ?? 3002;
+const port = normalizePort(process.env.PORT) ?? 3001;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use('/', indexRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
 
-app.post('/mission/createpoll', (req, res) => {
-    try {
-        res.send(mission.createPoll());
-    } catch (e: any) {
-        res.send(500).json({
-            message: e.message
-        });
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+//Here it's any because everything can be insert on .env file, the goal is verify 
+function normalizePort(val: any) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
     }
-});
 
-app.put('/mission/modifypoll/:serviceName/:answer', (req, res) => {
-    try {
-        const result = mission.modifyPoll(req.params.serviceName, JSON.parse(req.params.answer));
-        res.send(result);
-    } catch (e: any) {
-        res.send(500).json({
-            message: e.message
-        });
+    if (port >= 0) {
+        // port number
+        return port;
     }
-});
 
-app.get('/mission/getpoll', (req, res) => {
-    try {
-        res.send(mission.getPoll());
-    } catch (e: any) {
-        res.send(500).json({
-            message: e.message
-        });
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" events.
+ */
+
+function onError(error: any) {
+    if (error.syscall !== 'listen') {
+        throw error;
     }
-});
 
-app.get('/mission/getrocketstatus', (req, res) => {
-	try {
-		res.send(mission.getRocket());
-	}
-	catch (e: any) {
-		res.send(500).json({
-			message : e.message
-		})
-	}
-})
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
 
-app.get('/mission/getweatherstatus', (req, res) => {
-	try {
-		console.log(mission.getWeather());
-		res.send(mission.getWeather());
-	}
-	catch (e: any) {
-		res.send(500).json({
-			message : e.message
-		})
-	}
-})
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
 
-app.listen(port, () => {
-    console.log(`Mission : Listening at http://localhost:${port}`);
-});
+/**
+ * Event listener for HTTP server "listening" events.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    console.log('Weather : Listening on ' + bind);
+    if (process.env.CI !== undefined) {
+        process.exit(0);
+    }
+}
