@@ -24,23 +24,7 @@ class MissionAPI extends API {
 
     public getPoll(): AxiosPromise<any> {
         return this.axios(
-<<<<<<< #42-separate-code:client/src/API/missionAPI.ts
             '/poll'
-=======
-            '/mission/getpoll'
-        );
-    }
-
-    public getRocketStatus(): AxiosPromise<any>{
-        return this.axios(
-            '/mission/getrocketstatus'
-        );
-    }
-
-    public getWeatherStatus(): AxiosPromise<any>{
-        return this.axios(
-            '/mission/getweatherstatus'
->>>>>>> #45 Adding cucumber on front:front/src/main/API/missionAPI.ts
         );
     }
 }

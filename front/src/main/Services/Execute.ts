@@ -1,7 +1,6 @@
 import MissionAPI from '../API/missionAPI'
 import RocketAPI from '../API/rocketAPI'
 import WeatherAPI from '../API/weatherAPI'
-import Poll from "../model/Poll"
 
 const missionAPI = new MissionAPI();
 const rocketAPI = new RocketAPI();
@@ -9,97 +8,67 @@ const weatherAPI = new WeatherAPI();
 
 class Execute
 {
-    service: string|undefined;
-    service_action: string|undefined;
-    service_name : string|undefined;
-    vote : string|undefined;
-
-    execute() 
+    execute(service: string, service_action: string, service_name: string|undefined = undefined, vote: string|undefined = undefined) 
     {
-        switch(this.service)
+        switch(service)
         {
             case "weather": // TODO all those strings must be in constants
-                this.executeWeatherCommand();
-                break;
+                return this.executeWeatherCommand(service_action);
             case "rocket":
-                this.executeRocketCommand();
-                break;
+                return this.executeRocketCommand(service_action);
             case "mission":
-                this.executeMissionCommand();
-                break;
+                return this.executeMissionCommand(service_action, service_name, vote);
             default:
-                console.log("Undefined service : " + this.service)
+                console.log("Undefined service : " + service)
                 break;
         }
     }
 
-    executeWeatherCommand()
+    executeWeatherCommand(service_action: string)
     {
-        switch(this.service_action)
+        switch(service_action)
         {
             case "get":
-                weatherAPI.getWeather().then(res => {
-                    console.log(res.data);
-                });
-                break;
+                return weatherAPI.getWeather()
             default:
-                console.log("Weather undefined action : " + this.service_action);
+                console.log("Weather undefined action : " + service_action);
                 break;
         }
     }
 
-    executeRocketCommand()
+    executeRocketCommand(service_action: string)
     {
-        switch(this.service_action)
+        switch(service_action)
         {
             case "get":
-                rocketAPI.getRocketStatus().then(res => {
-                    console.log(res.data);
-                });
-                break;
+                return rocketAPI.getRocketStatus();
             case "run":
-                rocketAPI.launchRocket().then(res => {
-                    console.log(res.data);
-                })
-                break;
+                return rocketAPI.launchRocket()
             default: 
-                console.log("Rocket undefined action : " + this.service_action);
+                console.log("Rocket undefined action : " + service_action);
                 break;
         }
     }
 
-    executeMissionCommand()
+    executeMissionCommand(service_action: string, service_name: string|undefined, vote: string|undefined)
     {
-        switch(this.service_action)
+        switch(service_action)
         {
             case "create":
-                missionAPI.createPoll().then(res => {
-                    console.log(this.printPoll(res.data));
-                });
-                break;
+                return missionAPI.createPoll()
             case "put":
-                    if (typeof this.service_name === "string" && typeof this.vote === "string") {
-                        missionAPI.modifyPoll(this.service_name, this.vote).then(res => {
-                            console.log(this.printPoll(res.data));
-                        });
+                    if (typeof service_name === "string" && typeof vote === "string") {
+                        return missionAPI.modifyPoll(service_name, vote)
                     } else {
                         console.log("Parameters are required , Example : --service_name weather --vote true");
                     }
                     break;
             case "get":
-                missionAPI.getPoll().then(res => {
-                    console.log(this.printPoll(res.data.toString()));
-                });
-                break;
-
+                return missionAPI.getPoll();
             default: 
-                console.log("Mission undefined action : " + this.service_action);
+                console.log("Mission undefined action : " + service_action);
                 break;
         }
-    }
-
-    printPoll(data : Poll){
-        return "Answers : \n WeatherStatus : "+data.weatherStatus+"\n RocketStatus : "+data.rocketStatus+"\n MissionStatus : "+data.missionStatus;
     }
 }
 
