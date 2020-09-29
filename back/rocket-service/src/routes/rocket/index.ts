@@ -2,11 +2,11 @@ import rocketService from "../../services/rocket-service";
 import express = require('express')
 const router = express.Router();
 
-router.get('/rocket', (req, res) => {
+router.get('/', (req, res) => {
     res.send(rocketService.getStatus());
   })
   
-router.post('/rocket/launch', (req, res) => {
+router.post('/launch', (req, res) => {
 res.send(rocketService.launch());
 })
 
