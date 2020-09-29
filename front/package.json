@@ -4,7 +4,7 @@
   "description": "Front for µservices",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build; next export",
     "start": "next start",
     "test": "tsc && cucumber-js ./src/tests/integration_testing/features/ -r build/src/tests/integration_testing/steps/"
