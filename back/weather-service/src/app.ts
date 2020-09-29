@@ -1,6 +1,6 @@
 import express = require('express')
 import createError = require('http-errors');
-import indexRouter from "./routes/weather";
+import indexRouter from "./routes";
 var http = require('http');
 
 require('dotenv').config()
