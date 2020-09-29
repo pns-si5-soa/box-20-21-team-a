@@ -24,11 +24,10 @@ jobs:
         - npm run test
     - stage: client #Run cucumber (todo do only on master)
       script:
-        - docker-compose build
-        - docker-compose up -d
+        - docker-compose up --build --exit-code-from client
       after-script:
         - docker-compose kill
-      if: branch = master OR branch = release
+      if: branch = master OR branch = release OR branch = test-ci
 
 notifications:
   slack: informatiquep-kyw7477:InXvtw4L5aLweMKgjOygoiZB
