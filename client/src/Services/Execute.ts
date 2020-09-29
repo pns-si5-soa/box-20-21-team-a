@@ -2,10 +2,12 @@ import MissionAPI from '../API/missionAPI'
 import RocketAPI from '../API/rocketAPI'
 import WeatherAPI from '../API/weatherAPI'
 import Poll from "../model/Poll"
+import TelemetryAPI from "../API/telemetryAPI";
 
 const missionAPI = new MissionAPI();
 const rocketAPI = new RocketAPI();
 const weatherAPI = new WeatherAPI();
+const telemetryAPI = new TelemetryAPI();
 
 class Execute
 {
@@ -13,6 +15,7 @@ class Execute
     service_action: string|undefined;
     service_name : string|undefined;
     vote : string|undefined;
+    data : string |undefined;
 
     execute() 
     {
@@ -26,6 +29,9 @@ class Execute
                 break;
             case "mission":
                 this.executeMissionCommand();
+                break;
+            case "telemetry":
+                this.executeTelemetry();
                 break;
             default:
                 console.log("Undefined service : " + this.service)
@@ -100,6 +106,22 @@ class Execute
 
     printPoll(data : Poll){
         return "Answers : \n WeatherStatus : "+data.weatherStatus+"\n RocketStatus : "+data.rocketStatus+"\n MissionStatus : "+data.missionStatus;
+    }
+
+    private executeTelemetry() {
+        switch(this.data){
+            case "all":
+                telemetryAPI.getData().then(res => {
+                    console.log(res.data);
+                })
+                break;
+            case "rocketstatus":
+                telemetryAPI.getRocketStatus().then(res => {
+                    console.log(res.data);
+                })
+                break;
+        }
+
     }
 }
 
