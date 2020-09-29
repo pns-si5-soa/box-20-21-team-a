@@ -4,13 +4,14 @@ const {
     Then,
 } = require('cucumber');
 
+require('dotenv').config()
+
 import expect from 'expect';
 import MissionAPI from '../../../main/API/missionAPI';
 
 let response: any;
 
 const missionAPI = new MissionAPI();
-
 
 When('I create a Go\\/No Go poll', async function ()
 {

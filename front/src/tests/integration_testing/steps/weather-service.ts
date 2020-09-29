@@ -3,6 +3,8 @@ const {
     Then,
 } = require('cucumber');
 
+require('dotenv').config()
+
 import expect from 'expect';
 import WeatherAPI from '../../../main/API/weatherAPI';
 
