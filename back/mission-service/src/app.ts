@@ -86,7 +86,7 @@ function onListening() {
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
-    console.log('Weather : Listening on ' + bind);
+    console.log('Mission : Listening on ' + bind);
     if (process.env.CI !== undefined) {
         process.exit(0);
     }
