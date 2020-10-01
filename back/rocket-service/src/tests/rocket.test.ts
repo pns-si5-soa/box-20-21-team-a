@@ -1,4 +1,4 @@
-import rocketService from "../services/rocket-service"
+import rocketService from "../app/services/rocket-service"
 
 test('Rocket status return test', () => {
     expect(["Ready", "Not ready"].includes(rocketService.getStatus())).toBe(true);

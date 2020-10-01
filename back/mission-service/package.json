@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
-    "start": "tsc && node ./build/app.js",
-    "ci": "tsc && CI=true node ./build/app.js",
-    "dev": "ts-node-dev ./src/app.ts",
+    "start": "tsc && node ./build/app/app.js",
+    "ci": "tsc && CI=true node ./build/app/app.js",
+    "dev": "ts-node-dev ./src/app/app.ts",
     "test": "tsc && jest ./build/tests"
   },
   "author": "",
