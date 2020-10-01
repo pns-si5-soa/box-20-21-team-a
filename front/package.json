@@ -1,0 +1,32 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "Front for µservices",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev -p 8080",
+    "build": "next build; next export",
+    "start": "next start",
+    "test": "tsc && cucumber-js ./src/tests/integration_testing/features/ -r build/src/tests/integration_testing/steps/"
+  },
+  "author": "SOA-20-21-A",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@zeit/next-sass": "^1.0.1",
+    "@zeit/next-typescript": "^1.1.1",
+    "axios": "^0.20.0",
+    "cucumber": "^7.0.0-rc.0",
+    "dotenv": "^8.2.0",
+    "expect": "^26.4.2",
+    "next": "^9.5.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "sass": "^1.26.11"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.2",
+    "@types/react": "^16.9.49",
+    "typescript": "^4.0.3"
+  }
+}

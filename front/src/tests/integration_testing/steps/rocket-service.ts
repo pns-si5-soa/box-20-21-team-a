@@ -3,8 +3,10 @@ const {
     Then,
 } = require('cucumber');
 
-import expect = require('expect');
-import RocketAPI from '../../API/rocketAPI';
+require('dotenv').config()
+
+import expect from 'expect';
+import RocketAPI from '../../../main/API/rocketAPI';
 
 let response: any;
 

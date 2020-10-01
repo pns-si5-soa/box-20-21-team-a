@@ -9,7 +9,7 @@ class WeatherAPI extends API {
         super(host, port)
     }
 
-    public getWeather<T>(): AxiosPromise<any> {
+    public getWeather(): AxiosPromise<any> {
         return this.axios('/weather')
     }
 }

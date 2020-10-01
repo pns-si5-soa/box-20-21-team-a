@@ -1,12 +1,14 @@
 import express = require('express')
 import createError = require('http-errors');
 import indexRouter from "./routes";
+const cors = require('cors');
 var http = require('http');
 
 require('dotenv').config()
 const app: express.Application = express();
 const port = normalizePort(process.env.PORT) ?? 3001;
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

@@ -10,19 +10,19 @@ class MissionAPI extends API {
         super(host, port)
     }
 
-    public createPoll<T>(): AxiosPromise<any> {
+    public createPoll(): AxiosPromise<any> {
         return this.axios({method: 'post',
                             url:'/poll/'});
     }
 
 
-    public modifyPoll<T>(serviceName: String | undefined,answer: String|undefined) : AxiosPromise<any> {
+    public modifyPoll(serviceName: String | undefined,answer: String|undefined) : AxiosPromise<any> {
         return this.axios({method: 'put',
                              url: '/poll',
                             data: {service_name: serviceName, answer: answer}});
     }
 
-    public getPoll<T>(): AxiosPromise<any> {
+    public getPoll(): AxiosPromise<any> {
         return this.axios(
             '/poll'
         );
