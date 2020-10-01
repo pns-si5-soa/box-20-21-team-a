@@ -6,8 +6,9 @@ type Props = {
     children: JSX.Element;
 };
 
-export default function View ({ children }: Props) { return (
-<div>
+export default function View ({ children }: Props) { 
+	return (
+			<div>
 				<Head>
 					<script
 						src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -30,9 +31,9 @@ export default function View ({ children }: Props) { return (
 						integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 						crossOrigin="anonymous"
 					/>
-                    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"></link>
-                    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"></link>
+					<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"></link>
+					<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"></link>
 				</Head>
-                <Container maxWidth="xl">{children}</Container>
-</div>
+				<Container maxWidth="xl">{children}</Container>
+			</div>
 )}
