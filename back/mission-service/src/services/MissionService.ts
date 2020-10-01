@@ -1,4 +1,4 @@
-import Poll from './entities/poll';
+import Poll from '../entities/poll';
 
 
 class MissionService {

@@ -47,7 +47,7 @@ When('I received a {string} answer from rocket service,I modify the poll', async
 
 Then("The new rocket status is {string}", async function(status: string)
     {
-        expect((await missionAPI.getRocketStatus()).data.toString()).toEqual(status);
+        expect((await missionAPI.getPoll()).data.rocketStatus.toString()).toEqual(status);
     }
 )
 
@@ -67,7 +67,7 @@ When('I received a {string} answer from weather service,I modify the poll', asyn
 
 Then("The new weather status is {string}", async function(status: boolean)
     {
-        expect((await missionAPI.getWeatherStatus()).data.toString()).toEqual(status);
+        expect((await missionAPI.getPoll()).data.weatherStatus.toString()).toEqual(status);
     }
 
 

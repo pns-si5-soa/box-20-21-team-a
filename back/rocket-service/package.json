@@ -1,7 +1,7 @@
 {
-  "name": "weather",
+  "name": "rocket",
   "version": "1.0.0",
-  "description": "Weather µservice",
+  "description": "Rocket µservice",
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
@@ -14,8 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.8",
+    "@types/http-errors": "^1.8.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "http-errors": "^1.8.0",
     "ts-node-dev": "^1.0.0-pre.62"
   },
   "devDependencies": {

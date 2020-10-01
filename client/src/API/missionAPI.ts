@@ -12,30 +12,19 @@ class MissionAPI extends API {
 
     public createPoll<T>(): AxiosPromise<any> {
         return this.axios({method: 'post',
-                            url:'/mission/createpoll'});
+                            url:'/poll/'});
     }
 
 
     public modifyPoll<T>(serviceName: String | undefined,answer: String|undefined) : AxiosPromise<any> {
         return this.axios({method: 'put',
-                             url: '/mission/modifypoll/'+serviceName+'/'+answer});
+                             url: '/poll',
+                            data: {service_name: serviceName, answer: answer}});
     }
 
     public getPoll<T>(): AxiosPromise<any> {
         return this.axios(
-            '/mission/getpoll'
-        );
-    }
-
-    public getRocketStatus<T>(): AxiosPromise<any>{
-        return this.axios(
-            '/mission/getrocketstatus'
-        );
-    }
-
-    public getWeatherStatus<T>(): AxiosPromise<any>{
-        return this.axios(
-            '/mission/getweatherstatus'
+            '/poll'
         );
     }
 }

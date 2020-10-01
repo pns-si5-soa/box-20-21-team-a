@@ -6,19 +6,19 @@ jobs:
   include:
     - stage: weather
       script:
-        - cd weather-service
+        - cd back/weather-service
         - cp .env.travis .env
         - npm install
         - npm run test
     - stage: rocket
       script:
-        - cd rocket-service
+        - cd back/rocket-service
         - cp .env.travis .env
         - npm install
         - npm run test
     - stage: command
       script:
-        - cd mission-service
+        - cd back/mission-service
         - cp .env.travis .env
         - npm install
         - npm run test
