@@ -82,8 +82,8 @@ printf -v PARAMS '%s' $PARAMS
 
 function changedirectory() {
     PROJECT=$1
-    if [[ $PROJECT == "client" ]]; then
-        cd client
+    if [[ $PROJECT == "front" ]]; then
+        cd front
     elif [[ $PROJECT == "weather" ]]; then
         cd back/weather-service
     elif [[ $PROJECT == "rocket" ]]; then

@@ -45,10 +45,10 @@ services:
         - PORT=3000
 
 
-  client:
-      image: blue-origin/client
-      container_name: client-container
-      build: ./client
+  front:
+      image: blue-origin/front
+      container_name: front-container
+      build: ./front
       environment:
         - HOST_ROCKET=rocket-service
         - PORT_ROCKET=3000
