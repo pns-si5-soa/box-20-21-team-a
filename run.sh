@@ -82,14 +82,14 @@ printf -v PARAMS '%s' $PARAMS
 
 function changedirectory() {
     PROJECT=$1
-    if [[ $PROJECT == "client" ]]; then
-        cd client
+    if [[ $PROJECT == "front" ]]; then
+        cd front
     elif [[ $PROJECT == "weather" ]]; then
-        cd weather-service
+        cd back/weather-service
     elif [[ $PROJECT == "rocket" ]]; then
-        cd rocket-service
+        cd back/rocket-service
     elif [[ $PROJECT == "mission" ]]; then
-        cd mission-service
+        cd back/mission-service
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -139,11 +139,11 @@ elif [[ $PARAMS == "clean" ]]; then
     if [[ -z $PARG ]]; then
         runclean "client"
         cd ..
-        runclean "mission-service"
+        runclean "mission"
         cd ..
-        runclean "rocket-service"
+        runclean "rocket"
         cd ..
-        runclean "weather-service"
+        runclean "weather"
         cd ..
     else
         runclean $PARG

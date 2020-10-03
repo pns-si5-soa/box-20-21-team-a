@@ -12,7 +12,7 @@ services:
   mission-service:
       image: blue_origin/mission-service
       container_name: mission-container
-      build: ./mission-service
+      build: ./back/mission-service
       expose: 
         - "3002"
       ports:
@@ -24,7 +24,7 @@ services:
   weather-service:
       image: blue-origin/weather-service
       container_name: weather-container
-      build: ./weather-service
+      build: ./back/weather-service
       expose: 
         - "3001"
       ports:
@@ -36,7 +36,7 @@ services:
   rocket-service:
       image: blue-origin/rocket-service
       container_name: rocket-container
-      build: ./rocket-service
+      build: ./back/rocket-service
       expose: 
         - "3000"
       ports:
@@ -45,10 +45,10 @@ services:
         - PORT=3000
 
 
-  client:
-      image: blue-origin/client
-      container_name: client-container
-      build: ./client
+  front:
+      image: blue-origin/front
+      container_name: front-container
+      build: ./front
       environment:
         - HOST_ROCKET=rocket-service
         - PORT_ROCKET=3000
