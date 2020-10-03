@@ -14,7 +14,7 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
         this.state = {
             weather: "",
             rocket: "",
-            poll: undefined
+            poll: undefined,
         }
         this.getWeather = this.getWeather.bind(this)
         this.getRocket = this.getRocket.bind(this)

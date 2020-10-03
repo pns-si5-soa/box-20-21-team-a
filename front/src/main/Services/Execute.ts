@@ -1,10 +1,12 @@
 import MissionAPI from '../API/missionAPI'
 import RocketAPI from '../API/rocketAPI'
 import WeatherAPI from '../API/weatherAPI'
+import TelemetryAPI from "../API/telemetryAPI";
 
 const missionAPI = new MissionAPI();
 const rocketAPI = new RocketAPI();
 const weatherAPI = new WeatherAPI();
+const telemetryAPI = new TelemetryAPI();
 
 class Execute
 {
@@ -18,6 +20,9 @@ class Execute
                 return this.executeRocketCommand(service_action);
             case "mission":
                 return this.executeMissionCommand(service_action, service_name, vote);
+            case "telemetry":
+                return this.executeTelemetry();
+                break;
             default:
                 console.log("Undefined service : " + service)
                 break;
@@ -69,6 +74,22 @@ class Execute
                 console.log("Mission undefined action : " + service_action);
                 break;
         }
+    }
+
+    private executeTelemetry(data: string) {
+        switch(data){
+            case "all":
+                telemetryAPI.getData().then(res => {
+                    console.log(res.data);
+                })
+                break;
+            case "rocketstatus":
+                telemetryAPI.getRocketStatus().then(res => {
+                    console.log(res.data);
+                })
+                break;
+        }
+
     }
 }
 
