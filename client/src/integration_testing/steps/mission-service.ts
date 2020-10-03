@@ -69,8 +69,4 @@ Then("The new weather status is {string}", async function(status: boolean)
     {
         expect((await missionAPI.getWeatherStatus()).data.toString()).toEqual(status);
     }
-
-
-
-
 )

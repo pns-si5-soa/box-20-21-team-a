@@ -2,12 +2,32 @@ import express = require('express')
 const router = express.Router();
 
 import TelemetryService from "../../services/telemetry-service";
+import TelemetryData from "../../entities/telemetryData";
 
-let telemetry = new TelemetryService();
+
+router.post('/data',(req, res) => {
+    try {
+        res.send(TelemetryService.addData(req))
+    } catch (e : any) {
+        res.status(500).json({
+            message: e.message
+        });
+    }
+});
+
+router.put('/data',(req, res) => {
+    try {
+        res.send(TelemetryService.modifyData(req));
+    } catch (e : any) {
+        res.status(500).json({
+            message: e.message
+        });
+    }
+});
 
 router.get('/data', (req, res) => {
     try {
-        let telemetryData = telemetry.getData();
+        let telemetryData = TelemetryService.getData();
         res.send(telemetryData);
     } catch (e: any) {
         res.status(500).json({
@@ -18,8 +38,12 @@ router.get('/data', (req, res) => {
 
 router.get('/rocketstatus', (req, res) => {
     try {
-        let rocketStatus = telemetry.telemetryData.getRocketStatus();
-        res.send(rocketStatus);
+        let rocketStatus : TelemetryData | undefined = TelemetryService.telemetryDataArray.pop();
+        if( rocketStatus!== undefined ){
+            TelemetryService.telemetryDataArray.push(rocketStatus);
+            res.send(rocketStatus.getRocketStatus());
+        }
+
     } catch (e: any) {
         res.status(500).json({
             message: e.message
