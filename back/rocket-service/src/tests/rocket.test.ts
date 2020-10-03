@@ -7,3 +7,7 @@ test('Rocket status return test', () => {
 test('Rocket launch test', () => {
   expect(rocketService.launch()).toBe("Launching Rocket...");
 });
+
+test('Rocket stage test', () => {
+    expect(rocketService.stageRocketMidFlight()).toBe("The module has been successfully staged!");
+});

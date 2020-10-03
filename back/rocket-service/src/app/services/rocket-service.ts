@@ -12,6 +12,9 @@ class rocketService{
         return "Launching Rocket...";
     }
 
+    stageRocketMidFlight(): string {
+        return "The module has been successfully staged!";
+    }
 }
 
 

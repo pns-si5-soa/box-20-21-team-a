@@ -12,6 +12,9 @@ To install the client you must install all npm dependencies with
 You must create a .env from the .env.example and fill your host and port for each back-end service.
 By default the host is `localhost` and the port is `3000` for rocket-service, `3001` for weather-service, and `3002` for mission-service
 
+## To build
+`npm run build`
+
 ## To use
 
 You can start with 

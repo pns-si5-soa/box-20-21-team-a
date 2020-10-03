@@ -2,7 +2,7 @@ import express = require('express')
 import createError = require('http-errors');
 import indexRouter from "./routes";
 const cors = require('cors');
-var http = require('http');
+let http = require('http');
 
 require('dotenv').config()
 const app: express.Application = express();
@@ -24,7 +24,7 @@ app.use(function(req, res, next) {
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+let server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -36,7 +36,7 @@ server.on('listening', onListening);
 
 //Here it's any because everything can be insert on .env file, the goal is verify 
 function normalizePort(val: any) {
-    var port = parseInt(val, 10);
+    let port = parseInt(val, 10);
 
     if (isNaN(port)) {
         // named pipe
@@ -60,7 +60,7 @@ function onError(error: any) {
         throw error;
     }
 
-    var bind = typeof port === 'string'
+    let bind = typeof port === 'string'
         ? 'Pipe ' + port
         : 'Port ' + port;
 
@@ -84,8 +84,8 @@ function onError(error: any) {
  */
 
 function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
+    const addr = server.address();
+    const bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     console.log('Rocket : Listening on ' + bind);
