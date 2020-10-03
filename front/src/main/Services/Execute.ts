@@ -1,6 +1,6 @@
-import MissionAPI from '../API/missionAPI'
-import RocketAPI from '../API/rocketAPI'
-import WeatherAPI from '../API/weatherAPI'
+import MissionAPI from '../API/missionAPI';
+import RocketAPI from '../API/rocketAPI';
+import WeatherAPI from '../API/weatherAPI';
 
 const missionAPI = new MissionAPI();
 const rocketAPI = new RocketAPI();
@@ -8,7 +8,10 @@ const weatherAPI = new WeatherAPI();
 
 class Execute
 {
-    execute(service: string, service_action: string, service_name: string|undefined = undefined, vote: string|undefined = undefined) 
+    // TODO all those methods should not have an undefined return type, they should return exceptions instead of undefined
+
+
+    execute(service: string, service_action: string, service_name: string|undefined = undefined, vote: string|undefined = undefined)
     {
         switch(service)
         {
@@ -19,8 +22,7 @@ class Execute
             case "mission":
                 return this.executeMissionCommand(service_action, service_name, vote);
             default:
-                console.log("Undefined service : " + service)
-                break;
+                console.log("Undefined service : " + service);
         }
     }
 
@@ -43,10 +45,11 @@ class Execute
             case "get":
                 return rocketAPI.getRocketStatus();
             case "run":
-                return rocketAPI.launchRocket()
+                return rocketAPI.launchRocket();
+            case "stage":
+                return rocketAPI.launchRocket();
             default: 
-                console.log("Rocket undefined action : " + service_action);
-                break;
+                console.error("Rocket undefined action : " + service_action);
         }
     }
 
@@ -72,4 +75,4 @@ class Execute
     }
 }
 
-export default new Execute()
+export default new Execute();

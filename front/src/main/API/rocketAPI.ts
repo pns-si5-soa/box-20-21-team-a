@@ -1,5 +1,5 @@
 import { AxiosPromise } from 'axios';
-import API from './API'
+import API from './API';
 
 class RocketAPI extends API {
 
@@ -9,13 +9,18 @@ class RocketAPI extends API {
         super(host, port);
     }
 
-    public getRocketStatus(): AxiosPromise<any> {
+    public getRocketStatus(): AxiosPromise {
         return this.axios('/rocket')
     }
 
-    public launchRocket(): AxiosPromise<any> {
+    public launchRocket(): AxiosPromise {
         return this.axios({method: 'post',
         url:'/rocket/launch'});
+    }
+
+    public stageRocketMidFlight(): AxiosPromise {
+        return this.axios({method: 'post',
+            url:'/rocket/stage'});
     }
 }
 
