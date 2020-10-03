@@ -7,7 +7,7 @@ class MissionAPI extends API {
     public constructor() {
         const host: String = process.env.HOST_MISSION ?? "localhost";
         const port: String = process.env.PORT_MISSION ?? "3002";
-        super(host, port)
+        super(host, port);
     }
 
     public createPoll(): AxiosPromise {

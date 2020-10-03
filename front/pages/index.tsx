@@ -20,10 +20,10 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
             poll: undefined
         };
         this.getWeather = this.getWeather.bind(this);
-        this.getRocket = this.getRocket.bind(this);
+        // this.getRocket = this.getRocket.bind(this);
         this.getPoll = this.getPoll.bind(this);
         this.createPoll = this.createPoll.bind(this);
-        this.validateRocket = this.validateRocket.bind(this);
+        // this.validateRocket = this.validateRocket.bind(this);
         this.validateWeather = this.validateWeather.bind(this);
         this.validateMission = this.validateMission.bind(this);
         this.Weather = this.Weather.bind(this);
@@ -38,21 +38,21 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
         });
     }
 
-    getRocket() {
-        execute.execute("rocket", "get")?.then(res => {
-            this.setState({
-                rocket: res.data
-            });
-        });
-    }
-
-    stageRocket() {
-        execute.execute("rocket", "stage")?.then(res => {
-            this.setState({
-                poll: Object.assign(new Poll(), res.data)
-            });
-        });
-    }
+    // getRocket() {
+    //     execute.execute("rocket", "get")?.then(res => {
+    //         this.setState({
+    //             rocket: res.data
+    //         });
+    //     });
+    // }
+    //
+    // stageRocket() {
+    //     execute.execute("rocket", "stage")?.then(res => {
+    //         this.setState({
+    //             poll: Object.assign(new Poll(), res.data)
+    //         });
+    //     });
+    // }
 
     getPoll() {
         execute.execute("mission", "get")?.then(res => {
@@ -78,13 +78,13 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
         });
     }
 
-    validateRocket() {
-        execute.execute("mission", "put", "rocket", "true")?.then(res => {
-            this.setState({
-                poll: Object.assign(new Poll(), res.data)
-            });
-        });
-    }
+    // validateRocket() {
+    //     execute.execute("mission", "put", "rocket", "true")?.then(res => {
+    //         this.setState({
+    //             poll: Object.assign(new Poll(), res.data)
+    //         });
+    //     });
+    // }
 
     validateMission() {
         execute.execute("mission", "put", "mission", "true")?.then(res => {

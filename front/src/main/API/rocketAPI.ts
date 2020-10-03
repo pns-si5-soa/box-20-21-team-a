@@ -14,14 +14,19 @@ class RocketAPI extends API {
     }
 
     public launchRocket(): AxiosPromise {
-        return this.axios({method: 'post',
-        url:'/rocket/launch'});
+        return this.axios({
+            method: 'post',
+            url: '/rocket/launch'
+        });
     }
 
     public stageRocketMidFlight(): AxiosPromise {
-        return this.axios({method: 'post',
-            url:'/rocket/stage'});
+        return this.axios({
+            method: 'post',
+            url: '/rocket/stage'
+        });
     }
 }
+
 
 export default RocketAPI;

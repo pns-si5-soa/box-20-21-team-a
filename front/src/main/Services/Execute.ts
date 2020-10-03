@@ -44,11 +44,11 @@ class Execute
         {
             case "get":
                 return rocketAPI.getRocketStatus();
-            case "run":
+            case "launch":
                 return rocketAPI.launchRocket();
             case "stage":
-                return rocketAPI.launchRocket();
-            default: 
+                return rocketAPI.stageRocketMidFlight();
+            default:
                 console.error("Rocket undefined action : " + service_action);
         }
     }
