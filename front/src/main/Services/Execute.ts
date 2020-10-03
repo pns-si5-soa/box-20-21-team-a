@@ -21,8 +21,7 @@ class Execute
             case "mission":
                 return this.executeMissionCommand(service_action, service_name, vote);
             case "telemetry":
-                return this.executeTelemetry();
-                break;
+                return this.executeTelemetryCommand(service_action);
             default:
                 console.log("Undefined service : " + service)
                 break;
@@ -46,7 +45,7 @@ class Execute
         switch(service_action)
         {
             case "get":
-                return rocketAPI.getRocketStatus();
+                return rocketAPI.getRocketStatus();  // TODO remove this call @Thomas
             case "run":
                 return rocketAPI.launchRocket()
             default: 
@@ -66,8 +65,8 @@ class Execute
                         return missionAPI.modifyPoll(service_name, vote)
                     } else {
                         console.log("Parameters are required , Example : --service_name weather --vote true");
+                        return;
                     }
-                    break;
             case "get":
                 return missionAPI.getPoll();
             default: 
@@ -76,17 +75,14 @@ class Execute
         }
     }
 
-    private executeTelemetry(data: string) {
+    executeTelemetryCommand(data: string) {
         switch(data){
-            case "all":
-                telemetryAPI.getData().then(res => {
-                    console.log(res.data);
-                })
-                break;
+            case "get":
+                return telemetryAPI.getData();
             case "rocketstatus":
-                telemetryAPI.getRocketStatus().then(res => {
-                    console.log(res.data);
-                })
+                return telemetryAPI.getRocketStatus();
+            default:
+                console.log("Telemetry action undefined" + data);
                 break;
         }
 

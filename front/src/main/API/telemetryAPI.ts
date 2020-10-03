@@ -1,5 +1,5 @@
 import { AxiosPromise } from 'axios';
-import API from './API'
+import API from './API';
 
 class TelemetryAPI extends API {
 
@@ -15,18 +15,6 @@ class TelemetryAPI extends API {
 
     public getRocketStatus<T>(): AxiosPromise<any> {
         return this.axios('/telemetry/rocketstatus')
-    }
-
-    public addData<T>(): AxiosPromise<any> {
-        return this.axios({method: 'post',
-            url: '/telemetry/data',
-            })
-    }
-
-    public modifyData<T>(rocketStatus : string, fuelStatus : string): AxiosPromise<any> {
-        return this.axios({method: 'put',
-            url: '/telemetry/data',
-            data: {rocketStatus: rocketStatus, fuelStatus: fuelStatus}})
     }
 }
 

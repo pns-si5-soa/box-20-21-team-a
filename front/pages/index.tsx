@@ -110,7 +110,7 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
                             </Button>
                             <p>{this.state.weather}</p>
                             <this.Weather />
-                            <br></br>
+                            <br/>
                             <Button variant="contained" color="secondary" onClick={this.validateWeather}>
                                 Validate
                             </Button>
@@ -122,7 +122,7 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
                             </Button>
                             <p>{this.state.rocket}</p>
                             <this.Rocket />
-                            <br></br>
+                            <br/>
                             <Button variant="contained" color="secondary" onClick={this.validateRocket}>
                                 Validate
                             </Button>
