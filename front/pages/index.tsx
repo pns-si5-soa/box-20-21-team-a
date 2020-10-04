@@ -9,12 +9,12 @@ import TelemetryData from "../src/main/model/TelemetryData";
 
 type Props = {}
 
-class Home extends React.Component<{}, { weather: string, rocket: string, poll: Poll|undefined, data: TelemetryData| undefined }> {
+class Home extends React.Component<{}, { weather: string, rocket: boolean, poll: Poll|undefined, data: TelemetryData| undefined }> {
 	constructor(props: Props) {
         super(props);
         this.state = {
             weather: "",
-            rocket: "",
+            rocket: false,
             poll: undefined,
             data: undefined
         }
@@ -112,8 +112,8 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
 
     Rocket()
     {
-        if(this.state.rocket == "Ready") return <img width="200" height="200" src="https://i.gyazo.com/b554011896d7014adc3a8d465cc187f1.png"></img>
-        else if(this.state.rocket == "Not ready") return <img width="200" height="200" src="https://i.gyazo.com/e11fc8ba12124b0766adb46800c0690d.png"></img>
+        if(this.state.rocket == true) return <img width="200" height="200" src="https://i.gyazo.com/b554011896d7014adc3a8d465cc187f1.png"></img>
+        else if(this.state.rocket == false) return <img width="200" height="200" src="https://i.gyazo.com/e11fc8ba12124b0766adb46800c0690d.png"></img>
         return <div></div>
     }
 
@@ -145,10 +145,11 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
                             <Button variant="contained" color="primary" onClick={this.getData}>
                                 Get all the data
                             </Button>
-                            <p>{this.state.rocket}</p>
+                            <p>{this.state.rocket? "Ready" : "Not Ready"}</p>
+                            <this.Rocket />
                             <p>{this.state.data? 'RocketStatus : '+this.state.data.getRocketStatus() : ''}</p>
                             <p>{this.state.data? 'FuelLevel : '+this.state.data.getFuelLevel() : ''}</p>
-                            <this.Rocket />
+
                             <br/>
                             <Button variant="contained" color="secondary" onClick={this.validateRocket}>
                                 Validate

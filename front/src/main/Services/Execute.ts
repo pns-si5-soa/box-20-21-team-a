@@ -44,8 +44,6 @@ class Execute
     {
         switch(service_action)
         {
-            case "get":
-                return rocketAPI.getRocketStatus();  // TODO remove this call @Thomas
             case "run":
                 return rocketAPI.launchRocket()
             default: 

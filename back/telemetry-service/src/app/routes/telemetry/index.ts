@@ -29,7 +29,9 @@ router.get('/data', (req, res) => {
 
 router.get('/rocketstatus', (req, res) => {
     try {
+
         let rocketStatus : TelemetryData | undefined = TelemetryService.telemetryDataArray.pop();
+
         if( rocketStatus!== undefined ){
             TelemetryService.telemetryDataArray.push(rocketStatus);
             res.send(rocketStatus.getRocketStatus());
