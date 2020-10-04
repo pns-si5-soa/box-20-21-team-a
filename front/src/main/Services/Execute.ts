@@ -82,9 +82,7 @@ class Execute
             case "all":
                 return telemetryAPI.getData();
             case "rocketstatus":
-                let  v = telemetryAPI.getRocketStatus();
-                console.log(v)
-                return v;
+                return telemetryAPI.getRocketStatus();
             default:
                 console.log("Telemetry data undefined ");
                 break;
