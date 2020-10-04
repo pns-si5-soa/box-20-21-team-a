@@ -44,8 +44,8 @@ class Execute
     {
         switch(service_action)
         {
-            case "run":
-                return rocketAPI.launchRocket()
+            case "launch":
+                return rocketAPI.launchRocketSOAP()
             default: 
                 console.log("Rocket undefined action : " + service_action);
                 break;

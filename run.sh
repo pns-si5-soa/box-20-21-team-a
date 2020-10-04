@@ -58,7 +58,7 @@ if [[ $HARG == 1 ]]; then
 fi
 
 if [[ $UARG == 1 ]]; then
-    cd client
+    cd front
     npm install
     cd ../mission-service
     npm install
