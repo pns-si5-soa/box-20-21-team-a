@@ -6,10 +6,10 @@ test('Rocket status return test', () => {
 
 test('Rocket launch test', () => {
     expect(rocketService.launch()).toBe("Launching Rocket...");
-    expect(rocketService.getStatus()).toBe(RocketStatus.LAUNCHED);
+    expect(parseInt(rocketService.getStatus(), 10)).toBe(RocketStatus.LAUNCHED);
 });
 
 test('Rocket stage test', () => {
     expect(rocketService.stageRocketMidFlight()).toBe("The module has been successfully staged!");
-    expect(rocketService.getStatus()).toBe(RocketStatus.IN_SECOND_STAGE);
+    expect(parseInt(rocketService.getStatus(), 10)).toBe(RocketStatus.IN_SECOND_STAGE);
 });
