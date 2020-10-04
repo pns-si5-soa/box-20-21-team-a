@@ -1,24 +1,19 @@
 import { AxiosPromise } from 'axios';
+import TelemetryAPI from "../API/telemetryAPI";
+
 
 class rocketService{
     [x: string]: any;
-
+    telemetryAPI = new TelemetryAPI();
     rocket_status = ["Ready", "Not ready"]
     launched = false;
 
-    getStatus(): string {
-        const rocketStatus = this.rocket_status[Math.floor(Math.random() * this.rocket_status.length)]
-        this.axios({method: 'put',
-            url: '/telemetry/data',
-            data: {rocketStatus: rocketStatus}});
-        return rocketStatus
-    }
-
     launch(): string {
         this.launched = true;
+        const rocketStatus = this.rocket_status[Math.floor(Math.random() * this.rocket_status.length)]
+        this.telemetryAPI.sendData(rocketStatus);
         return "Launching Rocket...";
     }
-
 }
 
 

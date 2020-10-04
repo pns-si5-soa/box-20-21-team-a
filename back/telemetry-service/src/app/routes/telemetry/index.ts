@@ -15,18 +15,9 @@ router.post('/data',(req, res) => {
     }
 });
 
-router.put('/data',(req, res) => {
-    try {
-        res.send(TelemetryService.modifyData(req));
-    } catch (e : any) {
-        res.status(500).json({
-            message: e.message
-        });
-    }
-});
-
 router.get('/data', (req, res) => {
     try {
+        console.log("oui")
         let telemetryData = TelemetryService.getData();
         res.send(telemetryData);
     } catch (e: any) {

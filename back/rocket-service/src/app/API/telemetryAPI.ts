@@ -1,5 +1,6 @@
 import { AxiosPromise } from 'axios';
 import API from './API';
+import TelemetryData from "../entities/telemetryData";
 
 class TelemetryAPI extends API {
 
@@ -9,17 +10,15 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public sendData<T>(): AxiosPromise {
-        return this.axios({method: 'post',
-            url: '/telemetry/data',
+    public sendData<T>(rocketStatus: string): AxiosPromise {
+        console.log("rtfdytz"+rocketStatus);
+        return this.axios({
+                method: 'put',
+                url: '/telemetry/data',
+                data: {rocketStatus}
             })
-    } // TODO il faut envoyer un objet en argument
+    }
 
-    public modifyData<T>(rocketStatus : string, fuelStatus : string): AxiosPromise {
-        return this.axios({method: 'put',
-            url: '/telemetry/data',
-            data: {rocketStatus: rocketStatus, fuelStatus: fuelStatus}})
-    } // todo tu peux surement enlever ce modify, on n'a besoin que d'envoyer des données
 }
 
 export default TelemetryAPI;

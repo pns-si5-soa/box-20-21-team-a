@@ -3,7 +3,7 @@ import TelemetryData from "../entities/telemetryData";
 
 class TelemetryService {
     telemetryDataArray : TelemetryData[] = [new TelemetryData()];
-
+    fuelLevel : number = 2 ;
 
     constructor() {
     }
@@ -27,18 +27,8 @@ class TelemetryService {
     }
 
     addData(req : any) : void {
-        let newData = new TelemetryData(req.body.rocketStatus,req.body.fuelLevel);
+        let newData = new TelemetryData(req.body.rocketStatus,this.fuelLevel);
         this.telemetryDataArray.push(newData);
-    }
-
-    modifyData(req : any) : void {
-        let dataToModify = this.telemetryDataArray.pop();
-        if(dataToModify) {
-            dataToModify.setFuelLevel(req.body.fuelLevel);
-            dataToModify.setRocketStatus(req.body.rocketStatus);
-        } else {
-            throw "There are no data to modify";
-        }
     }
 }
 
