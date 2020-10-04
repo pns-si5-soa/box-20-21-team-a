@@ -1,35 +1,28 @@
 import TelemetryData from "../entities/telemetryData";
-
+import {RocketStatus} from "../entities/RocketStatus";
 
 class TelemetryService {
-    telemetryDataArray : TelemetryData[] = [new TelemetryData()];
-    fuelLevel : number = 2 ;
+    telemetryDataArray: TelemetryData[];
+    fuelLevel: number;
 
     constructor() {
+        this.telemetryDataArray = [];
+        this.telemetryDataArray.push(new TelemetryData());
+        this.fuelLevel = 2;
     }
 
-
-    getData() : TelemetryData | undefined {
-        let last = this.telemetryDataArray.pop();
-            if (last) {
-                this.telemetryDataArray.push(last);
-            }
-        return (last);
-    }
-
-    getRocketStatus() : string {
-        let last = this.telemetryDataArray.pop();
-        if( last !== undefined){
-            this.telemetryDataArray.push(last);
-            return (last.getRocketStatus());
+    getData(): TelemetryData {
+        if (this.telemetryDataArray.length > 0) {
+            return this.telemetryDataArray[this.telemetryDataArray.length - 1];
         }
-        return "Not Ready";
+        return new TelemetryData();
     }
 
-    addData(req : any) : void {
-        let newData = new TelemetryData(req.body.rocketStatus,this.fuelLevel);
+    addData(req: any): TelemetryData {
+        let newData = new TelemetryData(req.body.rocketStatus, this.fuelLevel);
         this.telemetryDataArray.push(newData);
+        return newData;
     }
 }
 
-export default new TelemetryService
+export default new TelemetryService();

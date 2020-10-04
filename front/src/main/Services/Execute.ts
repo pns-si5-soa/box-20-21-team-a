@@ -1,6 +1,6 @@
-import MissionAPI from '../API/missionAPI'
-import RocketAPI from '../API/rocketAPI'
-import WeatherAPI from '../API/weatherAPI'
+import MissionAPI from '../API/missionAPI';
+import RocketAPI from '../API/rocketAPI';
+import WeatherAPI from '../API/weatherAPI';
 import TelemetryAPI from "../API/telemetryAPI";
 
 const missionAPI = new MissionAPI();
@@ -10,6 +10,7 @@ const telemetryAPI = new TelemetryAPI();
 
 class Execute
 {
+    // TODO all those methods should not have an undefined return type, they should return exceptions instead of undefined
     execute(service: string, service_action: string, service_name: string|undefined = undefined, vote: string|undefined = undefined, data_name : string|undefined = undefined)
     {
         switch(service)
@@ -23,8 +24,7 @@ class Execute
             case "telemetry":
                 return this.executeTelemetryCommand(service_action, data_name);
             default:
-                console.log("Undefined service : " + service)
-                break;
+                console.log("Undefined service : " + service);
         }
     }
 
@@ -45,10 +45,11 @@ class Execute
         switch(service_action)
         {
             case "launch":
-                return rocketAPI.launchRocketSOAP()
-            default: 
-                console.log("Rocket undefined action : " + service_action);
-                break;
+                return rocketAPI.launchRocket(); // todo use soap
+            case "stage":
+                return rocketAPI.stageRocketMidFlight();// todo use soap
+            default:
+                console.error("Rocket undefined action : " + service_action);
         }
     }
 
@@ -78,8 +79,6 @@ class Execute
             switch(data){
             case "all":
                 return telemetryAPI.getData();
-            case "rocketstatus":
-                return telemetryAPI.getRocketStatus();
             default:
                 console.log("Telemetry data undefined ");
                 break;
@@ -88,4 +87,4 @@ class Execute
     }
 }
 
-export default new Execute()
+export default new Execute();

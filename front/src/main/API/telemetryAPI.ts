@@ -9,13 +9,13 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public getData<T>(): AxiosPromise<any> {
-        return this.axios('/telemetry/data')
+    public getData<T>(): AxiosPromise {
+        return this.axios('/telemetry/data');
     }
 
-    public getRocketStatus<T>(): AxiosPromise<any> {
-        return this.axios('/telemetry/rocketstatus')
-    }
+    // public getRocketStatus<T>(): AxiosPromise {
+    //     return this.axios('/telemetry/rocketstatus');
+    // }
 }
 
 export default TelemetryAPI;
