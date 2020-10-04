@@ -8,13 +8,14 @@ import execute from "../src/main/Services/Execute"
 
 type Props = {}
 
-class Home extends React.Component<{}, { weather: string, rocket: string, poll: Poll|undefined }> {
+class Home extends React.Component<{}, { weather: string, rocket: string, poll: Poll|undefined, launch:string }> {
 	constructor(props: Props) {
         super(props);
         this.state = {
             weather: "",
             rocket: "",
-            poll: undefined
+            poll: undefined,
+            launch:""
         }
         this.getWeather = this.getWeather.bind(this)
         this.getRocket = this.getRocket.bind(this)
@@ -23,6 +24,7 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
         this.validateRocket = this.validateRocket.bind(this)
         this.validateWeather = this.validateWeather.bind(this)
         this.validateMission = this.validateMission.bind(this)
+        this.launchRocket = this.launchRocket.bind(this)
         this.Weather = this.Weather.bind(this)
         this.Rocket = this.Rocket.bind(this)
     }
@@ -83,6 +85,15 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
         })
     }
 
+    launchRocket() {
+        execute.execute("rocket", "launch")?.then(launchStatus => {
+            this.setState({
+                launch: launchStatus
+            })
+        })
+    }
+
+
     Weather() {
         if(this.state.weather == "Sunny") return <img width="200" height="200" src="https://icons.iconarchive.com/icons/icons-land/weather/256/Sunny-icon.png"></img>
         else if(this.state.weather == "Cloudy") return <img width="200" height="200" src="https://cdn.iconscout.com/icon/free/png-256/cloudy-1602000-1358407.png"></img>
@@ -120,6 +131,10 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
                             <Button variant="contained" color="primary" onClick={this.getRocket}>
                                 Get the rocket status
                             </Button>
+                            <Button variant="contained" color="primary" onClick={this.launchRocket}>
+                                Launch rocket
+                            </Button>
+                            <p>{this.state.launch}</p>
                             <p>{this.state.rocket}</p>
                             <this.Rocket />
                             <br></br>
