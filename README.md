@@ -8,7 +8,7 @@ This project is a class project realized during the 5th year of engineer school.
 
 To install each service, follow the README of each service.
 
-- [Client](client/README.md)
+- [Front](front/README.md)
 - [Mission-Service](mission-service/README.md)
 - [Weather-Service](weather-service/README.md)
 - [Mission-Service](mission-service/README.md)
@@ -22,6 +22,6 @@ You can use the script at the root of project, to start it, run :
 
 You can simply run `docker-compose up` or `docker-compose up --build` to rebuild 
 Or
-First run `docker-compose run --rm waitforservices` to laucnh services 
-Then run `docker-compose up client`
+First run `docker-compose run --rm waitforservices` to launch services 
+Then run `docker-compose up front`
 

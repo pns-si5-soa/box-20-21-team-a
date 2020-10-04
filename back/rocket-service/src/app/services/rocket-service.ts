@@ -1,3 +1,5 @@
+import TelemetryAPI from "../API/telemetryAPI";
+
 export enum RocketStatus {
     NOT_READY = 0,
     READY_FOR_LAUNCH = 1,
@@ -6,8 +8,9 @@ export enum RocketStatus {
     PAYLOAD_DELIVERED = 4,
 }
 
-class rocketService {
+class rocketService { // TODO PascalCase!
 
+    telemetryAPI = new TelemetryAPI();
     rocketStatus: RocketStatus;
 
     constructor() {
@@ -23,11 +26,13 @@ class rocketService {
 
     launch(): string {
         this.rocketStatus = RocketStatus.LAUNCHED;
+        this.telemetryAPI.sendData(this.rocketStatus.toString());
         return "Launching Rocket...";
     }
 
     stageRocketMidFlight(): string {
         this.rocketStatus = RocketStatus.IN_SECOND_STAGE;
+        this.telemetryAPI.sendData(this.rocketStatus.toString());
         return "The module has been successfully staged!";
     }
 }

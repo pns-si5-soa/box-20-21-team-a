@@ -22,6 +22,12 @@ jobs:
         - cp .env.travis .env
         - npm install
         - npm run test
+    - stage: front
+      script:
+        - cd front
+        - cp .env.travis .env
+        - npm install
+        - npm run build
     - stage: client #Run cucumber (todo do only on master)
       script:
         - docker-compose up --build --exit-code-from client

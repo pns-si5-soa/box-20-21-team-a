@@ -6,8 +6,20 @@ services:
     depends_on:
       - rocket-service
       - weather-service 
-      - mission-service  
-    command: rocket-service:3000 weather-service:3001 mission-service:3002
+      - mission-service
+      - telemetry-service
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003
+
+  telemetry-service:
+    image: blue_origin/telemetry-service
+    container_name: telemetry-container
+    build: ./back/telemetry-service
+    expose:
+      - "3003"
+    ports:
+      - "3003:3003"
+    environment:
+      - PORT=3002
 
   mission-service:
       image: blue_origin/mission-service
@@ -43,6 +55,10 @@ services:
         - "3000:3000"
       environment:
         - PORT=3000
+        - HOST_TELEMETRY=rocket-service
+        - PORT_TELEMETRY=3003
+      depends_on:
+        - telemetry-service
 
 
   front:
@@ -56,10 +72,13 @@ services:
         - PORT_WEATHER=3001
         - HOST_MISSION=mission-service
         - PORT_MISSION=3002
+        - HOST_TELEMETRY=telemetry-service
+        - PORT_TELEMETRY=3003
       depends_on:
         - rocket-service
         - weather-service
         - mission-service
+        - telemetry-service
         - waitforservices
       stdin_open: true
       tty: true

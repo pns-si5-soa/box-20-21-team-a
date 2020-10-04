@@ -7,18 +7,19 @@ import Poll from '../src/main/model/Poll';
 
 import execute from "../src/main/Services/Execute";
 import RocketMonitor from "../components/rocketMonitor";
+import TelemetryData from "../src/main/model/TelemetryData";
 
 type Props = {};
 
-class Home extends React.Component<{}, { weather: string, rocket: string, poll: Poll | undefined }> {
-
+class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, data: TelemetryData | undefined, launch: string }> {
     constructor(props: Props) {
         super(props);
         if (this.state === undefined) {
             this.state = {
                 weather: "",
-                rocket: "",
-                poll: undefined
+                poll: undefined,
+                data: undefined,
+                launch: "",
             };
         }
         this.getWeather = this.getWeather.bind(this);
@@ -62,14 +63,6 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
         });
     }
 
-    validateMission() {
-        execute.execute("mission", "put", "mission", "true")?.then(res => {
-            this.setState({
-                poll: Object.assign(new Poll(), res.data)
-            });
-        });
-    }
-
     validateRocket() {
         execute.execute("mission", "put", "rocket", "true")
             ?.then(res => {
@@ -80,6 +73,14 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
             })
             .catch(() => {
             });
+    }
+
+    validateMission() {
+        execute.execute("mission", "put", "mission", "true")?.then(res => {
+            this.setState({
+                poll: Object.assign(new Poll(), res.data)
+            })
+        })
     }
 
     Weather() {
@@ -116,6 +117,16 @@ class Home extends React.Component<{}, { weather: string, rocket: string, poll: 
 
                         <div className="col-sm">
                             <RocketMonitor validateRocket={this.validateRocket}/>
+
+                            {/*
+                            <Button variant="contained" color="primary" onClick={this.getData}>
+                                Get all the data
+                            </Button>
+                            <p>{this.state.data? 'RocketStatus : '+this.state.data.getRocketStatus() : ''}</p>
+                            <p>{this.state.data? 'FuelLevel : '+this.state.data.getFuelLevel() : ''}</p>
+                            <br/>
+                            */}
+
                         </div>
 
                         <div className="col-sm">

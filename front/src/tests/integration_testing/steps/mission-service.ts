@@ -70,8 +70,4 @@ Then("The new weather status is {string}", async function(status: boolean)
     {
         expect((await missionAPI.getPoll()).data.weatherStatus.toString()).toEqual(status);
     }
-
-
-
-
 )
