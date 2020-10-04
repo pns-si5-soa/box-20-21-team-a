@@ -19,9 +19,8 @@ class rocketService { // TODO PascalCase!
     }
 
     // For tests only
-    getStatus(): string {
-        this.rocketStatus = Math.floor(Math.random() * 2);
-        return this.rocketStatus.toString();
+    getStatus(): RocketStatus {
+        return this.rocketStatus;
     }
 
     launch(): string {
@@ -38,12 +37,10 @@ class rocketService { // TODO PascalCase!
 
     deliverPayload(): string {
         this.rocketStatus = RocketStatus.PAYLOAD_DELIVERED;
+        console.log(this.rocketStatus);
         this.telemetryAPI.sendData(this.rocketStatus.toString());
         return "The payload has been successfully delivered!\nThe mission is a success \\o/";
     }
-
-
 }
-
 
 export default new rocketService();
