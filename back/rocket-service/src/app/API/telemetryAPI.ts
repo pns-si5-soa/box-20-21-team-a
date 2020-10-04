@@ -11,9 +11,8 @@ class TelemetryAPI extends API {
     }
 
     public sendData<T>(rocketStatus: string): AxiosPromise {
-        console.log("rtfdytz"+rocketStatus);
         return this.axios({
-                method: 'put',
+                method: 'post',
                 url: '/telemetry/data',
                 data: {rocketStatus}
             })

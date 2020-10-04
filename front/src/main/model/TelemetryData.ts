@@ -3,13 +3,13 @@
 class TelemetryData {
 
 
-    private rocketStatus : boolean;
+    private rocketStatus : string;
     private fuelLevel : number;     // from 0 to 10
 
 
 
     constructor(
-        rocketStatus  = false,
+        rocketStatus  = "Not Ready",
         fuelLevel = -1,
     ) {
         this.rocketStatus=rocketStatus;
@@ -20,7 +20,7 @@ class TelemetryData {
         return this.rocketStatus;
     }
 
-    setRocketStatus(value: boolean) {
+    setRocketStatus(value: string) {
         this.rocketStatus = value;
     }
 

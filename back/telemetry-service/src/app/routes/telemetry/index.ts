@@ -17,7 +17,6 @@ router.post('/data',(req, res) => {
 
 router.get('/data', (req, res) => {
     try {
-        console.log("oui")
         let telemetryData = TelemetryService.getData();
         res.send(telemetryData);
     } catch (e: any) {

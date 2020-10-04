@@ -9,7 +9,7 @@ import TelemetryData from "../src/main/model/TelemetryData";
 
 type Props = {}
 
-class Home extends React.Component<{}, { weather: string, rocket: boolean, poll: Poll|undefined, data: TelemetryData| undefined, launch:string }> {
+class Home extends React.Component<{}, { weather: string, rocket: boolean, poll: Poll|undefined, data: TelemetryData | undefined, launch:string }> {
 	constructor(props: Props) {
         super(props);
         this.state = {
@@ -29,7 +29,6 @@ class Home extends React.Component<{}, { weather: string, rocket: boolean, poll:
         this.launchRocket = this.launchRocket.bind(this)
         this.Weather = this.Weather.bind(this)
         this.Rocket = this.Rocket.bind(this)
-        this.Data = this.Data.bind(this)
         this.getData = this.getData.bind(this)
     }
     
@@ -55,7 +54,7 @@ class Home extends React.Component<{}, { weather: string, rocket: boolean, poll:
     {
         execute.execute("telemetry", "get",undefined,undefined,"all")?.then(res => {
             this.setState({
-                data: Object.assign(new TelemetryData(), res.data)
+                data : Object.assign(new TelemetryData(), res.data)
             })
         })
     }
@@ -128,13 +127,17 @@ class Home extends React.Component<{}, { weather: string, rocket: boolean, poll:
         return <div></div>
     }
 
-    Data()
+    /*Data()  : string
     {
-        if(this.state.data !== undefined) {
-            alert('RocketStatus : '+this.state.data.getRocketStatus()+'\nFuelLevel : '+this.state.data.getFuelLevel() )
-        }
-        return null;
-    }
+        let row = "";
+        console.log(this.state.data);
+        this.state.data?.forEach(singleData => (
+                console.log(typeof singleData),
+                row += "RocketStatus : "+singleData.getRocketStatus()+"\n"+
+                    'FuelLevel : '+singleData.getFuelLevel()+"\n"
+            ))
+        return row;
+    }*/
 
 
 	render()
@@ -171,7 +174,8 @@ class Home extends React.Component<{}, { weather: string, rocket: boolean, poll:
                                 Get all the data
                             </Button>
                             <this.Rocket />
-                            <this.Data />
+                            <p>{this.state.data? 'RocketStatus : '+this.state.data.getRocketStatus() : ''}</p>
+                            <p>{this.state.data? 'FuelLevel : '+this.state.data.getFuelLevel() : ''}</p>
                             <br/>
                             <Button variant="contained" color="secondary" onClick={this.validateRocket}>
                                 Validate

@@ -17,13 +17,13 @@ class TelemetryService {
         return (last);
     }
 
-    getRocketStatus() : boolean {
+    getRocketStatus() : string {
         let last = this.telemetryDataArray.pop();
         if( last !== undefined){
             this.telemetryDataArray.push(last);
             return (last.getRocketStatus());
         }
-        return false;
+        return "Not Ready";
     }
 
     addData(req : any) : void {

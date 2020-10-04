@@ -75,7 +75,6 @@ class Execute
 
     executeTelemetryCommand(action: string, data: string | undefined) {
         if(action == "get") {
-
             switch(data){
             case "all":
                 return telemetryAPI.getData();
