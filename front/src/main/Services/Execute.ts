@@ -44,12 +44,10 @@ class Execute
     {
         switch(service_action)
         {
-            // case "get":
-            //     return rocketAPI.getRocketStatus();
             case "launch":
-                return rocketAPI.launchRocketSOAP();
+                return rocketAPI.launchRocket(); // todo use soap
             case "stage":
-                return rocketAPI.stageRocketMidFlight();
+                return rocketAPI.stageRocketMidFlight();// todo use soap
             default:
                 console.error("Rocket undefined action : " + service_action);
         }
@@ -81,8 +79,6 @@ class Execute
             switch(data){
             case "all":
                 return telemetryAPI.getData();
-            case "rocketstatus":
-                return telemetryAPI.getRocketStatus();
             default:
                 console.log("Telemetry data undefined ");
                 break;

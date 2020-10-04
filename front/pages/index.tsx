@@ -48,19 +48,23 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     createPoll() {
-        execute.execute("mission", "create")?.then(res => {
-            this.setState({
-                poll: Object.assign(new Poll(), res.data)
+        execute.execute("mission", "create")
+            ?.then(res => {
+                this.setState({
+                    poll: Object.assign(new Poll(), res.data)
+                });
+                alert(`Poll created!`);
             });
-        });
     }
 
     validateWeather() {
-        execute.execute("mission", "put", "weather", "true")?.then(res => {
-            this.setState({
-                poll: Object.assign(new Poll(), res.data)
+        execute.execute("mission", "put", "weather", "true")
+            ?.then(res => {
+                this.setState({
+                    poll: Object.assign(new Poll(), res.data)
+                });
+                alert(`Voted ${res.data.weatherStatus} for weather.`);
             });
-        });
     }
 
     validateRocket() {
@@ -69,7 +73,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                 this.setState({
                     poll: Object.assign(new Poll(), res.data)
                 });
-                alert(`Voted ${res.data.rocketStatus} for rocket`);
+                alert(`Voted ${res.data.rocketStatus} for rocket.`);
             })
             .catch(() => {
             });
@@ -79,8 +83,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         execute.execute("mission", "put", "mission", "true")?.then(res => {
             this.setState({
                 poll: Object.assign(new Poll(), res.data)
-            })
-        })
+            });
+            alert(`Voted ${res.data.rocketStatus} for mission.`);
+        });
     }
 
     Weather() {
@@ -118,15 +123,6 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                         <div className="col-sm">
                             <RocketMonitor validateRocket={this.validateRocket}/>
 
-                            {/*
-                            <Button variant="contained" color="primary" onClick={this.getData}>
-                                Get all the data
-                            </Button>
-                            <p>{this.state.data? 'RocketStatus : '+this.state.data.getRocketStatus() : ''}</p>
-                            <p>{this.state.data? 'FuelLevel : '+this.state.data.getFuelLevel() : ''}</p>
-                            <br/>
-                            */}
-
                         </div>
 
                         <div className="col-sm">
@@ -138,9 +134,14 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                             <Button variant="contained" color="primary" onClick={this.getPoll}>
                                 Refresh the poll
                             </Button>
-                            <p>Weather status : {this.state.poll?.weatherStatus ? "On" : "Off"}</p>
-                            <p>Rocket status : {this.state.poll?.rocketStatus ? "On" : "Off"}</p>
-                            <p>Mission status : {this.state.poll?.missionStatus ? "On" : "Off"}</p>
+                            {this.state.poll !== undefined &&
+                            <>
+                                <p>Weather status : {this.state.poll?.weatherStatus ? "On" : "Off"}</p>
+                                <p>Rocket status : {this.state.poll?.rocketStatus ? "On" : "Off"}</p>
+                                <p>Mission status : {this.state.poll?.missionStatus ? "On" : "Off"}</p>
+                            </>
+                            }
+
                             <br/>
                             <Button variant="contained" color="secondary" onClick={this.validateMission}>
                                 Validate on poll

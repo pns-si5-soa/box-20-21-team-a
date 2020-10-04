@@ -24,14 +24,4 @@ router.get('/data', (req, res) => {
     }
 });
 
-router.get('/rocketstatus', (req, res) => {
-    try {
-        TelemetryService.getRocketStatus();
-    } catch (e: any) {
-        res.status(500).json({
-            message: e.message
-        });
-    }
-});
-
 export default router;

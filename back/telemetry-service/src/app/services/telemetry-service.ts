@@ -18,12 +18,12 @@ class TelemetryService {
         return new TelemetryData();
     }
 
-    getRocketStatus(): string {
-        if (this.telemetryDataArray.length > 0) {
-            return this.telemetryDataArray[this.telemetryDataArray.length - 1].getRocketStatus().toString();
-        }
-        return RocketStatus.NOT_READY.toString();
-    }
+    // getRocketStatus(): string {
+    //     if (this.telemetryDataArray.length > 0) {
+    //         return this.telemetryDataArray[this.telemetryDataArray.length - 1].getRocketStatus().toString();
+    //     }
+    //     return RocketStatus.NOT_READY.toString();
+    // }
 
     addData(req: any): TelemetryData {
         let newData = new TelemetryData(req.body.rocketStatus, this.fuelLevel);

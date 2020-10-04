@@ -10,33 +10,23 @@ interface IProps {
 
 const RocketMonitor = (props: IProps) => {
 
-    const [rocketStatus, setRocketStatus] = useState(RocketStatus.NOT_READY);
-    const [telemetryData, setTelemetryData] = useState(new TelemetryData());
+    const [telemetryData, setTelemetryData] = useState({rocketStatus: 0, fuelLevel: -1});
 
     useEffect(() => {
-        execute.execute("telemetry", "get", undefined, undefined, "rocketstatus")
+        execute.execute("telemetry", "get", undefined, undefined, "all")
             ?.then(res => {
-                setRocketStatus(parseInt(res.data, 10));
+                setTelemetryData(res.data);
             })
             .catch(() => {
             });
-    }, [rocketStatus, telemetryData]);
-
-    const getRocketStatus = () => {
-        execute.execute("telemetry", "get", undefined, undefined, "rocketstatus")
-            ?.then(res => {
-                const statusNumber = parseInt(res.data, 10);
-                setRocketStatus(statusNumber);
-                alert(mapRocketStatusKeys[statusNumber]);
-            })
-            .catch(() => {
-            });
-    };
+    }, []);
 
     const launchRocket = () => {
         execute.execute("rocket", "launch")
             ?.then(res => {
                 alert(res.data);
+                console.log(res.data);
+                getTelemetryData();
             })
             .catch(() => {
             });
@@ -46,6 +36,8 @@ const RocketMonitor = (props: IProps) => {
         execute.execute("rocket", "stage")
             ?.then(res => {
                 alert(res.data);
+                console.log(res.data);
+                getTelemetryData();
             })
             .catch(() => {
             });
@@ -63,17 +55,13 @@ const RocketMonitor = (props: IProps) => {
     return (
         <>
             <h2>Rocket department</h2>
-            <Button variant="contained" color="primary" onClick={getRocketStatus}>
-                Get the rocket status
-            </Button>
-            <br/>
 
             <Button variant="contained" color="secondary" onClick={props.validateRocket}>
                 Validate on mission poll
             </Button>
             <br/>
 
-            <Button variant="contained" onClick={launchRocket}>
+            <Button variant="contained" color="primary" onClick={launchRocket}>
                 Launch rocket
             </Button>
             <br/>
@@ -83,11 +71,12 @@ const RocketMonitor = (props: IProps) => {
             </Button>
             <br/>
 
-            <Button variant="contained" color="primary" onClick={getTelemetryData}>
-                Get all telemetry data
-            </Button>
-            <p>{`Rocket status: ${telemetryData.getRocketStatus()}`}</p>
-            <p>{`FuelLevel: ${telemetryData.getFuelLevel()}`}</p>
+            <div>
+                {`Fuel level: ${telemetryData.fuelLevel}`}
+            </div>
+            <div>
+                {`Rocket Status: ${mapRocketStatusKeys[telemetryData.rocketStatus]}`}
+            </div>
         </>
     )
 

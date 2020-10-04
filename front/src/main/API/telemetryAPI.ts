@@ -13,9 +13,9 @@ class TelemetryAPI extends API {
         return this.axios('/telemetry/data');
     }
 
-    public getRocketStatus<T>(): AxiosPromise {
-        return this.axios('/telemetry/rocketstatus');
-    }
+    // public getRocketStatus<T>(): AxiosPromise {
+    //     return this.axios('/telemetry/rocketstatus');
+    // }
 }
 
 export default TelemetryAPI;

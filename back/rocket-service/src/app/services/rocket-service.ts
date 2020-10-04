@@ -35,6 +35,8 @@ class rocketService { // TODO PascalCase!
         this.telemetryAPI.sendData(this.rocketStatus.toString());
         return "The module has been successfully staged!";
     }
+
+    
 }
 
 
