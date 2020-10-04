@@ -14,8 +14,8 @@ class rocketService{
         this.rocketStatus = Math.floor(Math.random());
     }
 
-    getStatus(): RocketStatus {
-        return this.rocketStatus;
+    getStatus(): string {
+        return this.rocketStatus.toString();
     }
 
     launch(): string {
