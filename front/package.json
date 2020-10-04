@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev -p 8080",
     "build": "next build; next export",
-    "start": "next start",
+    "start": "next start -p 8080",
     "test": "tsc && cucumber-js ./src/tests/integration_testing/features/ -r build/src/tests/integration_testing/steps/"
   },
   "author": "SOA-20-21-A",
