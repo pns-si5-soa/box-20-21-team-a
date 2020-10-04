@@ -12,7 +12,7 @@ export const mapRocketStatusKeys = [
     "Launched, in first stage of flight",
     "In second stage of flight",
     "Payload delivered",
-]
+];
 
 class Rocket {
 

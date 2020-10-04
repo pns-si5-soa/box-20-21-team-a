@@ -1,4 +1,4 @@
-import express = require('express')
+import express = require('express');
 const router = express.Router();
 
 import rocketRouter from './rocket'

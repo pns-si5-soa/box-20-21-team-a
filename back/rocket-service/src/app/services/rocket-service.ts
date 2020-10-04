@@ -6,15 +6,18 @@ export enum RocketStatus {
     PAYLOAD_DELIVERED = 4,
 }
 
-class rocketService{
+class rocketService {
 
     rocketStatus: RocketStatus;
 
     constructor() {
-        this.rocketStatus = Math.floor(Math.random());
+        this.rocketStatus = Math.floor(Math.random() * 2);
     }
 
     getStatus(): string {
+        if (this.rocketStatus === 0 || this.rocketStatus === 1) {
+            this.rocketStatus = Math.floor(Math.random() * 2);
+        }
         return this.rocketStatus.toString();
     }
 
