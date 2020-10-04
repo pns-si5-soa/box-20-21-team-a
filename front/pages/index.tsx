@@ -27,6 +27,7 @@ class Home extends React.Component<{}, { weather: string, rocket: boolean, poll:
         this.validateMission = this.validateMission.bind(this)
         this.Weather = this.Weather.bind(this)
         this.Rocket = this.Rocket.bind(this)
+        this.Data = this.Data.bind(this)
         this.getData = this.getData.bind(this)
     }
     
@@ -117,6 +118,15 @@ class Home extends React.Component<{}, { weather: string, rocket: boolean, poll:
         return <div></div>
     }
 
+    Data()
+    {
+        if(this.state.data !== undefined) {
+            alert('RocketStatus : '+this.state.data.getRocketStatus()+'\nFuelLevel : '+this.state.data.getFuelLevel() )
+        }
+        return null;
+    }
+
+
 	render()
     {
 		return (
@@ -147,8 +157,8 @@ class Home extends React.Component<{}, { weather: string, rocket: boolean, poll:
                             </Button>
                             <p>{this.state.rocket? "Ready" : "Not Ready"}</p>
                             <this.Rocket />
-                            <p>{this.state.data? 'RocketStatus : '+this.state.data.getRocketStatus() : ''}</p>
-                            <p>{this.state.data? 'FuelLevel : '+this.state.data.getFuelLevel() : ''}</p>
+                            <this.Data />
+
 
                             <br/>
                             <Button variant="contained" color="secondary" onClick={this.validateRocket}>
