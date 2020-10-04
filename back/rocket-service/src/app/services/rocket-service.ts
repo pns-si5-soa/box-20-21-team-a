@@ -36,6 +36,12 @@ class rocketService { // TODO PascalCase!
         return "The module has been successfully staged!";
     }
 
+    deliverPayload(): string {
+        this.rocketStatus = RocketStatus.PAYLOAD_DELIVERED;
+        this.telemetryAPI.sendData(this.rocketStatus.toString());
+        return "The payload has been successfully delivered!\nThe mission is a success \\o/";
+    }
+
 
 }
 

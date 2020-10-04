@@ -21,6 +21,16 @@ const RocketMonitor = (props: IProps) => {
             });
     }, []);
 
+    /*const getRocketStatus = () => {
+        execute.execute("telemetry", "get", undefined, undefined, "all")
+            ?.then(res => {
+                setTelemetryData(res.data);
+                alert(mapRocketStatusKeys[res.data.rocketStatus]);
+            })
+            .catch(() => {
+            });
+    };*/
+
     const launchRocket = () => {
         execute.execute("rocket", "launch")
             ?.then(res => {
@@ -42,6 +52,16 @@ const RocketMonitor = (props: IProps) => {
             .catch(() => {
             });
     };
+    const deliverPayload = () => {
+        execute.execute("rocket", "payload")
+            ?.then(res => {
+                alert(res.data);
+                console.log(res.data);
+                getTelemetryData();
+            })
+            .catch(() => {
+            });
+    };
 
     const getTelemetryData = () => {
         execute.execute("telemetry", "get", undefined, undefined, "all")
@@ -55,6 +75,10 @@ const RocketMonitor = (props: IProps) => {
     return (
         <>
             <h2>Rocket monitoring</h2>
+            {/*<Button variant="contained" color="primary" onClick={getRocketStatus}>
+                Get the rocket status
+            </Button>
+            <br/>*/}
 
             <Button variant="contained" color="secondary" onClick={props.validateRocket}>
                 Validate on mission poll
@@ -68,6 +92,11 @@ const RocketMonitor = (props: IProps) => {
 
             <Button variant="contained" onClick={stageRocket}>
                 Stage rocket
+            </Button>
+            <br/>
+
+            <Button variant="contained" onClick={deliverPayload}>
+                Deliver the payload
             </Button>
             <br/>
 

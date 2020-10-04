@@ -32,6 +32,13 @@ class RocketAPI extends API {
         });
     } // todo use soap
 
+    public deliverPayload(): AxiosPromise {
+        return this.axios({
+            method: 'post',
+            url: '/rocket/payload'
+        });
+    } // todo use soap
+
     // public stageRocketMidFlight() : Promise<any>{
     //     return new Promise((resolve, reject) => {
     //         $.soap({

@@ -47,7 +47,9 @@ class Execute
             case "launch":
                 return rocketAPI.launchRocket(); // todo use soap
             case "stage":
-                return rocketAPI.stageRocketMidFlight();// todo use soap
+                return rocketAPI.stageRocketMidFlight(); // todo use soap
+            case "payload":
+                return rocketAPI.deliverPayload(); // todo use soap
             default:
                 console.error("Rocket undefined action : " + service_action);
         }

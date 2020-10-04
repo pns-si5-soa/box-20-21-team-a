@@ -3,16 +3,16 @@ import express = require('express')
 
 const router = express.Router();
 
-// router.get('/', (req, res) => {
-//     res.send(rocketService.getStatus());
-// }); TODO to remove
-
 router.post('/launch', (req, res) => {
     res.send(rocketService.launch());
 });
 
 router.post('/stage', (req, res) => {
     res.send(rocketService.stageRocketMidFlight());
+});
+
+router.post('/payload', (req, res) => {
+    res.send(rocketService.deliverPayload());
 });
 
 export default router;
