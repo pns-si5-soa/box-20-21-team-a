@@ -10,7 +10,7 @@ const telemetryAPI = new TelemetryAPI();
 
 class Execute
 {
-    execute(service: string, service_action: string, service_name: string|undefined = undefined, vote: string|undefined = undefined) 
+    execute(service: string, service_action: string, service_name: string|undefined = undefined, vote: string|undefined = undefined, data_name : string|undefined = undefined)
     {
         switch(service)
         {
@@ -21,7 +21,7 @@ class Execute
             case "mission":
                 return this.executeMissionCommand(service_action, service_name, vote);
             case "telemetry":
-                return this.executeTelemetryCommand(service_action);
+                return this.executeTelemetryCommand(service_action, data_name);
             default:
                 console.log("Undefined service : " + service)
                 break;
@@ -75,17 +75,21 @@ class Execute
         }
     }
 
-    executeTelemetryCommand(data: string) {
-        switch(data){
-            case "get":
+    executeTelemetryCommand(action: string, data: string | undefined) {
+        if(action == "get") {
+
+            switch(data){
+            case "all":
                 return telemetryAPI.getData();
             case "rocketstatus":
-                return telemetryAPI.getRocketStatus();
+                let  v = telemetryAPI.getRocketStatus();
+                console.log(v)
+                return v;
             default:
-                console.log("Telemetry action undefined" + data);
+                console.log("Telemetry data undefined ");
                 break;
+            }
         }
-
     }
 }
 
