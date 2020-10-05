@@ -15,7 +15,7 @@ class rocketService { // TODO PascalCase!
 
     constructor() {
         this.rocketStatus = RocketStatus.READY_FOR_LAUNCH;
-        this.telemetryAPI.sendData(this.rocketStatus.toString());
+        this.telemetryAPI.sendData(this.rocketStatus, 10);
     }
 
     // For tests only
@@ -25,20 +25,20 @@ class rocketService { // TODO PascalCase!
 
     launch(): string {
         this.rocketStatus = RocketStatus.LAUNCHED;
-        this.telemetryAPI.sendData(this.rocketStatus.toString());
+        this.telemetryAPI.sendData(this.rocketStatus, 9);
         return "Launching Rocket...";
     }
 
     stageRocketMidFlight(): string {
         this.rocketStatus = RocketStatus.IN_SECOND_STAGE;
-        this.telemetryAPI.sendData(this.rocketStatus.toString());
+        this.telemetryAPI.sendData(this.rocketStatus, 5);
         return "The module has been successfully staged!";
     }
 
     deliverPayload(): string {
         this.rocketStatus = RocketStatus.PAYLOAD_DELIVERED;
         console.log(this.rocketStatus);
-        this.telemetryAPI.sendData(this.rocketStatus.toString());
+        this.telemetryAPI.sendData(this.rocketStatus, 2);
         return "The payload has been successfully delivered!\nThe mission is a success \\o/";
     }
 }
