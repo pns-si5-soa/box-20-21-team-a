@@ -36,7 +36,7 @@ jobs:
         - npm run build
     - stage: client #Run cucumber (todo do only on master)
       script:
-        - docker-compose up --build --exit-code-from client
+        - docker-compose up --build --exit-code-from front
       after-script:
         - docker-compose kill
       if: branch = master OR branch = release OR branch = test-ci
