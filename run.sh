@@ -58,13 +58,18 @@ if [[ $HARG == 1 ]]; then
 fi
 
 if [[ $UARG == 1 ]]; then
+    git pull origin develop
     cd front
+    npm install
+    cd ../back/weather-service
     npm install
     cd ../mission-service
     npm install
     cd ../rocket-service
     npm install
     cd ../weather-service
+    npm install
+    cd ../telemetry-service
     npm install
     exit
 fi
@@ -90,6 +95,8 @@ function changedirectory() {
         cd back/rocket-service
     elif [[ $PROJECT == "mission" ]]; then
         cd back/mission-service
+    elif [[ $PROJECT == "telemetry" ]]; then
+        cd back/telemetry-service
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -137,14 +144,16 @@ elif [[ $PARAMS == "test" ]]; then
     fi
 elif [[ $PARAMS == "clean" ]]; then
     if [[ -z $PARG ]]; then
-        runclean "client"
+        runclean "front"
         cd ..
         runclean "mission"
-        cd ..
+        cd ../..
         runclean "rocket"
-        cd ..
+        cd ../..
         runclean "weather"
-        cd ..
+        cd ../..
+        runclean "telemetry"
+        cd ../..
     else
         runclean $PARG
     fi

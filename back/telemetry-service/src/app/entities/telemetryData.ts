@@ -6,8 +6,8 @@ class TelemetryData {
     private rocketStatus: RocketStatus;
     private fuelLevel: number;     // from 0 to 10
 
-    constructor(rocketStatus = RocketStatus.NOT_READY.toString(), fuelLevel = -1) {
-        this.rocketStatus = parseInt(rocketStatus, 10);
+    constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = 10) {
+        this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
     }
 

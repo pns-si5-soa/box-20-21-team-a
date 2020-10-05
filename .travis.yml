@@ -16,9 +16,15 @@ jobs:
         - cp .env.travis .env
         - npm install
         - npm run test
-    - stage: command
+    - stage: mission
       script:
         - cd back/mission-service
+        - cp .env.travis .env
+        - npm install
+        - npm run test
+    - stage: telemetry
+      script:
+        - cd back/telemetry-service
         - cp .env.travis .env
         - npm install
         - npm run test

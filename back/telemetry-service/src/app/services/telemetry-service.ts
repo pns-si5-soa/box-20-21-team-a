@@ -3,12 +3,10 @@ import {RocketStatus} from "../entities/RocketStatus";
 
 class TelemetryService {
     telemetryDataArray: TelemetryData[];
-    fuelLevel: number;
 
     constructor() {
         this.telemetryDataArray = [];
         this.telemetryDataArray.push(new TelemetryData());
-        this.fuelLevel = 2;
     }
 
     getData(): TelemetryData {
@@ -18,8 +16,8 @@ class TelemetryService {
         return new TelemetryData();
     }
 
-    addData(req: any): TelemetryData {
-        let newData = new TelemetryData(req.body.rocketStatus, this.fuelLevel);
+    addData(rocketStatus: RocketStatus, fuelLevel: number): TelemetryData {
+        let newData = new TelemetryData(rocketStatus, fuelLevel);
         this.telemetryDataArray.push(newData);
         return newData;
     }
