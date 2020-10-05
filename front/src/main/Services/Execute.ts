@@ -45,11 +45,11 @@ class Execute
         switch(service_action)
         {
             case "launch":
-                return rocketAPI.launchRocket(); // todo use soap
+                return rocketAPI.launchRocketSOAP(); // todo use soap
             case "stage":
-                return rocketAPI.stageRocketMidFlight(); // todo use soap
+                return rocketAPI.stageRocketMidFlightSOAP(); // todo use soap
             case "payload":
-                return rocketAPI.deliverPayload(); // todo use soap
+                return rocketAPI.deliverPayloadSOAP(); // todo use soap
             default:
                 console.error("Rocket undefined action : " + service_action);
         }

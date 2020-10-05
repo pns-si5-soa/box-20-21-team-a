@@ -34,8 +34,8 @@ const RocketMonitor = (props: IProps) => {
     const launchRocket = () => {
         execute.execute("rocket", "launch")
             ?.then(res => {
-                alert(res.data);
-                console.log(res.data);
+                alert(res);
+                console.log(res);
                 getTelemetryData();
             })
             .catch(() => {
@@ -45,8 +45,7 @@ const RocketMonitor = (props: IProps) => {
     const stageRocket = () => {
         execute.execute("rocket", "stage")
             ?.then(res => {
-                alert(res.data);
-                console.log(res.data);
+                alert(res);
                 getTelemetryData();
             })
             .catch(() => {
@@ -55,8 +54,7 @@ const RocketMonitor = (props: IProps) => {
     const deliverPayload = () => {
         execute.execute("rocket", "payload")
             ?.then(res => {
-                alert(res.data);
-                console.log(res.data);
+                alert(res);
                 getTelemetryData();
             })
             .catch(() => {
