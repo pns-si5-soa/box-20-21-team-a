@@ -58,13 +58,18 @@ if [[ $HARG == 1 ]]; then
 fi
 
 if [[ $UARG == 1 ]]; then
-    cd client
+    git pull origin develop
+    cd front
+    npm install
+    cd ../back/weather-service
     npm install
     cd ../mission-service
     npm install
     cd ../rocket-service
     npm install
     cd ../weather-service
+    npm install
+    cd ../telemetry-service
     npm install
     exit
 fi
@@ -82,14 +87,16 @@ printf -v PARAMS '%s' $PARAMS
 
 function changedirectory() {
     PROJECT=$1
-    if [[ $PROJECT == "client" ]]; then
-        cd client
+    if [[ $PROJECT == "front" ]]; then
+        cd front
     elif [[ $PROJECT == "weather" ]]; then
-        cd weather-service
+        cd back/weather-service
     elif [[ $PROJECT == "rocket" ]]; then
-        cd rocket-service
+        cd back/rocket-service
     elif [[ $PROJECT == "mission" ]]; then
-        cd mission-service
+        cd back/mission-service
+    elif [[ $PROJECT == "telemetry" ]]; then
+        cd back/telemetry-service
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -137,14 +144,16 @@ elif [[ $PARAMS == "test" ]]; then
     fi
 elif [[ $PARAMS == "clean" ]]; then
     if [[ -z $PARG ]]; then
-        runclean "client"
+        runclean "front"
         cd ..
-        runclean "mission-service"
-        cd ..
-        runclean "rocket-service"
-        cd ..
-        runclean "weather-service"
-        cd ..
+        runclean "mission"
+        cd ../..
+        runclean "rocket"
+        cd ../..
+        runclean "weather"
+        cd ../..
+        runclean "telemetry"
+        cd ../..
     else
         runclean $PARG
     fi
