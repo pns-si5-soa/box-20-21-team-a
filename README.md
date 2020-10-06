@@ -1,7 +1,7 @@
 # blue-origin-x-20-21-soa-20-21-a [![Build Status](https://travis-ci.com/pns-si5-soa/box-20-21-team-a.svg?token=iVy7SupLvEyaRHecrkoc&branch=develop)](https://travis-ci.com/pns-si5-soa/box-20-21-team-a)
 
 [![Build Status](https://travis-ci.com/pns-si5-soa/box-20-21-team-a.svg?token=iVy7SupLvEyaRHecrkoc&branch=develop)](https://travis-ci.com/pns-si5-soa/box-20-21-team-a)
-[![Build Status](https://badgen.net/badge/version/2/purple)](https://badgen.net/badge/version/2.0/purple)
+[![Build Status](https://badgen.net/badge/version/2.0/purple)](https://badgen.net/badge/version/2.0/purple)
 
 ## Description
 

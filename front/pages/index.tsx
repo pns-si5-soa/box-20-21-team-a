@@ -5,13 +5,18 @@ import View from '../components/View';
 import "./index.scss";
 import Poll from '../src/main/model/Poll';
 
-import execute from "../src/main/Services/Execute";
 import RocketMonitor from "../components/rocketMonitor";
 import TelemetryData from "../src/main/model/TelemetryData";
+import WeatherAPI from '../src/main/API/weatherAPI';
+import MissionAPI from '../src/main/API/missionAPI';
 
 type Props = {};
 
 class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, data: TelemetryData | undefined, launch: string }> {
+
+    weatherAPI: WeatherAPI;
+    missionAPI: MissionAPI;
+
     constructor(props: Props) {
         super(props);
         if (this.state === undefined) {
@@ -22,6 +27,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                 launch: "",
             };
         }
+
         this.getWeather = this.getWeather.bind(this);
         this.getPoll = this.getPoll.bind(this);
         this.createPoll = this.createPoll.bind(this);
@@ -29,10 +35,13 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         this.validateMission = this.validateMission.bind(this);
         this.validateRocket = this.validateRocket.bind(this);
         this.Weather = this.Weather.bind(this);
+
+        this.weatherAPI = new WeatherAPI();
+        this.missionAPI = new MissionAPI();
     }
 
     getWeather() {
-        execute.execute("weather", "get")?.then(res => {
+        this.weatherAPI.getWeather().then(res => {
             this.setState({
                 weather: res.data
             });
@@ -40,7 +49,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     getPoll() {
-        execute.execute("mission", "get")?.then(res => {
+        this.missionAPI.getPoll().then(res => {
             this.setState({
                 poll: res.data
             });
@@ -48,8 +57,8 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     createPoll() {
-        execute.execute("mission", "create")
-            ?.then(res => {
+        this.missionAPI.createPoll()
+            .then(res => {
                 this.setState({
                     poll: Object.assign(new Poll(), res.data)
                 });
@@ -58,8 +67,8 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     validateWeather() {
-        execute.execute("mission", "put", "weather", "true")
-            ?.then(res => {
+        this.missionAPI.modifyPoll("weather", "true")
+            .then(res => {
                 this.setState({
                     poll: Object.assign(new Poll(), res.data)
                 });
@@ -68,8 +77,8 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     validateRocket() {
-        execute.execute("mission", "put", "rocket", "true")
-            ?.then(res => {
+        this.missionAPI.modifyPoll("rocket", "true")
+            .then(res => {
                 this.setState({
                     poll: Object.assign(new Poll(), res.data)
                 });
@@ -80,7 +89,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     validateMission() {
-        execute.execute("mission", "put", "mission", "true")?.then(res => {
+        this.missionAPI.modifyPoll("mission", "true").then(res => {
             this.setState({
                 poll: Object.assign(new Poll(), res.data)
             });

@@ -1,8 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import execute from "../../src/main/Services/Execute";
 import Button from "@material-ui/core/Button";
 import {mapRocketStatusKeys, RocketStatus} from "../../src/main/model/RocketStatus";
 import TelemetryData from "../../src/main/model/TelemetryData";
+
+import RocketAPI from '../../src/main/API/rocketAPI'
+import TelemetryAPI from '../../src/main/API/telemetryAPI'
+
+const rocketAPI = new RocketAPI();
+const telemetryAPI = new TelemetryAPI();
 
 interface IProps {
     validateRocket: () => void;
@@ -13,8 +18,8 @@ const RocketMonitor = (props: IProps) => {
     const [telemetryData, setTelemetryData] = useState({rocketStatus: 0, fuelLevel: -1});
 
     useEffect(() => {
-        execute.execute("telemetry", "get", undefined, undefined, "all")
-            ?.then(res => {
+        telemetryAPI.getData()
+            .then(res => {
                 setTelemetryData(res.data);
             })
             .catch(() => {
@@ -32,8 +37,8 @@ const RocketMonitor = (props: IProps) => {
     };*/
 
     const launchRocket = () => {
-        execute.execute("rocket", "launch")
-            ?.then(res => {
+        rocketAPI.launchRocketSOAP()
+            .then(res => {
                 alert(res);
                 console.log(res);
                 getTelemetryData();
@@ -43,8 +48,8 @@ const RocketMonitor = (props: IProps) => {
     }
 
     const stageRocket = () => {
-        execute.execute("rocket", "stage")
-            ?.then(res => {
+        rocketAPI.stageRocketMidFlightSOAP()
+            .then(res => {
                 alert(res);
                 getTelemetryData();
             })
@@ -52,8 +57,8 @@ const RocketMonitor = (props: IProps) => {
             });
     };
     const deliverPayload = () => {
-        execute.execute("rocket", "payload")
-            ?.then(res => {
+        rocketAPI.deliverPayloadSOAP()
+            .then(res => {
                 alert(res);
                 getTelemetryData();
             })
@@ -62,8 +67,8 @@ const RocketMonitor = (props: IProps) => {
     };
 
     const getTelemetryData = () => {
-        execute.execute("telemetry", "get", undefined, undefined, "all")
-            ?.then(res => {
+        telemetryAPI.getData()
+            .then(res => {
                 setTelemetryData(res.data);
             })
             .catch(() => {
