@@ -8,7 +8,8 @@ services:
       - weather-service 
       - mission-service
       - telemetry-service
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003
+      - booster-service
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004
 
   telemetry-service:
     image: blue_origin/telemetry-service
@@ -59,6 +60,17 @@ services:
         - PORT_TELEMETRY=3003
       depends_on:
         - telemetry-service
+  
+  booster-service:
+    image: blue-origin/booster-service
+    container_name: booster-container
+    build: ./back/booster-service
+    expose: 
+      - "3004"
+    ports:
+      - "3004:3004"
+    environment:
+      - PORT=3004
 
 
   front:
@@ -74,11 +86,14 @@ services:
         - PORT_MISSION=3002
         - HOST_TELEMETRY=telemetry-service
         - PORT_TELEMETRY=3003
+        - HOST_BOOSTER=booster-service
+        - PORT_BOOSTER=3004
       depends_on:
         - rocket-service
         - weather-service
         - mission-service
         - telemetry-service
+        - booster-service
         - waitforservices
       stdin_open: true
       tty: true
