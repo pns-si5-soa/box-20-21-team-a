@@ -50,25 +50,6 @@ if [[ -z $PARAMS ]]; then
 fi
 printf -v PARAMS '%s' $PARAMS
 
-function changedirectory() {
-    PROJECT=$1
-    if [[ $PROJECT == "front" ]]; then
-        cd front
-    elif [[ $PROJECT == "weather" ]]; then
-        cd back/weather-service
-    elif [[ $PROJECT == "rocket" ]]; then
-        cd back/rocket-service
-    elif [[ $PROJECT == "mission" ]]; then
-        cd back/mission-service
-    elif [[ $PROJECT == "telemetry" ]]; then
-        cd back/telemetry-service
-    else
-        echo "Project $PROJECT doesn't exist."
-        echo "Exiting..."
-        exit
-    fi
-}
-
 function runstart() {
     PROJECT=$1
     if [[ $PROJECT == "front" ]]; then
