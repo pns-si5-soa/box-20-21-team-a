@@ -20,6 +20,7 @@ class rocketService { // TODO PascalCase!
 
     // For tests only
     getStatus(): RocketStatus {
+        console.log("oui");
         return this.rocketStatus;
     }
 

@@ -4,6 +4,7 @@ import Poll from '../entities/poll';
 class MissionService {
     poll!: Poll;
 
+
     constructor() {
     }
 
