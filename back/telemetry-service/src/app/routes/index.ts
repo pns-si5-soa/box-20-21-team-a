@@ -1,8 +1,12 @@
 import express = require('express')
 const router = express.Router();
+import boosterRouter from "./booster"
+import rocketRouter from "./rocket"
+import payloadRouter from "./payload"
 
-import telemetryRouter from './telemetry'
 
-router.use("/telemetry", telemetryRouter)
+router.use("/telemetry", boosterRouter)
+router.use("/telemetry", rocketRouter)
+router.use("/telemetry", payloadRouter)
 
 export default router;
