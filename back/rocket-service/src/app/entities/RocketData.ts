@@ -1,5 +1,5 @@
 import {RocketStatus} from "../services/rocket-service";
-
+import {setIntervalPromiseX } from '../tools/setIntervalx'
 
 class RocketData {
 
@@ -8,6 +8,9 @@ class RocketData {
     private altitude: number;
     private speed: number;
     private pressure: number;
+    private time: number;
+    private speedIncrese: number;
+    private pressureIncrese: number;
 
     constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = -1, altitude=-1, speed=-1, pressure=-1) {
         this.rocketStatus = rocketStatus;
@@ -15,6 +18,26 @@ class RocketData {
         this.altitude=altitude;
         this.speed=speed;
         this.pressure=pressure;
+        this.time=1000;
+        this.speedIncrese=2;
+        this.pressureIncrese=10;
+    }
+
+
+    async launch(){
+        await setIntervalPromiseX(() => {
+            if(this.pressure>70){
+                this.speedIncrese=0;
+                this.pressureIncrese=0;
+            }
+                this.altitude += this.speed
+                this.speed += this.speedIncrese;
+                this.fuelLevel -= 1;
+                this.pressure += this.pressureIncrese;
+                console.log(this.pressure);
+                console.log(this.speed);
+
+        }, this.time, 100);
     }
 
     getRocketStatus() {

@@ -24,9 +24,9 @@ class rocketService { // TODO PascalCase!
     }
 
     launch(): string {
-
         this.rocketData.setRocketStatus(RocketStatus.LAUNCHED);
         this.rocketData.setFuelLevel(9);
+        this.rocketData.launch();
         this.telemetryAPI.sendData(this.rocketData);
         return "Launching Rocket...";
     }
