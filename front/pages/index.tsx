@@ -9,6 +9,7 @@ import RocketMonitor from "../components/rocketMonitor";
 import TelemetryData from "../src/main/model/TelemetryData";
 import WeatherAPI from '../src/main/API/weatherAPI';
 import MissionAPI from '../src/main/API/missionAPI';
+import BoosterAPI from '../src/main/API/boosterAPI';
 
 type Props = {};
 
@@ -16,6 +17,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
 
     weatherAPI: WeatherAPI;
     missionAPI: MissionAPI;
+    boosterAPI: BoosterAPI;
 
     constructor(props: Props) {
         super(props);
@@ -34,10 +36,14 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         this.validateWeather = this.validateWeather.bind(this);
         this.validateMission = this.validateMission.bind(this);
         this.validateRocket = this.validateRocket.bind(this);
+        this.destroy = this.destroy.bind(this);
+        this.launchBooster = this.launchBooster.bind(this);
+        this.validateRocket = this.validateRocket.bind(this);
         this.Weather = this.Weather.bind(this);
 
         this.weatherAPI = new WeatherAPI();
         this.missionAPI = new MissionAPI();
+        this.boosterAPI = new BoosterAPI();
     }
 
     getWeather() {
@@ -107,6 +113,14 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         return <div/>
     }
 
+    launchBooster() {
+        this.boosterAPI.launchBoosterSOAP()
+    }
+
+    destroy() {
+        this.boosterAPI.destroy()
+    }
+
     render() {
         return (
             <View>
@@ -131,6 +145,16 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
 
                         <div className="col-sm">
                             <RocketMonitor validateRocket={this.validateRocket}/>
+
+                        </div>
+
+                        <div className="col-sm">
+                        <Button variant="contained" color="primary" onClick={this.launchBooster}>
+                            Launch Booster
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={this.destroy}>
+                            Destroy Booster
+                        </Button>
 
                         </div>
 
