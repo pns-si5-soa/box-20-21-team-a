@@ -1,5 +1,5 @@
 import BoosterStatus from './BoosterStatus'
-import { setIntervalConditionPromise, setIntervalPromiseX } from '../tools/setIntervalx'
+import { setIntervalConditionPromise, setIntervalPromiseX } from '../tools/set_intervalx'
 
 export default class Booster 
 {
@@ -46,10 +46,11 @@ export default class Booster
         await setIntervalPromiseX(function() {
             if(that.verifyStatus()) return;
             console.log(that.toObjectJSON())
+            console.log(that)
             that.altitude += that.speed
             that.speed += 2
             that.fuelLevel -= 1;
-        }, 1000, 10);
+        }, 1000, 100);
         if(this.verifyStatus()) return;
         console.log("Mid-Flight")
         this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
