@@ -2,15 +2,14 @@ import Booster from "../app/entities/Booster"
 import BoosterStatus from "../app/entities/BoosterStatus"
 
 
-test('Launching booster', () => {
+test('Launching booster', async () => {
     const booster = new Booster();
     booster.setTimer(1)
-    const json = booster.toObjectJSON()
+    let json = booster.toObjectJSON()
     expect(json.boosterStatus).toBe(BoosterStatus.NOT_LAUNCHED)
-    booster.launch().then(() => {
-        const json = booster.toObjectJSON()
-        expect(json.boosterStatus).toBe(BoosterStatus.LANDED)
-    })
+    await booster.launch();
+    json = booster.toObjectJSON()
+    expect(json.boosterStatus).toBe(BoosterStatus.LANDED)
 });
 
 
