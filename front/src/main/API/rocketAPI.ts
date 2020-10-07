@@ -84,28 +84,6 @@ class RocketAPI extends API {
         });
     }
 
-    public deliverPayloadSOAP() : Promise<any>{
-        return new Promise((resolve, reject) => {
-            $.soap({
-                url: this.urlSOAP,
-                method: 'deliverPayload',
-    
-                data: {
-    
-                },
-                success: function (soapResponse) {
-                    var parser = new DOMParser();
-                    var myxml = soapResponse.toString();
-                    var xmlDoc = parser.parseFromString(myxml as string,"text/xml");
-                    resolve(xmlDoc.getElementsByTagName("tns:deliverPayload")[0].childNodes[0].nodeValue);
-    
-                },
-                error: function (SOAPResponse) {
-                    reject(SOAPResponse);
-                }
-            });
-        });
-    }
 }
 
 export default RocketAPI;

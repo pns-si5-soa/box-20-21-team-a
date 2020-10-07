@@ -5,9 +5,13 @@ import TelemetryData from "../../src/main/model/TelemetryData";
 
 import RocketAPI from '../../src/main/API/rocketAPI'
 import TelemetryAPI from '../../src/main/API/telemetryAPI'
+import PayloadAPI from '../../src/main/API/payloadAPI'
+
 
 const rocketAPI = new RocketAPI();
 const telemetryAPI = new TelemetryAPI();
+const payloadAPI = new PayloadAPI();
+
 
 interface IProps {
     validateRocket: () => void;
@@ -57,7 +61,7 @@ const RocketMonitor = (props: IProps) => {
             });
     };
     const deliverPayload = () => {
-        rocketAPI.deliverPayloadSOAP()
+        payloadAPI.deliverPayloadSOAP()
             .then(res => {
                 alert(res);
                 getTelemetryData();
