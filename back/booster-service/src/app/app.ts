@@ -1,6 +1,6 @@
 import express = require('express')
 import createError = require('http-errors');
-import Booster from './entities/Booster';
+import BoosterData from './entities/BoosterData';
 import indexRouter  from './routes';
 import path from 'path';
 import bodyParser from 'body-parser'
@@ -37,7 +37,7 @@ function normalizePort(val: any) {
  * Create SOAP server.
  */
 
-const booster = new Booster();
+const booster = new BoosterData();
 
 var myService = {
     booster: {

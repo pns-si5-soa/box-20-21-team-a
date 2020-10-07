@@ -1,8 +1,8 @@
 import express = require('express')
-import Booster from '../entities/Booster';
+import BoosterData from '../entities/BoosterData';
 const router = express.Router();
 
-const booster = new Booster();
+const booster = new BoosterData();
 
 router.get('/', function(req, res) {
     booster.launch()
