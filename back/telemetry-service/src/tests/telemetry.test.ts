@@ -1,9 +1,9 @@
 import telemetryService from "../app/services/telemetry-service";
-import TelemetryData from "../app/entities/telemetryData";
-import {RocketStatus} from "../app/entities/RocketStatus";
+import RocketData from "../app/entities/Rocket/RocketData";
+import {RocketStatus} from "../app/entities/Rocket/RocketStatus";
 
 test('get default data test', () => {
-    const testData = new TelemetryData();
+    const testData = new RocketData();
     expect(telemetryService.getData().getFuelLevel()).toBe(testData.getFuelLevel());
     expect(telemetryService.getData().getRocketStatus()).toBe(testData.getRocketStatus());
 });

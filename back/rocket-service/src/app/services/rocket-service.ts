@@ -1,32 +1,33 @@
 import TelemetryAPI from "../API/telemetryAPI";
+import RocketData from "../entities/RocketData"
 
 export enum RocketStatus {
     NOT_READY = 0,
     READY_FOR_LAUNCH = 1,
     LAUNCHED = 2,
-    IN_SECOND_STAGE = 3,
-    PAYLOAD_DELIVERED = 4,
+    DESTROYED,
 }
 
 class rocketService { // TODO PascalCase!
 
     telemetryAPI = new TelemetryAPI();
-    rocketStatus: RocketStatus;
+    rocketData : RocketData;
 
     constructor() {
-        this.rocketStatus = RocketStatus.READY_FOR_LAUNCH;
-        this.telemetryAPI.sendData(this.rocketStatus, 10);
+        this.rocketData = new RocketData(RocketStatus.READY_FOR_LAUNCH,10,0,0,0);
+        this.telemetryAPI.sendData(this.rocketData);
     }
 
     // For tests only
     getStatus(): RocketStatus {
-        console.log("oui");
-        return this.rocketStatus;
+        return this.rocketData.getRocketStatus();
     }
 
     launch(): string {
-        this.rocketStatus = RocketStatus.LAUNCHED;
-        this.telemetryAPI.sendData(this.rocketStatus, 9);
+
+        this.rocketData.setRocketStatus(RocketStatus.LAUNCHED);
+        this.rocketData.setFuelLevel(9);
+        this.telemetryAPI.sendData(this.rocketData);
         return "Launching Rocket...";
     }
 
