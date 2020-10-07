@@ -48,12 +48,12 @@ var myService = {
             launch : function(args : any){
               return {launch : rocketService.launch()};
             },
-            stageRocketMidFlight : function(args : any){
+            /*stageRocketMidFlight : function(args : any){
                 return {stageRocketMidFlight : rocketService.stageRocketMidFlight()};
             },
             deliverPayload : function(args : any){
                 return {deliverPayload : rocketService.deliverPayload()};
-            },
+            },*/
         }
     }
   };
