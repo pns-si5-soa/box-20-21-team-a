@@ -3,11 +3,11 @@ import {RocketStatus} from "./RocketStatus";
 
 class RocketData {
 
-    private rocketStatus: RocketStatus;
-    private fuelLevel: number;     // from 0 to 10
-    private altitude: number;
-    private speed: number;
-    private pressure: number;
+    rocketStatus: RocketStatus;
+    fuelLevel: number;     // from 0 to 10
+    altitude: number;
+    speed: number;
+    pressure: number;
 
     constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = -1, altitude=-1, speed=-1, pressure=-1) {
         this.rocketStatus = rocketStatus;

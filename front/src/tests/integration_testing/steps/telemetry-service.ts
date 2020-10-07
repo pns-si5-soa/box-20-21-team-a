@@ -9,7 +9,7 @@ require('dotenv').config()
 
 import expect from 'expect';
 import RocketAPI from "../../../main/API/rocketAPI";
-import {RocketStatus} from "../../../main/model/RocketStatus";
+import {RocketStatus} from "../../../main/model/Rocket/RocketStatus";
 
 
 let response: any;
@@ -31,6 +31,6 @@ When("The rocket is launched", async function ()
 
 Then("The telemetry data are updated with the new value of rocket status", async function()
 {
-    expect((await telemetryAPI.getData()).data.rocketStatus).toBe(RocketStatus.LAUNCHED);
+    expect((await telemetryAPI.getRocketData()).data.rocketStatus).toBe(RocketStatus.LAUNCHED);
 })
 

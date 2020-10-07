@@ -2,10 +2,10 @@ import {BoosterStatus} from "./BoosterStatus";
 
 
 class BoosterData {
-    private altitude: number;
-    private speed: number;
-    private fuelLevel: number;
-    private boosterStatus : BoosterStatus;
+    altitude: number;
+    speed: number;
+    fuelLevel: number;
+    boosterStatus : BoosterStatus;
 
     constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
         this.altitude=altitude;

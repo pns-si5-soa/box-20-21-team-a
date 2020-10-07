@@ -2,7 +2,7 @@ import {PayloadStatus} from "./PayloadStatus";
 
 
 class PayloadData{
-    private payloadStatus: PayloadStatus;
+    payloadStatus: PayloadStatus;
 
     constructor(payloadStatus=PayloadStatus.NOT_DELIVERED) {
         this.payloadStatus=payloadStatus;
