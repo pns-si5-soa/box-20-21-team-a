@@ -13,11 +13,10 @@ class TelemetryAPI extends API {
     public sendData<T>(rocketData: RocketData): AxiosPromise {
         return this.axios({
                 method: 'post',
-                url: '/telemetry/data',
+                url: '/telemetry/rocketdata',
                 data: {rocketData}
             })
     }
-
 }
 
 export default TelemetryAPI;
