@@ -8,6 +8,7 @@ export default class Booster
     private fuelLevel: number; //l
     private altitude: number; //km
     private speed: number //km.s-1
+    private time: number
 
     constructor() 
     {
@@ -15,11 +16,16 @@ export default class Booster
         this.fuelLevel = 50;
         this.altitude = 0;
         this.speed = 0;
+        this.time = 1000;
+    }
+
+    setTimer(time: number) {
+        this.time = time;
     }
 
     toObjectJSON() {
         return {
-            boosterStatus: this.boosterStatus.toString(),
+            boosterStatus: this.boosterStatus,
             fuelLevel: this.fuelLevel,
             altitude: this.altitude,
             speed: this.altitude
@@ -50,7 +56,7 @@ export default class Booster
             that.altitude += that.speed
             that.speed += 2
             that.fuelLevel -= 1;
-        }, 1000, 100);
+        }, this.time, 100);
         if(this.verifyStatus()) return;
         console.log("Mid-Flight")
         this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
@@ -61,7 +67,7 @@ export default class Booster
             that.speed -= 2;
             that.speed = that.speed < 1 ? 1 : that.speed;
             that.fuelLevel -= 1;
-        }, 1000, function() {
+        }, this.time, function() {
             return that.altitude <= 0 || that.verifyStatus()
         })
         if(this.verifyStatus()) return;
