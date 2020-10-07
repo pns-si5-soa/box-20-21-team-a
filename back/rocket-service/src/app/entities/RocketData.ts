@@ -18,7 +18,7 @@ class RocketData {
         this.altitude=altitude;
         this.speed=speed;
         this.pressure=pressure;
-        this.time=1000;
+        this.time=10000;
         this.speedIncrese=2;
         this.pressureIncrese=10;
     }

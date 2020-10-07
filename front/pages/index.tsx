@@ -6,13 +6,16 @@ import "./index.scss";
 import Poll from '../src/main/model/Poll';
 
 import RocketMonitor from "../components/rocketMonitor";
-import TelemetryData from "../src/main/model/TelemetryData";
 import WeatherAPI from '../src/main/API/weatherAPI';
 import MissionAPI from '../src/main/API/missionAPI';
+import RocketData from "../src/main/model/Rocket/RocketData";
+import BoosterData from "../src/main/model/Booster/BoosterData";
+import PayloadData from "../src/main/model/Payload/PayloadData";
+import TelemetryMonitor from "../components/telemetryMonitor";
 
 type Props = {};
 
-class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, data: TelemetryData | undefined, launch: string }> {
+class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, rocketData: RocketData| undefined,boosterData: BoosterData| undefined,payloadData: PayloadData| undefined, launch: string }> {
 
     weatherAPI: WeatherAPI;
     missionAPI: MissionAPI;
@@ -23,7 +26,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
             this.state = {
                 weather: "",
                 poll: undefined,
-                data: undefined,
+                rocketData: undefined,
+                boosterData: undefined,
+                payloadData: undefined,
                 launch: "",
             };
         }
@@ -157,6 +162,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                             </Button>
                         </div>
 
+                    </div>
+                    <div className="col-sm">
+                        <TelemetryMonitor/>
                     </div>
                 </div>
             </View>
