@@ -1,26 +1,31 @@
 import BoosterStatus from './BoosterStatus';
-import { setIntervalConditionPromise, setIntervalPromiseX } from '../tools/set_intervalx';
+import {setIntervalConditionPromise, setIntervalPromiseX} from '../tools/set_intervalx';
 import TelemetryAPI from '../API/telemetryAPI';
 
-export default class BoosterData
-{
+export default class BoosterData { // TODO we should have separate objects for Booster and BoosterData
 
     private boosterStatus: BoosterStatus;
     private fuelLevel: number; //l
     private altitude: number; //km
     private speed: number; //km.s-1
     private dataUpdateDelay: number;
-    private sendingData: boolean = true;
+    private canSendData: boolean;
 
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
 
-    constructor() 
-    {
+    constructor() {
+        this.canSendData = true;
         this.boosterStatus = BoosterStatus.NOT_LAUNCHED;
-        this.fuelLevel = 500;
+        this.fuelLevel = 50;
         this.altitude = 0;
         this.speed = 0;
-        this.dataUpdateDelay = 300;
+        this.dataUpdateDelay = 500;
+    }
+
+    sendData(): void {
+        if (this.canSendData) {
+            this.telemetryAPI.sendBoosterData(this);
+        }
     }
 
     setTimer(time: number) {
@@ -28,7 +33,7 @@ export default class BoosterData
     }
 
     stopSendingData() {
-        this.sendingData = false;
+        this.canSendData = false;
     }
 
     toObjectJSON() {
@@ -44,59 +49,91 @@ export default class BoosterData
         return this.boosterStatus === BoosterStatus.DESTROYED;
     }
 
-    //todo rework multiple function
-    async launch()
-    {
+    canDetachFromRocket(): boolean {
+        return this.fuelLevel <= 0;
+    }
+
+    initializeDetachment(): void {
+        //console.log("Mid-Flight");
+        this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
+    }
+
+    private async controlFirstStageOfFlight(): Promise<void> {
+        const that = this;
+        await setIntervalConditionPromise(() => {
+                this.sendData();
+                //console.log(that.toObjectJSON());
+                //console.log(that);
+                that.altitude += that.speed;
+                that.speed += 2;
+                that.fuelLevel -= 1;
+            },
+            this.dataUpdateDelay,
+            () => (this.canDetachFromRocket || this.isDestroyed));
+    }
+
+    private async controlLandingProcess(): Promise<void> {
+        //console.log("Landing booster");
+        const that = this;
+        await setIntervalConditionPromise(() => {
+                this.sendData();
+                //console.log(that.toObjectJSON());
+                that.altitude -= that.speed;
+                that.speed -= 2;
+                that.speed = that.speed < 1 ? 1 : that.speed;
+                that.fuelLevel -= 1;
+            },
+            this.dataUpdateDelay,
+            () => (that.altitude <= 0 || that.isDestroyed()));
+        //console.log("Booster landed");
+        this.boosterStatus = BoosterStatus.LANDED;
+        this.stopBoosterEnginesAfterLanding();
+    }
+
+    private stopBoosterEnginesAfterLanding() {
+        if (this.boosterStatus !== BoosterStatus.LANDED) {
+            throw new Error(`Cannot stop engines before the booster has landed.`);
+        }
+        this.speed = 0;
+        this.altitude = 0;
+        this.sendData();
+        //console.log("Booster stopped");
+    }
+
+    async launch(): Promise<void> {
         /**
          *  Step 1 : Verify if the state is not launch to launch the booster
          *  Step 2 : For 10 iterations, increse altitude, speed
          *  Step 3 : At the mid-flight we land the booster while altitude is not 0
          */
-        if(this.boosterStatus != BoosterStatus.NOT_LAUNCHED) throw new Error(`Cannot launch booster. Its current status is ${this.boosterStatus}`);
+        if (this.boosterStatus != BoosterStatus.NOT_LAUNCHED) {
+            throw new Error(`Cannot launch booster. Its current status is ${this.boosterStatus}`);
+        }
         //console.log("Launching booster");
         this.boosterStatus = BoosterStatus.IN_FIRST_STAGE;
         this.speed = 10;
         //console.log("Booster launched");
-        if(this.sendingData) this.telemetryAPI.setBoosterData(this);
-        const that = this;
-        await setIntervalPromiseX(function() {
-            if(that.isDestroyed()) return;
-            if(that.sendingData) that.telemetryAPI.setBoosterData(that);
-            //console.log(that.toObjectJSON());
-            //console.log(that);
-            that.altitude += that.speed;
-            that.speed += 2;
-            that.fuelLevel -= 1;
-        }, this.dataUpdateDelay, 100);
-        if(this.isDestroyed()) return;
-        //console.log("Mid-Flight");
-        this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
-        if(this.sendingData) this.telemetryAPI.setBoosterData(that);
-        //console.log("Landing booster");
-        await setIntervalConditionPromise(function() {
-            if(that.sendingData) that.telemetryAPI.setBoosterData(that);
-            //console.log(that.toObjectJSON());
-            that.altitude -= that.speed;
-            that.speed -= 2;
-            that.speed = that.speed < 1 ? 1 : that.speed;
-            that.fuelLevel -= 1;
-        }, this.dataUpdateDelay, function() {
-            return that.altitude <= 0 || that.isDestroyed();
-        })
-        if(this.isDestroyed()) return;
-        if(that.sendingData) that.telemetryAPI.setBoosterData(that);
-        //console.log("Booster landed");
-        this.boosterStatus = BoosterStatus.LANDED;
-        this.speed = 0;
-        this.altitude = 0;
-        if(that.sendingData) that.telemetryAPI.setBoosterData(that);
-        //console.log("Booster stoped");
+        this.sendData();
+
+        await this.controlFirstStageOfFlight();
+
+        if (this.isDestroyed()) return;
+
+        this.initializeDetachment();
+
+        this.sendData();
+
+        await this.controlLandingProcess();
+
+        if (this.isDestroyed()) return;
+        this.sendData();
     }
 
-    destroy(): void 
-    {
-        if(this.sendingData) this.telemetryAPI.setBoosterData(this);
+    destroy(): void {
+        this.sendData();
         //console.log("Booster destroyed");
         this.boosterStatus = BoosterStatus.DESTROYED;
     }
+
+
 }

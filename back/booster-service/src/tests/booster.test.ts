@@ -16,11 +16,11 @@ test('Launching booster', async () => {
 
 test('Destroy booster', () => {
     const booster = new BoosterData();
-    booster.setTimer(10)
-    booster.stopSendingData()
-    const json = booster.toObjectJSON()
-    expect(json.boosterStatus).toBe(BoosterStatus.NOT_LAUNCHED)
-    booster.launch()
-    booster.destroy()
-    expect(json.boosterStatus).not.toBe(BoosterStatus.DESTROYED)
+    booster.setTimer(10);
+    booster.stopSendingData();
+    const json = booster.toObjectJSON();
+    expect(json.boosterStatus).toBe(BoosterStatus.NOT_LAUNCHED);
+    booster.launch();
+    booster.destroy();
+    expect(json.boosterStatus).not.toBe(BoosterStatus.DESTROYED);
 });

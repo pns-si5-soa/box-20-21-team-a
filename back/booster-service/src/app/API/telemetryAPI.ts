@@ -10,7 +10,7 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public setBoosterData<T>(boosterData: BoosterData): AxiosPromise {
+    public sendBoosterData<T>(boosterData: BoosterData): AxiosPromise {
         return this.axios({method: 'post',
         url: '/booster',
        data: {boosterData: boosterData.toObjectJSON()}});

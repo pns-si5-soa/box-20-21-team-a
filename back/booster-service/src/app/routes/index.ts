@@ -1,5 +1,6 @@
 import express = require('express')
 import BoosterData from '../entities/BoosterData';
+
 const router = express.Router();
 
 const booster = new BoosterData();
