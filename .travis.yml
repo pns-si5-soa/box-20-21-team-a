@@ -28,6 +28,12 @@ jobs:
         - cp .env.travis .env
         - npm install
         - npm run test
+    - stage: payload
+      script:
+        - cd back/payload-service
+        - cp .env.travis .env
+        - npm install
+        - npm run test
     - stage: booster
       script:
         - cd back/booster-service

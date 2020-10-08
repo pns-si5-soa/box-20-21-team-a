@@ -3,9 +3,13 @@ import Button from "@material-ui/core/Button";
 
 import RocketAPI from '../../src/main/API/rocketAPI'
 import TelemetryAPI from '../../src/main/API/telemetryAPI'
+import PayloadAPI from '../../src/main/API/payloadAPI'
+
 
 const rocketAPI = new RocketAPI();
 const telemetryAPI = new TelemetryAPI();
+const payloadAPI = new PayloadAPI();
+
 
 interface IProps {
     validateRocket: () => void;
@@ -35,6 +39,24 @@ const RocketMonitor = (props: IProps) => {
             });
     }
 
+    const stageRocket = () => {
+        rocketAPI.stageRocketMidFlightSOAP()
+            .then(res => {
+                alert(res);
+                getTelemetryData();
+            })
+            .catch(() => {
+            });
+    };
+    const deliverPayload = () => {
+        payloadAPI.deliverPayloadSOAP()
+            .then(res => {
+                alert(res);
+                getTelemetryData();
+            })
+            .catch(() => {
+            });
+    };
 
     return (
         <>

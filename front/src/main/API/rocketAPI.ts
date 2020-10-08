@@ -46,7 +46,6 @@ class RocketAPI extends API {
         });
     }
 
-
 }
 
 export default RocketAPI;

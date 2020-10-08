@@ -73,6 +73,8 @@ if [[ $UARG == 1 ]]; then
     npm install
     cd ../booster-service
     npm install
+    cd ../payload-service
+    npm install
     exit
 fi
 
@@ -101,6 +103,8 @@ function changedirectory() {
         cd back/telemetry-service
     elif [[ $PROJECT == "booster" ]]; then
         cd back/booster-service
+    elif [[ $PROJECT == "payload" ]]; then
+        cd back/payload-service
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -159,6 +163,8 @@ elif [[ $PARAMS == "clean" ]]; then
         runclean "telemetry"
         cd ../..
         runclean "booster"
+        cd ../..
+        runclean "payload"
         cd ../..
     else
         runclean $PARG
