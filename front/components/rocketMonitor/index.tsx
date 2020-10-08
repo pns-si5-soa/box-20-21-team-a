@@ -39,25 +39,6 @@ const RocketMonitor = (props: IProps) => {
             });
     }
 
-    const stageRocket = () => {
-        rocketAPI.stageRocketMidFlightSOAP()
-            .then(res => {
-                alert(res);
-                getTelemetryData();
-            })
-            .catch(() => {
-            });
-    };
-    const deliverPayload = () => {
-        payloadAPI.deliverPayloadSOAP()
-            .then(res => {
-                alert(res);
-                getTelemetryData();
-            })
-            .catch(() => {
-            });
-    };
-
     return (
         <>
             <h2>Rocket monitoring</h2>
