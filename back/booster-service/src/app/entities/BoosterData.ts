@@ -10,6 +10,7 @@ export default class BoosterData
     private altitude: number; //km
     private speed: number; //km.s-1
     private dataUpdateDelay: number;
+    private sendingData: boolean = true;
 
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
 
@@ -26,6 +27,10 @@ export default class BoosterData
         this.dataUpdateDelay = time;
     }
 
+    stopSendingData() {
+        this.sendingData = false;
+    }
+
     toObjectJSON() {
         return {
             boosterStatus: this.boosterStatus,
@@ -39,6 +44,7 @@ export default class BoosterData
         return this.boosterStatus === BoosterStatus.DESTROYED;
     }
 
+    //todo rework multiple function
     async launch()
     {
         /**
@@ -47,29 +53,29 @@ export default class BoosterData
          *  Step 3 : At the mid-flight we land the booster while altitude is not 0
          */
         if(this.boosterStatus != BoosterStatus.NOT_LAUNCHED) throw new Error(`Cannot launch booster. Its current status is ${this.boosterStatus}`);
-        console.log("Launching booster");
+        //console.log("Launching booster");
         this.boosterStatus = BoosterStatus.IN_FIRST_STAGE;
         this.speed = 10;
-        console.log("Booster launched");
-        this.telemetryAPI.setBoosterData(this);
+        //console.log("Booster launched");
+        if(this.sendingData) this.telemetryAPI.setBoosterData(this);
         const that = this;
         await setIntervalPromiseX(function() {
             if(that.isDestroyed()) return;
-            that.telemetryAPI.setBoosterData(that);
-            console.log(that.toObjectJSON());
-            console.log(that);
+            if(that.sendingData) that.telemetryAPI.setBoosterData(that);
+            //console.log(that.toObjectJSON());
+            //console.log(that);
             that.altitude += that.speed;
             that.speed += 2;
             that.fuelLevel -= 1;
         }, this.dataUpdateDelay, 100);
         if(this.isDestroyed()) return;
-        console.log("Mid-Flight");
+        //console.log("Mid-Flight");
         this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
-        that.telemetryAPI.setBoosterData(that);
-        console.log("Landing booster");
+        if(this.sendingData) this.telemetryAPI.setBoosterData(that);
+        //console.log("Landing booster");
         await setIntervalConditionPromise(function() {
-            that.telemetryAPI.setBoosterData(that);
-            console.log(that.toObjectJSON());
+            if(that.sendingData) that.telemetryAPI.setBoosterData(that);
+            //console.log(that.toObjectJSON());
             that.altitude -= that.speed;
             that.speed -= 2;
             that.speed = that.speed < 1 ? 1 : that.speed;
@@ -78,18 +84,19 @@ export default class BoosterData
             return that.altitude <= 0 || that.isDestroyed();
         })
         if(this.isDestroyed()) return;
-        that.telemetryAPI.setBoosterData(that);
-        console.log("Booster landed");
+        if(that.sendingData) that.telemetryAPI.setBoosterData(that);
+        //console.log("Booster landed");
         this.boosterStatus = BoosterStatus.LANDED;
         this.speed = 0;
         this.altitude = 0;
-        that.telemetryAPI.setBoosterData(that);
-        console.log("Booster stoped");
+        if(that.sendingData) that.telemetryAPI.setBoosterData(that);
+        //console.log("Booster stoped");
     }
 
     destroy(): void 
     {
-        console.log("Booster destroyed");
+        if(this.sendingData) this.telemetryAPI.setBoosterData(this);
+        //console.log("Booster destroyed");
         this.boosterStatus = BoosterStatus.DESTROYED;
     }
 }
