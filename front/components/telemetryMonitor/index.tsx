@@ -72,10 +72,10 @@ const TelemetryMonitor = () => {
                 <div className="col-sm">
                     Booster Data:
                     <div>
-                        {`Altitude: ${boosterData.altitude}`}
-                        {`Fuel Level: ${boosterData.fuelLevel}`}
-                        {`Speed: ${boosterData.speed}`}
-                        {`Booster Status: ${boosterData.boosterStatus}`}
+                        {`Altitude: ${boosterData.altitude}`}km<br/>
+                        {`Fuel Level: ${boosterData.fuelLevel}`}L<br/>
+                        {`Speed: ${boosterData.speed}`}km.s-1<br/>
+                        {`Booster Status: ${boosterData.boosterStatus}`}<br/>
                     </div>
                 </div>
                 <div className="col-sm">
