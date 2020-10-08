@@ -1,4 +1,5 @@
-import rocketService, {RocketStatus} from "../app/services/rocket-service"
+import rocketService from "../app/services/rocket-service"
+import RocketStatus from "../app/entities/RocketStatus"
 
 test('Rocket status return test', () => {
     expect([RocketStatus.NOT_READY, RocketStatus.READY_FOR_LAUNCH].includes(rocketService.getStatus())).toBe(true);
@@ -7,14 +8,4 @@ test('Rocket status return test', () => {
 test('Rocket launch test', () => {
     expect(rocketService.launch()).toBe("Launching Rocket...");
     expect(rocketService.getStatus()).toBe(RocketStatus.LAUNCHED);
-});
-
-test('Rocket stage test', () => {
-    expect(rocketService.stageRocketMidFlight()).toBe("The module has been successfully staged!");
-    expect(rocketService.getStatus()).toBe(RocketStatus.IN_SECOND_STAGE);
-});
-
-test('Deliver payload test', () => {
-    expect(rocketService.deliverPayload()).toBe("The payload has been successfully delivered!\nThe mission is a success \\o/");
-    expect(rocketService.getStatus()).toBe(RocketStatus.PAYLOAD_DELIVERED);
 });

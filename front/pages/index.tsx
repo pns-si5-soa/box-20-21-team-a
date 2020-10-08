@@ -6,16 +6,21 @@ import "./index.scss";
 import Poll from '../src/main/model/Poll';
 
 import RocketMonitor from "../components/rocketMonitor";
-import TelemetryData from "../src/main/model/TelemetryData";
 import WeatherAPI from '../src/main/API/weatherAPI';
 import MissionAPI from '../src/main/API/missionAPI';
+import BoosterAPI from '../src/main/API/boosterAPI';
+import RocketData from "../src/main/model/Rocket/RocketData";
+import BoosterData from "../src/main/model/Booster/BoosterData";
+import PayloadData from "../src/main/model/Payload/PayloadData";
+import TelemetryMonitor from "../components/telemetryMonitor";
 
 type Props = {};
 
-class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, data: TelemetryData | undefined, launch: string }> {
+class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, rocketData: RocketData| undefined,boosterData: BoosterData| undefined,payloadData: PayloadData| undefined, launch: string }> {
 
     weatherAPI: WeatherAPI;
     missionAPI: MissionAPI;
+    boosterAPI: BoosterAPI;
 
     constructor(props: Props) {
         super(props);
@@ -23,7 +28,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
             this.state = {
                 weather: "",
                 poll: undefined,
-                data: undefined,
+                rocketData: undefined,
+                boosterData: undefined,
+                payloadData: undefined,
                 launch: "",
             };
         }
@@ -34,10 +41,14 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         this.validateWeather = this.validateWeather.bind(this);
         this.validateMission = this.validateMission.bind(this);
         this.validateRocket = this.validateRocket.bind(this);
+        this.destroy = this.destroy.bind(this);
+        this.launchBooster = this.launchBooster.bind(this);
+        this.validateRocket = this.validateRocket.bind(this);
         this.Weather = this.Weather.bind(this);
 
         this.weatherAPI = new WeatherAPI();
         this.missionAPI = new MissionAPI();
+        this.boosterAPI = new BoosterAPI();
     }
 
     getWeather() {
@@ -107,6 +118,14 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         return <div/>
     }
 
+    launchBooster() {
+        this.boosterAPI.launchBoosterSOAP()
+    }
+
+    destroy() {
+        this.boosterAPI.destroy()
+    }
+
     render() {
         return (
             <View>
@@ -135,6 +154,16 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                         </div>
 
                         <div className="col-sm">
+                        <Button variant="contained" color="primary" onClick={this.launchBooster}>
+                            Launch Booster
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={this.destroy}>
+                            Destroy Booster
+                        </Button>
+
+                        </div>
+
+                        <div className="col-sm">
                             <h2>Mission department</h2>
                             <Button variant="contained" color="secondary" onClick={this.createPoll}>
                                 Create the poll
@@ -157,6 +186,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                             </Button>
                         </div>
 
+                    </div>
+                    <div className="col-sm">
+                        <TelemetryMonitor/>
                     </div>
                 </div>
             </View>
