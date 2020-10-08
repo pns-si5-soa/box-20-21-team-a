@@ -9,7 +9,7 @@ require('dotenv').config()
 
 import expect from 'expect';
 import RocketAPI from "../../../main/API/rocketAPI";
-import {RocketStatus} from "../../../main/model/Rocket/RocketStatus";
+import RocketStatus from "../../../main/model/Rocket/RocketStatus";
 
 
 let response: any;

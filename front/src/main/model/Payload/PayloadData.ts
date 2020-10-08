@@ -1,10 +1,10 @@
-import {PayloadStatus} from "./PayloadStatus";
+import PayloadStatus from "./PayloadStatus";
 
 
 class PayloadData{
     payloadStatus: PayloadStatus;
 
-    constructor(payloadStatus=PayloadStatus.NOT_DELIVERED) {
+    constructor(payloadStatus=PayloadStatus.ATTACHED) {
         this.payloadStatus=payloadStatus;
     }
 

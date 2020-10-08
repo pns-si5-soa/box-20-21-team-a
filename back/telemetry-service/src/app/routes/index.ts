@@ -5,8 +5,8 @@ import rocketRouter from "./rocket"
 import payloadRouter from "./payload"
 
 
-router.use("/telemetry", boosterRouter)
-router.use("/telemetry", rocketRouter)
-router.use("/telemetry", payloadRouter)
+router.use("/booster", boosterRouter)
+router.use("/rocket", rocketRouter)
+router.use("/payload", payloadRouter)
 
 export default router;

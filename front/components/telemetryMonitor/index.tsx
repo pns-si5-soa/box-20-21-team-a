@@ -5,6 +5,7 @@ import {Button} from "@material-ui/core";
 import BoosterData from "../../src/main/model/Booster/BoosterData";
 import RocketData from "../../src/main/model/Rocket/RocketData";
 import PayloadData from "../../src/main/model/Payload/PayloadData";
+import { setState } from 'expect';
 const telemetryAPI = new TelemetryAPI();
 
 
@@ -14,17 +15,13 @@ const TelemetryMonitor = () => {
     const [rocketData, setRocketData] = useState(new RocketData());
     const [payloadData, setPayloadData] = useState(new PayloadData());
 
-    function refresh() {
-        getBoosterData();
-        getPayloadData();
-        getRockerData();
-    }
-
     useEffect(() => {
-        getBoosterData();
-        getPayloadData();
-        getRockerData();
-    }, [boosterData, rocketData, payloadData]);
+        setInterval(() => {
+            getBoosterData();
+            getPayloadData();
+            getRockerData();
+        }, 1000);
+    }, []);
 
 
     const getRockerData = () => {
@@ -62,9 +59,6 @@ const TelemetryMonitor = () => {
             <br></br>
             <br></br>
             <h2>Telemetry monitoring</h2>
-            <Button variant="contained" color="secondary" onClick={refresh}>
-                Refresh Telemetry Data
-            </Button>
             <div className="row">
                 <div className="col-sm">
                     Rocket Data:

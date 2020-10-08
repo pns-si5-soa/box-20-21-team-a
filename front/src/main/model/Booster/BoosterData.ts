@@ -7,7 +7,7 @@ class BoosterData {
     fuelLevel: number;
     boosterStatus : BoosterStatus;
 
-    constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
+    constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.NOT_LAUNCHED) {
         this.altitude=altitude;
         this.speed=speed;
         this.fuelLevel=fuelLevel;

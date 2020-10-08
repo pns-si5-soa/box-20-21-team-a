@@ -2,7 +2,7 @@ import express = require('express');
 const router = express.Router();
 import TelemetryService from "../../services/telemetry-service";
 
-router.post('/payloaddata', (req, res) => {
+router.post('/', (req, res) => {
     try {
         if(req.body.payloadData === undefined) {
             res.status(500).send("Error: PayloadData wasn't sent");
@@ -16,7 +16,7 @@ router.post('/payloaddata', (req, res) => {
     }
 });
 
-router.get('/payloaddata', (req, res) => {
+router.get('/', (req, res) => {
     try {
         res.send(TelemetryService.getPayloadData());
     } catch (e: any) {

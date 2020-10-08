@@ -1,4 +1,7 @@
-export enum PayloadStatus{
-    NOT_DELIVERED,
-    DELIVERED
+enum PayloadStatus{
+    ATTACHED,
+    IN_PROGRESS,
+    DETACHED,
 }
+
+export default PayloadStatus;

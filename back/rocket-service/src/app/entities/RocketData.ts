@@ -1,4 +1,4 @@
-import {RocketStatus} from "../services/rocket-service";
+import RocketStatus from "./RocketStatus";
 import {setIntervalPromiseX } from '../tools/setIntervalx'
 
 class RocketData {

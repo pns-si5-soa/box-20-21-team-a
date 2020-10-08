@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 
-router.post('/rocketdata', (req, res) => {
+router.post('/', (req, res) => {
     try {
         if(req.body.rocketData === undefined) {
             res.status(500).send("Error: RocketData wasn't sent");
@@ -18,7 +18,7 @@ router.post('/rocketdata', (req, res) => {
     }
 });
 
-router.get('/rocketdata', (req, res) => {
+router.get('/', (req, res) => {
     try {
         res.send(TelemetryService.getRocketData());
     } catch (e: any) {

@@ -1,4 +1,4 @@
-import {RocketStatus} from "./RocketStatus";
+import RocketStatus from "./RocketStatus";
 
 
 class RocketData {
