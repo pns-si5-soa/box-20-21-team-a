@@ -154,6 +154,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                         </div>
 
                         <div className="col-sm">
+                        <h2>Booster department</h2>
                         <Button variant="contained" color="primary" onClick={this.launchBooster}>
                             Launch Booster
                         </Button>

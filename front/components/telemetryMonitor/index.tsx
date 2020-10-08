@@ -6,6 +6,9 @@ import BoosterData from "../../src/main/model/Booster/BoosterData";
 import RocketData from "../../src/main/model/Rocket/RocketData";
 import PayloadData from "../../src/main/model/Payload/PayloadData";
 import { setState } from 'expect';
+import BoosterTelemetry from './boosterTelemetry'
+import RocketTelemetry from './rocketTelemetry'
+import PayloadTelemetry from './payloadTelemetry'
 const telemetryAPI = new TelemetryAPI();
 
 
@@ -17,7 +20,6 @@ const TelemetryMonitor = () => {
 
     useEffect(() => {
         setInterval(() => {
-            getBoosterData();
             getPayloadData();
             getRockerData();
         }, 1000);
@@ -29,16 +31,6 @@ const TelemetryMonitor = () => {
             .then(res => {
                 console.log(res.data);
                 setRocketData(res.data);
-            })
-            .catch(() => {
-            });
-    }
-
-    const getBoosterData = () => {
-        telemetryAPI.getBoosterData()
-            .then(res => {
-                console.log(res.data);
-                setBoosterData(res.data);
             })
             .catch(() => {
             });
@@ -61,28 +53,13 @@ const TelemetryMonitor = () => {
             <h2>Telemetry monitoring</h2>
             <div className="row">
                 <div className="col-sm">
-                    Rocket Data:
-                    <div>
-                        {`Altitude: ${rocketData.altitude}`}
-                        {`Fuel Level: ${rocketData.fuelLevel}`}
-                        {`Speed: ${rocketData.speed}`}
-                        {`Pressure: ${rocketData.pressure}`}
-                    </div>
+                    <RocketTelemetry />
                 </div>
                 <div className="col-sm">
-                    Booster Data:
-                    <div>
-                        {`Altitude: ${boosterData.altitude}`}km<br/>
-                        {`Fuel Level: ${boosterData.fuelLevel}`}L<br/>
-                        {`Speed: ${boosterData.speed}`}km.s-1<br/>
-                        {`Booster Status: ${boosterData.boosterStatus}`}<br/>
-                    </div>
+                    <BoosterTelemetry />
                 </div>
                 <div className="col-sm">
-                    Payload Data:
-                    <div>
-                        {`Payload Status: ${payloadData.payloadStatus}`}
-                    </div>
+                    <PayloadTelemetry />
                 </div>
             </div>
         </>
