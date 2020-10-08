@@ -1,25 +1,46 @@
-import TelemetryData from "../entities/telemetryData";
-import {RocketStatus} from "../entities/RocketStatus";
+import RocketData from "../entities/Rocket/RocketData";
+import BoosterData from "../entities/Booster/BoosterData";
+import PayloadData from "../entities/Payload/PayloadData"
 
 class TelemetryService {
-    telemetryDataArray: TelemetryData[];
+    rocketDataArray: RocketData[];
+    boosterDataArray: BoosterData[];
+    payloadDataArray: PayloadData[];
 
     constructor() {
-        this.telemetryDataArray = [];
-        this.telemetryDataArray.push(new TelemetryData());
+        this.rocketDataArray = [];
+        this.boosterDataArray = [];
+        this.payloadDataArray = [];
+        this.rocketDataArray.push(new RocketData());
+        this.boosterDataArray.push(new BoosterData());
+        this.payloadDataArray.push(new PayloadData());
     }
 
-    getData(): TelemetryData {
-        if (this.telemetryDataArray.length > 0) {
-            return this.telemetryDataArray[this.telemetryDataArray.length - 1];
-        }
-        return new TelemetryData();
+    addRocketData(rocketData: RocketData): RocketData {
+        this.rocketDataArray.push(rocketData);
+        return rocketData;
     }
 
-    addData(rocketStatus: RocketStatus, fuelLevel: number): TelemetryData {
-        let newData = new TelemetryData(rocketStatus, fuelLevel);
-        this.telemetryDataArray.push(newData);
-        return newData;
+    getRocketData() {
+        return this.rocketDataArray[this.rocketDataArray.length - 1];
+    }
+
+    addBoosterData(boosterData: BoosterData): BoosterData {
+        this.boosterDataArray.push(boosterData);
+        return boosterData;
+    }
+
+    getBoosterData() {
+        return this.boosterDataArray[this.boosterDataArray.length - 1];
+    }
+
+    addPayloadData(payloadData: PayloadData): PayloadData {
+        this.payloadDataArray.push(payloadData);
+        return payloadData;
+    }
+
+    getPayloadData() {
+        return this.payloadDataArray[this.payloadDataArray.length - 1];
     }
 }
 
