@@ -32,4 +32,4 @@ console.log = consolelog;
 console.error = consoleerror;
 console.warn = consolewarn;
 
-export default {consolelog, consoleerror, consolewarn}
+export default {log, error, warn}
