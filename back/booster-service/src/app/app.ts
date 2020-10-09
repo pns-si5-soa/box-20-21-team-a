@@ -64,6 +64,6 @@ var myService = {
   //Note: /wsdl route will be handled by soap module
   //and all other routes & middleware will continue to work
     soap.listen(app, '/wsdl', myService, xml, function(){
-        console.log('SOAP server initialized');
+        console.log('SOAP server listening on port ' + port);
     });
   });

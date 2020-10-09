@@ -10,15 +10,15 @@ class TelemetryAPI extends API {
     }
 
     public getRocketData<T>(): AxiosPromise {
-        return this.axios('/rocket/');
+        return this.axios('/telemetry/rocket/');
     }
 
     public getBoosterData<T>(): AxiosPromise {
-        return this.axios('/booster/');
+        return this.axios('/telemetry/booster/');
     }
 
     public getPayloadData<T>(): AxiosPromise {
-        return this.axios('/payload');
+        return this.axios('/telemetry/payload');
     }
 
 }

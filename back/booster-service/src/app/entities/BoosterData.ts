@@ -54,7 +54,7 @@ export default class BoosterData { // TODO we should have separate objects for B
     }
 
     initializeDetachment(): void {
-        //console.log("Mid-Flight");
+        console.log("Initializing booster detachment.");
         this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
     }
 
@@ -62,30 +62,29 @@ export default class BoosterData { // TODO we should have separate objects for B
         const that = this;
         await setIntervalConditionPromise(() => {
                 this.sendData();
-                //console.log(that.toObjectJSON());
-                //console.log(that);
+                console.log(that.toObjectJSON());
                 that.altitude += that.speed;
-                that.speed += 2;
+                that.speed += 1;
                 that.fuelLevel -= 1;
             },
             this.dataUpdateDelay,
-            () => (this.canDetachFromRocket || this.isDestroyed));
+            () => (this.canDetachFromRocket() || this.isDestroyed()));
     }
 
     private async controlLandingProcess(): Promise<void> {
-        //console.log("Landing booster");
+        console.log("Landing booster");
         const that = this;
         await setIntervalConditionPromise(() => {
                 this.sendData();
-                //console.log(that.toObjectJSON());
+                console.log(that.toObjectJSON());
                 that.altitude -= that.speed;
-                that.speed -= 2;
-                that.speed = that.speed < 1 ? 1 : that.speed;
-                that.fuelLevel -= 1;
+                that.speed -= 1;
+                that.speed = that.speed < 1 ? 2 : that.speed;
+                // that.fuelLevel -= 1;
             },
             this.dataUpdateDelay,
             () => (that.altitude <= 0 || that.isDestroyed()));
-        //console.log("Booster landed");
+        console.log("Booster landed");
         this.boosterStatus = BoosterStatus.LANDED;
         this.stopBoosterEnginesAfterLanding();
     }
@@ -97,7 +96,7 @@ export default class BoosterData { // TODO we should have separate objects for B
         this.speed = 0;
         this.altitude = 0;
         this.sendData();
-        //console.log("Booster stopped");
+        console.log("Booster stopped");
     }
 
     async launch(): Promise<void> {
@@ -106,13 +105,13 @@ export default class BoosterData { // TODO we should have separate objects for B
          *  Step 2 : For 10 iterations, increse altitude, speed
          *  Step 3 : At the mid-flight we land the booster while altitude is not 0
          */
-        if (this.boosterStatus != BoosterStatus.NOT_LAUNCHED) {
-            throw new Error(`Cannot launch booster. Its current status is ${this.boosterStatus}`);
-        }
-        //console.log("Launching booster");
+        // if (this.boosterStatus != BoosterStatus.NOT_LAUNCHED) {
+        //     throw new Error(`Cannot launch booster. Its current status is ${this.boosterStatus}`);
+        // }
+        console.log("Launching booster");
         this.boosterStatus = BoosterStatus.IN_FIRST_STAGE;
         this.speed = 10;
-        //console.log("Booster launched");
+        console.log("Booster launched");
         this.sendData();
 
         await this.controlFirstStageOfFlight();
@@ -131,7 +130,7 @@ export default class BoosterData { // TODO we should have separate objects for B
 
     destroy(): void {
         this.sendData();
-        //console.log("Booster destroyed");
+        console.log("Booster destroyed");
         this.boosterStatus = BoosterStatus.DESTROYED;
     }
 

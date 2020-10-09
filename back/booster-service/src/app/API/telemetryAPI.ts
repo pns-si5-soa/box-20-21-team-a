@@ -12,7 +12,7 @@ class TelemetryAPI extends API {
 
     public sendBoosterData<T>(boosterData: BoosterData): AxiosPromise {
         return this.axios({method: 'post',
-        url: '/booster',
+        url: '/telemetry/booster',
        data: {boosterData: boosterData.toObjectJSON()}});
     }
 
