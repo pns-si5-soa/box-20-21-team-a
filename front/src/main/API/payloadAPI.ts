@@ -27,7 +27,7 @@ class PayloadAPI extends API {
                     var parser = new DOMParser();
                     var myxml = soapResponse.toString();
                     var xmlDoc = parser.parseFromString(myxml as string,"text/xml");
-                    var stringToReturn = "Status : "+xmlDoc.getElementsByTagName("status")[0].childNodes[0].nodeValue+" ,Altitude : "+xmlDoc.getElementsByTagName("speed")[0].childNodes[0].nodeValue! + ",Speed : " +xmlDoc.getElementsByTagName("altitude")[0].childNodes[0].nodeValue!;
+                    var stringToReturn = "Status : "+xmlDoc.getElementsByTagName("payloadStatus")[0].childNodes[0].nodeValue+" ,Altitude : "+xmlDoc.getElementsByTagName("speed")[0].childNodes[0].nodeValue! + ",Speed : " +xmlDoc.getElementsByTagName("altitude")[0].childNodes[0].nodeValue!;
                     resolve(stringToReturn );
     
                 },

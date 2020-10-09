@@ -17,7 +17,6 @@ const payloadTelemetry = () => {
     const getPayloadData = () => {
         telemetryAPI.getPayloadData()
             .then(res => {
-                console.log(res.data);
                 setPayloadData(res.data);
             })
             .catch((err) => {
@@ -30,6 +29,8 @@ const payloadTelemetry = () => {
             <div className="card-body">
                 <h5 className="card-title">Payload</h5>
                 <p className="card-text">{`Payload Status: ${payloadData.payloadStatus}`}</p>
+                <p className="card-text">{`Payload speed: ${payloadData.speed}`}</p>
+                <p className="card-text">{`Payload altitude: ${payloadData.altitude}`}</p>
             </div>
         </div>
     )

@@ -38,6 +38,15 @@ const RocketMonitor = (props: IProps) => {
             .catch(() => {
             });
     }
+    const deliverPayload = () => {
+        payloadAPI.deliverPayloadSOAP()
+            .then(res => {
+                alert(res);
+                console.log(res);
+            })
+            .catch(() => {
+            });
+    }
 
     return (
         <>
@@ -54,6 +63,9 @@ const RocketMonitor = (props: IProps) => {
 
             <Button variant="contained" color="primary" onClick={launchRocket}>
                 Launch rocket
+            </Button>
+            <Button variant="contained" color="primary" onClick={deliverPayload}>
+                Deliver payload
             </Button>
             <br/>
         </>
