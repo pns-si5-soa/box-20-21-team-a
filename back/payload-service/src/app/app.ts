@@ -6,7 +6,7 @@ const cors = require('cors');
 const path = require('path');
 var bodyParser = require('body-parser');
 const soap = require('soap');
-
+import "logs-module";
 
 
 

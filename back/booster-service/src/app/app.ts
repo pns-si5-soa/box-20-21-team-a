@@ -4,6 +4,7 @@ import BoosterData from './entities/BoosterData';
 import indexRouter  from './routes';
 import path from 'path';
 import bodyParser from 'body-parser'
+import "logs-module";
 
 const cors = require('cors');
 var soap = require('soap');

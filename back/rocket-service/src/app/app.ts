@@ -6,6 +6,7 @@ import rocketService from "./services/rocket-service";
 var soap = require('soap');
 var bodyParser = require('body-parser');
 const path = require('path');
+import "logs-module";
 
 require('dotenv').config()
 
