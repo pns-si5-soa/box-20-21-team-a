@@ -15,7 +15,7 @@ class TelemetryAPI extends API {
         //log(" - -- - - - -  - -- -  - - - - -  - - - - - - - - - -- -  --  - -- - ");
 
         return this.axios({method: 'post',
-        url: '/payload',
+        url: '/telemetry/payload',
        data: {payloadData: payloadData.toObjectJSON()}});
     }
 
