@@ -15,7 +15,9 @@ services:
   telemetry-service:
     image: blue_origin/telemetry-service
     container_name: telemetry-container
-    build: ./back/telemetry-service
+    build: 
+      context: .
+      dockerfile: ./back/telemetry-service/Dockerfile
     expose:
       - "3003"
     ports:
@@ -26,7 +28,9 @@ services:
   mission-service:
       image: blue_origin/mission-service
       container_name: mission-container
-      build: ./back/mission-service
+      build: 
+        context: .
+        dockerfile: ./back/mission-service/Dockerfile
       expose: 
         - "3002"
       ports:
@@ -38,7 +42,9 @@ services:
   weather-service:
       image: blue-origin/weather-service
       container_name: weather-container
-      build: ./back/weather-service
+      build: 
+        context: .
+        dockerfile: ./back/weather-service/Dockerfile
       expose: 
         - "3001"
       ports:
@@ -50,7 +56,9 @@ services:
   rocket-service:
       image: blue-origin/rocket-service
       container_name: rocket-container
-      build: ./back/rocket-service
+      build: 
+        context: .
+        dockerfile: ./back/rocket-service/Dockerfile
       expose: 
         - "3000"
       ports:
@@ -65,7 +73,9 @@ services:
   booster-service:
     image: blue-origin/booster-service
     container_name: booster-container
-    build: ./back/booster-service
+    build: 
+      context: .
+      dockerfile: ./back/booster-service/Dockerfile
     expose: 
       - "3004"
     ports:
@@ -76,7 +86,9 @@ services:
   payload-service:
     image: blue_origin/payload-service
     container_name: payload-container
-    build: ./back/payload-service
+    build: 
+      context: .
+      dockerfile: ./back/payload-service/Dockerfile
     expose:
       - "3005"
     ports:
