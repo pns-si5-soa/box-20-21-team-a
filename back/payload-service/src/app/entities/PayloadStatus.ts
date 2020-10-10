@@ -1,9 +1,10 @@
-import Payload from "./Payload";
-
 enum PayloadStatus{
-    ATTACHED  = "ATTACHED",
-    IN_PROGRESS = "IN_PROGRESS",
-    DETACHED = "DETACHED" ,
+    ATTACHED  = 0,
+    IN_PROGRESS = 1,
+    DETACHED = 2 ,
+
 }
+
+export const mapStatus = ["Attached to the rocket","Progressing to orbital position","In orbit"]
 
 export default PayloadStatus;
