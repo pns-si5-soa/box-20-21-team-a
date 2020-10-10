@@ -8,3 +8,5 @@ cd ../rocket-service
 npm link ../../logs-module
 cd ../telemetry-service
 npm link ../../logs-module
+cd ../weather-service
+npm link ../../logs-module
