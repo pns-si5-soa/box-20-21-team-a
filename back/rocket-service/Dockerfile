@@ -7,10 +7,11 @@ WORKDIR /usr/src/app/back/rocket-service
 COPY ./back/rocket-service/package*.json /usr/src/app/back/rocket-service/
 COPY ./logs-module /usr/src/app/logs-module
 
-RUN npm install
-
 # Copying source files
 COPY ./back/rocket-service /usr/src/app/back/rocket-service
+
+RUN rm -rf node_modules
+RUN npm install
 
 EXPOSE 3001
 # Running the app

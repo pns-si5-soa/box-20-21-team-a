@@ -7,10 +7,11 @@ WORKDIR /usr/src/app/back/payload-service
 COPY ./back/payload-service/package*.json /usr/src/app/back/payload-service/
 COPY ./logs-module /usr/src/app/logs-module
 
-RUN npm install
-
 # Copying source files
 COPY ./back/payload-service /usr/src/app/back/payload-service
+
+RUN rm -rf node_modules
+RUN npm install
 
 EXPOSE 3005
 # Running the app
