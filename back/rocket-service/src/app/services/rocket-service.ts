@@ -1,4 +1,3 @@
-import TelemetryAPI from "../API/telemetryAPI";
 import RocketData from "../entities/RocketData";
 import RocketStatus from "../entities/RocketStatus";
 
