@@ -1,4 +1,4 @@
-<!--  
+<!--
 TeamA
 2020-10-04
 let you post/retrieve online message by SOAP protocol
@@ -6,10 +6,10 @@ let you post/retrieve online message by SOAP protocol
 Online WSDL 1.1 SOAP generator 0.2
 Julien Blitte
   -->
-<definitions xmlns:tns="us.world_corp.my_soap_forum.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="us.world_corp.my_soap_forum.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="let you post/retrieve online message by SOAP protocol" targetNamespace="us.world_corp.my_soap_forum.wsdl">
+<definitions xmlns:tns="fr.teama.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="fr.teama.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="let you post/retrieve online message by SOAP protocol" targetNamespace="fr.teama.wsdl">
     <!--  definition of datatypes  -->
     <types>
-        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="us.world_corp.my_soap_forum.xsd">
+        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="fr.teama.xsd">
             <element name="text">
                 <complexType>
                     <all>
@@ -39,7 +39,7 @@ Julien Blitte
         <part name="void" type="xsd:void"/>
     </message>
     <!--  server's services  -->
-    <portType name="my SOAP">
+    <portType name="rocket">
         <operation name="destroy">
             <input message="tns:destroy"/>
             <output message="tns:returns_text"/>
@@ -54,7 +54,7 @@ Julien Blitte
         </operation>
     </portType>
     <!--  server encoding  -->
-    <binding name="my SOAP_webservices" type="tns:my SOAP">
+    <binding name="rocket_webservices" type="tns:rocket">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
         <operation name="destroy">
             <soap:operation soapAction="urn:xmethods-delayed-quotes#destroy"/>
@@ -85,12 +85,9 @@ Julien Blitte
         </operation>
     </binding>
     <!--  access to service provider  -->
-    <service name="exemple">
-        <port name="exemple_0" binding="my SOAP_webservices">
-            <soap:address location="http://127.0.0.1./test_soap/endpoint1.php"/>
-        </port>
-        <port name="exemple_1" binding="my SOAP_webservices">
-            <soap:address location="http://127.0.0.1./test_soap/endpoint2.php"/>
+    <service name="rocket">
+        <port name="rocket_0" binding="rocket_webservices">
+            <soap:address location="http://127.0.0.1:3000/wsdl?wsdl"/> <!--FIXME port number-->
         </port>
     </service>
 </definitions>

@@ -46,11 +46,11 @@ class RocketData {
         console.log("Second stage of flight initialized.")
         const that = this;
         await setIntervalConditionPromise(()=>{
-            that.telemetryAPI.sendData(that);
             that.altitude += this.speed;
             that.speed += this.acceleration;
             that.fuelLevel -= 1;
             that.pressure += this.pressureIncrease;
+            that.telemetryAPI.sendData(that);
         },
             this.dataUpdateDelay,
             ()=>(that.pressure < 70 || that.rocketStatus === RocketStatus.DESTROYED));
