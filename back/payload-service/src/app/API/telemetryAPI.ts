@@ -1,7 +1,6 @@
 import { AxiosPromise } from 'axios';
 import Payload from '../entities/Payload';
 import API from './API';
-import "logs-module";
 
 class TelemetryAPI extends API {
 
