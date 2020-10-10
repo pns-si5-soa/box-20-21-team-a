@@ -36,7 +36,7 @@ class BoosterAPI extends API {
         });
     }
 
-    public destroy() : Promise<any>{
+    public destroyBooster() : Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,

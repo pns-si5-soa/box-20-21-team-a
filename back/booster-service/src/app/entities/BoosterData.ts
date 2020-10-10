@@ -1,5 +1,5 @@
 import BoosterStatus from './BoosterStatus';
-import {setIntervalConditionPromise, setIntervalPromiseX} from '../tools/set_intervalx';
+import {setIntervalConditionPromise} from '../tools/set_intervalx';
 import TelemetryAPI from '../API/telemetryAPI';
 
 export default class BoosterData { // TODO we should have separate objects for Booster and BoosterData
@@ -61,22 +61,22 @@ export default class BoosterData { // TODO we should have separate objects for B
     private async controlFirstStageOfFlight(): Promise<void> {
         const that = this;
         await setIntervalConditionPromise(() => {
-                this.sendData();
-                //console.log(that.toObjectJSON());
+                that.sendData();
+                console.log(that.toObjectJSON());
                 that.altitude += that.speed;
                 that.speed += 1;
                 that.fuelLevel -= 1;
             },
             this.dataUpdateDelay,
-            () => (this.canDetachFromRocket() || this.isDestroyed()));
+            () => (that.canDetachFromRocket() || that.isDestroyed()));
     }
 
     private async controlLandingProcess(): Promise<void> {
         console.log("Landing booster");
         const that = this;
         await setIntervalConditionPromise(() => {
-                this.sendData();
-                //console.log(that.toObjectJSON());
+                that.sendData();
+                console.log(that.toObjectJSON());
                 that.altitude -= that.speed;
                 that.speed -= 1;
                 that.speed = that.speed < 1 ? 2 : that.speed;
@@ -84,6 +84,9 @@ export default class BoosterData { // TODO we should have separate objects for B
             },
             this.dataUpdateDelay,
             () => (that.altitude <= 0 || that.isDestroyed()));
+        if(this.boosterStatus === BoosterStatus.DESTROYED){
+            return;
+        }
         console.log("Booster landed");
         this.boosterStatus = BoosterStatus.LANDED;
         this.stopBoosterEnginesAfterLanding();
@@ -115,7 +118,6 @@ export default class BoosterData { // TODO we should have separate objects for B
         this.sendData();
 
         await this.controlFirstStageOfFlight();
-
         if (this.isDestroyed()) return;
 
         this.initializeDetachment();
@@ -123,14 +125,14 @@ export default class BoosterData { // TODO we should have separate objects for B
         this.sendData();
 
         await this.controlLandingProcess();
-
         if (this.isDestroyed()) return;
+
         this.sendData();
     }
 
     destroy(): void {
         this.sendData();
-        console.log("Booster destroyed");
+        console.log("*BOOM!* - Booster destroyed!");
         this.boosterStatus = BoosterStatus.DESTROYED;
     }
 

@@ -14,16 +14,39 @@ class RocketAPI extends API {
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
 
-    public launchRocket(): AxiosPromise {
+/*    public launchRocket(): AxiosPromise {
         return this.axios({
             method: 'post',
             url: '/rocket/launch'
         });
-    } // todo use soap
+    } */
+
+    public destroyRocket(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            $.soap({
+                url: this.urlSOAP,
+                method: 'destroy',
+
+                data: {
+
+                },
+                success: function (soapResponse) {
+                    var parser = new DOMParser();
+                    var myxml = soapResponse.toString();
+                    var xmlDoc = parser.parseFromString(myxml as string,"text/xml");
+                    resolve(xmlDoc.getElementsByTagName("tns:rocket")[0].childNodes[0].nodeValue);
+
+                },
+                error: function (SOAPResponse) {
+                    reject(SOAPResponse);
+                }
+            });
+        });
+    }
 
 
 
-    public launchRocketSOAP() : Promise<any>{
+/*    public launchRocketSOAP() : Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
@@ -44,7 +67,7 @@ class RocketAPI extends API {
                 }
             });
         });
-    }
+    }*/
 
 }
 

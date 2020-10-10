@@ -1,5 +1,6 @@
 import RocketStatus from "./RocketStatus";
-import {setIntervalPromiseX } from '../tools/setIntervalx'
+import {setIntervalConditionPromise} from '../tools/setIntervalx'
+import TelemetryAPI from '../API/telemetryAPI';
 
 class RocketData {
 
@@ -8,34 +9,71 @@ class RocketData {
     private altitude: number;
     private speed: number;
     private pressure: number;
-    private time: number;
-    private speedIncrese: number;
-    private pressureIncrese: number;
+    private dataUpdateDelay: number;
+    private acceleration: number;
+    private pressureIncrease: number;
 
-    constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = -1, altitude=-1, speed=-1, pressure=-1) {
+    private telemetryAPI: TelemetryAPI = new TelemetryAPI();
+
+    constructor(rocketStatus = RocketStatus.READY_FOR_LAUNCH, fuelLevel = 0, altitude = 0, speed = 0, pressure = 0) {
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
-        this.altitude=altitude;
-        this.speed=speed;
-        this.pressure=pressure;
-        this.time=10000;
-        this.speedIncrese=2;
-        this.pressureIncrese=10;
+        this.altitude = altitude;
+        this.speed = speed;
+        this.pressure = pressure;
+        this.dataUpdateDelay = 500;
+        this.acceleration = 2;
+        this.pressureIncrease = 10;
+        this.telemetryAPI.sendData(this);
     }
 
 
-    async launch(){
-        await setIntervalPromiseX(() => {
-            if(this.pressure>70){
-                this.speedIncrese=0;
-                this.pressureIncrese=0;
-            }
-                this.altitude += this.speed
-                this.speed += this.speedIncrese;
-                this.fuelLevel -= 1;
-                this.pressure += this.pressureIncrese;
+    async notifyLaunch() {
+        this.rocketStatus = RocketStatus.LAUNCHED;
+        this.telemetryAPI.sendData(this);
+        console.log("Rocket has been launched!");
+    }
 
-        }, this.time, 100);
+    async initializeEngines() {
+        console.log("Initializing rocket engines.");
+        this.speed = 50;
+        await this.controlSecondStageOfFlight();
+        this.telemetryAPI.sendData(this);
+        console.log("Rocket engines started.");
+    }
+
+    private async controlSecondStageOfFlight(): Promise<void> {
+        console.log("Second stage of flight initialized.")
+        const that = this;
+        await setIntervalConditionPromise(()=>{
+            that.telemetryAPI.sendData(that);
+            that.altitude += this.speed;
+            that.speed += this.acceleration;
+            that.fuelLevel -= 1;
+            that.pressure += this.pressureIncrease;
+        },
+            this.dataUpdateDelay,
+            ()=>(that.pressure < 70 || that.rocketStatus === RocketStatus.DESTROYED));
+        if(this.rocketStatus === RocketStatus.DESTROYED) return;
+        await this.controlAfterMaxQHasBeenReachedReached();
+    }
+
+    private async controlAfterMaxQHasBeenReachedReached(): Promise<void> {
+        console.log("Going through MAX Q. Throttling down...");
+        const that = this;
+        await setIntervalConditionPromise(()=>{
+                that.telemetryAPI.sendData(that);
+                that.altitude += this.speed;
+                that.fuelLevel -= 1;
+            },
+            this.dataUpdateDelay,
+            ()=>(that.rocketStatus === RocketStatus.DESTROYED || that.fuelLevel <= 0));
+    }
+
+    destroy(): void {
+        this.rocketStatus = RocketStatus.DESTROYED;
+        this.telemetryAPI.sendData(this);
+        console.log("*BOOM!* - Rocket destroyed!");
     }
 
     getRocketStatus() {
@@ -54,30 +92,39 @@ class RocketData {
         this.fuelLevel = value;
     }
 
-    setAltitude(value : number){
-        this.altitude=value;
+    setAltitude(value: number) {
+        this.altitude = value;
     }
 
-    setSpeed(value : number){
-        this.speed=value;
+    setSpeed(value: number) {
+        this.speed = value;
     }
 
-    setPressure(value : number ){
-        this.pressure=value;
+    setPressure(value: number) {
+        this.pressure = value;
     }
 
-    getAltitude(){
+    getAltitude() {
         return this.altitude;
     }
 
-    getSpeed(){
+    getSpeed() {
         return this.speed;
     }
 
-    getPressure(){
+    getPressure() {
         return this.pressure;
     }
 
+    toJsonObject() {
+        return {
+            rocketStatus: this.rocketStatus,
+            fuelLevel: this.fuelLevel,
+            altitude: this.altitude,
+            speed: this.speed,
+            pressure: this.pressure,
+        };
+    }
 }
 
 

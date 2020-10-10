@@ -42,11 +42,11 @@ var myService = {
     booster: {
         booster_0: {
             launchBooster : function(args : any){
-                booster.launch()
+                booster.launch();
                 return {booster : booster.toObjectJSON()};
             },
             destroy : function(args : any){
-                booster.destroy()
+                booster.destroy();
                 return {booster : booster.toObjectJSON()};
             },
         }

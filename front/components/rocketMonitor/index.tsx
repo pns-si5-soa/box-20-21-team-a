@@ -17,7 +17,7 @@ interface IProps {
 
 const RocketMonitor = (props: IProps) => {
 
-    const [telemetryData, setTelemetryData] = useState({rocketStatus: 0, fuelLevel: -1});
+    // const [telemetryData, setTelemetryData] = useState({rocketStatus: 0, fuelLevel: -1});
 
     /*const getRocketStatus = () => {
         execute.execute("telemetry", "get", undefined, undefined, "all")
@@ -29,11 +29,10 @@ const RocketMonitor = (props: IProps) => {
             });
     };*/
 
-    const launchRocket = () => {
-        rocketAPI.launchRocketSOAP()
+    const destroyRocket = () => {
+        rocketAPI.destroyRocket()
             .then(res => {
                 alert(res);
-                console.log(res);
             })
             .catch(() => {
             });
@@ -42,7 +41,6 @@ const RocketMonitor = (props: IProps) => {
         payloadAPI.deliverPayloadSOAP()
             .then(res => {
                 alert(res);
-                console.log(res);
             })
             .catch(() => {
             });
@@ -61,9 +59,11 @@ const RocketMonitor = (props: IProps) => {
             </Button>
             <br/>
 
-            <Button variant="contained" color="primary" onClick={launchRocket}>
-                Launch rocket
+            <Button variant="contained" color="primary" onClick={destroyRocket}>
+                Destroy rocket
             </Button>
+
+            {/*todo put this in a separate component: */}
             <Button variant="contained" color="primary" onClick={deliverPayload}>
                 Deliver payload
             </Button>

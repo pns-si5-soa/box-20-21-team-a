@@ -1,5 +1,5 @@
 import express = require('express')
-import indexRouter from "./routes";
+// import indexRouter from "./routes";
 const cors = require('cors');
 var http = require('http');
 import rocketService from "./services/rocket-service";
@@ -7,6 +7,7 @@ var soap = require('soap');
 var bodyParser = require('body-parser');
 const path = require('path');
 import "logs-module";
+import RocketData from "./entities/RocketData";
 
 require('dotenv').config()
 
@@ -18,7 +19,7 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
 
 //Here it's any because everything can be insert on .env file, the goal is verify
 function normalizePort(val: any) {
@@ -42,19 +43,25 @@ function normalizePort(val: any) {
  * Create SOAP server.
  */
 
+const rocketData = new RocketData();
+
 var myService = {
     rocket: {
         rocket_0: {
+            destroy : function(args : any){
+                rocketService.destroy();
+                return {rocket : rocketData.toJsonObject()};
+            },
 
-            launch : function(args : any){
-              return {launch : rocketService.launch()};
+            notifyLaunch : function(args : any){
+                rocketService.launch();
+                return {rocket : rocketData.toJsonObject()};
             },
-            /*stageRocketMidFlight : function(args : any){
-                return {stageRocketMidFlight : rocketService.stageRocketMidFlight()};
+
+            notifyBoosterDetachment : function(args : any){
+                rocketService.initializeRocketEngines();
+                return {rocket : rocketData.toJsonObject()};
             },
-            deliverPayload : function(args : any){
-                return {deliverPayload : rocketService.deliverPayload()};
-            },*/
         }
     }
   };
