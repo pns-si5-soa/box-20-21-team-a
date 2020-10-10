@@ -90,8 +90,7 @@ function runlog() {
 
 if [[ $PARAMS == "start" ]]; then
     if [[ -z $PARG ]]; then
-        runstart "front"
-        cd ..
+        
         runstart "mission"
         cd ../..
         runstart "weather"
@@ -103,6 +102,8 @@ if [[ $PARAMS == "start" ]]; then
         runstart "booster"
         cd ../..
         runstart "payload"
+        cd ../..
+        runstart "front"
     else
         runstart $PARG
     fi
