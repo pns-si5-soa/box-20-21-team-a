@@ -94,11 +94,11 @@ if [[ $PARAMS == "start" ]]; then
         cd ..
         runstart "mission"
         cd ../..
-        runstart "rocket"
-        cd ../..
         runstart "weather"
         cd ../..
         runstart "telemetry"
+        cd ../..
+        runstart "rocket"
         cd ../..
         runstart "booster"
         cd ../..
