@@ -10,17 +10,19 @@ require('dotenv').config()
 import expect from 'expect';
 import RocketAPI from "../../../main/API/rocketAPI";
 import RocketStatus from "../../../main/model/Rocket/RocketStatus";
+import BoosterAPI from "../../../main/API/boosterAPI";
+import {BoosterStatus} from "../../../main/model/Booster/BoosterStatus";
 
 
 let response: any;
 
 const telemetryAPI = new TelemetryAPI();
-const rocketService = new RocketAPI();
+const boosterService = new BoosterAPI();
 
 When("The rocket is launched", async function ()
 {
 
-    await rocketService.launchRocket().then(function(res)
+    await boosterService.launchBoosterSOAP().then(function(res)
     {
         return res;
     }).catch(function(err)
@@ -29,8 +31,8 @@ When("The rocket is launched", async function ()
     });
 })
 
-Then("The telemetry data are updated with the new value of rocket status", async function()
+Then("The telemetry data are updated with the new value of booster status", async function()
 {
-    expect((await telemetryAPI.getRocketData()).data.rocketStatus).toBe(RocketStatus.LAUNCHED);
+    expect((await telemetryAPI.getBoosterData()).data.boosterStatus).toBe(BoosterStatus.IN_FIRST_STAGE);
 })
 
