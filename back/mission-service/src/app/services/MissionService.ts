@@ -23,15 +23,15 @@ class MissionService {
         switch (serviceName) {
             case "weather":
                 this.poll.setWeatherStatus(answer);
-                console.log("The weather response for the poll is "+answer);
+                console.log("The weather department response for the poll is "+answer);
                 return this.poll;
             case "rocket":
                 this.poll.setRocketStatus(answer);
-                console.log("The rocket response for the poll is "+answer);
+                console.log("The rocket department response for the poll is "+answer);
                 return this.poll;
             case "mission":
                 this.poll.setMissionStatus(answer);
-                console.log("The mission response for the poll is "+answer);
+                console.log("The mission department response for the poll is "+answer);
                 return this.poll;
             default:
                 throw "The specified service name does not exist.";
