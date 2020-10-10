@@ -23,6 +23,7 @@ export default class Payload{
     }
 
     async detach(){
+        console.log("Detaching Payload in progress");
         // TODO : SEND TO TELEMETRY
         if(this.sendingData) this.telemetryAPI.setPayloadData(this);
         this.payloadStatus = PayloadStatus.IN_PROGRESS;
@@ -32,11 +33,11 @@ export default class Payload{
          // TODO : SEND TO TELEMETRY
         if(that.sendingData) that.telemetryAPI.setPayloadData(that);
 
-        console.log(this.toObjectJSON());
+        //console.log(this.toObjectJSON());
         await setIntervalConditionPromise(function(){
             that.altitude -= that.speed;
             that.speed += 5;
-            console.log(that.toObjectJSON());
+            //console.log(that.toObjectJSON());
             // TODO : SEND TO TELEMETRY
             if(that.sendingData) that.telemetryAPI.setPayloadData(that);
 
@@ -45,6 +46,7 @@ export default class Payload{
         })
        
         this.payloadStatus = PayloadStatus.DETACHED;
+        console.log("Payload is detached");
         // TODO : SEND TO TELEMETRY
         if(that.sendingData) that.telemetryAPI.setPayloadData(that);
 

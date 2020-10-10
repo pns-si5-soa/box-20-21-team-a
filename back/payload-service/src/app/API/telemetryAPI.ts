@@ -1,6 +1,7 @@
 import { AxiosPromise } from 'axios';
 import Payload from '../entities/Payload';
 import API from './API';
+import "logs-module";
 
 class TelemetryAPI extends API {
 
@@ -11,8 +12,8 @@ class TelemetryAPI extends API {
     }
 
     public setPayloadData<T>(payloadData: Payload): AxiosPromise {
-        console.log(payloadData.toObjectJSON());
-        console.log(" - -- - - - -  - -- -  - - - - -  - - - - - - - - - -- -  --  - -- - ");
+        //log(payloadData.toObjectJSON());
+        //log(" - -- - - - -  - -- -  - - - - -  - - - - - - - - - -- -  --  - -- - ");
 
         return this.axios({method: 'post',
         url: '/payload',

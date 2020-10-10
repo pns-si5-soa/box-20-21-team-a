@@ -1,7 +1,7 @@
 {
-  "name": "command",
+  "name": "mission",
   "version": "1.0.0",
-  "description": "Command \u0016µservice",
+  "description": "Mission \u0016µservice",
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",

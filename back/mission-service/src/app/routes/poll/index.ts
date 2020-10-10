@@ -6,7 +6,7 @@ router.post('/', (req, res) => {
     try {
         res.send(mission.createPoll());
     } catch (e: any) {
-        res.send(500).json({
+        res.status(500).json({
             message: e.message
         });
     }
@@ -18,7 +18,7 @@ router.put('/', (req, res) => {
         const result = mission.modifyPoll(req.body.service_name, JSON.parse(req.body.answer));
         res.send(result);
     } catch (e: any) {
-        res.send(500).json({
+        res.status(500).json({
             message: e.message
         });
     }
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
     try {
         res.send(mission.getPoll());
     } catch (e: any) {
-        res.send(500).json({
+        res.status(500).json({
             message: e.message
         });
     }

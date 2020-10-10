@@ -34,8 +34,6 @@ class RocketData {
                 this.speed += this.speedIncrese;
                 this.fuelLevel -= 1;
                 this.pressure += this.pressureIncrese;
-                console.log(this.pressure);
-                console.log(this.speed);
 
         }, this.time, 100);
     }

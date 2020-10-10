@@ -3,7 +3,7 @@ import createError = require('http-errors');
 import indexRouter from "./routes";
 const cors = require('cors');
 var http = require('http');
-import "logs-module";
+import "logs-module"
 
 require('dotenv').config()
 const app: express.Application = express();
