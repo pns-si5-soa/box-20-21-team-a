@@ -1,4 +1,5 @@
 import RocketData from "./model/Rocket/RocketData";
+
 require("logs-module");
 require('dotenv').config()
 import RocketAPI from './API/rocketAPI'
@@ -26,6 +27,8 @@ main();
 
 async function main() {
 
+    let stop = false;
+
 
     console.log("Richard creates the poll to start the mission");
     await missionAPIInstance.createPoll().catch(err => {
@@ -33,34 +36,33 @@ async function main() {
     })
 
 
-        console.log("Once the poll is created, Tory checks the weather");
-        await weatherAPIInstance.getWeather().catch(err => {
-            console.error('There is an error : ', err);
-        })
+    console.log("Once the poll is created, Tory checks the weather");
+    await weatherAPIInstance.getWeather().catch(err => {
+        console.error('There is an error : ', err);
+    })
 
 
-
-        console.log("If the weather is good, Tory answers \"Go\" to the poll");
-        await missionAPIInstance.modifyPoll("weather", "true").catch(err => {
-            console.error('There is an error : ', err);
-        })
-
-
-        console.log("Elon checks the rocket status");
-        await telemetryAPIInstance.getRocketData().catch(err => {
-            console.error('There is an error : ', err);
-        })
-
-        console.log("Once the weather response is \"Go\" and the rocket status is Ready, Elon answers \"Go\" to the poll");
-        await missionAPIInstance.modifyPoll("rocket", "true").catch(err => {
-            console.error('There is an error : ', err);
-        })
+    console.log("If the weather is good, Tory answers \"Go\" to the poll");
+    await missionAPIInstance.modifyPoll("weather", "true").catch(err => {
+        console.error('There is an error : ', err);
+    })
 
 
-        console.log("Once the weather and rocket responses are \"Go\",Richard answers \"Go\" to the poll");
-        await missionAPIInstance.modifyPoll("mission", "true").catch(err => {
-            console.error('There is an error : ', err);
-        })
+    console.log("Elon checks the rocket status");
+    await telemetryAPIInstance.getRocketData().catch(err => {
+        console.error('There is an error : ', err);
+    })
+
+    console.log("Once the weather response is \"Go\" and the rocket status is Ready, Elon answers \"Go\" to the poll");
+    await missionAPIInstance.modifyPoll("rocket", "true").catch(err => {
+        console.error('There is an error : ', err);
+    })
+
+
+    console.log("Once the weather and rocket responses are \"Go\",Richard answers \"Go\" to the poll");
+    await missionAPIInstance.modifyPoll("mission", "true").catch(err => {
+        console.error('There is an error : ', err);
+    })
 
 
     setIntervalConditionPromise(() => {
@@ -81,7 +83,7 @@ async function main() {
             });
         },
         3000,
-        () => false);
+        () => stop/*false*/);
 
     setTimeout(() => {
         console.log("Once the poll is good, Elon launches the rocket");
@@ -118,10 +120,10 @@ async function main() {
             if (rocketData.rocketStatus == 5) {
                 console.log("Richard wants to destroy the booster too");
                 boosterAPIInstance.destroyBoosterSOAPBack();
-                passOnce3 = true
+                passOnce3 = true;
+                stop = true;
             }
         },
         1000,
         () => passOnce3);
-
 }
