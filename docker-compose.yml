@@ -73,7 +73,7 @@ services:
         - logs:/usr/src/app/logs
       environment:
         - PORT=3000
-        - HOST_TELEMETRY=rocket-service
+        - HOST_TELEMETRY=telemetry-service
         - PORT_TELEMETRY=3003
       depends_on:
         - telemetry-service
