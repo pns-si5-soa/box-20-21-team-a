@@ -56,9 +56,10 @@ export default class BoosterData { // TODO we should have separate objects for B
         return this.fuelLevel <= 0;
     }
 
-    initializeDetachment(): void {
+    async initializeDetachment(): Promise<void> {
         console.log("Initializing booster detachment.");
         this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
+        await this.rocketAPI.notifyBoosterDetachment();
     }
 
     private async controlFirstStageOfFlight(): Promise<void> {
