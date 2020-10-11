@@ -2,8 +2,7 @@ import express = require('express')
 import BoosterData from './entities/BoosterData';
 import path from 'path';
 import bodyParser from 'body-parser'
-/// <reference types="./types/logs-module" />
-import "logs-module";
+require ("logs-module");
 
 const cors = require('cors');
 var soap = require('soap');
