@@ -23,9 +23,9 @@ class RocketData {
         this.altitude = altitude;
         this.speed = speed;
         this.pressure = pressure;
-        this.dataUpdateDelay = 500;
+        this.dataUpdateDelay = 1000;
         this.acceleration = 2;
-        this.pressureIncrease = 10;
+        this.pressureIncrease = 5;
         telemetryAPI.sendData(this);
     }
 

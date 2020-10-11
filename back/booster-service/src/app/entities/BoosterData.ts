@@ -6,10 +6,10 @@ import RocketAPI from "../API/RocketAPI";
 
 export default class BoosterData { // TODO we should have separate objects for Booster and BoosterData
 
-    private boosterStatus: BoosterStatus;
-    private fuelLevel: number; //l
-    private altitude: number; //km
-    private speed: number; //km.s-1
+    private boosterStatus : BoosterStatus;
+    private altitude: number;
+    private speed: number;
+    private fuelLevel: number;
     private dataUpdateDelay: number;
     private canSendData: boolean;
 

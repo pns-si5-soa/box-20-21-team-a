@@ -1,4 +1,5 @@
-
+import RocketData from "./model/Rocket/RocketData";
+require("logs-module");
 require('dotenv').config()
 import RocketAPI from './API/rocketAPI'
 import weatherAPI from './API/weatherAPI'
@@ -7,62 +8,120 @@ import BoosterAPI from './API/boosterAPI'
 import PayloadAPI from './API/payloadAPI'
 import TelemetryAPI from './API/telemetryAPI'
 import {setIntervalConditionPromise} from "../../../back/booster-service/src/app/tools/set_intervalx";
+import BoosterData from "./model/Booster/BoosterData";
+import PayloadData from "./model/Payload/PayloadData";
 
-const weatherAPIInstance = new weatherAPI()
-const rocketAPIInstance = new RocketAPI()
-const missionAPIInstance = new MissionAPI()
-const boosterAPIInstance = new BoosterAPI()
-const payloadAPIInstance = new PayloadAPI()
-const telemetryAPIInstance = new TelemetryAPI()
-
-console.log("Richard creates the poll to start the mission");
-missionAPIInstance.createPoll().then(res => {
-
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
-
-console.log("Once the poll is created, Tory checks the weather");
-weatherAPIInstance.getWeather().then(res => {
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
-
-console.log("If the weather is good, Tory answers \"Go\" to the poll");
-missionAPIInstance.modifyPoll("weather","true").then(res => {
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
-
-console.log("Elon checks the rocket status");
-telemetryAPIInstance.getRocketData().then(res => {
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
-
-console.log("Once the weather response is \"Go\" and the rocket status is Ready, Elon answers \"Go\" to the poll");
-missionAPIInstance.modifyPoll("rocket","true").then(res => {
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
-
-console.log("Once the weather and rocket responses are \"Go\",Richard answers \"Go\" to the poll");
-missionAPIInstance.modifyPoll("mission","true").then(res => {
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
+const weatherAPIInstance = new weatherAPI();
+const rocketAPIInstance = new RocketAPI();
+const missionAPIInstance = new MissionAPI();
+const boosterAPIInstance = new BoosterAPI();
+const payloadAPIInstance = new PayloadAPI();
+const telemetryAPIInstance = new TelemetryAPI();
+let rocketData = new RocketData();
+let boosterData = new BoosterData();
+let payloadData = new PayloadData();
 
 
-setIntervalConditionPromise(() => {
-        telemetryAPIInstance.getRocketData();
-        telemetryAPIInstance.getBoosterData();
-        telemetryAPIInstance.getPayloadData();
-    },
-    3000,
-    () => false);
+main();
 
-console.log("Once the poll is good, Elon launches the rocket");
-boosterAPIInstance.launchBoosterSOAPBack();
+async function main() {
 
-console.log("Lesbian delivers the payload");
-payloadAPIInstance.deliverPayloadSOAPBack();
+
+    console.log("Richard creates the poll to start the mission");
+    await missionAPIInstance.createPoll().catch(err => {
+        console.error('There is an error : ', err);
+    })
+
+
+        console.log("Once the poll is created, Tory checks the weather");
+        await weatherAPIInstance.getWeather().catch(err => {
+            console.error('There is an error : ', err);
+        })
+
+
+
+        console.log("If the weather is good, Tory answers \"Go\" to the poll");
+        await missionAPIInstance.modifyPoll("weather", "true").catch(err => {
+            console.error('There is an error : ', err);
+        })
+
+
+        console.log("Elon checks the rocket status");
+        await telemetryAPIInstance.getRocketData().catch(err => {
+            console.error('There is an error : ', err);
+        })
+
+        console.log("Once the weather response is \"Go\" and the rocket status is Ready, Elon answers \"Go\" to the poll");
+        await missionAPIInstance.modifyPoll("rocket", "true").catch(err => {
+            console.error('There is an error : ', err);
+        })
+
+
+        console.log("Once the weather and rocket responses are \"Go\",Richard answers \"Go\" to the poll");
+        await missionAPIInstance.modifyPoll("mission", "true").catch(err => {
+            console.error('There is an error : ', err);
+        })
+
+
+    setIntervalConditionPromise(() => {
+            telemetryAPIInstance.getRocketData().then(res => {
+                rocketData = res.data;
+            }).catch(err => {
+                console.error('There is an error : ', err);
+            });
+            telemetryAPIInstance.getBoosterData().then(res => {
+                boosterData = res.data;
+            }).catch(err => {
+                console.error('There is an error : ', err);
+            });
+            telemetryAPIInstance.getPayloadData().then(res => {
+                payloadData = res.data;
+            }).catch(err => {
+                console.error('There is an error : ', err);
+            });
+        },
+        3000,
+        () => false);
+
+    setTimeout(() => {
+        console.log("Once the poll is good, Elon launches the rocket");
+        boosterAPIInstance.launchBoosterSOAPBack();
+    }, 100);
+
+
+    let passOnce = false;
+    setIntervalConditionPromise(() => {
+            if (rocketData.rocketStatus == 4) {
+                console.log("Gwynne delivers the payload");
+                payloadAPIInstance.deliverPayloadSOAPBack();
+                passOnce = true;
+            }
+        },
+        1000,
+        () => passOnce);
+
+
+    let passOnce2 = false;
+    setIntervalConditionPromise(() => {
+            if (payloadData.payloadStatus == 2 && boosterData.boosterStatus == 3) {
+                console.log("If something went wrong, the rocket and the booster can be destroyed separately");
+                console.log("Richard wants to destroy the rocket");
+                rocketAPIInstance.destroyRocketSOAPBack();
+                passOnce2 = true;
+            }
+        },
+        1000,
+        () => passOnce2);
+
+    let passOnce3 = false;
+    setIntervalConditionPromise(() => {
+            if (rocketData.rocketStatus == 5) {
+                console.log("Richard wants to destroy the booster too");
+                boosterAPIInstance.destroyBoosterSOAPBack();
+                passOnce3 = true
+            }
+        },
+        1000,
+        () => passOnce3);
+
+}

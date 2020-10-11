@@ -2,9 +2,9 @@ import PayloadStatus from "./PayloadStatus";
 
 interface IPayloadData{
     payloadData: {
-        speed: number,
-        altitude: number,
         payloadStatus: PayloadStatus,
+        altitude: number,
+        speed: number,
     }
 }
 
@@ -46,9 +46,9 @@ class PayloadData {
     toObjectJSON(): IPayloadData {
         return {
             payloadData: {
+                payloadStatus: this.payloadStatus,
                 speed: this.speed,
                 altitude: this.altitude,
-                payloadStatus: this.payloadStatus,
             }
         }
     }

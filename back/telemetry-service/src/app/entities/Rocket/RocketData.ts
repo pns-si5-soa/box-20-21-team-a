@@ -3,9 +3,9 @@ import {RocketStatus} from "./RocketStatus";
 interface IRocketData{
     rocketData: {
         rocketStatus: RocketStatus,
-        fuelLevel: number,
         altitude: number,
         speed: number,
+        fuelLevel: number,
         pressure: number,
     }
 }

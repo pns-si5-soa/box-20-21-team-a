@@ -5,9 +5,9 @@ import TelemetryAPI from '../API/telemetryAPI';
 
 export default class Payload{
 
-    private speed : number;
-    private altitude : number;
-    private payloadStatus : PayloadStatus;
+    private payloadStatus: PayloadStatus;
+    private speed: number;
+    private altitude: number;
     private sleepTime : number;
     private sendingData : boolean;
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();

@@ -3,17 +3,18 @@ import {BoosterStatus} from "./BoosterStatus";
 interface IBoosterData{
     boosterData: {
         boosterStatus: BoosterStatus,
-        fuelLevel: number,
         altitude: number,
         speed: number,
+        fuelLevel: number,
     }
 }
 
 class BoosterData {
+    private boosterStatus : BoosterStatus;
     private altitude: number;
     private speed: number;
     private fuelLevel: number;
-    private boosterStatus : BoosterStatus;
+
 
     constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.NOT_LAUNCHED) {
         this.altitude=altitude;
