@@ -6,7 +6,7 @@ class rocketService { // TODO PascalCase
     rocketData : RocketData;
 
     constructor() {
-        this.rocketData = new RocketData(RocketStatus.READY_FOR_LAUNCH,10,0,0,0);
+        this.rocketData = new RocketData(RocketStatus.READY_FOR_LAUNCH,30,0,0,0);
     }
 
     // For tests only
