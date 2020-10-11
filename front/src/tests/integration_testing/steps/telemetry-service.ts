@@ -31,8 +31,8 @@ When("The rocket is launched", async function ()
     });
 })
 
-Then("The telemetry data are updated with the new value of booster status", async function()
+Then("The telemetry data are updated with the new value of rocket status", async function()
 {
-    expect((await telemetryAPI.getBoosterData()).data.boosterStatus).toBe(BoosterStatus.IN_FIRST_STAGE);
+    expect((await telemetryAPI.getRocketData()).data.rocketStatus).toBe(RocketStatus.LAUNCHED);
 })
 
