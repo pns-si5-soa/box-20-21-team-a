@@ -1,6 +1,8 @@
 import API from './API';
 import $ from 'jquery';
 import 'jquery.soap';
+import {Client} from 'soap';
+var soap = require('soap');
 
 class BoosterAPI extends API {
 
@@ -11,6 +13,15 @@ class BoosterAPI extends API {
         const port: String = process.env.PORT_BOOSTER ?? "3004";
         super(host, port);
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
+    }
+
+    public launchBoosterSOAPBack<T>(): Promise<any> {
+        var args = {};
+        return soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+            client.launchBooster(args, function (err: String, result: Client) {
+                return result;
+            });
+        });
     }
 
     public launchBoosterSOAP() : Promise<any>{
@@ -36,6 +47,15 @@ class BoosterAPI extends API {
         });
     }
 
+
+public destroyBoosterSOAPBack<T>(): Promise<any> {
+    var args = {};
+    return soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+        client.destroy(args, function (err: String, result: Client) {
+            return result;
+        });
+    });
+}
     public destroyBooster() : Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({

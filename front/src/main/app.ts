@@ -62,13 +62,7 @@ setIntervalConditionPromise(() => {
     () => false);
 
 console.log("Once the poll is good, Elon launches the rocket");
-boosterAPIInstance.launchBoosterSOAP().then(res => {
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
+boosterAPIInstance.launchBoosterSOAPBack();
 
 console.log("Lesbian delivers the payload");
-payloadAPIInstance.deliverPayloadSOAP().then(res => {
-}).catch(err => {
-    console.log('There is an error : ', err);
-})
+payloadAPIInstance.deliverPayloadSOAPBack();

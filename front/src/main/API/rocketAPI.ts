@@ -2,6 +2,9 @@ import {AxiosPromise} from 'axios';
 import API from './API';
 import $ from 'jquery';
 import 'jquery.soap';
+import {Client} from 'soap';
+var soap = require('soap');
+
 
 class RocketAPI extends API {
 
@@ -14,6 +17,15 @@ class RocketAPI extends API {
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
 
+    public destroyRocketSOAPBack<T>(): Promise<any> {
+        var args = {};
+        return soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+            client.deliverPayload(args, function (err: String, result: Client) {
+                return result;
+            });
+        });
+    }
+    
     public destroyRocket(): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
@@ -36,6 +48,7 @@ class RocketAPI extends API {
             });
         });
     }
+    
 
 }
 
