@@ -23,7 +23,7 @@ services:
     ports:
       - "3003:3003"
     volumes:
-      - logs:/usr/src/app/logs
+      - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3003
 
@@ -38,7 +38,7 @@ services:
       ports:
         - "3002:3002"
       volumes:
-        - logs:/usr/src/app/logs
+        - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3002
 
@@ -54,7 +54,7 @@ services:
       ports:
         - "3001:3001"
       volumes:
-        - logs:/usr/src/app/logs
+        - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3001
 
@@ -70,7 +70,7 @@ services:
       ports:
         - "3000:3000"
       volumes:
-        - logs:/usr/src/app/logs
+        - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3000
         - HOST_TELEMETRY=telemetry-service
@@ -89,7 +89,7 @@ services:
     ports:
       - "3004:3004"
     volumes:
-      - logs:/usr/src/app/logs
+      - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3004
 
@@ -104,7 +104,7 @@ services:
     ports:
       - "3005:3005"
     volumes:
-      - logs:/usr/src/app/logs
+      - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3005
 
@@ -136,7 +136,3 @@ services:
         - waitforservices
       stdin_open: true
       tty: true
-    
-volumes:
-  logs:
-    external: true
