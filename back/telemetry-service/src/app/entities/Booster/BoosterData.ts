@@ -1,5 +1,13 @@
 import {BoosterStatus} from "./BoosterStatus";
 
+interface IBoosterData{
+    boosterData: {
+        boosterStatus: BoosterStatus,
+        fuelLevel: number,
+        altitude: number,
+        speed: number,
+    }
+}
 
 class BoosterData {
     private altitude: number;
@@ -46,6 +54,17 @@ class BoosterData {
 
     setBoosterStatus(value: BoosterStatus) {
         this.boosterStatus = value;
+    }
+
+    toObjectJSON(): IBoosterData {
+        return {
+            boosterData: {
+                boosterStatus: this.boosterStatus,
+                fuelLevel: this.fuelLevel,
+                altitude: this.altitude,
+                speed: this.speed,
+            }
+        };
     }
 
 }

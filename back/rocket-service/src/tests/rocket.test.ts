@@ -6,6 +6,6 @@ test('Rocket status return test', () => {
 });
 
 test('Rocket launch test', () => {
-    expect(rocketService.launch()).toBe("Launching Rocket...");
+    rocketService.launch();
     expect(rocketService.getStatus()).toBe(RocketStatus.LAUNCHED);
 });

@@ -1,5 +1,14 @@
 import {RocketStatus} from "./RocketStatus";
 
+interface IRocketData{
+    rocketData: {
+        rocketStatus: RocketStatus,
+        fuelLevel: number,
+        altitude: number,
+        speed: number,
+        pressure: number,
+    }
+}
 
 class RocketData {
 
@@ -9,12 +18,12 @@ class RocketData {
     private speed: number;
     private pressure: number;
 
-    constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = -1, altitude=-1, speed=-1, pressure=-1) {
+    constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = -1, altitude = -1, speed = -1, pressure = -1) {
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
-        this.altitude=altitude;
-        this.speed=speed;
-        this.pressure=pressure;
+        this.altitude = altitude;
+        this.speed = speed;
+        this.pressure = pressure;
     }
 
     getRocketStatus() {
@@ -33,28 +42,40 @@ class RocketData {
         this.fuelLevel = value;
     }
 
-    setAltitude(value : number){
-        this.altitude=value;
+    setAltitude(value: number) {
+        this.altitude = value;
     }
 
-    setSpeed(value : number){
-        this.speed=value;
+    setSpeed(value: number) {
+        this.speed = value;
     }
 
-    setPressure(value : number ){
-        this.pressure=value;
+    setPressure(value: number) {
+        this.pressure = value;
     }
 
-    getAltitude(){
+    getAltitude() {
         return this.altitude;
     }
 
-    getSpeed(){
+    getSpeed() {
         return this.speed;
     }
 
-    getPressure(){
+    getPressure() {
         return this.pressure;
+    }
+
+    toObjectJSON(): IRocketData {
+        return {
+            rocketData: {
+                rocketStatus: this.rocketStatus,
+                fuelLevel: this.fuelLevel,
+                altitude: this.altitude,
+                speed: this.speed,
+                pressure: this.pressure,
+            }
+        };
     }
 
 }

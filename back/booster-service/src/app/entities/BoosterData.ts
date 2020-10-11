@@ -1,7 +1,7 @@
 import BoosterStatus from './BoosterStatus';
 import {setIntervalConditionPromise} from '../tools/set_intervalx';
 import TelemetryAPI from '../API/telemetryAPI';
-import RocketAPI from '../API/RocketAPI';
+import RocketAPI from "../API/RocketAPI";
 
 
 export default class BoosterData { // TODO we should have separate objects for Booster and BoosterData
@@ -65,7 +65,6 @@ export default class BoosterData { // TODO we should have separate objects for B
         const that = this;
         await setIntervalConditionPromise(() => {
                 that.sendData();
-                console.log(that.toObjectJSON());
                 that.altitude += that.speed;
                 that.speed += 1;
                 that.fuelLevel -= 1;
@@ -79,7 +78,6 @@ export default class BoosterData { // TODO we should have separate objects for B
         const that = this;
         await setIntervalConditionPromise(() => {
                 that.sendData();
-                console.log(that.toObjectJSON());
                 that.altitude -= that.speed;
                 that.speed -= 1;
                 that.speed = that.speed < 1 ? 2 : that.speed;
@@ -119,7 +117,7 @@ export default class BoosterData { // TODO we should have separate objects for B
         this.speed = 10;
         console.log("Booster launched");
         this.sendData();
-        this.rocketAPI.notifyLaunch();
+        await this.rocketAPI.notifyLaunch();
 
         await this.controlFirstStageOfFlight();
         if (this.isDestroyed()) return;

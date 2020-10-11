@@ -175,9 +175,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                             </Button>
                             {this.state.poll !== undefined &&
                             <>
-                                <p>Weather status : {this.state.poll?.weatherStatus ? "On" : "Off"}</p>
-                                <p>Rocket status : {this.state.poll?.rocketStatus ? "On" : "Off"}</p>
-                                <p>Mission status : {this.state.poll?.missionStatus ? "On" : "Off"}</p>
+                                <p>Weather status : {this.state.poll?.weatherStatus ? "OK" : "NO"}</p>
+                                <p>Rocket status : {this.state.poll?.rocketStatus ? "OK" : "NO"}</p>
+                                <p>Mission status : {this.state.poll?.missionStatus ? "OK" : "NO"}</p>
                             </>
                             }
 

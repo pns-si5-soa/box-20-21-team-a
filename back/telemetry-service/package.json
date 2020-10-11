@@ -1,5 +1,5 @@
 {
-  "name": "telemetry-service",
+  "name": "telemetry",
   "version": "1.0.0",
   "description": "telemetry service",
   "main": "app.ts",

@@ -5,3 +5,11 @@ export enum BoosterStatus {
     LANDED = 3,
     DESTROYED = 4,
 }
+
+export const mapStatusToText = {
+    0: "Not launched",
+    1: "In first stage of flight",
+    2: "In second stage",
+    3: "Landed",
+    4: "Destroyed :(",
+};

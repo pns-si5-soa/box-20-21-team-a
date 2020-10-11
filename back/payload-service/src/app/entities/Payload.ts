@@ -1,6 +1,5 @@
 import PayloadStatus from "./PayloadStatus";
 import {setIntervalConditionPromise} from "../tools/set_interval_x";
-import e from "express";
 import TelemetryAPI from '../API/telemetryAPI';
 
 

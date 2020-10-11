@@ -1,6 +1,6 @@
 import RocketData from "../entities/Rocket/RocketData";
 import BoosterData from "../entities/Booster/BoosterData";
-import PayloadData from "../entities/Payload/PayloadData"
+import PayloadData from "../entities/Payload/PayloadData";
 
 class TelemetryService {
     rocketDataArray: RocketData[];
@@ -22,6 +22,7 @@ class TelemetryService {
     }
 
     getRocketData() {
+        console.log("\t\t\t\t" + JSON.stringify(this.rocketDataArray[this.rocketDataArray.length - 1].toObjectJSON()));
         return this.rocketDataArray[this.rocketDataArray.length - 1];
     }
 
@@ -31,6 +32,7 @@ class TelemetryService {
     }
 
     getBoosterData() {
+        console.log("\t\t\t\t" + JSON.stringify(this.boosterDataArray[this.boosterDataArray.length - 1].toObjectJSON()));
         return this.boosterDataArray[this.boosterDataArray.length - 1];
     }
 
@@ -40,6 +42,7 @@ class TelemetryService {
     }
 
     getPayloadData() {
+        console.log("\t\t\t\t" + JSON.stringify(this.payloadDataArray[this.payloadDataArray.length - 1].toObjectJSON()));
         return this.payloadDataArray[this.payloadDataArray.length - 1];
     }
 }

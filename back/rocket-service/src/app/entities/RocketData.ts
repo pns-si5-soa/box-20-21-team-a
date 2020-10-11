@@ -30,7 +30,7 @@ class RocketData {
 
     async notifyLaunch() {
         this.rocketStatus = RocketStatus.LAUNCHED;
-        this.telemetryAPI.sendData(this);
+        await this.telemetryAPI.sendData(this);
         console.log("Rocket has been launched!");
     }
 

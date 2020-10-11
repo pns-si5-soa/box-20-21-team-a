@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Button from "@material-ui/core/Button";
 
 import RocketAPI from '../../src/main/API/rocketAPI'
@@ -7,7 +7,6 @@ import PayloadAPI from '../../src/main/API/payloadAPI'
 
 
 const rocketAPI = new RocketAPI();
-const telemetryAPI = new TelemetryAPI();
 const payloadAPI = new PayloadAPI();
 
 

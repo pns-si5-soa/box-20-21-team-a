@@ -5,6 +5,10 @@ enum PayloadStatus{
 
 }
 
-export const mapStatus = ["Attached to the rocket","Progressing to orbital position","In orbit"]
+export const mapStatusToText = {
+    0: "Attached to the rocket",
+    1: "Progressing to orbital position",
+    2: "In orbit"
+};
 
 export default PayloadStatus;

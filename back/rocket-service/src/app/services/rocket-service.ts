@@ -14,9 +14,8 @@ class rocketService { // TODO PascalCase
         return this.rocketData.getRocketStatus();
     }
 
-    launch(): string {
-        this.rocketData.notifyLaunch();
-        return "Launching Rocket...";
+    async launch(): Promise<void> {
+        await this.rocketData.notifyLaunch();
     }
 
     destroy(): void {
@@ -24,8 +23,8 @@ class rocketService { // TODO PascalCase
 
     }
 
-    initializeRocketEngines(): void {
-        this.rocketData.initializeEngines();
+    async initializeRocketEngines(): Promise<void> {
+        await this.rocketData.initializeEngines();
     }
 }
 
