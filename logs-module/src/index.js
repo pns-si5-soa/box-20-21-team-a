@@ -1,11 +1,11 @@
-import {configure, getLogger} from "log4js";
-import name = require('project-name');
+const log4js = require("log4js");
+const name = require('project-name');
 
-const logger = getLogger('From service ' + name());
+const logger = log4js.getLogger('From service ' + name());
 logger.level = "info";
 const datetime = new Date();
 
-configure({
+log4js.configure({
     appenders: {
         logs: {
             type: "file",
@@ -19,17 +19,17 @@ const log = console.log;
 const error = console.error;
 const warn = console.warn;
 
-const consolelog = function (msg: any) {
+const consolelog = function (msg) {
     log(msg);
     logger.info(msg);
 }
 
-const consoleerror = function (msg: any) {
+const consoleerror = function (msg) {
     error(msg);
     logger.error(msg);
 }
 
-const consolewarn = function (msg: any) {
+const consolewarn = function (msg) {
     warn(msg);
     logger.warn(msg);
 }
@@ -38,4 +38,4 @@ console.log = consolelog;
 console.error = consoleerror;
 console.warn = consolewarn;
 
-export default {log, error, warn}
+module.export = {log, error, warn}
