@@ -112,7 +112,9 @@ services:
   front:
       image: blue-origin/front
       container_name: front-container
-      build: ./front
+      build: 
+        context: .
+        dockerfile: ./front/Dockerfile
       environment:
         - HOST_ROCKET=rocket-service
         - PORT_ROCKET=3000
