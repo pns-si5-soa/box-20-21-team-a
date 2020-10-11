@@ -7,10 +7,11 @@ WORKDIR /usr/src/app/back/telemetry-service
 COPY ./back/telemetry-service/package*.json /usr/src/app/back/telemetry-service/
 COPY ./logs-module /usr/src/app/logs-module
 
-RUN npm install
-
 # Copying source files
 COPY ./back/telemetry-service /usr/src/app/back/telemetry-service
+
+RUN rm -rf node_modules
+RUN npm install
 
 EXPOSE 3003
 # Running the app

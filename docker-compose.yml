@@ -22,6 +22,8 @@ services:
       - "3003"
     ports:
       - "3003:3003"
+    volumes:
+      - logs:/usr/src/app/logs
     environment:
       - PORT=3003
 
@@ -35,6 +37,8 @@ services:
         - "3002"
       ports:
         - "3002:3002"
+      volumes:
+        - logs:/usr/src/app/logs
       environment:
         - PORT=3002
 
@@ -49,6 +53,8 @@ services:
         - "3001"
       ports:
         - "3001:3001"
+      volumes:
+        - logs:/usr/src/app/logs
       environment:
         - PORT=3001
 
@@ -63,6 +69,8 @@ services:
         - "3000"
       ports:
         - "3000:3000"
+      volumes:
+        - logs:/usr/src/app/logs
       environment:
         - PORT=3000
         - HOST_TELEMETRY=rocket-service
@@ -80,6 +88,8 @@ services:
       - "3004"
     ports:
       - "3004:3004"
+    volumes:
+      - logs:/usr/src/app/logs
     environment:
       - PORT=3004
 
@@ -93,6 +103,8 @@ services:
       - "3005"
     ports:
       - "3005:3005"
+    volumes:
+      - logs:/usr/src/app/logs
     environment:
       - PORT=3005
 
@@ -125,3 +137,6 @@ services:
       stdin_open: true
       tty: true
     
+volumes:
+  logs:
+    external: true

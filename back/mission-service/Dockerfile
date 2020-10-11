@@ -7,10 +7,11 @@ WORKDIR /usr/src/app/back/mission-service
 COPY ./back/mission-service/package*.json /usr/src/app/back/mission-service/
 COPY ./logs-module /usr/src/app/logs-module
 
-RUN npm install
-
 # Copying source files
 COPY ./back/mission-service /usr/src/app/back/mission-service
+
+RUN rm -rf node_modules
+RUN npm install
 
 EXPOSE 3002
 # Running the app
