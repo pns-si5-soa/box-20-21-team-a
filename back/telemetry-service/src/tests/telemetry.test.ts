@@ -11,9 +11,9 @@ test('get rocket data test', () => {
 test('add rocket data test', () => {
     const fuelLevel = 10;
     const length = telemetryService.rocketDataArray.length;
-    let rocketData = new RocketData(RocketStatus.PAYLOAD_DELIVERED,fuelLevel);
+    let rocketData = new RocketData(RocketStatus.LAUNCHED,fuelLevel);
     telemetryService.addRocketData(rocketData);
-    expect(telemetryService.getRocketData().getRocketStatus()).toBe(RocketStatus.PAYLOAD_DELIVERED);
+    expect(telemetryService.getRocketData().getRocketStatus()).toBe(RocketStatus.LAUNCHED);
     expect(telemetryService.getRocketData().getFuelLevel()).toBe(fuelLevel);
     expect(telemetryService.rocketDataArray.length).toBe(length+1);
 });
