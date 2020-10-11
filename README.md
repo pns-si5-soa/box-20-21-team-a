@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.com/pns-si5-soa/box-20-21-team-a.svg?token=iVy7SupLvEyaRHecrkoc&branch=develop)](https://travis-ci.com/pns-si5-soa/box-20-21-team-a)
 [![Build Status](https://badgen.net/badge/version/2.0/purple)](https://badgen.net/badge/version/2.0/purple)
 
+### /!\ There is the scenario LOGS below in case run.sh didn't work
+
 ## Description
 
 This project is a class project realized during the 5th year of engineer school. The aim of this project is to create a micro services architecture to set up a system respecting the Blue Galactic X ambitions.
@@ -67,8 +69,9 @@ First run `docker-compose run --rm waitforservices` to launch services
 Then run `docker-compose up front`
 
 
-##Log Release
 
+##Logs for Release
+```
 [2020-10-11T20:50:21.222] [INFO] From service front - Richard creates the poll to start the mission
 [2020-10-11T20:50:21.309] [INFO] From service mission - A poll was created
 [2020-10-11T20:50:21.332] [INFO] From service front - Once the poll is created, Tory checks the weather
@@ -171,4 +174,4 @@ Then run `docker-compose up front`
 [2020-10-11T20:51:30.396] [INFO] From service telemetry - 				{"rocketStatus":5,"fuelLevel":0,"altitude":2130,"speed":78,"pressure":70,"dataUpdateDelay":1000,"acceleration":2,"pressureIncrease":5}
 [2020-10-11T20:51:30.402] [INFO] From service telemetry - 				{"boosterStatus":3,"fuelLevel":0,"altitude":0,"speed":0}
 [2020-10-11T20:51:30.403] [INFO] From service telemetry - 				{"speed":105,"altitude":35955,"payloadStatus":2}
-
+```
