@@ -18,7 +18,7 @@ class RocketData {
     private speed: number;
     private pressure: number;
 
-    constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = -1, altitude = -1, speed = -1, pressure = -1) {
+    constructor(rocketStatus = RocketStatus.READY_FOR_LAUNCH, fuelLevel = 0, altitude = 0, speed = 0, pressure = 0) {
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
         this.altitude = altitude;

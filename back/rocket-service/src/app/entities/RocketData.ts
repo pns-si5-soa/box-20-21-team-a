@@ -2,6 +2,8 @@ import RocketStatus from "./RocketStatus";
 import {setIntervalConditionPromise} from '../tools/setIntervalx'
 import TelemetryAPI from '../API/telemetryAPI';
 
+const telemetryAPI: TelemetryAPI = new TelemetryAPI();
+
 class RocketData {
 
     private rocketStatus: RocketStatus;
@@ -13,7 +15,7 @@ class RocketData {
     private acceleration: number;
     private pressureIncrease: number;
 
-    private telemetryAPI: TelemetryAPI = new TelemetryAPI();
+
 
     constructor(rocketStatus = RocketStatus.READY_FOR_LAUNCH, fuelLevel = 0, altitude = 0, speed = 0, pressure = 0) {
         this.rocketStatus = rocketStatus;
@@ -24,13 +26,13 @@ class RocketData {
         this.dataUpdateDelay = 500;
         this.acceleration = 2;
         this.pressureIncrease = 10;
-        this.telemetryAPI.sendData(this);
+        telemetryAPI.sendData(this);
     }
 
 
     async notifyLaunch() {
         this.rocketStatus = RocketStatus.LAUNCHED;
-        await this.telemetryAPI.sendData(this);
+        await telemetryAPI.sendData(this);
         console.log("Rocket has been launched!");
     }
 
@@ -38,7 +40,7 @@ class RocketData {
         console.log("Initializing rocket engines.");
         this.speed = 50;
         await this.controlSecondStageOfFlight();
-        this.telemetryAPI.sendData(this);
+        telemetryAPI.sendData(this);
         console.log("Rocket engines started.");
     }
 
@@ -50,7 +52,7 @@ class RocketData {
             that.speed += this.acceleration;
             that.fuelLevel -= 1;
             that.pressure += this.pressureIncrease;
-            that.telemetryAPI.sendData(that);
+            telemetryAPI.sendData(that);
         },
             this.dataUpdateDelay,
             ()=>(that.pressure < 70 || that.rocketStatus === RocketStatus.DESTROYED));
@@ -62,7 +64,7 @@ class RocketData {
         console.log("Going through MAX Q. Throttling down...");
         const that = this;
         await setIntervalConditionPromise(()=>{
-                that.telemetryAPI.sendData(that);
+                telemetryAPI.sendData(that);
                 that.altitude += this.speed;
                 that.fuelLevel -= 1;
             },
@@ -72,7 +74,7 @@ class RocketData {
 
     destroy(): void {
         this.rocketStatus = RocketStatus.DESTROYED;
-        this.telemetryAPI.sendData(this);
+        telemetryAPI.sendData(this);
         console.log("*BOOM!* - Rocket destroyed!");
     }
 
