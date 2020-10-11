@@ -59,7 +59,7 @@ export default class BoosterData { // TODO we should have separate objects for B
     async initializeDetachment(): Promise<void> {
         console.log("Initializing booster detachment.");
         this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
-        await this.rocketAPI.notifyBoosterDetachment();
+        if(this.canSendData) await this.rocketAPI.notifyBoosterDetachment();
     }
 
     private async controlFirstStageOfFlight(): Promise<void> {
@@ -118,7 +118,7 @@ export default class BoosterData { // TODO we should have separate objects for B
         this.speed = 10;
         console.log("Booster launched");
         this.sendData();
-        await this.rocketAPI.notifyLaunch();
+        if(this.canSendData) await this.rocketAPI.notifyLaunch();
 
         await this.controlFirstStageOfFlight();
         if (this.isDestroyed()) return;
