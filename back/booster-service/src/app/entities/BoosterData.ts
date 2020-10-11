@@ -79,7 +79,7 @@ export default class BoosterData { // TODO we should have separate objects for B
         const that = this;
         await setIntervalConditionPromise(() => {
                 that.sendData();
-                that.altitude -= that.speed*2;
+                that.altitude -= that.speed;
                 that.speed -= 1;
                 that.speed = that.speed < 1 ? 2 : that.speed;
                 // that.fuelLevel -= 1;
