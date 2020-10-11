@@ -1,17 +1,17 @@
 import BoosterData from "../app/entities/BoosterData"
 import BoosterStatus from "../app/entities/BoosterStatus"
 
-
-test.skip('Launching booster', async () => {
-    const booster = new BoosterData();
-    booster.setTimer(1)
-    booster.stopSendingData()
-    let json = booster.toObjectJSON()
-    expect(json.boosterStatus).toBe(BoosterStatus.NOT_LAUNCHED)
-    await booster.launch();
-    json = booster.toObjectJSON()
-    expect(json.boosterStatus).toBe(BoosterStatus.LANDED)
-});
+// FIXME
+// test.skip('Launching booster', async () => {
+//     const booster = new BoosterData();
+//     booster.setTimer(1)
+//     booster.stopSendingData()
+//     let json = booster.toObjectJSON()
+//     expect(json.boosterStatus).toBe(BoosterStatus.NOT_LAUNCHED)
+//     await booster.launch();
+//     json = booster.toObjectJSON()
+//     expect(json.boosterStatus).toBe(BoosterStatus.LANDED)
+// });
 
 
 test('Destroy booster', () => {
