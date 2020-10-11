@@ -2,7 +2,7 @@ import BoosterData from "../app/entities/BoosterData"
 import BoosterStatus from "../app/entities/BoosterStatus"
 
 
-test('Launching booster', async () => {
+test.skip('Launching booster', async () => {
     const booster = new BoosterData();
     booster.setTimer(1)
     booster.stopSendingData()
