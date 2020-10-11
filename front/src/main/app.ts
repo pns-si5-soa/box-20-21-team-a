@@ -8,7 +8,7 @@ import MissionAPI from './API/missionAPI'
 import BoosterAPI from './API/boosterAPI'
 import PayloadAPI from './API/payloadAPI'
 import TelemetryAPI from './API/telemetryAPI'
-import {setIntervalConditionPromise} from "../../../back/booster-service/src/app/tools/set_intervalx";
+import {setIntervalConditionPromise} from './tools/set_intervalx';
 import BoosterData from "./model/Booster/BoosterData";
 import PayloadData from "./model/Payload/PayloadData";
 
