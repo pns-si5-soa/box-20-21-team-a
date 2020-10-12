@@ -2,14 +2,17 @@
   "name": "wsdl-generator",
   "version": "1.0.0",
   "description": "Generate wsdl files",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "arg": "^4.1.3",
     "axios": "^0.20.0"
+  },
+  "bin": {
+    "wsdlgen": "./src/index.js"
   }
 }

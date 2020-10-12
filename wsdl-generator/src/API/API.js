@@ -15,8 +15,6 @@ class API {
             dataStr += element + "=" + encodeURIComponent(data[element])
             len += element.length + data[element].length
         }
-        console.log(dataStr)
-        console.log(data)
         return this.axios({method: 'post',
                             url:'/wsdl/index.php',
                             data: dataStr,
