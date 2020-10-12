@@ -15,9 +15,12 @@ class PayloadAPI {
 
     public deliverPayloadSOAPBack<T>(): Promise<any> {
         var args = {};
-        return soap.createClient(this.urlSOAP, function (err: String, client: Client) {
-            client.deliverPayload(args, function (err: String, result: Client) {
-                return result;
+        return new Promise((resolve, reject) => 
+        {
+            soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+                client.deliverPayload(args, function (err: String, result: Client) {
+                    resolve(result);
+                });
             });
         });
     }

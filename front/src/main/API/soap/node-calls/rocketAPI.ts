@@ -15,9 +15,12 @@ class RocketAPI {
 
     public destroyRocketSOAPBack<T>(): Promise<any> {
         var args = {};
-        return soap.createClient(this.urlSOAP, function (err: String, client: Client) {
-            client.destroy(args, function (err: String, result: Client) {
-                return result;
+        return new Promise((resolve, reject) => 
+        {
+            soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+                client.destroy(args, function (err: String, result: Client) {
+                    resolve(result);
+                });
             });
         });
     }
