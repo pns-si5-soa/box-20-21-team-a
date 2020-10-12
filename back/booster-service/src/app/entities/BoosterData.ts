@@ -6,7 +6,7 @@ import RocketAPI from "../API/RocketAPI";
 
 export default class BoosterData { // TODO we should have separate objects for Booster and BoosterData
 
-    private boosterStatus : BoosterStatus;
+    private boosterStatus: BoosterStatus;
     private altitude: number;
     private speed: number;
     private fuelLevel: number;
@@ -59,7 +59,7 @@ export default class BoosterData { // TODO we should have separate objects for B
     async initializeDetachment(): Promise<void> {
         console.log("Initializing booster detachment.");
         this.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
-        if(this.canSendData) await this.rocketAPI.notifyBoosterDetachment();
+        if (this.canSendData) await this.rocketAPI.notifyBoosterDetachment();
     }
 
     private async controlFirstStageOfFlight(): Promise<void> {
@@ -86,7 +86,7 @@ export default class BoosterData { // TODO we should have separate objects for B
             },
             this.dataUpdateDelay,
             () => (that.altitude <= 0 || that.isDestroyed()));
-        if(this.boosterStatus === BoosterStatus.DESTROYED){
+        if (this.boosterStatus === BoosterStatus.DESTROYED) {
             return;
         }
         console.log("Booster landed");
@@ -118,7 +118,7 @@ export default class BoosterData { // TODO we should have separate objects for B
         this.speed = 10;
         console.log("Booster launched");
         this.sendData();
-        if(this.canSendData) await this.rocketAPI.notifyLaunch();
+        if (this.canSendData) await this.rocketAPI.notifyLaunch();
 
         await this.controlFirstStageOfFlight();
         if (this.isDestroyed()) return;
@@ -134,9 +134,9 @@ export default class BoosterData { // TODO we should have separate objects for B
     }
 
     destroy(): void {
-        this.sendData();
-        console.log("*BOOM!* - Booster destroyed!");
         this.boosterStatus = BoosterStatus.DESTROYED;
+        console.log("*BOOM!* - Booster destroyed!");
+        this.sendData();
     }
 
 

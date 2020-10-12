@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from "@material-ui/core/Button";
 
-import RocketAPI from '../../src/main/API/rocketAPI'
-import TelemetryAPI from '../../src/main/API/telemetryAPI'
-import PayloadAPI from '../../src/main/API/payloadAPI'
+import RocketAPI from '../../src/main/API/soap/jquery-calls/rocketAPI'
+import TelemetryAPI from '../../src/main/API/rest/telemetryAPI'
+import PayloadAPI from '../../src/main/API/soap/jquery-calls/payloadAPI'
 
 
 const rocketAPI = new RocketAPI();
@@ -35,7 +35,7 @@ const RocketMonitor = (props: IProps) => {
             })
             .catch(() => {
             });
-    }
+    };
     const deliverPayload = () => {
         payloadAPI.deliverPayloadSOAP()
             .then(res => {
@@ -43,7 +43,7 @@ const RocketMonitor = (props: IProps) => {
             })
             .catch(() => {
             });
-    }
+    };
 
     return (
         <>
@@ -68,7 +68,7 @@ const RocketMonitor = (props: IProps) => {
             </Button>
             <br/>
         </>
-    )
+    );
 
 };
 

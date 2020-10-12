@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import TelemetryAPI from '../../../src/main/API/telemetryAPI';
+import TelemetryAPI from '../../../src/main/API/rest/telemetryAPI';
 import RocketData from '../../../src/main/model/Rocket/RocketData';
 import {mapStatusToText} from "../../../src/main/model/Rocket/RocketStatus";
 

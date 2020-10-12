@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import TelemetryAPI from '../../../src/main/API/telemetryAPI';
+import TelemetryAPI from '../../../src/main/API/rest/telemetryAPI';
 import BoosterData from '../../../src/main/model/Booster/BoosterData';
 import {mapStatusToText} from "../../../src/main/model/Booster/BoosterStatus";
 

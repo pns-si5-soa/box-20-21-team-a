@@ -6,7 +6,7 @@ const {
 require('dotenv').config()
 
 import expect from 'expect';
-import WeatherAPI from '../../../main/API/weatherAPI';
+import WeatherAPI from '../../../main/API/rest/weatherAPI';
 
 let response: any;
 

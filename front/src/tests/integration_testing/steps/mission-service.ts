@@ -7,7 +7,7 @@ const {
 require('dotenv').config()
 
 import expect from 'expect';
-import MissionAPI from '../../../main/API/missionAPI';
+import MissionAPI from '../../../main/API/rest/missionAPI';
 
 let response: any;
 

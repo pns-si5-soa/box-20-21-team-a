@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import TelemetryAPI from '../../../src/main/API/telemetryAPI';
+import TelemetryAPI from '../../../src/main/API/rest/telemetryAPI';
 import PayloadData from '../../../src/main/model/Payload/PayloadData';
 import {mapStatusToText} from '../../../src/main/model/Payload/PayloadStatus';
 const telemetryAPI = new TelemetryAPI();

@@ -2,12 +2,12 @@ import RocketData from "./model/Rocket/RocketData";
 
 require("logs-module");
 require('dotenv').config()
-import RocketAPI from './API/rocketAPI'
-import weatherAPI from './API/weatherAPI'
-import MissionAPI from './API/missionAPI'
-import BoosterAPI from './API/boosterAPI'
-import PayloadAPI from './API/payloadAPI'
-import TelemetryAPI from './API/telemetryAPI'
+import RocketAPI from './API/soap/node-calls/rocketAPI';
+import weatherAPI from './API/rest/weatherAPI';
+import MissionAPI from './API/rest/missionAPI';
+import BoosterAPI from './API/soap/node-calls/boosterAPI';
+import PayloadAPI from './API/soap/node-calls/payloadAPI';
+import TelemetryAPI from './API/rest/telemetryAPI';
 import {setIntervalConditionPromise} from './tools/set_intervalx';
 import BoosterData from "./model/Booster/BoosterData";
 import PayloadData from "./model/Payload/PayloadData";
