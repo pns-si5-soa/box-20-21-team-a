@@ -35,15 +35,15 @@ Create a json file with this model :
 Execute the program like 
 
 ```
-node src/index.js <output> <input> <host> <port>
+node src/index.js --input <input> --host <host> --port <port>
 ```
 
 Example
 
 ```
-node src/index.js ./out/out2.wsdl ./src.json telemetry-service 3002
+node src/index.js --input ./src.json --host telemetry-service --port 3002
 ```
 
 ```
-node src/index.js ./out.wsdl ./json/src.json localhost 3001
+node src/index.js -i ./json/src.json -h localhost -p 3001
 ```

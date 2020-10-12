@@ -2,14 +2,25 @@ const API = require('./API/API')
 const Soap = require('./models/Soap')
 const fs = require('fs');
 
-const args = process.argv;
+const arg = require('arg');
+ 
+const args = arg({
+    // Types
+    '--help':    Boolean,
+    '--input':   String,      
+    '--host':    String,      
+    '--port':    String,      
+ 
+    // Aliases
+    '-i':        '--input',
+    '-p':        '--port',    
+    '-h':        '--host'     
+});
 
-if(args.length < 6) return;
-
-const outputfile = args[2]
-const inputfile = args[3]
-const host = args[4]
-const port = args[5]
+const inputfile = args["--input"]
+const outputfile = inputfile.split(".json")[0] + ".wsdl"
+const host = args["--host"]
+const port = args["--port"]
 
 const soap = new Soap(host, port);
 soap.readFile(inputfile)
