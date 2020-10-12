@@ -92,6 +92,11 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3004
+      - HOST_ROCKET=rocket-service
+      - PORT_ROCKET=3000
+      - HOST_TELEMETRY=telemetry-service
+      - PORT_TELEMETRY=3003
+
 
   payload-service:
     image: blue_origin/payload-service
@@ -107,7 +112,8 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3005
-
+      - HOST_TELEMETRY=telemetry-service
+      - PORT_TELEMETRY=3003
 
   front:
       image: blue-origin/front
