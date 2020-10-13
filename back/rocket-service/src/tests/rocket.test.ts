@@ -1,4 +1,4 @@
-import rocketService from "../app/services/rocket-service"
+import rocketService from "../app/controller"
 import RocketStatus from "../app/entities/RocketStatus"
 
 test('Rocket status return test', () => {

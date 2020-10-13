@@ -1,12 +1,12 @@
-import RocketData from "../entities/RocketData";
+import Rocket from "../entities/Rocket";
 import RocketStatus from "../entities/RocketStatus";
 
-class rocketService { // TODO PascalCase
+class RocketController { // TODO PascalCase
 
-    rocketData : RocketData;
+    rocketData : Rocket;
 
     constructor() {
-        this.rocketData = new RocketData(RocketStatus.READY_FOR_LAUNCH,30,0,0,0);
+        this.rocketData = new Rocket(RocketStatus.READY_FOR_LAUNCH,30,0,0,0);
     }
 
     // For tests only
@@ -28,4 +28,4 @@ class rocketService { // TODO PascalCase
     }
 }
 
-export default new rocketService();
+export default new RocketController();

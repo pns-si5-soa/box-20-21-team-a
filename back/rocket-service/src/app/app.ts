@@ -2,12 +2,12 @@ import express = require('express')
 // import indexRouter from "./routes";
 const cors = require('cors');
 var http = require('http');
-import rocketService from "./services/rocket-service";
+import rocketService from "./controller";
 var soap = require('soap');
 var bodyParser = require('body-parser');
 const path = require('path');
 require ("logs-module");
-import RocketData from "./entities/RocketData";
+import Rocket from "./entities/Rocket";
 
 require('dotenv').config()
 
@@ -43,7 +43,7 @@ function normalizePort(val: any) {
  * Create SOAP server.
  */
 
-const rocketData = new RocketData();
+const rocketData = new Rocket();
 
 var myService = {
     rocket: {

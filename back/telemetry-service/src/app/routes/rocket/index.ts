@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', (req, res) => {
     try {
         if(req.body.rocketData === undefined) {
-            res.status(500).send("Error: RocketData wasn't sent");
+            res.status(500).send("Error: Rocket wasn't sent");
             return;
         }
         res.send(TelemetryService.addRocketData(req.body.rocketData));
