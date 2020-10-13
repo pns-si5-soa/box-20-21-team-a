@@ -1,7 +1,7 @@
 {
-  "name": "command",
+  "name": "mission",
   "version": "1.0.0",
-  "description": "Command \u0016µservice",
+  "description": "Mission \u0016µservice",
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
@@ -20,6 +20,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
+    "logs-module": "file:../../logs-module",
     "ts-node-dev": "^1.0.0-pre.62",
     "typescript": "^4.0.2"
   },

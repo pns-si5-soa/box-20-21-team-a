@@ -1,0 +1,269 @@
+<!--  
+TeamA
+2020-10-07
+let you post/retrieve online message by SOAP protocol
+
+Online WSDL 1.1 SOAP generator 0.2
+Julien Blitte
+  -->
+<definitions xmlns:tns="fr.teamA.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="fr.teamA.xsd"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/" name="let you post/retrieve online message by SOAP protocol"
+             targetNamespace="fr.teamA.wsdl">
+    <!--  definition of datatypes  -->
+    <types>
+        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="fr.teamA.xsd">
+            <element name="text">
+                <complexType>
+                    <all>
+                        <element name="value" type="string"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="void">
+                <complexType>
+                    <sequence/>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <!--  response messages  -->
+    <message name="returns_text">
+        <part name="text" type="xsd:text"/>
+    </message>
+    <!--  request messages  -->
+    <message name="launchBooster">
+        <part name="void" type="xsd:void"/>
+    </message>
+    <message name="destroy">
+        <part name="void" type="xsd:void"/>
+    </message>
+    <!--  server's services  -->
+    <portType name="booster">
+        <operation name="launchBooster">
+            <input message="tns:launchBooster"/>
+            <output message="tns:returns_text"/>
+        </operation>
+        <operation name="destroy">
+            <input message="tns:destroy"/>
+            <output message="tns:returns_text"/>
+        </operation>
+    </portType>
+    <!--  server encoding  -->
+    <binding name="booster_webservices" type="tns:booster">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="launchBooster">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#launchBooster"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="destroy">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#destroy"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+    <!--  access to service provider  -->
+    <service name="booster">
+        <port name="booster_0" binding="booster_webservices">
+            <soap:address location="http://booster-service:3004/wsdl?wsdl"/>
+        </port>
+    </service>
+    <style id="stylish-1" class="stylish" type="text/css">/* Spécification pour fusion RETRO/DOFUS */ .ak-table tr td
+        .ak-topictitle-container .ak-text-topic .ak-content-text-topic .ak-desc-topic .ak-subforum > a[href$="dofus"] {
+        background-color: #66c10b !important; } .ak-table tr td .ak-topictitle-container .ak-text-topic
+        .ak-content-text-topic .ak-desc-topic .ak-subforum > a[href$="dofus-retro"] { background-color: #b59c01
+        !important; } /*Citations*/ .ak-posts-list.ak-nocontentpadding .ak-post blockquote, blockquote {
+        background-color: rgba(0,0,0,0.15); border-left: 5px solid rgb(80,80,80); font-size: .95em; margin: 1em 0 .2em
+        0; color: #51492c; } .ak-posts-list.ak-nocontentpadding .ak-post blockquote cite, blockquote cite { font-weight:
+        bold; margin-bottom: 1em; font-size: inherit; color: #000; } .ak-posts-list.ak-nocontentpadding .ak-post
+        blockquote cite + div, blockquote cite + div { padding: 5px 0; font-size: .9em; } .ak-not-read .form-group {
+        display: none; } @-moz-document regexp("https://www.dofus.com/.*/fo.*"),
+        regexp("https://www.wakfu.com/.*/fo.*"), regexp("https://www.krosmaga.com/.*/fo.*"),
+        regexp("http://www.dofus-touch.com/.*/fo.*"), regexp("http://www.dofus-pets.com/.*/fo.*") { /* Global */
+        a.ak-btn-big.ak-btn-play { display: none; } aside.col-md-3 { position: -webkit-sticky; position: sticky; top:
+        43px; } .ak-backtotop { width: 0px; height: 0px; } .ak-container.container .row .col-sm-3 { float: right; }
+        .ak-container.container .row .col-sm-9 { width: inherit; } .ak-main-container .ak-panel-stack .ak-admin-text a,
+        .ak-main-container .ak-admin-text a, .ak-main-container .ak-announce a { color : rgb(150, 167, 2); } @media
+        (min-width: 768px) { .ak-container.container .row .col-sm-3::after { position: absolute; top: 4px; right: 20px;
+        content: "Thème Stylish pour le forum dofus"; background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6); padding:
+        8px 8px; border-radius: 5px; text-align: center; font-size: 18px; text-transform: uppercase; text-overflow:
+        ellipsis; white-space: nowrap; font-family: "bebas_neueregular", sans-serif; color: #FFFFFF; text-shadow: 0 2px
+        2px #000; } } .ak-breadcrumb-spacer { min-height: 0px !important; margin-top: 20px; } nav .breadcrumb {
+        position: relative; background-color: rgba(0, 0, 0, 0.4); padding: 5px 4px; border-radius: 5px 5px 0 0;
+        margin-bottom: 0; border-top: 2px solid #bacc3b; border-left: 2px solid #85a017; border-right: 2px solid
+        #809c13; } .container, .container.ak-main-container { max-width: 95%; } .ak-announce { background: #f2e6c0;
+        color: #5c4124; } .ak-announce .ak-panel-title { color: #572f14; font-weight: bold; } .ak-announce
+        .ak-announce-toggle { color: #809c00; font-weight: bold; } aside .ak-panel .ak-panel-title { background:
+        linear-gradient(#3A261B,#5A4025); text-shadow: 0 1px 2px rgba(0,0,0,0.1); } aside .ak-form { background-color:
+        #f2e6c0; } aside .ak-aside-search .ak-form input { height: 45px; } aside .ak-aside-search .ak-form
+        input[type="submit"] { right: 0px; top: 10px; } .ak-panel { background: #fcf7df; color: #5C4124; } /* Index du
+        forum */ .ak-title-container h1 { color: #fff; background: linear-gradient(#BBCD3C, #7F9B12);
+        border-bottom-color: #6f780d; background-size: auto auto; text-shadow: 0 2px 2px #888; } .ak-title-container h1
+        { border-bottom: none; font-size: 26px; font-size: 2.6rem; padding-left: 84px; padding-left: 8.4rem; min-height:
+        52px; } .ak-title-container h1 .ak-icon-big { display: block; left: 5px; position: absolute; text-align: center;
+        top: 0; background-image: url('http://staticns.ankama.com/dofus/www/game/items/200/18112.png'); background-size:
+        45px auto; width: 45px; height: 45px; background-position: left top; } .ak-table-thread .ak-table tr th,
+        .ak-thread .ak-table tr th, .ak-followed .ak-table tr th { background: linear-gradient(#BBCD3C, #7F9B12);
+        padding: 0 15px; } .ak-table-thread .ak-table tr th:first-child a, .ak-table-thread .ak-table tr th { color:
+        #FFFFFF; } .ak-table-thread .ak-table tr.ak-not-read { background: #F2E6C0; } .ak-table-thread .ak-table
+        tr.ak-not-read td:first-child, .ak-table-thread .ak-table tr.ak-not-read td:nth-last-child(2) {
+        background-color: #FCF7DF; } .ak-table-thread .ak-table tr td ul li { color: #a58461; } .ak-table-thread
+        .ak-table tr th:first-child a { text-transform: uppercase; font-size: 1.8rem; font-size: 18px; }
+        .ak-table-thread .ak-table tr th:first-child a::before { content: "\e080"; font-family: 'Glyphicons Halflings';
+        font-size: 15px; color: #303030; margin-right: 5px; } .ak-table-thread .ak-table tr td ul li a, .ak-table-thread
+        .ak-table tr td .ak-title-thread a { color: #5C4124; } .ak-table-thread .ak-table tr th { font-size: 15px;
+        font-size: 1.5rem; } .ak-table-thread .ak-table tr th:first-child { height: 40px; } aside .ak-form form
+        select.form-control { color: #555; border-color: #5C4124; background: #fcf7df; } aside .btn-default {
+        font-family: "bebas_neueregular",sans-serif; font-size: 23px; font-size: 2.3rem; line-height: 22px; line-height:
+        2.2rem; background: #b5c838; border-color: #3d291c; color: #ffffff; text-shadow: 0 2px 2px #000; } aside
+        .btn-default:hover, aside .btn-default:focus { background-color: #bacc3b; color: #fcf7df; border: 1px solid
+        #fcf7df; } .ak-tree ul li.level-1 a { color: #4a3320; font-size: 14px; } .ak-tree ul li.level-1 { background:
+        #EEDEAB; } .ak-tree ul li.level-1:hover { background: #fcf7df; } .ak-tree.ak-tree-forum li.level-2 { background:
+        #F2E6C0; } .ak-tree.ak-tree-forum li.level-2:hover { background: #f9f3d6; } .ak-tree.ak-tree-forum li.level-2
+        li.level-3 { background: #f3ead0; padding: 0; } .ak-tree.ak-tree-forum li.level-2 li.level-3 li.level-4 {
+        background: #fbf7ea; text-indent: 25px; } .ak-tree.ak-tree-forum li.level-2 li.level-3 li.level-4:hover {
+        background: #d4cfc4; } .ak-tree.ak-tree-forum li.level-4:hover { background: #cccccc; } .ak-tree
+        li.level-1.ak-closed > a::after, .ak-tree li.level-1.ak-haschild.ak-closed > a::after { content: "\e114";
+        font-family: "Glyphicons Halflings"; position: absolute; right: 15px; top: 5px; color: #8aa41a; } .ak-tree
+        li.level-1.ak-haschild.ak-open > a::after { content: "\e113"; font-family: "Glyphicons Halflings"; position:
+        absolute; right: 15px; top: 5px; color: #8aa41a; } .ak-tree li.level-1.ak-open > a::after { content: "\e165";
+        font-family: "Glyphicons Halflings"; position: absolute; right: 15px; top: 5px; color: #8aa41a; } .ak-tree
+        li.level-2.ak-closed > a::after, .ak-tree li.level-3.ak-closed > a::after { content: "\e165"; font-family:
+        "Glyphicons Halflings"; position: absolute; right: 15px; top: 5px; color: #d0bf8b; } .ak-tree
+        li.level-4.ak-closed > a::after { content: "\e165"; font-family: "Glyphicons Halflings"; position: absolute;
+        font-style: normal; right: 10px; top: 5px; color: #d0bf8b; } .ak-tree.ak-tree-forum li.level-4 a { color:
+        #4a3320; font-style: normal; margin-left: 10px; } .ak-tree li.level-2.ak-closed.ak-haschild > a::after, .ak-tree
+        li.level-3.ak-closed.ak-haschild > a::after { content: "\e114"; font-family: "Glyphicons Halflings"; position:
+        absolute; right: 15px; top: 5px; color: #d0bf8b; } .ak-tree li.level-2.ak-open > a::after, .ak-tree
+        li.level-3.ak-open > a::after { content: "\e113"; font-family: "Glyphicons Halflings"; position: absolute;
+        right: 15px; top: 5px; color: #d0bf8b; } .ak-tree ul .ak-haschild .ak-picto-close { display: none; }
+        .ak-table-thread .ak-table tr td .form-group select, .ak-thread .ak-table tr td .ak-form .form-group select,
+        .ak-followed .ak-table tr td .ak-form .form-group select { font-size: 13px; font-size: 1.3rem; width: auto;
+        display: inline-block; background: #f2e6c0; color: #555; border-color: #5C4124; margin: 6px 0; margin: .6rem 0;
+        } /* Liste des sujets d'une section */ .ak-thread .ak-table tr td .ak-topictitle-container .ak-text-topic
+        .ak-list-pictos .ak-picto.ak-lock::before, .ak-followed .ak-table tr td .ak-topictitle-container .ak-text-topic
+        .ak-list-pictos .ak-picto.ak-lock::before { content: "\e033"; font-family: "Glyphicons Halflings"; color:
+        #de6b6b; } .ak-thread .ak-table tr td .ak-topictitle-container .ak-text-topic .ak-list-pictos .ak-picto.ak-lock,
+        .ak-followed .ak-table tr td .ak-topictitle-container .ak-text-topic .ak-list-pictos .ak-picto.ak-lock {
+        background: transparent; } .ak-thread .ak-table tr td .ak-topictitle-container .ak-text-topic .ak-list-pictos
+        .ak-picto.ak-pin::before, .ak-followed .ak-table tr td .ak-topictitle-container .ak-text-topic .ak-list-pictos
+        .ak-picto.ak-pin::before { content: "\e146"; font-family: "Glyphicons Halflings"; color: #6b73de; font-weight:
+        bold; } .ak-thread .ak-table tr td .ak-topictitle-container .ak-text-topic .ak-list-pictos .ak-picto.ak-pin,
+        .ak-followed .ak-table tr td .ak-topictitle-container .ak-text-topic .ak-list-pictos .ak-picto.ak-pin {
+        background: transparent; } .ak-followed .ak-panel-footer { background: #f2e6c0; text-align: center; padding:
+        12px; border-top: 1px dashed #533a22; } table .dropdown-menu { background-color: #fcf7df; border-color: #3b271b;
+        } table .dropdown-menu li a { color: #422f14; } .ak-title-container.ak-backlink a.ak-backlink-button { top:
+        -2px; margin: 8px 0; } .ak-thread .ak-table tr th:first-child, .ak-followed .ak-table tr th:first-child {
+        height: 40px; } .ak-thread .ak-table tr.ak-not-read, .ak-followed .ak-table tr.ak-not-read { background:
+        #FCF7DF; } .ak-thread .ak-table tr.ak-not-read:hover, .ak-followed .ak-table tr.ak-not-read:hover { background:
+        #F2E6C0; } .ak-thread .ak-table tr:first-child, .ak-thread .ak-table tr:first-child:hover { background: #FCF7DF;
+        } .ak-thread .ak-table tr.ak-read td .ak-topictitle-container .ak-text-topic .ak-content-text-topic
+        .ak-title-topic, .ak-followed .ak-table tr.ak-read td .ak-topictitle-container .ak-text-topic
+        .ak-content-text-topic .ak-title-topic { background: none; font-size: 15px; font-size: 1.5rem; line-height:
+        15px; line-height: 1.5rem; color: #5C4124; font-weight: normal; max-width: 441px; } .ak-thread .ak-table
+        tr.ak-not-read td .ak-topictitle-container .ak-text-topic .ak-content-text-topic .ak-title-topic, .ak-followed
+        .ak-table tr.ak-not-read td .ak-topictitle-container .ak-text-topic .ak-content-text-topic .ak-title-topic {
+        background: none; font-size: 15px; font-size: 1.5rem; line-height: 15px; line-height: 1.5rem; color: #5C4124;
+        font-weight: bold; max-width: 441px; } .ak-thread .ak-table tr td:nth-child(4) a, .ak-followed .ak-table tr
+        td:nth-child(4) a { color: #8e614d; } .ak-thread .ak-table tr td .ak-dropdown-actions, .ak-followed .ak-table tr
+        td .ak-dropdown-actions { padding: 0 24px; font-size: 0; background-color: #f2e6c0; border-color: #5c4124; }
+        .ak-thread .ak-table tr td .ak-dropdown-actions:hover, .ak-thread .ak-table tr td .ak-dropdown-actions:focus,
+        .ak-followed .ak-table tr td .ak-dropdown-actions:hover, .ak-followed .ak-table tr td .ak-dropdown-actions:focus
+        { box-shadow: none; background-color: #f2e6c0; border-color: #9BA712; } /* Lecture Sujet */
+        .ak-title-topic.ak-title-container .ak-h1 { position: relative; } .ak-posts-list.ak-nocontentpadding .ak-post
+        .col:last-child .ak-content-post { padding: 0px; } .ak-post-infos { background-color: #f2e6c0; padding: 5px
+        12px; } .ak-administrator-block .ak-post-infos { background-color: #c7d359; } .grpmodo-block .ak-post-infos {
+        background-color: rgba(255, 220, 87, 0.66); } .ak-content-post .ak-text { padding: 12px; }
+        .ak-posts-list.ak-nocontentpadding .ak-post { border-bottom: 2px solid #d4d0c6; } /* Réponses */
+        .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-post { border-left: 3px solid #5d4a37;
+        border-bottom: 2px solid #f2e6c0; border-top: 2px solid #f2e6c0; border-right: 2px solid #f2e6c0; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-post .col:first-child.grpadmin-block,
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:first-child.ak-administrator-block { background: #c7d359; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-post .col:first-child.grpmodo-block,
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:first-child.grpmodo-block { background-color: rgba(255, 220,
+        87, 0.66); } .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-post .col:last-child.ak-admin-text
+        .grpadmin-block{ background-color: rgba(199, 211, 89, 0.36); } .ak-posts-list.ak-nocontentpadding .ak-post
+        .ak-subpost .ak-post .col:last-child.ak-admin-text .grpmodo-block{ background-color: rgba(255, 232, 144, 0.35) }
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:first-child { background: #f2e6c0; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child { background: #fcf7df; } /* Réponses aux réponses */
+        .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-see-more-comments a { border-radius: 10px 0 0 10px;
+        } .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-see-more-comments a:hover { color: #b3c100;
+        background-color: #F2E6C0; } .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-see-more-comments a
+        span { padding: 13px 0px 13px 0px; font-weight: bold; } .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost
+        .ak-see-more-comments > a > span::before { padding: 13px 0px 13px 5px; display: inline-block; content: "\e080";
+        font-family: 'Glyphicons Halflings'; font-size: 12px; color: #aab700; margin-right: 3px; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost .ak-see-more-comments > a:hover > span::before {
+        padding: 13px 0px 13px 5px; display: inline-block; content: "\e114"; font-family: 'Glyphicons Halflings';
+        font-size: 12px; color: #b3c100; margin-right: 3px; } .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost
+        .ak-post .col:first-child { background: #f2e6c0; } .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost
+        .ak-post .col:last-child { background: #fcf7df; } .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost {
+        border: none; margin-left: 6px; padding: 10px; } /*Citations*/ .ak-posts-list.ak-nocontentpadding .ak-post
+        blockquote, blockquote { background-color: rgba(0,0,0,0.07); border:none; border-left: 2px solid rgb(80,80,80);
+        font-size: .95em; margin: 1em 0 .2em 0; color: #51492c; } .ak-posts-list.ak-nocontentpadding .ak-post blockquote
+        cite, blockquote cite { margin-bottom: 1em; font-size: inherit; color: #505050; }
+        .ak-posts-list.ak-nocontentpadding .ak-post blockquote cite + div, blockquote cite + div { padding: 5px 0;
+        font-size: 15px; } /* Général */ .ak-main-container .ak-admin-text { background: #FCF7DF; color: #5C4124; }
+        .ak-title-container .ak-h1 .ak-block-score { font-size: 11px; text-shadow: none; color: #f2e6c0; font-weight:
+        bold; font-size: 14px; text-align: left; padding: 12px 0; position: absolute; right: 50px; z-index: 99; top:
+        10px; max-width: 80px; } .ak-panel .ak-panel-header-list-post { background: rgba(181, 200, 56, 0.59); }
+        .ak-pagination { background: #f2e6c0; } .ak-form select, .ak-form select.form-control { background: #f2e6c0;
+        color: #555; border-color: #5C4124; } .ak-posts-list.ak-nocontentpadding .ak-panel-title, .ak-panel-form-post
+        .ak-panel-title { background: linear-gradient(#BBCD3C, #7F9B12); border: none; text-shadow: none; color:
+        #422f14; padding: 12px; padding: 1.2rem; margin-top: 0; } .ak-nb-answers { background: #F2E6C0; color: #422f14;
+        font-size: 13px; padding: 0 12px; vertical-align: middle; border-radius: 5px; border: 1px solid #BBAD86;
+        margin-left: 12px; display: inline-block; font-family: "Roboto", sans-serif; } /* Trackers */
+        .ak-container.ak-panel.ak-topics-list-search .ak-block-topic .col-xs-10, .ui-widget .ak-modal .ak-form
+        .ak-block-topic .col-xs-10 { background: #fcf7df; } .ak-container.ak-panel.ak-topics-list-search
+        .ak-block-topic, .ui-widget .ak-modal .ak-form .ak-block-topic { background: #f2e6c0; } /* Créer un sujet */
+        .ak-container.ak-panel.ak-form-create-topic { background: #fcf7df; } .ak-container.ak-panel.ak-form-create-topic
+        .form-group select.form-control, .ak-container.ak-panel.ak-form-create-topic .form-group input.form-control {
+        background: #f2e6c0; color: #555; border-color: #5C4124; } /* ----- Scrollbar ----- */ @media (min-width: 992px)
+        { aside.col-md-3 { overflow-y: auto; height: calc(100vh - 43px); margin-bottom: 12px; } div.ak-aside-problems {
+        margin-bottom: 0px; } aside.col-md-3::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0,
+        0.1); background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2); border-radius: 10px; margin-top: 3px;
+        margin-bottom: 3px; } aside.col-md-3::-webkit-scrollbar { width: 10px; background: none repeat scroll 0 0
+        transparent; margin-top: 3px; margin-bottom: 3px; } aside.col-md-3::-webkit-scrollbar-thumb { border-radius:
+        10px; background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6); margin-top: 3px; margin-bottom: 3px; } } /* SUBPOST
+        : Avatars - Score */ @media (min-width: 768px) { .ak-posts-list.ak-nocontentpadding .ak-post .ak-subpost
+        .ak-post .col { padding-left: 0px; } .ak-subpost > .ak-post > .col-sm-2 > .ak-avatar, .ak-subpost >
+        .ak-container > .ak-post > .col-sm-2 > .ak-avatar, .ak-post > .col-sm-2 > .ak-avatar { width: 100%;
+        margin-bottom: 5px; } .ak-subpost > .ak-post > .col-sm-2 > .ak-avatar.ak-administrator, .ak-subpost >
+        .ak-container > .ak-post > .col-sm-2 > .ak-avatar.ak-administrator { height: 98px; } .ak-avatar img {
+        background-color: rgba(255, 255, 255, 0.3); object-fit: scale-down; width: 100%; height: 100%; margin-left:
+        auto; margin-right: auto; display: block; box-shadow: 0 0 8px 2px #666; } .ak-avatar > a { display: block; }
+        .ak-block-score { text-align: center; font-size: 11px !important; font-weight: 600; background: rgba(191, 203,
+        22, 0.53); border-radius: 5px; max-width: 100%; padding: 2px 0; margin: 0 4px; position: relative; } }
+        .ak-administrator-block .ak-block-score, .grpadmin-block .ak-block-score, .grpmodo-block .ak-block-score {
+        display: none; } /* Post Buttons and Voting system */ .ak-block-btns-post .clearfix:before, .ak-block-btns-post
+        .clearfix:after { content: none; display: none; } .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child
+        .ak-btn-actions-vote { background-color: #F2E6C0; border-radius: 5px; margin-right: 15px; margin-bottom: 10px;
+        padding: 5px; } .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-btn-actions-vote button {
+        margin: 0 !important; background-color: #FCF7DF !important; border-radius: 5px; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-btn-actions-vote button:hover {
+        background-color: #f6f5f4 !important; } .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child
+        .ak-btn-actions-vote span { min-width: 30px; font-weight: bold; padding: 8px 0; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-action-button { background-color: #F2E6C0;
+        border-radius: 5px; margin-left: 10px; margin-bottom: 10px; padding: 7px 5px 6px 5px; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-action-button > a,
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-action-button > div > button { border-radius:
+        5px; background-color: #FCF7DF; } .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-action-button
+        > a.ak-post-response { max-height: 32px; padding-top: 12px; background-position: 8px 9px; }
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-action-button > a:hover,
+        .ak-posts-list.ak-nocontentpadding .ak-post .col:last-child .ak-action-button > div > button:hover {
+        border-radius: 5px; background-color: #f6f5f4; } }
+    </style>
+</definitions>

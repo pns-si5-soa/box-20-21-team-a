@@ -1,0 +1,33 @@
+{
+  "name": "payload",
+  "version": "1.0.0",
+  "description": "Payload µservice",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "start": "tsc && node ./build/app/app.js",
+    "ci": "tsc && CI=true node ./build/app/app.js",
+    "dev": "ts-node-dev ./src/app/app.ts",
+    "test": "tsc && jest ./build/tests"
+  },
+  "author": "SOA-20-21-A",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.8",
+    "@types/http-errors": "^1.8.0",
+    "axios": "^0.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "logs-module": "file:../../logs-module",
+    "soap": "^0.33.0",
+    "ts-node-dev": "^1.0.0-pre.62"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.14",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.3"
+  }
+}

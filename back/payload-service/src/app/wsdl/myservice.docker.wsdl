@@ -1,0 +1,61 @@
+<!--  
+TeamA
+2020-10-07
+let you post/retrieve online message by SOAP protocol
+
+Online WSDL 1.1 SOAP generator 0.2
+Julien Blitte
+  -->
+<definitions xmlns:tns="fr.teamA.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="fr.teamA.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="let you post/retrieve online message by SOAP protocol" targetNamespace="fr.teamA.wsdl">
+<!--  definition of datatypes  -->
+<types>
+<schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="fr.teamA.xsd">
+<element name="text">
+<complexType>
+<all>
+<element name="value" type="string"/>
+</all>
+</complexType>
+</element>
+<element name="void">
+<complexType>
+<sequence/>
+</complexType>
+</element>
+</schema>
+</types>
+<!--  response messages  -->
+<message name="returns_text">
+<part name="text" type="xsd:text"/>
+</message>
+<!--  request messages  -->
+<message name="deliverPayload">
+<part name="void" type="xsd:void"/>
+</message>
+<!--  server's services  -->
+<portType name="payload">
+<operation name="deliverPayload">
+<input message="tns:deliverPayload"/>
+<output message="tns:returns_text"/>
+</operation>
+</portType>
+<!--  server encoding  -->
+<binding name="payload_webservices" type="tns:payload">
+<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="deliverPayload">
+<soap:operation soapAction="urn:xmethods-delayed-quotes#deliverPayload"/>
+<input>
+<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+</input>
+<output>
+<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+</output>
+</operation>
+</binding>
+<!--  access to service provider  -->
+<service name="payload">
+<port name="payload_0" binding="payload_webservices">
+<soap:address location="http://payload-service:3005/wsdl?wsdl"/>
+</port>
+</service>
+</definitions>

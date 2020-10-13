@@ -1,45 +1,30 @@
-import TelemetryAPI from "../API/telemetryAPI";
+import RocketData from "../entities/RocketData";
+import RocketStatus from "../entities/RocketStatus";
 
-export enum RocketStatus {
-    NOT_READY = 0,
-    READY_FOR_LAUNCH = 1,
-    LAUNCHED = 2,
-    IN_SECOND_STAGE = 3,
-    PAYLOAD_DELIVERED = 4,
-}
+class rocketService { // TODO PascalCase
 
-class rocketService { // TODO PascalCase!
-
-    telemetryAPI = new TelemetryAPI();
-    rocketStatus: RocketStatus;
+    rocketData : RocketData;
 
     constructor() {
-        this.rocketStatus = RocketStatus.READY_FOR_LAUNCH;
-        this.telemetryAPI.sendData(this.rocketStatus, 10);
+        this.rocketData = new RocketData(RocketStatus.READY_FOR_LAUNCH,30,0,0,0);
     }
 
     // For tests only
     getStatus(): RocketStatus {
-        return this.rocketStatus;
+        return this.rocketData.getRocketStatus();
     }
 
-    launch(): string {
-        this.rocketStatus = RocketStatus.LAUNCHED;
-        this.telemetryAPI.sendData(this.rocketStatus, 9);
-        return "Launching Rocket...";
+    async launch(): Promise<void> {
+        await this.rocketData.notifyLaunch();
     }
 
-    stageRocketMidFlight(): string {
-        this.rocketStatus = RocketStatus.IN_SECOND_STAGE;
-        this.telemetryAPI.sendData(this.rocketStatus, 5);
-        return "The module has been successfully staged!";
+    destroy(): void {
+        this.rocketData.destroy();
+
     }
 
-    deliverPayload(): string {
-        this.rocketStatus = RocketStatus.PAYLOAD_DELIVERED;
-        console.log(this.rocketStatus);
-        this.telemetryAPI.sendData(this.rocketStatus, 2);
-        return "The payload has been successfully delivered!\nThe mission is a success \\o/";
+    async initializeRocketEngines(): Promise<void> {
+        await this.rocketData.initializeEngines();
     }
 }
 

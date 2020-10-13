@@ -1,4 +1,4 @@
-<!--  
+<!--
 TeamA
 2020-10-04
 let you post/retrieve online message by SOAP protocol
@@ -6,10 +6,10 @@ let you post/retrieve online message by SOAP protocol
 Online WSDL 1.1 SOAP generator 0.2
 Julien Blitte
   -->
-<definitions xmlns:tns="fr.teama.rocket.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="fr.teama.rocket.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="let you post/retrieve online message by SOAP protocol" targetNamespace="fr.teama.rocket.wsdl">
+<definitions xmlns:tns="fr.teama.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="fr.teama.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="let you post/retrieve online message by SOAP protocol" targetNamespace="fr.teama.wsdl">
     <!--  definition of datatypes  -->
     <types>
-        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="fr.teama.rocket.xsd">
+        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="fr.teama.xsd">
             <element name="text">
                 <complexType>
                     <all>
@@ -29,35 +29,35 @@ Julien Blitte
         <part name="text" type="xsd:text"/>
     </message>
     <!--  request messages  -->
-    <message name="launch">
+    <message name="destroy">
         <part name="void" type="xsd:void"/>
     </message>
-    <message name="stageRocketMidFlight">
+    <message name="notifyLaunch">
         <part name="void" type="xsd:void"/>
     </message>
-    <message name="deliverPayload">
+    <message name="notifyBoosterDetachment">
         <part name="void" type="xsd:void"/>
     </message>
     <!--  server's services  -->
     <portType name="rocket">
-        <operation name="launch">
-            <input message="tns:launch"/>
+        <operation name="destroy">
+            <input message="tns:destroy"/>
             <output message="tns:returns_text"/>
         </operation>
-        <operation name="stageRocketMidFlight">
-            <input message="tns:stageRocketMidFlight"/>
+        <operation name="notifyLaunch">
+            <input message="tns:notifyLaunch"/>
             <output message="tns:returns_text"/>
         </operation>
-        <operation name="deliverPayload">
-            <input message="tns:deliverPayload"/>
+        <operation name="notifyBoosterDetachment">
+            <input message="tns:notifyBoosterDetachment"/>
             <output message="tns:returns_text"/>
         </operation>
     </portType>
     <!--  server encoding  -->
     <binding name="rocket_webservices" type="tns:rocket">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-        <operation name="launch">
-            <soap:operation soapAction="urn:xmethods-delayed-quotes#launch"/>
+        <operation name="destroy">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#destroy"/>
             <input>
                 <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
@@ -65,8 +65,8 @@ Julien Blitte
                 <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
-        <operation name="stageRocketMidFlight">
-            <soap:operation soapAction="urn:xmethods-delayed-quotes#stageRocketMidFlight"/>
+        <operation name="notifyLaunch">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#notifyLaunch"/>
             <input>
                 <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
@@ -74,8 +74,8 @@ Julien Blitte
                 <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
-        <operation name="deliverPayload">
-            <soap:operation soapAction="urn:xmethods-delayed-quotes#deliverPayload"/>
+        <operation name="notifyBoosterDetachment">
+            <soap:operation soapAction="urn:xmethods-delayed-quotes#notifyBoosterDetachment"/>
             <input>
                 <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
@@ -87,7 +87,7 @@ Julien Blitte
     <!--  access to service provider  -->
     <service name="rocket">
         <port name="rocket_0" binding="rocket_webservices">
-            <soap:address location="http://localhost:3000/wsdl?wsdl"/>
+            <soap:address location="http://127.0.0.1:3000/wsdl?wsdl"/> <!--FIXME port number-->
         </port>
     </service>
 </definitions>

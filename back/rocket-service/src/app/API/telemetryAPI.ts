@@ -1,7 +1,6 @@
 import { AxiosPromise } from 'axios';
 import API from './API';
-import TelemetryData from "../entities/telemetryData";
-import { RocketStatus } from '../services/rocket-service';
+import RocketData from "../entities/RocketData"
 
 class TelemetryAPI extends API {
 
@@ -11,14 +10,13 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public sendData<T>(rocketStatus: RocketStatus, fuelLevel: number): AxiosPromise {
+    public sendData<T>(rocketData: RocketData): AxiosPromise {
         return this.axios({
                 method: 'post',
-                url: '/telemetry/data',
-                data: {rocketStatus: rocketStatus.toString(), fuelLevel}
+                url: '/telemetry/rocket',
+                data: {rocketData}
             })
     }
-
 }
 
 export default TelemetryAPI;

@@ -1,8 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import execute from "../../src/main/Services/Execute";
+import React from 'react';
 import Button from "@material-ui/core/Button";
-import {mapRocketStatusKeys, RocketStatus} from "../../src/main/model/RocketStatus";
-import TelemetryData from "../../src/main/model/TelemetryData";
+
+import RocketAPI from '../../src/main/API/soap/jquery-calls/rocketAPI'
+import TelemetryAPI from '../../src/main/API/rest/telemetryAPI'
+import PayloadAPI from '../../src/main/API/soap/jquery-calls/payloadAPI'
+
+
+const rocketAPI = new RocketAPI();
+const payloadAPI = new PayloadAPI();
+
 
 interface IProps {
     validateRocket: () => void;
@@ -10,16 +16,7 @@ interface IProps {
 
 const RocketMonitor = (props: IProps) => {
 
-    const [telemetryData, setTelemetryData] = useState({rocketStatus: 0, fuelLevel: -1});
-
-    useEffect(() => {
-        execute.execute("telemetry", "get", undefined, undefined, "all")
-            ?.then(res => {
-                setTelemetryData(res.data);
-            })
-            .catch(() => {
-            });
-    }, []);
+    // const [telemetryData, setTelemetryData] = useState({rocketStatus: 0, fuelLevel: -1});
 
     /*const getRocketStatus = () => {
         execute.execute("telemetry", "get", undefined, undefined, "all")
@@ -31,44 +28,22 @@ const RocketMonitor = (props: IProps) => {
             });
     };*/
 
-    const launchRocket = () => {
-        execute.execute("rocket", "launch")
-            ?.then(res => {
+    const destroyRocket = () => {
+        rocketAPI.destroyRocket()
+            .then(res => {
                 alert(res);
-                console.log(res);
-                getTelemetryData();
-            })
-            .catch(() => {
-            });
-    }
-
-    const stageRocket = () => {
-        execute.execute("rocket", "stage")
-            ?.then(res => {
-                alert(res);
-                getTelemetryData();
             })
             .catch(() => {
             });
     };
     const deliverPayload = () => {
-        execute.execute("rocket", "payload")
-            ?.then(res => {
+        payloadAPI.deliverPayloadSOAP()
+            .then(res => {
                 alert(res);
-                getTelemetryData();
             })
             .catch(() => {
             });
     };
-
-    const getTelemetryData = () => {
-        execute.execute("telemetry", "get", undefined, undefined, "all")
-            ?.then(res => {
-                setTelemetryData(res.data);
-            })
-            .catch(() => {
-            });
-    }
 
     return (
         <>
@@ -83,29 +58,17 @@ const RocketMonitor = (props: IProps) => {
             </Button>
             <br/>
 
-            <Button variant="contained" color="primary" onClick={launchRocket}>
-                Launch rocket
+            <Button variant="contained" color="primary" onClick={destroyRocket}>
+                Destroy rocket
+            </Button>
+
+            {/*todo put this in a separate component: */}
+            <Button variant="contained" color="primary" onClick={deliverPayload}>
+                Deliver payload
             </Button>
             <br/>
-
-            <Button variant="contained" onClick={stageRocket}>
-                Stage rocket
-            </Button>
-            <br/>
-
-            <Button variant="contained" onClick={deliverPayload}>
-                Deliver the payload
-            </Button>
-            <br/>
-
-            <div>
-                {`Fuel level: ${telemetryData.fuelLevel}`}
-            </div>
-            <div>
-                {`Rocket Status: ${mapRocketStatusKeys[telemetryData.rocketStatus]}`}
-            </div>
         </>
-    )
+    );
 
 };
 

@@ -5,34 +5,54 @@ import View from '../components/View';
 import "./index.scss";
 import Poll from '../src/main/model/Poll';
 
-import execute from "../src/main/Services/Execute";
 import RocketMonitor from "../components/rocketMonitor";
-import TelemetryData from "../src/main/model/TelemetryData";
+import WeatherAPI from '../src/main/API/rest/weatherAPI';
+import MissionAPI from '../src/main/API/rest/missionAPI';
+import BoosterAPI from '../src/main/API/soap/jquery-calls/boosterAPI';
+import RocketData from "../src/main/model/Rocket/RocketData";
+import BoosterData from "../src/main/model/Booster/BoosterData";
+import PayloadData from "../src/main/model/Payload/PayloadData";
+import TelemetryMonitor from "../components/telemetryMonitor";
 
 type Props = {};
 
-class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, data: TelemetryData | undefined, launch: string }> {
+class Home extends React.Component<{}, { weather: string, poll: Poll | undefined, rocketData: RocketData| undefined,boosterData: BoosterData| undefined,payloadData: PayloadData| undefined, launch: string }> {
+
+    weatherAPI: WeatherAPI;
+    missionAPI: MissionAPI;
+    boosterAPI: BoosterAPI;
+
     constructor(props: Props) {
         super(props);
         if (this.state === undefined) {
             this.state = {
                 weather: "",
                 poll: undefined,
-                data: undefined,
+                rocketData: undefined,
+                boosterData: undefined,
+                payloadData: undefined,
                 launch: "",
             };
         }
+
         this.getWeather = this.getWeather.bind(this);
         this.getPoll = this.getPoll.bind(this);
         this.createPoll = this.createPoll.bind(this);
         this.validateWeather = this.validateWeather.bind(this);
         this.validateMission = this.validateMission.bind(this);
         this.validateRocket = this.validateRocket.bind(this);
+        this.destroyBooster = this.destroyBooster.bind(this);
+        this.launchBooster = this.launchBooster.bind(this);
+        this.validateRocket = this.validateRocket.bind(this);
         this.Weather = this.Weather.bind(this);
+
+        this.weatherAPI = new WeatherAPI();
+        this.missionAPI = new MissionAPI();
+        this.boosterAPI = new BoosterAPI();
     }
 
     getWeather() {
-        execute.execute("weather", "get")?.then(res => {
+        this.weatherAPI.getWeather().then(res => {
             this.setState({
                 weather: res.data
             });
@@ -40,7 +60,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     getPoll() {
-        execute.execute("mission", "get")?.then(res => {
+        this.missionAPI.getPoll().then(res => {
             this.setState({
                 poll: res.data
             });
@@ -48,8 +68,8 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     createPoll() {
-        execute.execute("mission", "create")
-            ?.then(res => {
+        this.missionAPI.createPoll()
+            .then(res => {
                 this.setState({
                     poll: Object.assign(new Poll(), res.data)
                 });
@@ -58,8 +78,8 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     validateWeather() {
-        execute.execute("mission", "put", "weather", "true")
-            ?.then(res => {
+        this.missionAPI.modifyPoll("weather", "true")
+            .then(res => {
                 this.setState({
                     poll: Object.assign(new Poll(), res.data)
                 });
@@ -68,8 +88,8 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     validateRocket() {
-        execute.execute("mission", "put", "rocket", "true")
-            ?.then(res => {
+        this.missionAPI.modifyPoll("rocket", "true")
+            .then(res => {
                 this.setState({
                     poll: Object.assign(new Poll(), res.data)
                 });
@@ -80,7 +100,7 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
     }
 
     validateMission() {
-        execute.execute("mission", "put", "mission", "true")?.then(res => {
+        this.missionAPI.modifyPoll("mission", "true").then(res => {
             this.setState({
                 poll: Object.assign(new Poll(), res.data)
             });
@@ -96,6 +116,14 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         else if (this.state.weather == "Rainy") return <img width="200" height="200"
                                                             src="https://www.iconfinder.com/data/icons/weather-bright-flat-design/128/rainy-cloud-rain-weather-512.png"/>
         return <div/>
+    }
+
+    launchBooster() {
+        this.boosterAPI.launchBoosterSOAP();
+    }
+
+    destroyBooster() {
+        this.boosterAPI.destroyBooster();
     }
 
     render() {
@@ -126,6 +154,17 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                         </div>
 
                         <div className="col-sm">
+                        <h2>Booster department</h2>
+                        <Button variant="contained" color="primary" onClick={this.launchBooster}>
+                            Launch Booster
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={this.destroyBooster}>
+                            Destroy Booster
+                        </Button>
+
+                        </div>
+
+                        <div className="col-sm">
                             <h2>Mission department</h2>
                             <Button variant="contained" color="secondary" onClick={this.createPoll}>
                                 Create the poll
@@ -136,9 +175,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                             </Button>
                             {this.state.poll !== undefined &&
                             <>
-                                <p>Weather status : {this.state.poll?.weatherStatus ? "On" : "Off"}</p>
-                                <p>Rocket status : {this.state.poll?.rocketStatus ? "On" : "Off"}</p>
-                                <p>Mission status : {this.state.poll?.missionStatus ? "On" : "Off"}</p>
+                                <p>Weather status : {this.state.poll?.weatherStatus ? "OK" : "NO"}</p>
+                                <p>Rocket status : {this.state.poll?.rocketStatus ? "OK" : "NO"}</p>
+                                <p>Mission status : {this.state.poll?.missionStatus ? "OK" : "NO"}</p>
                             </>
                             }
 
@@ -148,6 +187,9 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
                             </Button>
                         </div>
 
+                    </div>
+                    <div className="col-sm">
+                        <TelemetryMonitor/>
                     </div>
                 </div>
             </View>
