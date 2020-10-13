@@ -16,8 +16,10 @@ To install each service, follow the README of each service.
 - [Front](front/README.md)
 - [Mission-Service](mission-service/README.md)
 - [Weather-Service](weather-service/README.md)
-- [Mission-Service](mission-service/README.md)
+- [Rocket-Service](rocket-service/README.md)
 - [Booster-Service](booster-service/README.md)
+- [Payload-Service](payload-service/README.md)
+- [Telemetry-Service](telemetry-service/README.md)
 
 ## PM2 
 

@@ -59,21 +59,21 @@ fi
 
 if [[ $UARG == 1 ]]; then
     git pull origin develop
-    cd front
+    cd front || exit
     npm install
-    cd ../back/weather-service
+    cd ../back/weather-service || exit
     npm install
-    cd ../mission-service
+    cd ../mission-service || exit
     npm install
-    cd ../rocket-service
+    cd ../rocket-service || exit
     npm install
-    cd ../weather-service
+    cd ../weather-service || exit
     npm install
-    cd ../telemetry-service
+    cd ../telemetry-service || exit
     npm install
-    cd ../booster-service
+    cd ../booster-service || exit
     npm install
-    cd ../payload-service
+    cd ../payload-service || exit
     npm install
     exit
 fi
@@ -92,19 +92,19 @@ printf -v PARAMS '%s' $PARAMS
 function changedirectory() {
     PROJECT=$1
     if [[ $PROJECT == "front" ]]; then
-        cd front
+        cd front || exit
     elif [[ $PROJECT == "weather" ]]; then
-        cd back/weather-service
+        cd back/weather-service || exit
     elif [[ $PROJECT == "rocket" ]]; then
-        cd back/rocket-service
+        cd back/rocket-service || exit
     elif [[ $PROJECT == "mission" ]]; then
-        cd back/mission-service
+        cd back/mission-service || exit
     elif [[ $PROJECT == "telemetry" ]]; then
-        cd back/telemetry-service
+        cd back/telemetry-service || exit
     elif [[ $PROJECT == "booster" ]]; then
-        cd back/booster-service
+        cd back/booster-service || exit
     elif [[ $PROJECT == "payload" ]]; then
-        cd back/payload-service
+        cd back/payload-service || exit
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
