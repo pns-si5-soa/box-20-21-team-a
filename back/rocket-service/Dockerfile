@@ -9,7 +9,7 @@ COPY ./logs-module /usr/src/app/logs-module
 
 # Copying source files
 COPY ./back/rocket-service /usr/src/app/back/rocket-service
-COPY ./back/rocket-service/src/app/wsdl/myservice.docker.wsdl /usr/src/app/back/rocket-service/wsdl/myservice.wsdl
+RUN cp ./src/app/wsdl/myservice.docker.wsdl ./src/app/wsdl/myservice.wsdl 
 
 RUN rm -rf node_modules
 RUN npm install

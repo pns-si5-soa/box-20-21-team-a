@@ -1,4 +1,4 @@
-if [[ -z $PARAMS ]]; then
+if [[ -z $1 ]]; then
     docker-compose up --build
     exit
 fi
