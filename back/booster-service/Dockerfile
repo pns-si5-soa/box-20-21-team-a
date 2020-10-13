@@ -9,6 +9,7 @@ COPY ./logs-module /usr/src/app/logs-module
 
 # Copying source files
 COPY ./back/booster-service /usr/src/app/back/booster-service
+COPY ./back/booster-service/src/app/wsdl/myservice.docker.wsdl /usr/src/app/back/booster-service/wsdl/myservice.wsdl
 
 RUN rm -rf node_modules
 RUN npm install
