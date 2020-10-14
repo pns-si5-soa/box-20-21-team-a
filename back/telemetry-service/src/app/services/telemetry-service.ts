@@ -27,7 +27,9 @@ class TelemetryService {
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
-        this.boosterDataArray.push(boosterData);
+        const booster = Object.assign(new BoosterData(), boosterData);
+        booster.update()
+        this.boosterDataArray.push(booster);
         return boosterData;
     }
 
