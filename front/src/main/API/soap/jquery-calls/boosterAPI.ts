@@ -33,6 +33,7 @@ class BoosterAPI {
                     var parser = new DOMParser();
                     var myxml = soapResponse.toString();
                     var xmlDoc = parser.parseFromString(myxml as string,"text/xml");
+                    if(xmlDoc.getElementsByTagName("tns:booster") == null) console.error("Error : tns:booster expected in the response but not found");
                     resolve(xmlDoc.getElementsByTagName("tns:booster")[0].childNodes[0].nodeValue);
     
                 },
@@ -65,6 +66,7 @@ class BoosterAPI {
                     var parser = new DOMParser();
                     var myxml = soapResponse.toString();
                     var xmlDoc = parser.parseFromString(myxml as string,"text/xml");
+                    if(xmlDoc.getElementsByTagName("tns:booster") == null) console.error("Error : tns:booster expected in the response but not found");
                     resolve(xmlDoc.getElementsByTagName("tns:booster")[0].childNodes[0].nodeValue);
     
                 },
