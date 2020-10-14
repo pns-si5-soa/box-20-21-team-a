@@ -32,8 +32,10 @@ export default class PayloadController{
 
     setSleepTime(sleepTime : number){
         this.sleepTime = sleepTime;
+        this.payload.setSleepTime(sleepTime);
     }
     setSendingData(send : boolean){
         this.sendingData = send;
+        this.payload.setSendingData(send);
     }
 }
