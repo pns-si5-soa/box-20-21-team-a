@@ -45,4 +45,11 @@ export default class Payload{
         console.log("Payload is detached");
     }
 
+    setSleepTime(sleepTime : number){
+        this.sleepTime = sleepTime;
+    }
+    setSendingData(send : boolean){
+        this.sendingData = send;
+    }
+
 }
