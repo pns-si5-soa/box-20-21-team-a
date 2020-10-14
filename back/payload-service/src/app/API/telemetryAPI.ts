@@ -11,7 +11,7 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public sendPayloadData<T>(payloadData: PayloadData): AxiosPromise {
+    public setPayloadData<T>(payloadData: PayloadData): AxiosPromise {
         //log(payloadData.toObjectJSON());
         //log(" - -- - - - -  - -- -  - - - - -  - - - - - - - - - -- -  --  - -- - ");
         return this.axios({method: 'post',

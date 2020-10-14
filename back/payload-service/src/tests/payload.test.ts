@@ -12,6 +12,8 @@ test('not launched payload init values', () => {
 
 test('detach process', async ()  => {
     const payloadController = new PayloadController();
+    payloadController.setSleepTime(1);
+    payloadController.setSendingData(false);
     await payloadController.detachThePayload();
     const datas = payloadController.payload.payloadData.toObjectJSON();
     expect(datas.altitude).toBeLessThanOrEqual(36000);

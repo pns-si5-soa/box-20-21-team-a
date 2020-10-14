@@ -1,3 +1,4 @@
+        })
 import PayloadStatus from "../entities/PayloadStatus";
 import {setIntervalConditionPromise} from "../tools/set_interval_x";
 import TelemetryAPI from '../API/telemetryAPI';
@@ -8,13 +9,16 @@ export default class Payload{
 
     
     payloadData : PayloadData;
+    private sleepTime : number;
+    private sendingData : boolean;
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     
     
 
 
-    constructor(){
-
+    constructor(sleepTime : number,sendingData: boolean){
+        this.sleepTime = sleepTime;
+        this.sendingData = sendingData;
         this.payloadData = new PayloadData();
     }
 
@@ -32,9 +36,9 @@ export default class Payload{
         await setIntervalConditionPromise(function(){
             that.payloadData.altitude -= that.payloadData.speed;
             that.payloadData.speed += 5;
-            if(process.env.NODE_ENV != "test") that.telemetryAPI.sendPayloadData(that.payloadData);
+            if(that.sendingData) that.telemetryAPI.setPayloadData(that.payloadData);
 
-        },process.env.NODE_ENV == "test" ? 0 : 1000,function(){
+        },this.sleepTime,function(){
             return that.payloadData.altitude < 36000;
         })
        
