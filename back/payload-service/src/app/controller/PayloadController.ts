@@ -1,5 +1,7 @@
 import TelemetryAPI from '../API/telemetryAPI';
 import Payload from "../aggregate/Payload";
+import MissionAPI from "../API/missionAPI";
+import MissionPayloadStatus from "../entities/MissionPayloadStatus";
 
 
 export default class PayloadController{
@@ -7,7 +9,8 @@ export default class PayloadController{
     private sleepTime : number;
     private sendingData : boolean;
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
-   
+    private missionAPI: MissionAPI = new MissionAPI();
+
     payload : Payload;
 
 
@@ -20,6 +23,7 @@ export default class PayloadController{
     async detachThePayload(){
         this.payload.detach();
         if(this.sendingData) this.telemetryAPI.setPayloadData(this.payload.payloadData);
+        //if(this.sendingData) this.missionAPI.setPayloadMissionStatus(MissionPayloadStatus.SEPARATION);
         await this.payload.progressingToOrbitalPosition();
         var that = this;
         if(that.sendingData) that.telemetryAPI.setPayloadData(that.payload.payloadData);
