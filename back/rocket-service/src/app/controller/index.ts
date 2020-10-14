@@ -1,30 +1,32 @@
 import Rocket from "../entities/Rocket";
 import RocketStatus from "../entities/RocketStatus";
+import RocketData from "../entities/RocketData";
 
-class RocketController { // TODO PascalCase
+class RocketController {
 
-    rocketData : Rocket;
+    rocket: Rocket;
 
     constructor() {
-        this.rocketData = new Rocket(RocketStatus.READY_FOR_LAUNCH,30,0,0,0);
+        this.rocket = new Rocket(
+            new RocketData(
+                RocketStatus.READY_FOR_LAUNCH, 30, 0, 0, 0));
     }
 
     // For tests only
     getStatus(): RocketStatus {
-        return this.rocketData.getRocketStatus();
+        return this.rocket.getRocketStatus();
     }
 
     async launch(): Promise<void> {
-        await this.rocketData.notifyLaunch();
+        await this.rocket.notifyLaunch();
     }
 
     destroy(): void {
-        this.rocketData.destroy();
-
+        this.rocket.destroy();
     }
 
     async initializeRocketEngines(): Promise<void> {
-        await this.rocketData.initializeEngines();
+        await this.rocket.initializeEngines();
     }
 }
 

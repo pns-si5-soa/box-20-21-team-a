@@ -1,13 +1,12 @@
-import express = require('express')
-// import indexRouter from "./routes";
+import express = require('express');
+
 const cors = require('cors');
-var http = require('http');
 import rocketService from "./controller";
-var soap = require('soap');
-var bodyParser = require('body-parser');
+
+let soap = require('soap');
+let bodyParser = require('body-parser');
 const path = require('path');
-require ("logs-module");
-import Rocket from "./entities/Rocket";
+require("logs-module");
 
 require('dotenv').config()
 
@@ -17,9 +16,7 @@ const port = normalizePort(process.env.PORT) ?? 3000;
 
 app.use(cors())
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// app.use('/', indexRouter);
+app.use(express.urlencoded({extended: false}));
 
 //Here it's any because everything can be insert on .env file, the goal is verify
 function normalizePort(val: any) {
@@ -43,39 +40,41 @@ function normalizePort(val: any) {
  * Create SOAP server.
  */
 
-const rocketData = new Rocket();
-
-var myService = {
+let myService = {
     rocket: {
         rocket_0: {
-            destroy : function(args : any){
+            destroy: function (args: any) {
                 rocketService.destroy();
-                return {rocket : rocketData.toJsonObject()};
+                return {rocketService: rocketService.rocket.getRocketData().toJsonObject()};
             },
 
-            notifyLaunch : function(args : any){
+            notifyLaunch: function (args: any) {
                 rocketService.launch();
-                return {rocket : rocketData.toJsonObject()};
+                return {rocket: rocketService.rocket.getRocketData().toJsonObject()};
             },
 
-            notifyBoosterDetachment : function(args : any){
+            notifyBoosterDetachment: function (args: any) {
                 rocketService.initializeRocketEngines();
-                return {rocket : rocketData.toJsonObject()};
+                return {rocket: rocketService.rocket.getRocketData().toJsonObject()};
             },
         }
     }
-  };
+};
 
-  var pathWsdl = path.resolve("./src/app/wsdl/", "myservice.wsdl");
+let pathWsdl = path.resolve("./src/app/wsdl/", "myservice.wsdl");
 
-  var xml = require('fs').readFileSync(pathWsdl, 'utf8');
+let xml = require('fs').readFileSync(pathWsdl, 'utf8');
 
-  //body parser middleware are supported (optional)
-  app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
-  app.listen(port, function(){
-  //Note: /wsdl route will be handled by soap module
-  //and all other routes & middleware will continue to work
-    soap.listen(app, '/wsdl', myService, xml, function(){
+//body parser middleware are supported (optional)
+app.use(bodyParser.raw({
+    type: function () {
+        return true;
+    }, limit: '5mb'
+}));
+app.listen(port, function () {
+    //Note: /wsdl route will be handled by soap module
+    //and all other routes & middleware will continue to work
+    soap.listen(app, '/wsdl', myService, xml, function () {
         console.log('SOAP server listening on port ' + port);
     });
-  });
+});

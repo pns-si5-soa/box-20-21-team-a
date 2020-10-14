@@ -1,80 +1,83 @@
 import RocketStatus from "./RocketStatus";
 import {setIntervalConditionPromise} from '../tools/setIntervalx'
 import TelemetryAPI from '../API/telemetryAPI';
+import RocketData from "./RocketData";
 
 const TELEMETRY_API: TelemetryAPI = new TelemetryAPI();
+
+const DATA_UPDATE_DELAY = 1000;
+const ACCELERATION = 2;
+const PRESSURE_INCREASE = 5;
 
 class Rocket {
 
     private rocketData: RocketData;
 
-    constructor(rocketStatus = RocketStatus.READY_FOR_LAUNCH, fuelLevel = 0, altitude = 0, speed = 0, pressure = 0) {
-        this.rocketData.rocketStatus = rocketStatus;
-        this.rocketData.fuelLevel = fuelLevel;
-        this.rocketData.altitude = altitude;
-        this.rocketData.speed = speed;
-        this.rocketData.pressure = pressure;
-        this.rocketData.dataUpdateDelay = 1000;
-        this.rocketData.acceleration = 2;
-        this.rocketData.pressureIncrease = 5;
-        TELEMETRY_API.sendData(this);
+    constructor(rocketData: RocketData) {
+        this.rocketData = rocketData;
+        TELEMETRY_API.sendData(this.rocketData);
     }
 
+    getRocketData(): RocketData{
+        return this.rocketData;
+    }
 
-    async notifyLaunch() {
-        this.rocketStatus = RocketStatus.LAUNCHED;
-        await TELEMETRY_API.sendData(this);
+    getRocketStatus(): RocketStatus {
+        return this.rocketData.rocketStatus;
+    }
+
+    async notifyLaunch(): Promise<void> {
+        this.rocketData.rocketStatus = RocketStatus.LAUNCHED;
+        await TELEMETRY_API.sendData(this.rocketData);
         console.log("Rocket has been launched!");
     }
 
-    async initializeEngines() {
+    async initializeEngines(): Promise<void> {
         console.log("Initializing rocket engines.");
         this.rocketData.speed = 50;
         console.log("Rocket engines started.");
         await this.controlSecondStageOfFlight();
-        TELEMETRY_API.sendData(this);
+        TELEMETRY_API.sendData(this.rocketData);
     }
 
     private async controlSecondStageOfFlight(): Promise<void> {
         console.log("Second stage of flight initialized.");
         this.rocketData.rocketStatus = RocketStatus.BOOSTER_DETACHED;
         TELEMETRY_API.sendData(this.rocketData);
-        const that = this.rocketData;
-        await setIntervalConditionPromise(()=>{
-            that.altitude += this.rocketData.speed;
-            that.speed += this.acceleration;
-            that.fuelLevel -= 1;
-            that.pressure += this.rocketData.pressureIncrease;
-            TELEMETRY_API.sendData(that);
-        },
-            this.rocketData.dataUpdateDelay,
-            ()=>(that.pressure >= 70 || that.rocketStatus === RocketStatus.DESTROYED));
-        if(that.rocketStatus === RocketStatus.DESTROYED) return;
+        const that = this;
+        await setIntervalConditionPromise(() => {
+                that.rocketData.altitude += this.rocketData.speed;
+                that.rocketData.speed += ACCELERATION;
+                that.rocketData.fuelLevel -= 1;
+                that.rocketData.pressure += PRESSURE_INCREASE;
+                TELEMETRY_API.sendData(that.rocketData);
+            },
+            DATA_UPDATE_DELAY,
+            () => (that.rocketData.pressure >= 70 || that.rocketData.rocketStatus === RocketStatus.DESTROYED));
+        if (that.rocketData.rocketStatus === RocketStatus.DESTROYED) return;
         await this.controlAfterMaxQHasBeenReachedReached();
     }
 
     private async controlAfterMaxQHasBeenReachedReached(): Promise<void> {
         console.log("Going through MAX Q. Throttling down...");
-        this.rocketStatus = RocketStatus.WENT_THROUGH_MAX_Q;
-        TELEMETRY_API.sendData(this);
+        this.rocketData.rocketStatus = RocketStatus.WENT_THROUGH_MAX_Q;
+        TELEMETRY_API.sendData(this.rocketData);
         const that = this;
-        await setIntervalConditionPromise(()=>{
-                TELEMETRY_API.sendData(that);
-                that.altitude += this.speed;
-                that.fuelLevel -= 1;
+        await setIntervalConditionPromise(() => {
+                TELEMETRY_API.sendData(that.rocketData);
+                that.rocketData.altitude += this.rocketData.speed;
+                that.rocketData.fuelLevel -= 1;
             },
-            this.dataUpdateDelay,
-            ()=>(that.rocketStatus === RocketStatus.DESTROYED || that.fuelLevel <= 0));
-        if(that.rocketStatus === RocketStatus.DESTROYED) return;
+            DATA_UPDATE_DELAY,
+            () => (that.rocketData.rocketStatus === RocketStatus.DESTROYED || that.rocketData.fuelLevel <= 0));
+        if (that.rocketData.rocketStatus === RocketStatus.DESTROYED) return;
     }
 
     destroy(): void {
-        this.rocketStatus = RocketStatus.DESTROYED;
-        TELEMETRY_API.sendData(this);
+        this.rocketData.rocketStatus = RocketStatus.DESTROYED;
+        TELEMETRY_API.sendData(this.rocketData);
         console.log("*BOOM!* - Rocket destroyed!");
     }
-
-
 }
 
 
