@@ -1,12 +1,7 @@
 import express = require('express')
-import Payload from '../entities/Payload';
+import Payload from '../aggregate/Payload';
 const router = express.Router(); 
-const payload = new Payload();
 
-router.get("/",function(req,res){
-    payload.detach();
-    res.send("SUCCESS");
-});
 export default router;
 
 
