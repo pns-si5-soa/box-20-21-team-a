@@ -8,16 +8,13 @@ export default class Payload{
 
     
     payloadData : PayloadData;
-    private sleepTime : number;
-    private sendingData : boolean;
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     
     
 
 
-    constructor(sleepTime : number,sendingData: boolean){
-        this.sleepTime = sleepTime;
-        this.sendingData = sendingData;
+    constructor(){
+
         this.payloadData = new PayloadData();
     }
 
@@ -35,21 +32,14 @@ export default class Payload{
         await setIntervalConditionPromise(function(){
             that.payloadData.altitude -= that.payloadData.speed;
             that.payloadData.speed += 5;
-            if(that.sendingData) that.telemetryAPI.setPayloadData(that.payloadData);
+            if(process.env.NODE_ENV != "test") that.telemetryAPI.sendPayloadData(that.payloadData);
 
-        },this.sleepTime,function(){
+        },process.env.NODE_ENV == "test" ? 0 : 1000,function(){
             return that.payloadData.altitude < 36000;
         })
        
         this.payloadData.payloadStatus = PayloadStatus.DETACHED;
         console.log("Payload is detached");
-    }
-
-    setSleepTime(sleepTime : number){
-        this.sleepTime = sleepTime;
-    }
-    setSendingData(send : boolean){
-        this.sendingData = send;
     }
 
 }
