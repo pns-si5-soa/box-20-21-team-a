@@ -1,0 +1,11 @@
+POST http://localhost:3003/telemetry/booster
+Content-Type: application/json
+
+{
+    "boosterData": {
+        "boosterStatus" : 1,
+        "altitude": 100,
+        "speed": 100,
+        "fuelLevel": 100
+    }
+}
