@@ -1,5 +1,5 @@
 import Booster from "../entities/Booster";
-import {BoosterStatus} from "../entities/BoosterStatus";
+import BoosterStatus from "../entities/BoosterStatus";
 import BoosterData from "../entities/BoosterData";
 
 class BoosterController {
@@ -9,7 +9,7 @@ class BoosterController {
     constructor() {
         this.Booster = new Booster(
             new BoosterData(
-                BoosterStatus.NOT_LAUNCHED, 30, 0, 0, 0));
+                BoosterStatus.ON_THE_ROCKET, 30, 0, 0, 0));
     }
 
     // For tests only
