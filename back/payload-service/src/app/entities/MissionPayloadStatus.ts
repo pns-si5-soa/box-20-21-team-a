@@ -1,5 +1,5 @@
 enum MissionPayloadStatus{
-    SEPARATION = 11
+    PAYLOAD_SEPARATION_STATUS = 11
 }
 
 export default MissionPayloadStatus;
