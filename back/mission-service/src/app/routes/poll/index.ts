@@ -1,6 +1,6 @@
 import express = require('express')
 const router = express.Router();
-import mission from "../../services/MissionService";
+import mission from "../../controller/MissionController";
 
 router.post('/', (req, res) => {
     try {

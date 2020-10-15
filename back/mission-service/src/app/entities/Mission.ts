@@ -1,7 +1,8 @@
-import Poll from '../entities/poll';
+import Poll from "./poll";
 
 
-class MissionService {
+export default class Mission {
+
     poll!: Poll;
 
 
@@ -9,10 +10,9 @@ class MissionService {
     }
 
     createPoll(): Poll {
-        this.poll = new Poll;
+        this.poll = new Poll();
         console.log("A poll was created");
         return this.poll;
-
     }
 
     getPoll(): Poll {
@@ -46,6 +46,8 @@ class MissionService {
         return this.poll.getWeatherStatus();
     }
 
-}
 
-export default new MissionService();
+
+
+
+}
