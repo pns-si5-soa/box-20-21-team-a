@@ -1,4 +1,4 @@
-import mission from '../app/services/MissionService';
+import mission from '../app/controller/MissionController';
 
 
 
