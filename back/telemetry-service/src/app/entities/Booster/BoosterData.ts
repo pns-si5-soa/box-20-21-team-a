@@ -6,7 +6,6 @@ class BoosterData extends Entitie {
     private altitude: number;
     private speed: number;
     private fuelLevel: number;
-    private id: number = -1;
 
 
     constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
@@ -15,7 +14,6 @@ class BoosterData extends Entitie {
         this.speed=speed;
         this.fuelLevel=fuelLevel;
         this.boosterStatus=boosterStatus;
-        this.create()
     }
 
 
@@ -25,17 +23,14 @@ class BoosterData extends Entitie {
 
     setFuelLevel(value: number) {
         this.fuelLevel = value;
-        this.update({fuelLevel: this.fuelLevel})
     }
 
     setAltitude(value : number){
         this.altitude=value;
-        this.update({altitude: this.altitude})
     }
 
     setSpeed(value : number){
         this.speed=value;
-        this.update({speed: this.speed})
     }
 
 
@@ -54,7 +49,6 @@ class BoosterData extends Entitie {
 
     setBoosterStatus(value: BoosterStatus) {
         this.boosterStatus = value;
-        this.update({boosterStatus: this.boosterStatus})
     }
 
     toObjectJSON(): Object {
