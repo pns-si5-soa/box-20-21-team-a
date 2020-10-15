@@ -1,5 +1,6 @@
 import { AxiosPromise } from 'axios';
-import Payload from '../entities/Payload';
+import Payload from '../aggregate/Payload';
+import PayloadData from '../entities/PayloadData';
 import API from './API';
 
 class TelemetryAPI extends API {
@@ -10,10 +11,9 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public setPayloadData<T>(payloadData: Payload): AxiosPromise {
+    public sendPayloadData<T>(payloadData: PayloadData): AxiosPromise {
         //log(payloadData.toObjectJSON());
         //log(" - -- - - - -  - -- -  - - - - -  - - - - - - - - - -- -  --  - -- - ");
-
         return this.axios({method: 'post',
         url: '/telemetry/payload',
        data: {payloadData: payloadData.toObjectJSON()}});
