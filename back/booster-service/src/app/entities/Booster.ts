@@ -1,7 +1,7 @@
 import {setIntervalConditionPromise} from '../tools/set_intervalx';
 import TelemetryAPI from '../API/telemetryAPI';
 import RocketAPI from "../API/RocketAPI";
-import {BoosterStatus} from "./BoosterStatus"
+import BoosterStatus from "./BoosterStatus"
 import BoosterData from "./BoosterData";
 
 
@@ -45,8 +45,11 @@ export default class Booster {
 
     async initializeDetachment(): Promise<void> {
         console.log("Initializing booster detachment.");
-        this.booster.boosterStatus = BoosterStatus.IN_SECOND_STAGE;
-        if (this.booster.canSendData) await this.rocketAPI.notifyBoosterDetachment();
+        this.booster.boosterStatus = BoosterStatus.FLIP_MANEUVER;
+        if (this.booster.canSendData){
+            await this.rocketAPI.notifyBoosterDetachment();
+            //await
+        }
     }
 
     private async controlFirstStageOfFlight(): Promise<void> {
@@ -101,7 +104,6 @@ export default class Booster {
         //     throw new Error(`Cannot launch booster. Its current status is ${this.boosterStatus}`);
         // }
         console.log("Launching booster");
-        this.booster.boosterStatus = BoosterStatus.IN_FIRST_STAGE;
         this.booster.speed = 10;
         console.log("Booster launched");
         this.sendData();
@@ -125,6 +127,4 @@ export default class Booster {
         console.log("*BOOM!* - Booster destroyed!");
         this.sendData();
     }
-
-
 }
