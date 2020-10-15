@@ -1,12 +1,15 @@
 import Poll from "./poll";
+import BoosterData from "./BoosterData";
 
 
 export default class Mission {
 
     poll!: Poll;
+    private boosterData: BoosterData;
 
 
     constructor() {
+        this.boosterData = new BoosterData();
     }
 
     createPoll(): Poll {
@@ -45,9 +48,12 @@ export default class Mission {
     getWeather() : boolean {
         return this.poll.getWeatherStatus();
     }
+    
+    getBooster() : BoosterData {
+        return this.boosterData;
+    }
 
-
-
-
-
+    modifyBooster(booster: BoosterData){
+        this.boosterData = booster;
+    }
 }

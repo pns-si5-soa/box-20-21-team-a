@@ -3,6 +3,7 @@ import TelemetryAPI from '../API/telemetryAPI';
 import RocketAPI from "../API/RocketAPI";
 import BoosterStatus from "./BoosterStatus"
 import BoosterData from "./BoosterData";
+import MissionAPI from "../API/MissionAPI";
 
 
 export default class Booster {
@@ -11,6 +12,7 @@ export default class Booster {
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     private rocketAPI: RocketAPI = new RocketAPI();
     public dataUpdateDelay = 500;
+    private missionAPI = new MissionAPI();
 
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
@@ -20,8 +22,10 @@ export default class Booster {
     sendData(): void {
         if (this.booster.canSendData) {
             this.telemetryAPI.sendBoosterData(this.booster);
+            this.missionAPI.sendBoosterData(this.booster);
         }
     }
+
 
     getBoosterData():BoosterData{
         return this.booster;
@@ -48,7 +52,8 @@ export default class Booster {
         this.booster.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         if (this.booster.canSendData){
             await this.rocketAPI.notifyBoosterDetachment();
-            //await
+            this.sendData();
+
         }
     }
 
@@ -126,5 +131,6 @@ export default class Booster {
         this.booster.boosterStatus = BoosterStatus.DESTROYED;
         console.log("*BOOM!* - Booster destroyed!");
         this.sendData();
+
     }
 }

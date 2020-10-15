@@ -1,9 +1,11 @@
 import Booster from "../entities/Booster";
 import BoosterStatus from "../entities/BoosterStatus";
 import BoosterData from "../entities/BoosterData";
+import MissionAPI from "../API/MissionAPI";
 
 class BoosterController {
 
+    MissionAPI = new MissionAPI();
     Booster: Booster;
 
     constructor() {
@@ -21,7 +23,7 @@ class BoosterController {
         await this.Booster.launch();
     }
 
-    destroy(): void {
+    async destroy() {
         this.Booster.destroy();
     }
 }
