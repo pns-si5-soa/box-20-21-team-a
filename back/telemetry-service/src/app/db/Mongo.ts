@@ -65,13 +65,13 @@ function insertOne<T>(name: string, data: T) : Promise<any> {
 	})
 }
 
-function find<T>(name: string, conditionnal: Object = {}) : Promise<T[]> {
+function find<T>(name: string, conditionnal: Object = {}, sort: any = {}) : Promise<T[]> {
 	return new Promise((resolve, reject) => {
 		const getDocuments = function(db: Db, callback: (data: T[]) => void) {
 			// Get the documents collection
 			const collection = db.collection(name);
-
-			collection.find(conditionnal).toArray(function(err, docs) {
+			
+			collection.find(conditionnal).sort(sort).toArray(function(err, docs) {
 				if(err !== null) reject(err)
 				callback(docs)
 			})

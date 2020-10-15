@@ -1,4 +1,5 @@
 import express = require('express');
+import { removeMany } from '../../db/Mongo';
 const router = express.Router();
 import TelemetryService from "../../services/telemetry-service";
 
@@ -18,12 +19,25 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
     try {
-        res.send(TelemetryService.getBoosterData());
+        TelemetryService.getBoosterData().then(data => {
+            res.send(data);
+        }).catch(err => {
+            console.error(err)
+            res.status(500).send(err)
+        })
+        
     } catch (e: any) {
         res.status(500).json({
             message: e.message
         });
     }
 });
+
+//NOTE Just to removing element on database
+router.delete('/', (req, res) => {
+    removeMany("BoosterData").then(r => {
+        res.send(r)
+    })
+})
 
 export default router;

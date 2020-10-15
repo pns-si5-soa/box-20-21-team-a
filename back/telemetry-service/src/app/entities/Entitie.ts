@@ -1,8 +1,8 @@
-import {insertOne, removeOne, update} from "../db/Mongo"
+import {insertOne, removeOne, update, find} from "../db/Mongo"
 
 abstract class Entitie {
 
-    private id: number;
+    protected id: number;
 
     constructor() {
         this.id = -1;
@@ -29,7 +29,39 @@ abstract class Entitie {
         })
     }
 
+    findIdAndAssign<T>(id: number) {
+        const that = this;
+        return new Promise((resolve, reject) => {
+            find<T>(this.constructor.name, {id: id}).then(res => {
+                if(res === undefined) reject(that.constructor.name + " has not object with id " + id)
+                that.assign(res[0])
+                resolve(that)
+            }).catch(err => reject(err))
+        }) 
+    }
+
+    findFirstAndAssign<T>() {
+        return new Promise((resolve, reject) => {
+            find<T>(this.constructor.name, {}, {_id: 1}).then(res => {
+                if(res === undefined || res.length === 0 ) reject(this.constructor.name + " has not object")
+                this.assign(res[0])
+                resolve(this)
+            }).catch(err => reject(err))
+        })
+    }
+
+    findLastAndAssign<T>() {
+        return new Promise((resolve, reject) => {
+            find<T>(this.constructor.name, {}, {_id: -1}).then(res => {
+                if(res === undefined || res.length === 0 ) reject(this.constructor.name + " has not object")
+                this.assign(res[0])
+                resolve(this)
+            }).catch(err => reject(err))
+        })
+    }
+
     abstract toObjectJSON() : Object;
+    abstract assign(other: any) : void;
 }
 
 export default Entitie;

@@ -1,15 +1,5 @@
 import {BoosterStatus} from "./BoosterStatus";
-import {insertOne, removeOne, find, update} from "../../db/Mongo"
 import Entitie from '../Entitie'
-
-interface IBoosterData{
-    boosterData: {
-        boosterStatus: BoosterStatus,
-        altitude: number,
-        speed: number,
-        fuelLevel: number,
-    }
-}
 
 class BoosterData extends Entitie {
     private boosterStatus : BoosterStatus;
@@ -61,15 +51,21 @@ class BoosterData extends Entitie {
         this.boosterStatus = value;
     }
 
-    toObjectJSON(): IBoosterData {
+    toObjectJSON(): Object {
         return {
-            boosterData: {
-                boosterStatus: this.boosterStatus,
-                fuelLevel: this.fuelLevel,
-                altitude: this.altitude,
-                speed: this.speed,
-            }
+            boosterStatus: this.boosterStatus,
+            fuelLevel: this.fuelLevel,
+            altitude: this.altitude,
+            speed: this.speed,
         };
+    }
+
+    assign(other: any): void {
+        this.altitude = other.altitude
+        this.fuelLevel = other.fuelLevel
+        this.speed = other.speed
+        this.boosterStatus = other.boosterStatus
+        this.id = other.id
     }
 }
 //ops.insertedIds:
