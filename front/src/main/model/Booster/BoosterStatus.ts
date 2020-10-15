@@ -1,15 +1,24 @@
 export enum BoosterStatus {
-    NOT_LAUNCHED = 0,
-    IN_FIRST_STAGE = 1,
-    IN_SECOND_STAGE = 2,
-    LANDED = 3,
-    DESTROYED = 4,
+    ON_THE_ROCKET,
+    FLIP_MANEUVER,
+    ENTRY_BURN,
+    GUIDANCE,
+    LANDING_BURN,
+    LANDING_LEGS_DEPLOYED,
+    LANDING,
+    LANDED,
+    DESTROYED,
 }
 
+
 export const mapStatusToText = {
-    0: "Not launched",
-    1: "In first stage of flight",
-    2: "In second stage",
-    3: "Landed",
-    4: "Destroyed :(",
+    0: "On the rocket",
+    1: "Flip maneuver",
+    2: "Entry burn",
+    3: "Guidance",
+    4: "Landing burn",
+    5: "Landing legs deployed",
+    6: "Landing",
+    7: "Landed",
+    8: "Destroyed :(",
 };
