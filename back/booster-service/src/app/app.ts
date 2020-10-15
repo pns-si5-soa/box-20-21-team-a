@@ -1,5 +1,5 @@
 import express = require('express')
-import BoosterData from './entities/BoosterData';
+import BoosterController from './controller/index';
 import path from 'path';
 import bodyParser from 'body-parser'
 require ("logs-module");
@@ -36,18 +36,17 @@ function normalizePort(val: any) {
  * Create SOAP server.
  */
 
-const booster = new BoosterData();
 
 var myService = {
     booster: {
         booster_0: {
             launchBooster : function(args : any){
-                booster.launch();
-                return {booster : booster.toObjectJSON()};
+                BoosterController.launch();
+                return {booster : BoosterController.Booster.getBoosterData().toObjectJSON()};
             },
             destroy : function(args : any){
-                booster.destroy();
-                return {booster : booster.toObjectJSON()};
+                BoosterController.destroy();
+                return {booster : BoosterController.Booster.getBoosterData().toObjectJSON()};
             },
         }
     }

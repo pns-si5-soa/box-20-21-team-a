@@ -1,25 +1,26 @@
 import BoosterData from "../app/entities/BoosterData"
-import BoosterStatus from "../app/entities/BoosterStatus"
+import Booster from "../app/entities/Booster";
+import {BoosterStatus} from "../app/entities/BoosterStatus";
 
 test.skip('Launching booster', async () => {
-    const booster = new BoosterData();
-    booster.setTimer(1)
-    booster.stopSendingData()
-    let json = booster.toObjectJSON()
+    const boosterService = new Booster(new BoosterData());
+    boosterService.setTimer(1)
+    boosterService.stopSendingData()
+    let json = boosterService.booster.toObjectJSON()
     expect(json.boosterStatus).toBe(BoosterStatus.NOT_LAUNCHED)
-    await booster.launch();
-    json = booster.toObjectJSON()
+    await boosterService.launch();
+    json = boosterService.booster.toObjectJSON()
     expect(json.boosterStatus).toBe(BoosterStatus.LANDED)
 });
 
 
 test('Destroy booster', () => {
-    const booster = new BoosterData();
-    booster.setTimer(10);
-    booster.stopSendingData();
-    const json = booster.toObjectJSON();
+    const boosterService = new Booster(new BoosterData());
+    boosterService.setTimer(10);
+    boosterService.stopSendingData();
+    const json = boosterService.booster.toObjectJSON();
     expect(json.boosterStatus).toBe(BoosterStatus.NOT_LAUNCHED);
-    booster.launch();
-    booster.destroy();
+    boosterService.launch();
+    boosterService.destroy();
     expect(json.boosterStatus).not.toBe(BoosterStatus.DESTROYED);
 });
