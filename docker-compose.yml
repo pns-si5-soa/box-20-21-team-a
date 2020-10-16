@@ -29,10 +29,14 @@ services:
       - booster-service
       - payload-service
       - real-time-service
+<<<<<<< refs/remotes/origin/#123-rocket-status-update
       - waitforservices1
       - waitforservices2
     command: rocket-service:3000 weather-service:3001 mission-service:3002 booster-service:3004 payload-service:3005 real-time-service:3006
     
+=======
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006
+>>>>>>> #153 Dockercompose real time
 
   telemetry-service:
     image: blue_origin/telemetry-service
@@ -103,6 +107,21 @@ services:
         - HOST_IP=kafka
         - PORT_KAFKA=9092
       
+
+  real-time-service:
+      image: blue-origin/real-time-service
+      container_name: real-time-container
+      build: 
+        context: .
+        dockerfile: ./back/real-time-service/Dockerfile
+      expose: 
+        - "3006"
+      ports:
+        - "3006:3006"
+      volumes:
+        - ./container-logs:/usr/src/app/logs
+      environment:
+        - PORT=3006
 
 
   rocket-service:
@@ -212,6 +231,7 @@ services:
         - PORT_BOOSTER=3004
         - HOST_PAYLOAD=payload-service
         - PORT_PAYLOAD=3005
+<<<<<<< refs/remotes/origin/#123-rocket-status-update
       # Uncommente below if you want to build all these service when building front
       #depends_on:
         #- rocket-service
@@ -222,5 +242,17 @@ services:
         #- payload-service
         #- waitforservices3
         #- real-time-service
+=======
+      depends_on:
+        - rocket-service
+        - weather-service
+        - mission-service
+        - telemetry-service
+        - booster-service
+        - payload-service
+        - waitforservices1
+        - waitforservices2
+        - real-time-service
+>>>>>>> #153 Dockercompose real time
       stdin_open: true
       tty: true
