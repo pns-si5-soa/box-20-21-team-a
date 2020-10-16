@@ -9,7 +9,7 @@ class RocketController {
     constructor() {
         this.rocket = new Rocket(
             new RocketData(
-                RocketStatus.READY_FOR_LAUNCH, 30, 0, 50, 0));
+                RocketStatus.PREPARATION, 30, 0, 50, 0));
     }
 
     // For tests only

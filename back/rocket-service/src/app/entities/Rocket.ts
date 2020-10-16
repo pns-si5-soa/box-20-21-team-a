@@ -15,6 +15,8 @@ class Rocket {
 
     constructor(rocketData: RocketData) {
         this.rocketData = rocketData;
+        console.log("Rocket is on preparation.");
+
         this.sendDataToTelemetry();
     }
 
@@ -33,6 +35,7 @@ class Rocket {
     }
 
     async notifyLaunch(): Promise<void> {
+        this.rocketData.rocketStatus = RocketStatus.ON_INTERNAL_POWER;
         this.rocketData.rocketStatus = RocketStatus.LAUNCHED;
         this.sendDataToTelemetry();
         console.log("Rocket has been launched!");
