@@ -10,6 +10,12 @@ jobs:
         - cp .env.travis .env
         - npm install
         - npm run test
+    - stage: real-time
+    script:
+      - cd back/real-time-service
+      - cp .env.travis .env
+      - npm install
+      - npm run test
     - stage: rocket
       script:
         - cd back/rocket-service
