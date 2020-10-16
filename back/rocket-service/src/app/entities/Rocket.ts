@@ -15,10 +15,16 @@ class Rocket {
 
     constructor(rocketData: RocketData) {
         this.rocketData = rocketData;
-        TELEMETRY_API.sendData(this.rocketData);
+        this.sendDataToTelemetry();
     }
 
-    getRocketData(): RocketData{
+    private sendDataToTelemetry() {
+        if (process.env.NODE_ENV != "test") {
+            TELEMETRY_API.sendData(this.rocketData);
+        }
+    }
+
+    getRocketData(): RocketData {
         return this.rocketData;
     }
 
@@ -28,29 +34,29 @@ class Rocket {
 
     async notifyLaunch(): Promise<void> {
         this.rocketData.rocketStatus = RocketStatus.LAUNCHED;
-        await TELEMETRY_API.sendData(this.rocketData);
+        this.sendDataToTelemetry();
         console.log("Rocket has been launched!");
     }
 
     async initializeEngines(): Promise<void> {
         console.log("Initializing rocket engines.");
-        this.rocketData.speed = 50;
+        // I am speed
         console.log("Rocket engines started.");
         await this.controlSecondStageOfFlight();
-        TELEMETRY_API.sendData(this.rocketData);
+        this.sendDataToTelemetry();
     }
 
     private async controlSecondStageOfFlight(): Promise<void> {
         console.log("Second stage of flight initialized.");
         this.rocketData.rocketStatus = RocketStatus.BOOSTER_DETACHED;
-        TELEMETRY_API.sendData(this.rocketData);
+        this.sendDataToTelemetry();
         const that = this;
         await setIntervalConditionPromise(() => {
                 that.rocketData.altitude += this.rocketData.speed;
                 that.rocketData.speed += ACCELERATION;
                 that.rocketData.fuelLevel -= 1;
                 that.rocketData.pressure += PRESSURE_INCREASE;
-                TELEMETRY_API.sendData(that.rocketData);
+                that.sendDataToTelemetry();
             },
             DATA_UPDATE_DELAY,
             () => (that.rocketData.pressure >= 70 || that.rocketData.rocketStatus === RocketStatus.DESTROYED));
@@ -61,10 +67,10 @@ class Rocket {
     private async controlAfterMaxQHasBeenReachedReached(): Promise<void> {
         console.log("Going through MAX Q. Throttling down...");
         this.rocketData.rocketStatus = RocketStatus.WENT_THROUGH_MAX_Q;
-        TELEMETRY_API.sendData(this.rocketData);
+        this.sendDataToTelemetry();
         const that = this;
         await setIntervalConditionPromise(() => {
-                TELEMETRY_API.sendData(that.rocketData);
+                that.sendDataToTelemetry();
                 that.rocketData.altitude += this.rocketData.speed;
                 that.rocketData.fuelLevel -= 1;
             },
@@ -75,7 +81,7 @@ class Rocket {
 
     destroy(): void {
         this.rocketData.rocketStatus = RocketStatus.DESTROYED;
-        TELEMETRY_API.sendData(this.rocketData);
+        this.sendDataToTelemetry();
         console.log("*BOOM!* - Rocket destroyed!");
     }
 }
