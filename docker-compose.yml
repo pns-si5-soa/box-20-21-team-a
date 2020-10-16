@@ -10,7 +10,8 @@ services:
       - telemetry-service
       - booster-service
       - payload-service
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005
+      - real-time-service
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006
 
   telemetry-service:
     image: blue_origin/telemetry-service
@@ -57,6 +58,21 @@ services:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3001
+
+  real-time-service:
+      image: blue-origin/real-time-service
+      container_name: real-time-container
+      build: 
+        context: .
+        dockerfile: ./back/real-time-service/Dockerfile
+      expose: 
+        - "3006"
+      ports:
+        - "3006:3006"
+      volumes:
+        - ./container-logs:/usr/src/app/logs
+      environment:
+        - PORT=3006
 
 
   rocket-service:
@@ -141,6 +157,7 @@ services:
         - telemetry-service
         - booster-service
         - payload-service
+        - real-time-service
         - waitforservices
       stdin_open: true
       tty: true
