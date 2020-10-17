@@ -4,15 +4,12 @@ import PayloadData from "../entities/Payload/PayloadData";
 
 class TelemetryService {
     rocketDataArray: RocketData[];
-    boosterDataArray: BoosterData[];
     payloadDataArray: PayloadData[];
 
     constructor() {
         this.rocketDataArray = [];
-        this.boosterDataArray = [];
         this.payloadDataArray = [];
         this.rocketDataArray.push(new RocketData());
-        this.boosterDataArray.push(new BoosterData());
         this.payloadDataArray.push(new PayloadData());
     }
 
@@ -27,13 +24,14 @@ class TelemetryService {
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
-        this.boosterDataArray.push(boosterData);
+        const booster = Object.assign(new BoosterData(), boosterData);
+        booster.save()
         return boosterData;
     }
 
     getBoosterData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.boosterDataArray[this.boosterDataArray.length - 1]));
-        return this.boosterDataArray[this.boosterDataArray.length - 1];
+        const boosterData = new BoosterData()
+        return boosterData.findLastAndAssign()
     }
 
     addPayloadData(payloadData: PayloadData): PayloadData {
