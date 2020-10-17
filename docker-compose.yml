@@ -138,34 +138,31 @@ services:
       - PORT_TELEMETRY=3003
 
   front:
-      image: blue-origin/front
-      container_name: front-container
-      build: 
-        context: .
-        dockerfile: ./front/Dockerfile
-      environment:
-        - HOST_ROCKET=rocket-service
-        - PORT_ROCKET=3000
-        - HOST_WEATHER=weather-service
-        - PORT_WEATHER=3001
-        - HOST_MISSION=mission-service
-        - PORT_MISSION=3002
-        - HOST_TELEMETRY=telemetry-service
-        - PORT_TELEMETRY=3003
-        - HOST_BOOSTER=booster-service
-        - PORT_BOOSTER=3004
-        - HOST_PAYLOAD=payload-service
-        - PORT_PAYLOAD=3005
-        - HOST_REAL_TIME=real-time-service
-        - PORT_REAL_TIME=3006
-      depends_on:
-        - rocket-service
-        - weather-service
-        - mission-service
-        - telemetry-service
-        - booster-service
-        - payload-service
-        - real-time-service
-        - waitforservices
-      stdin_open: true
-      tty: true
+    image: blue-origin/front
+    container_name: front-container
+    build:
+      context: .
+      dockerfile: ./front/Dockerfile
+    environment:
+      - HOST_ROCKET=rocket-service
+      - PORT_ROCKET=3000
+      - HOST_WEATHER=weather-service
+      - PORT_WEATHER=3001
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
+      - HOST_TELEMETRY=telemetry-service
+      - PORT_TELEMETRY=3003
+      - HOST_BOOSTER=booster-service
+      - PORT_BOOSTER=3004
+      - HOST_PAYLOAD=payload-service
+      - PORT_PAYLOAD=3005
+    depends_on:
+      - rocket-service
+      - weather-service
+      - mission-service
+      - telemetry-service
+      - booster-service
+      - payload-service
+      - waitforservices
+    stdin_open: true
+    tty: true
