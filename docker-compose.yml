@@ -1,22 +1,43 @@
 version: "3"
 
+
+
 services:
-  waitforservices:
+  
+  waitforservices1:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - zookeeper 
+    command: zookeeper:2181
+    
+
+
+  waitforservices2:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - kafka 
+    command: kafka:9092
+    
+
+  
+  waitforservices3:
     image: dadarek/wait-for-dependencies
     depends_on:
       - rocket-service
-      - weather-service
+      - weather-service 
       - mission-service
-      - telemetry-service
       - booster-service
       - payload-service
       - real-time-service
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006
+      - waitforservices1
+      - waitforservices2
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 booster-service:3004 payload-service:3005 real-time-service:3006
+    
 
   telemetry-service:
     image: blue_origin/telemetry-service
     container_name: telemetry-container
-    build:
+    build: 
       context: .
       dockerfile: ./back/telemetry-service/Dockerfile
     expose:
@@ -27,37 +48,43 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3003
+    
 
   mission-service:
-    image: blue_origin/mission-service
-    container_name: mission-container
-    build:
-      context: .
-      dockerfile: ./back/mission-service/Dockerfile
-    expose:
-      - "3002"
-    ports:
-      - "3002:3002"
-    volumes:
-      - ./container-logs:/usr/src/app/logs
-    environment:
-      - PORT=3002
-
+      image: blue_origin/mission-service
+      container_name: mission-container
+      build: 
+        context: .
+        dockerfile: ./back/mission-service/Dockerfile
+      expose: 
+        - "3002"
+      ports:
+        - "3002:3002"
+      depends_on:
+        - waitforservices1
+      volumes:
+        - ./container-logs:/usr/src/app/logs
+      environment:
+        - PORT=3002
+        - HOST_IP=kafka
+        - PORT_KAFKA=9092
+      
 
   weather-service:
-    image: blue-origin/weather-service
-    container_name: weather-container
-    build:
-      context: .
-      dockerfile: ./back/weather-service/Dockerfile
-    expose:
-      - "3001"
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./container-logs:/usr/src/app/logs
-    environment:
-      - PORT=3001
+      image: blue-origin/weather-service
+      container_name: weather-container
+      build: 
+        context: .
+        dockerfile: ./back/weather-service/Dockerfile
+      expose: 
+        - "3001"
+      ports:
+        - "3001:3001"
+      volumes:
+        - ./container-logs:/usr/src/app/logs
+      environment:
+        - PORT=3001
+      
 
   real-time-service:
       image: blue-origin/real-time-service
@@ -73,6 +100,9 @@ services:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3006
+        - HOST_IP=kafka
+        - PORT_KAFKA=9092
+      
 
 
   rocket-service:
@@ -101,10 +131,10 @@ services:
   booster-service:
     image: blue-origin/booster-service
     container_name: booster-container
-    build:
+    build: 
       context: .
       dockerfile: ./back/booster-service/Dockerfile
-    expose:
+    expose: 
       - "3004"
     ports:
       - "3004:3004"
@@ -118,12 +148,13 @@ services:
       - PORT_TELEMETRY=3003
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
+    
 
 
   payload-service:
     image: blue_origin/payload-service
     container_name: payload-container
-    build:
+    build: 
       context: .
       dockerfile: ./back/payload-service/Dockerfile
     expose:
@@ -136,33 +167,60 @@ services:
       - PORT=3005
       - HOST_TELEMETRY=telemetry-service
       - PORT_TELEMETRY=3003
+    
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:2.11-1.1.1
+    ports:
+      - "9092:9092"
+    links:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 100
+      #KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+    
+    
+
 
   front:
-    image: blue-origin/front
-    container_name: front-container
-    build:
-      context: .
-      dockerfile: ./front/Dockerfile
-    environment:
-      - HOST_ROCKET=rocket-service
-      - PORT_ROCKET=3000
-      - HOST_WEATHER=weather-service
-      - PORT_WEATHER=3001
-      - HOST_MISSION=mission-service
-      - PORT_MISSION=3002
-      - HOST_TELEMETRY=telemetry-service
-      - PORT_TELEMETRY=3003
-      - HOST_BOOSTER=booster-service
-      - PORT_BOOSTER=3004
-      - HOST_PAYLOAD=payload-service
-      - PORT_PAYLOAD=3005
-    depends_on:
-      - rocket-service
-      - weather-service
-      - mission-service
-      - telemetry-service
-      - booster-service
-      - payload-service
-      - waitforservices
-    stdin_open: true
-    tty: true
+      image: blue-origin/front
+      container_name: front-container
+      ports:
+        - "8080:8080"
+      build: 
+        context: .
+        dockerfile: ./front/Dockerfile
+      environment:
+        - HOST_ROCKET=rocket-service
+        - PORT_ROCKET=3000
+        - HOST_WEATHER=weather-service
+        - PORT_WEATHER=3001
+        - HOST_MISSION=mission-service
+        - PORT_MISSION=3002
+        - HOST_TELEMETRY=telemetry-service
+        - PORT_TELEMETRY=3003
+        - HOST_BOOSTER=booster-service
+        - PORT_BOOSTER=3004
+        - HOST_PAYLOAD=payload-service
+        - PORT_PAYLOAD=3005
+      # Uncommente below if you want to build all these service when building front
+      #depends_on:
+        #- rocket-service
+        #- weather-service
+        #- mission-service
+        #- telemetry-service
+        #- booster-service
+        #- payload-service
+        #- waitforservices3
+        #- real-time-service
+      stdin_open: true
+      tty: true
