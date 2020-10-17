@@ -1,9 +1,9 @@
 import rocketService from "../app/controller";
 import RocketStatus from "../app/entities/RocketStatus";
 
-test('Rocket launch test', async () => {
-    await rocketService.launch();
-    expect(rocketService.getStatus()).toBe(RocketStatus.LAUNCHED);
+test('On internal power launch test', async () => {
+    await rocketService.putRocketOnInternalPower();
+    expect(rocketService.getStatus()).toBe(RocketStatus.ON_INTERNAL_POWER);
 });
 
 test('Rocket destroy test', async () => {

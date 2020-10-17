@@ -14,6 +14,6 @@ RUN cp ./src/app/wsdl/myservice.docker.wsdl ./src/app/wsdl/myservice.wsdl
 RUN rm -rf node_modules
 RUN npm install
 
-EXPOSE 3001
+EXPOSE 3000
 # Running the app
 CMD [ "npm", "start" ]
