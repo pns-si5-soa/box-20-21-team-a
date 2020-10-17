@@ -96,3 +96,13 @@ function onListening() {
         process.exit(0);
     }
 }
+
+
+var testKafka = new Producer();
+console.log("- - -  --  - -- -  - - - --  - - -  - -");
+testKafka.sendMissionStatus();
+
+
+
+
+
