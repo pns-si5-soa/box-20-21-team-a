@@ -1,5 +1,7 @@
 import Poll from '../entities/poll';
 import Mission from "../entities/Mission";
+import BoosterStatus from "../entities/BoosterStatus";
+import BoosterData from "../entities/BoosterData";
 
 
 class MissionController {
@@ -30,6 +32,14 @@ class MissionController {
         return this.mission.getPoll().getWeatherStatus();
     }
 
+    getMissionStatusForBooster() : BoosterStatus {
+        return this.mission.getBooster().boosterStatus;
+    }
+
+
+    modifyMissionStatusForBooster(booster : BoosterData) {
+        return this.mission.modifyBooster(booster);
+    }
 }
 
 export default new MissionController();

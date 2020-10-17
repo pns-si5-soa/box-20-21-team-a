@@ -3,6 +3,7 @@ import TelemetryAPI from '../API/telemetryAPI';
 import RocketAPI from "../API/RocketAPI";
 import BoosterStatus from "./BoosterStatus"
 import BoosterData from "./BoosterData";
+import MissionAPI from "../API/MissionAPI";
 
 
 export default class Booster {
@@ -11,6 +12,7 @@ export default class Booster {
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     private rocketAPI: RocketAPI = new RocketAPI();
     public dataUpdateDelay = 500;
+    private missionAPI = new MissionAPI();
 
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
@@ -20,8 +22,10 @@ export default class Booster {
     sendData(): void {
         if (this.booster.canSendData) {
             this.telemetryAPI.sendBoosterData(this.booster);
+            this.missionAPI.sendBoosterData(this.booster);
         }
     }
+
 
     getBoosterData():BoosterData{
         return this.booster;
@@ -48,7 +52,8 @@ export default class Booster {
         this.booster.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         if (this.booster.canSendData){
             await this.rocketAPI.notifyBoosterDetachment();
-            //await
+            this.sendData();
+
         }
     }
 
@@ -67,7 +72,13 @@ export default class Booster {
     private async controlLandingProcess(): Promise<void> {
         console.log("Landing booster");
         const that = this;
+        const altitudeBearings = this.booster.altitude/6;
+        let nextBearing=this.booster.altitude-altitudeBearings;
         await setIntervalConditionPromise(() => {
+                if (that.booster.altitude<nextBearing){
+                    this.booster.boosterStatus++;
+                    nextBearing=this.booster.altitude-altitudeBearings;
+                }
                 that.sendData();
                 that.booster.altitude -= that.booster.speed;
                 that.booster.speed -= 1;
@@ -126,5 +137,6 @@ export default class Booster {
         this.booster.boosterStatus = BoosterStatus.DESTROYED;
         console.log("*BOOM!* - Booster destroyed!");
         this.sendData();
+
     }
 }
