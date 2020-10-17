@@ -3,6 +3,22 @@ version: "3"
 
 
 services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    hostname: mongodb
+    volumes:
+        - ./.docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
+        - ./.docker/mongodb/data/db/:/data/db/
+        - ./.docker/mongodb/data/log/:/var/log/mongodb/
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: ""
+        MONGO_INITDB_ROOT_PASSWORD: ""
+        MONGO_INITDB_DATABASE: "telemetry"
+    expose: 
+        - "27018"
+    ports:
+        - "27018:27017"
   
   waitforservices1:
     image: dadarek/wait-for-dependencies
@@ -48,7 +64,11 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3003
-    
+      - MONGO_HOST=localhost
+      - MONGO_PORT=27018
+      - MONGO_DB=telemetry
+    depends_on:
+      - mongodb
 
   mission-service:
       image: blue_origin/mission-service
@@ -69,6 +89,8 @@ services:
         - HOST_IP=kafka
         - PORT_KAFKA=9092
       
+      depends_on:
+        - mongodb
 
   weather-service:
       image: blue-origin/weather-service
@@ -84,7 +106,8 @@ services:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3001
-      
+      depends_on:
+        - mongodb
 
   real-time-service:
       image: blue-origin/real-time-service
@@ -127,6 +150,7 @@ services:
         - PORT_MISSION=3002
       depends_on:
         - telemetry-service
+        - mongodb
   
   booster-service:
     image: blue-origin/booster-service
@@ -149,6 +173,8 @@ services:
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
     
+    depends_on:
+      - mongodb
 
 
   payload-service:

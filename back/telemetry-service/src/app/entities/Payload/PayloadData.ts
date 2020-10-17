@@ -1,15 +1,8 @@
+import Entitie from "../Entitie";
 import PayloadStatus from "./PayloadStatus";
 import Entitie from "../Entitie";
 
-interface IPayloadData{
-    payloadData: {
-        payloadStatus: PayloadStatus,
-        altitude: number,
-        speed: number,
-    }
-}
-
-class PayloadData extends Entitie{
+class PayloadData extends Entitie {
 
     private payloadStatus: PayloadStatus;
     private speed: number;
