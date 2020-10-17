@@ -72,7 +72,13 @@ export default class Booster {
     private async controlLandingProcess(): Promise<void> {
         console.log("Landing booster");
         const that = this;
+        const altitudeBearings = this.booster.altitude/6;
+        let nextBearing=this.booster.altitude-altitudeBearings;
         await setIntervalConditionPromise(() => {
+                if (that.booster.altitude<nextBearing){
+                    this.booster.boosterStatus++;
+                    nextBearing=this.booster.altitude-altitudeBearings;
+                }
                 that.sendData();
                 that.booster.altitude -= that.booster.speed;
                 that.booster.speed -= 1;

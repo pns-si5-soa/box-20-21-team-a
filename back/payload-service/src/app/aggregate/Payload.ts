@@ -8,8 +8,6 @@ export default class Payload{
 
     
     payloadData : PayloadData;
-    private sleepTime : number;
-    private sendingData : boolean;
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     
     

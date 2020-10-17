@@ -7,13 +7,13 @@ class MissionAPI extends API {
 
     public constructor() {
         const host: String = process.env.HOST_TELEMETRY ?? "localhost";
-        const port: String = process.env.PORT_TELEMETRY ?? "3003";
+        const port: String = process.env.PORT_TELEMETRY ?? "3002";
         super(host, port)
     }
 
     public sendBoosterData<T>(boosterData: BoosterData): AxiosPromise {
         return this.axios({method: 'post',
-            url: '/mission/booster',
+            url: '/booster',
             data: {boosterData: boosterData.toObjectJSON()}});
     }
 
