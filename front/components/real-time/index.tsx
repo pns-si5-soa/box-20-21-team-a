@@ -1,18 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import realTimeAPI from '../../src/main/API/rest/realTimeAPI';
+import {BoosterStatus, mapStatusToText as mapStatusToTextBooster} from '../../src/main/model/Booster/BoosterStatus'
+import RocketStatus, {mapStatusToText as mapStatusToTextRocket} from '../../src/main/model/Rocket/RocketStatus'
+
 
 const telemetryAPI = new realTimeAPI();
 
 interface ImissionStatus {
-    rocket: string;
-    booster: string;
+    rocket: RocketStatus;
+    booster: BoosterStatus;
   }
 
 const rocketTelemetry = () => {
 
     const [missionStatus, setMissionStatus] = useState<ImissionStatus>( {
-        rocket: 'Inconnu',
-        booster: 'Inconnu'
+        rocket: 0,
+        booster: 0
       });
 
 
@@ -38,8 +41,8 @@ const rocketTelemetry = () => {
         <div className="card" style={{width: "18rem"}}>
             <div className="card-body">
                 <h5 className="card-title">Mission</h5>
-                <p className="card-text">{`Rocket status: ${missionStatus.rocket}`}</p>
-                <p className="card-text">{`Booster status: ${missionStatus.booster}`}</p>
+                <p className="card-text">{`Rocket status: ${mapStatusToTextRocket[missionStatus.rocket]}`}</p>
+                <p className="card-text">{`Booster status: ${mapStatusToTextBooster[missionStatus.booster]}`}</p>
                 
             </div>
         </div>

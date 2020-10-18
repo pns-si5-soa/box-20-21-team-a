@@ -1,6 +1,5 @@
 import {MongoClient, Db, InsertWriteOpResult} from 'mongodb'
 
-const url = 'mongodb://' + process.env.MONGO_HOST + ':' + process.env.MONGO_PORT
 
 interface Response {
 	db: Db;
@@ -8,6 +7,8 @@ interface Response {
 }
 
 function connect() : Promise<Response> {
+	const url = 'mongodb://' + process.env.MONGO_HOST + ':' + process.env.MONGO_PORT
+
 	return new Promise((resolve, reject) => {
 		MongoClient.connect(url, function(err, client) {
 			if(err !== null) reject(err)
