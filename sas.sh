@@ -73,7 +73,7 @@ function runstart() {
     elif [[ $PROJECT == "payload" ]]; then
         cd back/payload-service
         pm2 start ./src/app/app.ts --watch --name "payload"
-    elif [[ $PROJECT == "payload" ]]; then
+    elif [[ $PROJECT == "real-time" ]]; then
         cd back/real-time-service
         pm2 start ./src/app/app.ts --watch --name "real-time"
     else
