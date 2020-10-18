@@ -36,7 +36,7 @@ class Producer{
        
     }
 
-    async sendMissionStatus(message : String) {
+    async sendMissionStatus(message : Object,topic : string) {
      // this.sendMissionStatus().catch(e => console.error(`[example/producer] ${e.message}`, e))
       
       /*errorTypes.map(type => {
@@ -50,20 +50,21 @@ class Producer{
           }
         })
       })*/
+      console.log("before connect");
         await this.producer.connect()
-        this.sendMessage(message);
+        this.sendMessage(message,topic);
       
     }
 
-    sendMessage (message : String ) {
-      
+    sendMessage (message : Object,topic : string ) {
+      console.log("send message");
       return this.producer
         .send({
           topic,
           compression: CompressionTypes.GZIP,
-          messages: [{value:message}],
+          messages: [{value:JSON.stringify(message)}],
         })
-        .then()
+        .then(console.log('sent ' +JSON.stringify(message)))
         .catch((e: { message: any; }) => console.error(`[example/producer] ${e.message}`, e))
     }
     

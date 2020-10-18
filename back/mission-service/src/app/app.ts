@@ -98,10 +98,6 @@ function onListening() {
 }
 
 
-var testKafka = new Producer();
-console.log("- - -  --  - -- -  - - - --  - - -  - -");
-testKafka.sendMissionStatus();
-
 
 
 

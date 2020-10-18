@@ -19,16 +19,10 @@ export default class Mission{
     createPoll(): Poll {
         this.poll = new Poll();
         console.log("A poll was created");
-        
-        console.log("- - -  --  - -- -  - - - --  - - -  - -");
-        
-
         return this.poll;
     }
 
     getPoll(): Poll {
-        var testKafka = new Producer();
-        testKafka.sendMissionStatus("j'ai get le poll ");
         return this.poll;
     }
 
