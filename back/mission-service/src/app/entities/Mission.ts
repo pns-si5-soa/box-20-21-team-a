@@ -67,12 +67,4 @@ export default class Mission{
     modifyRocketMissionStatus(rocketStatus: RocketStatus){
         this.rocketMissionStatus = rocketStatus;
     }
-
-    getRocketMissionStatus() : RocketStatus {
-        return this.rocketMissionStatus;
-    }
-
-    modifyRocketMissionStatus(rocketStatus: RocketStatus){
-        this.rocketMissionStatus = rocketStatus;
-    }
 }
