@@ -51,13 +51,21 @@ export default class Mission{
     getWeatherDepartmentResponse() : boolean {
         return this.poll.getWeatherResponse();
     }
-    
+
     getBoosterMissionStatus() : BoosterStatus {
         return this.boosterMissionStatus;
     }
 
     modifyBoosterMissionStatus(boosterStatus: BoosterStatus){
         this.boosterMissionStatus = boosterStatus;
+    }
+
+    getRocketMissionStatus() : RocketStatus {
+        return this.rocketMissionStatus;
+    }
+
+    modifyRocketMissionStatus(rocketStatus: RocketStatus){
+        this.rocketMissionStatus = rocketStatus;
     }
 
     getRocketMissionStatus() : RocketStatus {
