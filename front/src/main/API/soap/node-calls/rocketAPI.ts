@@ -30,6 +30,42 @@ class RocketAPI {
             });
         });
     }
+
+    public putRocketOnInternalPower<T>(): Promise<any> {
+        var args = {};
+        return new Promise((resolve, reject) =>
+        {
+            soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+                if(err != null){
+                    reject(err);
+                }
+                client.putRocketOnInternalPower(args, function (err: String, result: Client) {
+                    if(err != null){
+                        reject(err);
+                    }
+                    resolve(result);
+                });
+            });
+        });
+    }
+
+    public initializeStartupProcess<T>(): Promise<any> {
+        var args = {};
+        return new Promise((resolve, reject) =>
+        {
+            soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+                if(err != null){
+                    reject(err);
+                }
+                client.initializeStartupProcess(args, function (err: String, result: Client) {
+                    if(err != null){
+                        reject(err);
+                    }
+                    resolve(result);
+                });
+            });
+        });
+    }
 }
 
 export default RocketAPI;

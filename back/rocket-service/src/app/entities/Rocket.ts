@@ -3,8 +3,10 @@ import {setIntervalConditionPromise} from '../tools/setIntervalx'
 import TelemetryAPI from '../API/telemetryAPI';
 import RocketData from "./RocketData";
 import BoosterAPI from "../API/boosterAPI";
+import MissionAPI from "../API/missionAPI";
 
 const TELEMETRY_API: TelemetryAPI = new TelemetryAPI();
+const MISSION_API: MissionAPI = new MissionAPI();
 const BOOSTER_API: BoosterAPI = new BoosterAPI();
 
 const DATA_UPDATE_DELAY_IN_MS = 1000;
@@ -23,8 +25,11 @@ class Rocket {
         console.log("Rocket is on preparation.");
     }
 
-    private sendDataToTelemetry(): void {
+    private sendDataToTelemetryAndMission(): void {
         if (process.env.NODE_ENV != "test") {
+            MISSION_API.sendData(this.rocketData.rocketStatus).catch((e) => {
+                console.error(e);
+            });
             TELEMETRY_API.sendData(this.rocketData)
                 .catch((e) => {
                     console.error(e);
@@ -34,7 +39,8 @@ class Rocket {
 
     private changeRocketStatusAndNotifyTelemetry(rocketStatus: RocketStatus): void {
         this.rocketData.rocketStatus = rocketStatus;
-        this.sendDataToTelemetry();
+        console.log(rocketStatus)
+        this.sendDataToTelemetryAndMission();
     }
 
     getRocketData(): RocketData {
@@ -62,7 +68,7 @@ class Rocket {
         let numberOfSecondsBeforeLaunch = NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN;
         console.log("Initializing startup process. T-00:01:00");
         this.changeRocketStatusAndNotifyTelemetry(RocketStatus.STARTUP);
-        this.sendDataToTelemetry();
+        this.sendDataToTelemetryAndMission();
         await setIntervalConditionPromise(() => {
                 console.log(`T-${numberOfSecondsBeforeLaunch}s.`);
                 numberOfSecondsBeforeLaunch--;
@@ -113,7 +119,7 @@ class Rocket {
                 that.rocketData.speed += ACCELERATION;
                 that.rocketData.fuelLevel -= 1;
                 that.rocketData.pressure += PRESSURE_INCREASE;
-                that.sendDataToTelemetry();
+                that.sendDataToTelemetryAndMission();
             },
             DATA_UPDATE_DELAY_IN_MS,
             () => (that.rocketData.pressure >= 70 || that.rocketData.rocketStatus === RocketStatus.DESTROYED));
@@ -128,7 +134,7 @@ class Rocket {
         await setIntervalConditionPromise(() => {
                 that.rocketData.altitude += that.rocketData.speed;
                 that.rocketData.fuelLevel -= 1;
-                that.sendDataToTelemetry();
+                that.sendDataToTelemetryAndMission();
             },
             DATA_UPDATE_DELAY_IN_MS,
             () => (
@@ -168,7 +174,7 @@ class Rocket {
         await setIntervalConditionPromise(() => {
                 that.rocketData.altitude += this.rocketData.speed;
                 that.rocketData.fuelLevel -= 1;
-                that.sendDataToTelemetry();
+                that.sendDataToTelemetryAndMission();
             },
             DATA_UPDATE_DELAY_IN_MS,
             () => (that.rocketData.rocketStatus === RocketStatus.DESTROYED || that.rocketData.fuelLevel <= 2));

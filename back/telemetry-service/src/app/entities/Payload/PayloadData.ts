@@ -1,4 +1,5 @@
 import PayloadStatus from "./PayloadStatus";
+import Entitie from "../Entitie";
 
 interface IPayloadData{
     payloadData: {
@@ -8,12 +9,14 @@ interface IPayloadData{
     }
 }
 
-class PayloadData {
+class PayloadData extends Entitie{
+
     private payloadStatus: PayloadStatus;
     private speed: number;
     private altitude: number;
 
     constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1) {
+        super();
         this.payloadStatus = payloadStatus;
         this.speed = speed;
         this.altitude = altitude;
@@ -51,6 +54,13 @@ class PayloadData {
                 altitude: this.altitude,
             }
         }
+    }
+
+    assign(other: any): void {
+        this.altitude = other.altitude
+        this.speed = other.speed
+        this.payloadStatus = other.payloadStatus
+        this.id = other.id
     }
 }
 

@@ -1,4 +1,5 @@
 import {RocketStatus} from "./RocketStatus";
+import Entitie from "../Entitie";
 
 interface IRocketData{
     rocketData: {
@@ -10,7 +11,8 @@ interface IRocketData{
     }
 }
 
-class RocketData {
+class RocketData extends Entitie {
+
 
     private rocketStatus: RocketStatus;
     private fuelLevel: number;     // from 0 to 10
@@ -18,7 +20,12 @@ class RocketData {
     private speed: number;
     private pressure: number;
 
+<<<<<<< HEAD
     constructor(rocketStatus = RocketStatus.READY_FOR_LAUNCH, fuelLevel = 0, altitude = 0, speed = 0, pressure = 0) {
+=======
+    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0) {
+        super();
+>>>>>>> 36637ef... #139 #140 #144 writing in DB on mission, addings buttons in front, reparing mission
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
         this.altitude = altitude;
@@ -76,6 +83,15 @@ class RocketData {
                 pressure: this.pressure,
             }
         };
+    }
+
+    assign(other: any): void {
+        this.altitude = other.altitude
+        this.fuelLevel = other.fuelLevel
+        this.speed = other.speed
+        this.rocketStatus = other.rocketStatus
+        this.pressure = other.pressure
+        this.id = other.id
     }
 
 }

@@ -21,7 +21,7 @@ export default class Booster {
     sendData(): void {
         if (this.booster.canSendData) {
             this.telemetryAPI.sendBoosterData(this.booster);
-            this.missionAPI.sendBoosterData(this.booster);
+            this.missionAPI.sendBoosterData(this.booster.boosterStatus);
         }
     }
 

@@ -1,8 +1,9 @@
 import Poll from '../entities/poll';
 import Mission from "../entities/Mission";
-import BoosterStatus from "../entities/BoosterStatus";
-import BoosterData from "../entities/BoosterData";
-import RocketStatus from "../entities/RocketStatus";
+import BoosterStatus from "../entities/Booster/BoosterStatus";
+import RocketStatus from "../entities/Rocket/RocketStatus";
+import BoosterDataMission from "../entities/Booster/BoosterDataMission";
+import RocketDataMission from "../entities/Rocket/RocketDataMission";
 
 
 class MissionController {
@@ -34,19 +35,25 @@ class MissionController {
     }
 
     getMissionStatusForBooster() : BoosterStatus {
-        return this.mission.getBoosterMissionData().boosterStatus;
+        return this.mission.getBoosterMissionStatus();
     }
 
-    modifyMissionStatusForBooster(boosterData : BoosterData) {
-        return this.mission.modifyBoosterData(boosterData); // FIXME @Thomas Why boosterData? You don't need BoosterData, only BoosterStatus
+    modifyMissionStatusForBooster(boosterData : BoosterDataMission) {
+        const booster = Object.assign(new BoosterDataMission(), boosterData);
+        console.log(booster)
+        booster.save()
+        return booster;
     }
 
     getMissionStatusForRocket() : RocketStatus {
         return this.mission.getRocketMissionStatus();
     }
 
-    modifyMissionStatusForRocket(rocketStatus : RocketStatus) {
-        return this.mission.modifyRocketMissionStatus(rocketStatus);
+    modifyMissionStatusForRocket(rocketStatus : RocketDataMission) {
+        const rocket = Object.assign(new RocketDataMission(), rocketStatus);
+        console.log(rocket)
+        rocket.save()
+        return rocket;
     }
 }
 

@@ -36,6 +36,24 @@ const RocketMonitor = (props: IProps) => {
             .catch(() => {
             });
     };
+
+    const putRocketOnInternalPower = () => {
+        rocketAPI.putRocketOnInternalPower()
+            .then(res => {
+                alert(res);
+            })
+            .catch(() => {
+            });
+    };
+
+    const initializeStartupProcess = () => {
+        rocketAPI.initializeStartupProcess()
+            .then(res => {
+                alert(res);
+            })
+            .catch(() => {
+            });
+    };
     const deliverPayload = () => {
         payloadAPI.deliverPayloadSOAP()
             .then(res => {
@@ -60,6 +78,14 @@ const RocketMonitor = (props: IProps) => {
 
             <Button variant="contained" color="primary" onClick={destroyRocket}>
                 Destroy rocket
+            </Button>
+
+            <Button variant="contained" color="primary" onClick={putRocketOnInternalPower}>
+                Put Rocket On Internal Power
+            </Button>
+
+            <Button variant="contained" color="primary" onClick={initializeStartupProcess}>
+                Initialize Countdown
             </Button>
 
             {/*todo put this in a separate component: */}
