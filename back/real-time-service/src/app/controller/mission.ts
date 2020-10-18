@@ -1,16 +1,27 @@
 class Mission {
-    status: String;
+    boosterStatus: any;
+    rocketStatus: any;
+
+    
 
     constructor() {
-        this.status = "undefined"
+        this.boosterStatus = undefined
+        this.rocketStatus = undefined
+
     }
 
     getStatus() {
-        return this.status;
+        return {
+            rocket : this.rocketStatus,
+            booster : this.boosterStatus
+        }
     }
 
-    updateStatusInRealTime(status: any) {
-        this.status = status;
+    updateStatusBoosterInRealTime(status: any) {
+        this.boosterStatus = status;
+    }
+    updateStatusRocketInRealTime(status: any) {
+        this.rocketStatus = status;
     }
 }
 

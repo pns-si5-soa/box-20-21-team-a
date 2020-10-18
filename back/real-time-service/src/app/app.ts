@@ -1,5 +1,6 @@
 import express = require('express')
 import createError = require('http-errors');
+import mission from './controller/mission';
 import indexRouter from "./routes";
 const cors = require('cors');
 var http = require('http');
@@ -96,6 +97,8 @@ function onListening() {
     }
 }
 
+
+// KAFKA 
 const { Kafka, logLevel } = require('kafkajs')
 const host = process.env.HOST_IP;
 
@@ -107,24 +110,36 @@ const kafka = new Kafka({
   clientId: 'example-consumer',
 })
 
-const topic = 'mission-topic'
+const topicRocket = 'rocket-topic'
+const topicBooster = 'booster-topic'
 const consumer = kafka.consumer({ groupId: 'test-group' })
 
 const run = async () => {
   await consumer.connect()
-  await consumer.subscribe({ topic, fromBeginning: true })
+  await consumer.subscribe({ topic : topicRocket, fromBeginning: true })
+  await consumer.subscribe({ topic : topicBooster, fromBeginning: true })
   await consumer.run({
      eachBatch: async ({ batch } : any) => {
-        console.log(" - - -- - - - -- - - batch  - - - -- - - - - ")
        console.log(batch)
      },
     eachMessage: async ({ topic, partition, message } : any) => {
-      console.log(" - -- -- - - - - - - - -each message - - - - -- - - - - - - - - ");
 
       const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
 
       console.log(`- ${prefix} ${message.key}#${message.value}`)
-      console.log(" - -- -- - - - - - - - -.... - - - - -- - - - - - - - - ");
+      var msg = message.value; 
+      var json = JSON.parse(msg)  
+      if(topic =='rocket-topic'){
+        mission.updateStatusRocketInRealTime(json.rocketStatus);
+      console.log("rocket status : "+json.rocketStatus);
+
+      }
+      else {
+        mission.updateStatusBoosterInRealTime(json.boosterStatus);
+      console.log("booster status : "+json.boosterStatus);
+
+      }
+
 
     },
   })
