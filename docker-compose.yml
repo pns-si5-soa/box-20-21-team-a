@@ -29,20 +29,10 @@ services:
       - booster-service
       - payload-service
       - real-time-service
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
-=======
->>>>>>> #154 telemetry removed temporarily (mongo fail), update kafka config and mode local activated for front
       - waitforservices1
       - waitforservices2
     command: rocket-service:3000 weather-service:3001 mission-service:3002 booster-service:3004 payload-service:3005 real-time-service:3006
     
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
-=======
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006
->>>>>>> #153 Dockercompose real time
-=======
->>>>>>> #154 telemetry removed temporarily (mongo fail), update kafka config and mode local activated for front
 
   telemetry-service:
     image: blue_origin/telemetry-service
@@ -95,7 +85,6 @@ services:
       environment:
         - PORT=3001
       
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
 
   real-time-service:
       image: blue-origin/real-time-service
@@ -104,26 +93,6 @@ services:
         context: .
         dockerfile: ./back/real-time-service/Dockerfile
       expose:
-        - "3006"
-      ports:
-        - "3006:3006"
-      volumes:
-        - ./container-logs:/usr/src/app/logs
-      environment:
-        - PORT=3006
-        - HOST_IP=kafka
-        - PORT_KAFKA=9092
-      
-=======
->>>>>>> #154 telemetry removed temporarily (mongo fail), update kafka config and mode local activated for front
-
-  real-time-service:
-      image: blue-origin/real-time-service
-      container_name: real-time-container
-      build: 
-        context: .
-        dockerfile: ./back/real-time-service/Dockerfile
-      expose: 
         - "3006"
       ports:
         - "3006:3006"
@@ -177,11 +146,8 @@ services:
       - PORT_ROCKET=3000
       - HOST_TELEMETRY=telemetry-service
       - PORT_TELEMETRY=3003
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
-=======
->>>>>>> #154 telemetry removed temporarily (mongo fail), update kafka config and mode local activated for front
     
 
 
@@ -246,10 +212,6 @@ services:
         - PORT_BOOSTER=3004
         - HOST_PAYLOAD=payload-service
         - PORT_PAYLOAD=3005
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
-=======
->>>>>>> #154 telemetry removed temporarily (mongo fail), update kafka config and mode local activated for front
       # Uncommente below if you want to build all these service when building front
       #depends_on:
         #- rocket-service
@@ -260,21 +222,6 @@ services:
         #- payload-service
         #- waitforservices3
         #- real-time-service
-<<<<<<< refs/remotes/origin/#123-rocket-status-update
-=======
-      depends_on:
-        - rocket-service
-        - weather-service
-        - mission-service
-        - telemetry-service
-        - booster-service
-        - payload-service
-        - waitforservices1
-        - waitforservices2
-        - real-time-service
->>>>>>> #153 Dockercompose real time
-=======
->>>>>>> #154 telemetry removed temporarily (mongo fail), update kafka config and mode local activated for front
       stdin_open: true
       tty: true
       
