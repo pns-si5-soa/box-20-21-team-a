@@ -3,9 +3,19 @@ import realTimeAPI from '../../src/main/API/rest/realTimeAPI';
 
 const telemetryAPI = new realTimeAPI();
 
+interface ImissionStatus {
+    rocket: string;
+    booster: string;
+  }
+
 const rocketTelemetry = () => {
 
-    const [missionStatus, setMissionStatus] = useState("none");
+    const [missionStatus, setMissionStatus] = useState<ImissionStatus>( {
+        rocket: 'Inconnu',
+        booster: 'Inconnu'
+      });
+
+
 
     useEffect(() => {
         setInterval(() => {
@@ -28,7 +38,9 @@ const rocketTelemetry = () => {
         <div className="card" style={{width: "18rem"}}>
             <div className="card-body">
                 <h5 className="card-title">Mission</h5>
-                <p className="card-text">{`Status: ${missionStatus}`}</p>
+                <p className="card-text">{`Rocket status: ${missionStatus.rocket}`}</p>
+                <p className="card-text">{`Booster status: ${missionStatus.booster}`}</p>
+                
             </div>
         </div>
     )
