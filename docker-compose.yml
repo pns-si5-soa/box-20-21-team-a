@@ -150,6 +150,8 @@ services:
         - PORT_BOOSTER=3004
         - HOST_PAYLOAD=payload-service
         - PORT_PAYLOAD=3005
+        - HOST_REAL_TIME=real-time-service
+        - PORT_REAL_TIME=3006
       depends_on:
         - rocket-service
         - weather-service
