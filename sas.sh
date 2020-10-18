@@ -73,6 +73,9 @@ function runstart() {
     elif [[ $PROJECT == "payload" ]]; then
         cd back/payload-service
         pm2 start ./src/app/app.ts --watch --name "payload"
+    elif [[ $PROJECT == "payload" ]]; then
+        cd back/real-time-service
+        pm2 start ./src/app/app.ts --watch --name "real-time"
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -103,6 +106,8 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "payload"
         cd ../..
+        runstart "real-time"
+        cd ../..
         runstart "front"
     else
         runstart $PARG
@@ -116,6 +121,7 @@ elif [[ $PARAMS == "stop" ]]; then
         runstop "telemetry"
         runstop "booster"
         runstop "payload"
+        runstop "real-time"
     else
         runstop $PARG
     fi
