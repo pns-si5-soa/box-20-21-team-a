@@ -16,11 +16,11 @@ class Poll {
         this.missionStatus = missionStatus;
     }
 
-    getRocketStatus(): boolean {
+    getRocketResponse(): boolean {
         return this.rocketStatus;
     }
 
-    getWeatherStatus(): boolean {
+    getWeatherResponse(): boolean {
         return this.weatherStatus;
     }
 

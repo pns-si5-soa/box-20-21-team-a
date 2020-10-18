@@ -2,6 +2,7 @@ import Poll from '../entities/poll';
 import Mission from "../entities/Mission";
 import BoosterStatus from "../entities/BoosterStatus";
 import BoosterData from "../entities/BoosterData";
+import RocketStatus from "../entities/RocketStatus";
 
 
 class MissionController {
@@ -25,20 +26,27 @@ class MissionController {
     }
 
     getRocket() : boolean {
-        return this.mission.getPoll().getRocketStatus();
+        return this.mission.getPoll().getRocketResponse();
     }
 
     getWeather() : boolean {
-        return this.mission.getPoll().getWeatherStatus();
+        return this.mission.getPoll().getWeatherResponse();
     }
 
     getMissionStatusForBooster() : BoosterStatus {
-        return this.mission.getBooster().boosterStatus;
+        return this.mission.getBoosterMissionData().boosterStatus;
     }
 
+    modifyMissionStatusForBooster(boosterData : BoosterData) {
+        return this.mission.modifyBoosterData(boosterData); // FIXME @Thomas Why boosterData? You don't need BoosterData, only BoosterStatus
+    }
 
-    modifyMissionStatusForBooster(booster : BoosterData) {
-        return this.mission.modifyBooster(booster);
+    getMissionStatusForRocket() : RocketStatus {
+        return this.mission.getRocketMissionStatus();
+    }
+
+    modifyMissionStatusForRocket(rocketStatus : RocketStatus) {
+        return this.mission.modifyRocketMissionStatus(rocketStatus);
     }
 }
 

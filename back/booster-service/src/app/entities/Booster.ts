@@ -16,7 +16,6 @@ export default class Booster {
 
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
-        this.launch();
     }
 
     sendData(): void {

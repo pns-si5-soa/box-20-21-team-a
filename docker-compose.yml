@@ -74,6 +74,31 @@ services:
       environment:
         - PORT=3006
 
+<<<<<<< HEAD
+=======
+  rocket-service:
+    image: blue-origin/rocket-service
+    container_name: rocket-container
+    build:
+      context: .
+      dockerfile: ./back/rocket-service/Dockerfile
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3000
+      - HOST_TELEMETRY=telemetry-service
+      - PORT_TELEMETRY=3003
+      - HOST_BOOSTER=booster-service
+      - PORT_BOOSTER=3004
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
+    depends_on:
+      - telemetry-service
+>>>>>>> 5e91da6... #146 Added routes in Mission service for rocket mission status.
 
   rocket-service:
       image: blue-origin/rocket-service
@@ -112,6 +137,8 @@ services:
       - PORT_ROCKET=3000
       - HOST_TELEMETRY=telemetry-service
       - PORT_TELEMETRY=3003
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
 
 
   payload-service:

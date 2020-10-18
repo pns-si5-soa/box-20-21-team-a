@@ -1,15 +1,18 @@
 import Poll from "./poll";
 import BoosterData from "./BoosterData";
+import RocketStatus from "./RocketStatus";
 
 
 export default class Mission {
 
     poll!: Poll;
-    private boosterData: BoosterData;
+    private boosterData: BoosterData; // FIXME @Thomas only booster status is useful, boosterData are useless!
+    private rocketMissionStatus: RocketStatus;
 
 
     constructor() {
-        this.boosterData = new BoosterData();
+        this.boosterData = new BoosterData(); // FIXME no booster data!
+        this.rocketMissionStatus = RocketStatus.PREPARATION;
     }
 
     createPoll(): Poll {
@@ -41,19 +44,27 @@ export default class Mission {
         }
     }
 
-    getRocket() : boolean {
-        return this.poll.getRocketStatus();
+    getRocketDepartmentResponse() : boolean {
+        return this.poll.getRocketResponse();
     }
 
-    getWeather() : boolean {
-        return this.poll.getWeatherStatus();
+    getWeatherDepartmentResponse() : boolean {
+        return this.poll.getWeatherResponse();
     }
     
-    getBooster() : BoosterData {
+    getBoosterMissionData() : BoosterData {
         return this.boosterData;
     }
 
-    modifyBooster(booster: BoosterData){
+    modifyBoosterData(booster: BoosterData){
         this.boosterData = booster;
+    }
+
+    getRocketMissionStatus() : RocketStatus {
+        return this.rocketMissionStatus;
+    }
+
+    modifyRocketMissionStatus(rocketStatus: RocketStatus){
+        this.rocketMissionStatus = rocketStatus;
     }
 }

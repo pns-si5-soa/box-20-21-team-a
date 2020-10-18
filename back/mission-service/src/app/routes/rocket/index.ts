@@ -1,10 +1,10 @@
-import express = require('express')
+import express = require('express');
 const router = express.Router();
 import mission from "../../controller/MissionController";
 
 router.get('/', (req, res) => {
     try {
-        res.send(mission.getMissionStatusForBooster());
+        res.send(mission.getMissionStatusForRocket());
     } catch (e: any) {
         res.status(500).json({
             message: e.message
@@ -12,14 +12,14 @@ router.get('/', (req, res) => {
     }
 });
 
-router.post('/',(req,res) => { // FIXME @Thomas PUT not POST
+router.put('/',(req,res) => {
     try{
-        res.send(mission.modifyMissionStatusForBooster(req.body));
+        res.send(mission.modifyMissionStatusForRocket(req.body));
     } catch (e:any){
         res.status(500).json({
             message: e.message
         });
     }
-})
+});
 
 export default router;
