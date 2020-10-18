@@ -69,15 +69,13 @@ class RocketData extends Entitie {
         return this.pressure;
     }
 
-    toObjectJSON(): IRocketData {
+    toObjectJSON(): Object {
         return {
-            rocketData: {
                 rocketStatus: this.rocketStatus,
                 fuelLevel: this.fuelLevel,
                 altitude: this.altitude,
                 speed: this.speed,
                 pressure: this.pressure,
-            }
         };
     }
 

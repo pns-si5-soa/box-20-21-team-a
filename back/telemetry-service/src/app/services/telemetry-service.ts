@@ -20,9 +20,8 @@ class TelemetryService {
         return rocketData;
     }
 
-    async getRocketData() {
+    getRocketData() {
         const rocketData = new RocketData()
-        console.log(await rocketData.findLastAndAssign())
         return rocketData.findLastAndAssign()
     }
 

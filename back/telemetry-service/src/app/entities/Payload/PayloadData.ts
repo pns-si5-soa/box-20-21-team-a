@@ -46,13 +46,11 @@ class PayloadData extends Entitie{
         this.speed = value;
     }
 
-    toObjectJSON(): IPayloadData {
+    toObjectJSON(): Object {
         return {
-            payloadData: {
                 payloadStatus: this.payloadStatus,
                 speed: this.speed,
                 altitude: this.altitude,
-            }
         }
     }
 

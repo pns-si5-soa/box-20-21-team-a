@@ -4,16 +4,14 @@ interface Response {
 	db: Db;
 	client: MongoClient;
 }
+const url = 'mongodb://' + process.env.MONGO_HOST ?? "localhost" + ':' + process.env.MONGO_PORT ?? "27017"
+
 
 function connect() : Promise<Response> {
-	const url = 'mongodb://' + process.env.MONGO_HOST ?? "localhost" + ':' + process.env.MONGO_PORT ?? "27017"
 	return new Promise((resolve, reject) => {
-		console.log(process.env.MONGO_HOST);
 		MongoClient.connect(url, function(err, client) {
-			console.log(err," tttt2ttt ",client);
 			if(err !== null) reject(err)
 			console.log("Connected successfully to server");
-			console.log(err," ttttttt ",client);
 			const db = client.db(process.env.MONGO_DB);
 
 			resolve({client, db})
