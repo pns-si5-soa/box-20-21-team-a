@@ -1,7 +1,11 @@
 export enum BoosterStatus {
-    NOT_LAUNCHED = 0,
-    IN_FIRST_STAGE = 1,
-    IN_SECOND_STAGE = 2,
-    LANDED = 3,
-    DESTROYED = 4,
+    ON_THE_ROCKET = 0,
+    FLIP_MANEUVER = 1,
+    ENTRY_BURN = 2,
+    GUIDANCE = 3,
+    LANDING_BURN = 4,
+    LANDING_LEGS_DEPLOYED = 5,
+    LANDING = 6,
+    LANDED = 7,
+    DESTROYED = 8,
 }

@@ -8,7 +8,7 @@ class BoosterData extends Entitie {
     private fuelLevel: number;
 
 
-    constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.NOT_LAUNCHED) {
+    constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
         super()
         this.altitude=altitude;
         this.speed=speed;
