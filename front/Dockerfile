@@ -14,5 +14,9 @@ COPY ./front /usr/src/app/front
 RUN rm -rf node_modules
 RUN npm install
 
-# Running the app
-CMD [ "npm", "run", "demo"]
+# Running the app locally
+RUN npm run build
+CMD [ "npm", "run", "start"]
+
+#OR in demo mode
+#CMD [ "npm", "run", "demo"]

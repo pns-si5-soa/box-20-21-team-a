@@ -14,34 +14,40 @@ class TelemetryService {
     }
 
     addRocketData(rocketData: RocketData): RocketData {
-        this.rocketDataArray.push(rocketData);
+        const rocket = Object.assign(new RocketData(), rocketData);
+        console.log(rocket)
+        rocket.save()
         return rocketData;
     }
 
     getRocketData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.rocketDataArray[this.rocketDataArray.length - 1]));
-        return this.rocketDataArray[this.rocketDataArray.length - 1];
+        const rocketData = new RocketData()
+        return rocketData.findLastAndAssign()
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
         const booster = Object.assign(new BoosterData(), boosterData);
+        console.log(boosterData)
         booster.save()
         return boosterData;
     }
 
-    getBoosterData() {
+    async getBoosterData() {
         const boosterData = new BoosterData()
+        console.log(await boosterData.findLastAndAssign())
         return boosterData.findLastAndAssign()
     }
 
     addPayloadData(payloadData: PayloadData): PayloadData {
-        this.payloadDataArray.push(payloadData);
-        return payloadData;
+        const payload = Object.assign(new PayloadData(), payloadData);
+        console.log(payload)
+        payload.save()
+        return payload;
     }
 
     getPayloadData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.payloadDataArray[this.payloadDataArray.length - 1]));
-        return this.payloadDataArray[this.payloadDataArray.length - 1];
+        const payloadData = new PayloadData()
+        return payloadData.findLastAndAssign()
     }
 }
 

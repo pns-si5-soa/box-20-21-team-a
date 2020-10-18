@@ -43,19 +43,29 @@ function normalizePort(val: any) {
 let myService = {
     rocket: {
         rocket_0: {
-            destroy: function (args: any) {
-                rocketService.destroy();
+            putRocketOnInternalPower: function (args: any) {
+                rocketService.putRocketOnInternalPower();
+                return {rocketService: rocketService.rocket.getRocketData().toJsonObject()};
+            },
+
+            initializeStartupProcess: function (args: any) {
+                rocketService.initializeStartupProcess();
                 return {rocketService: rocketService.rocket.getRocketData().toJsonObject()};
             },
 
             notifyLaunch: function (args: any) {
-                rocketService.launch();
+                rocketService.notifyOfBoosterLaunch();
                 return {rocket: rocketService.rocket.getRocketData().toJsonObject()};
             },
 
-            notifyBoosterDetachment: function (args: any) {
-                rocketService.initializeRocketEngines();
+            initializeSecondEngineForSecondStage: function (args: any) {
+                rocketService.initializeSecondEngineForSecondStage();
                 return {rocket: rocketService.rocket.getRocketData().toJsonObject()};
+            },
+
+            destroy: function (args: any) {
+                rocketService.destroy();
+                return {rocketService: rocketService.rocket.getRocketData().toJsonObject()};
             },
         }
     }

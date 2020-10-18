@@ -1,7 +1,7 @@
 import BoosterStatus from './BoosterStatus';
 
 
-export default class BoosterData {
+export default class BoosterData { // TODO delete this file
 
     boosterStatus: BoosterStatus;
     altitude: number;

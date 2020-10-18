@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     }
 });
 
-router.post('/',(req,res) => {
+router.put('/',(req,res) => {
     try{
         res.send(mission.modifyMissionStatusForBooster(req.body));
     } catch (e:any){

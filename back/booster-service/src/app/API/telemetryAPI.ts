@@ -1,6 +1,6 @@
-import { AxiosPromise } from 'axios';
-import BoosterData from '../entities/BoosterData';
+import {AxiosPromise} from 'axios';
 import API from './API';
+import BoosterData from '../entities/BoosterData';
 
 class TelemetryAPI extends API {
 
@@ -11,9 +11,11 @@ class TelemetryAPI extends API {
     }
 
     public sendBoosterData<T>(boosterData: BoosterData): AxiosPromise {
-        return this.axios({method: 'post',
-        url: '/telemetry/booster',
-       data: {boosterData: boosterData.toObjectJSON()}});
+        return this.axios({
+            method: 'post',
+            url: '/telemetry/booster',
+            data: {boosterData}
+        });
     }
 
 }

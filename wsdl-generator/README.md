@@ -12,7 +12,7 @@ Create a json file with this model :
 
 ```
 {
-    "copyright": "(c) World Corp",
+    "copyright": "(c) TeamA",
     "service": "booster",
     "provider": "booster",
     "domain": "fr.teamA",

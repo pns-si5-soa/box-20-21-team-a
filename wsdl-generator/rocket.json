@@ -1,0 +1,23 @@
+{
+  "copyright": "(c) TeamA",
+  "service": "rocket",
+  "provider": "rocket",
+  "domain": "fr.teamA",
+  "brief": "Rocket soap wsdl",
+
+  "ports": [
+    "/wsdl?wsdl"
+  ],
+
+  "types": [
+    "string text"
+  ],
+
+  "functions": [
+    "text putRocketOnInternalPower();",
+    "text initializeStartupProcess();",
+    "text notifyLaunch();",
+    "text initializeSecondEngineForSecondStage();",
+    "text destroy();"
+  ]
+}

@@ -16,13 +16,12 @@ export default class Booster {
 
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
-        this.telemetryAPI.sendBoosterData(this.booster);
     }
 
     sendData(): void {
         if (this.booster.canSendData) {
             this.telemetryAPI.sendBoosterData(this.booster);
-            this.missionAPI.sendBoosterData(this.booster);
+            this.missionAPI.sendBoosterData(this.booster.boosterStatus);
         }
     }
 
@@ -51,7 +50,7 @@ export default class Booster {
         console.log("Initializing booster detachment.");
         this.booster.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         if (this.booster.canSendData){
-            await this.rocketAPI.notifyBoosterDetachment();
+            await this.rocketAPI.initializeSecondEngineForSecondStage();
             this.sendData();
 
         }

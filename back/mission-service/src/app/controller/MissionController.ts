@@ -1,7 +1,9 @@
 import Poll from '../entities/poll';
 import Mission from "../entities/Mission";
-import BoosterStatus from "../entities/BoosterStatus";
-import BoosterData from "../entities/BoosterData";
+import BoosterStatus from "../entities/Booster/BoosterStatus";
+import RocketStatus from "../entities/Rocket/RocketStatus";
+import BoosterDataMission from "../entities/Booster/BoosterDataMission";
+import RocketDataMission from "../entities/Rocket/RocketDataMission";
 
 
 class MissionController {
@@ -25,20 +27,33 @@ class MissionController {
     }
 
     getRocket() : boolean {
-        return this.mission.getPoll().getRocketStatus();
+        return this.mission.getPoll().getRocketResponse();
     }
 
     getWeather() : boolean {
-        return this.mission.getPoll().getWeatherStatus();
+        return this.mission.getPoll().getWeatherResponse();
     }
 
     getMissionStatusForBooster() : BoosterStatus {
-        return this.mission.getBooster().boosterStatus;
+        return this.mission.getBoosterMissionStatus();
     }
 
+    modifyMissionStatusForBooster(boosterData : BoosterDataMission) {
+        const booster = Object.assign(new BoosterDataMission(), boosterData);
+        console.log(booster)
+        booster.save()
+        return booster;
+    }
 
-    modifyMissionStatusForBooster(booster : BoosterData) {
-        return this.mission.modifyBooster(booster);
+    getMissionStatusForRocket() : RocketStatus {
+        return this.mission.getRocketMissionStatus();
+    }
+
+    modifyMissionStatusForRocket(rocketStatus : RocketDataMission) {
+        const rocket = Object.assign(new RocketDataMission(), rocketStatus);
+        console.log(rocket)
+        rocket.save()
+        return rocket;
     }
 }
 

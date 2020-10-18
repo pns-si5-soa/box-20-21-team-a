@@ -19,13 +19,13 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    try {
-        res.send(TelemetryService.getRocketData());
-    } catch (e: any) {
-        res.status(500).json({
-            message: e.message
+        TelemetryService.getRocketData().then(data => {
+            res.send(data);
+        }).catch( (error) => {
+            res.status(500).json({
+                message: error.message
+            });
         });
-    }
 });
 
 export default router;

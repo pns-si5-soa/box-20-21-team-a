@@ -23,15 +23,14 @@ class RocketAPI extends API {
         });
     }
 
-    public notifyBoosterDetachment<T>(): Promise<any> {
+    public initializeSecondEngineForSecondStage<T>(): Promise<any> {
         var args = {name: 'value'};
         return soap.createClient(this.url, function (err: String, client: Client) {
-            client.notifyBoosterDetachment(args, function (err: String, result: Client) {
+            client.initializeSecondEngineForSecondStage(args, function (err: String, result: Client) {
                 return result;
             });
         });
     }
-
 }
 
 export default RocketAPI;

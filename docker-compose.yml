@@ -5,17 +5,18 @@ services:
     image: dadarek/wait-for-dependencies
     depends_on:
       - rocket-service
-      - weather-service 
+      - weather-service
       - mission-service
       - telemetry-service
       - booster-service
       - payload-service
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005
+      - real-time-service
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006
 
   telemetry-service:
     image: blue_origin/telemetry-service
     container_name: telemetry-container
-    build: 
+    build:
       context: .
       dockerfile: ./back/telemetry-service/Dockerfile
     expose:
@@ -28,35 +29,50 @@ services:
       - PORT=3003
 
   mission-service:
-      image: blue_origin/mission-service
-      container_name: mission-container
-      build: 
-        context: .
-        dockerfile: ./back/mission-service/Dockerfile
-      expose: 
-        - "3002"
-      ports:
-        - "3002:3002"
-      volumes:
-        - ./container-logs:/usr/src/app/logs
-      environment:
-        - PORT=3002
+    image: blue_origin/mission-service
+    container_name: mission-container
+    build:
+      context: .
+      dockerfile: ./back/mission-service/Dockerfile
+    expose:
+      - "3002"
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3002
 
 
   weather-service:
-      image: blue-origin/weather-service
-      container_name: weather-container
-      build: 
+    image: blue-origin/weather-service
+    container_name: weather-container
+    build:
+      context: .
+      dockerfile: ./back/weather-service/Dockerfile
+    expose:
+      - "3001"
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3001
+
+  real-time-service:
+      image: blue-origin/real-time-service
+      container_name: real-time-container
+      build:
         context: .
-        dockerfile: ./back/weather-service/Dockerfile
-      expose: 
-        - "3001"
+        dockerfile: ./back/real-time-service/Dockerfile
+      expose:
+        - "3006"
       ports:
-        - "3001:3001"
+        - "3006:3006"
       volumes:
         - ./container-logs:/usr/src/app/logs
       environment:
-        - PORT=3001
+        - PORT=3006
 
 
   rocket-service:
@@ -75,16 +91,20 @@ services:
         - PORT=3000
         - HOST_TELEMETRY=telemetry-service
         - PORT_TELEMETRY=3003
+        - HOST_BOOSTER=booster-service
+        - PORT_BOOSTER=3004
+        - HOST_MISSION=mission-service
+        - PORT_MISSION=3002
       depends_on:
         - telemetry-service
   
   booster-service:
     image: blue-origin/booster-service
     container_name: booster-container
-    build: 
+    build:
       context: .
       dockerfile: ./back/booster-service/Dockerfile
-    expose: 
+    expose:
       - "3004"
     ports:
       - "3004:3004"
@@ -96,12 +116,14 @@ services:
       - PORT_ROCKET=3000
       - HOST_TELEMETRY=telemetry-service
       - PORT_TELEMETRY=3003
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
 
 
   payload-service:
     image: blue_origin/payload-service
     container_name: payload-container
-    build: 
+    build:
       context: .
       dockerfile: ./back/payload-service/Dockerfile
     expose:
@@ -134,6 +156,8 @@ services:
         - PORT_BOOSTER=3004
         - HOST_PAYLOAD=payload-service
         - PORT_PAYLOAD=3005
+        - HOST_REAL_TIME=real-time-service
+        - PORT_REAL_TIME=3006
       depends_on:
         - rocket-service
         - weather-service
@@ -141,6 +165,7 @@ services:
         - telemetry-service
         - booster-service
         - payload-service
+        - real-time-service
         - waitforservices
       stdin_open: true
       tty: true

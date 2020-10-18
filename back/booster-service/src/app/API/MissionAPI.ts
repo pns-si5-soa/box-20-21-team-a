@@ -1,6 +1,7 @@
 import API from './API';
 import BoosterData from "../entities/BoosterData";
 import {AxiosPromise} from "axios";
+import BoosterStatus from "../entities/BoosterStatus";
 
 
 class MissionAPI extends API {
@@ -11,10 +12,10 @@ class MissionAPI extends API {
         super(host, port)
     }
 
-    public sendBoosterData<T>(boosterData: BoosterData): AxiosPromise {
-        return this.axios({method: 'post',
+    public sendBoosterData<T>(boosterStatus: BoosterStatus): AxiosPromise {
+        return this.axios({method: 'put',
             url: '/booster',
-            data: {boosterData: boosterData.toObjectJSON()}});
+            data: {boosterStatus: boosterStatus}});
     }
 
 }

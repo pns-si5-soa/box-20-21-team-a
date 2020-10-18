@@ -6,9 +6,10 @@ import TelemetryService from "../../services/telemetry-service";
 router.post('/', (req, res) => {
     try {
         if(req.body.boosterData === undefined) {
-            res.status(500).send("Error: BoosterData wasn't sent");
+            res.status(500).send("Error: BoosterDataMission wasn't sent");
             return;
         }
+        console.log(req.body.boosterData)
         res.send(TelemetryService.addBoosterData(req.body.boosterData));
     } catch (e: any) {
         res.status(500).json({

@@ -1,3 +1,4 @@
+
 enum BoosterStatus {
     ON_THE_ROCKET,
     FLIP_MANEUVER,

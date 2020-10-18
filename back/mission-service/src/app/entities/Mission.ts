@@ -1,15 +1,18 @@
 import Poll from "./poll";
-import BoosterData from "./BoosterData";
+import RocketStatus from "./Rocket/RocketStatus";
+import BoosterStatus from "./Booster/BoosterStatus";
 
 
-export default class Mission {
+export default class Mission{
 
     poll!: Poll;
-    private boosterData: BoosterData;
+    private boosterMissionStatus: BoosterStatus;
+    private rocketMissionStatus: RocketStatus;
 
 
     constructor() {
-        this.boosterData = new BoosterData();
+        this.boosterMissionStatus = BoosterStatus.ON_THE_ROCKET;
+        this.rocketMissionStatus = RocketStatus.PREPARATION;
     }
 
     createPoll(): Poll {
@@ -41,19 +44,27 @@ export default class Mission {
         }
     }
 
-    getRocket() : boolean {
-        return this.poll.getRocketStatus();
+    getRocketDepartmentResponse() : boolean {
+        return this.poll.getRocketResponse();
     }
 
-    getWeather() : boolean {
-        return this.poll.getWeatherStatus();
-    }
-    
-    getBooster() : BoosterData {
-        return this.boosterData;
+    getWeatherDepartmentResponse() : boolean {
+        return this.poll.getWeatherResponse();
     }
 
-    modifyBooster(booster: BoosterData){
-        this.boosterData = booster;
+    getBoosterMissionStatus() : BoosterStatus {
+        return this.boosterMissionStatus;
+    }
+
+    modifyBoosterMissionStatus(boosterStatus: BoosterStatus){
+        this.boosterMissionStatus = boosterStatus;
+    }
+
+    getRocketMissionStatus() : RocketStatus {
+        return this.rocketMissionStatus;
+    }
+
+    modifyRocketMissionStatus(rocketStatus: RocketStatus){
+        this.rocketMissionStatus = rocketStatus;
     }
 }
