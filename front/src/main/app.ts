@@ -1,7 +1,4 @@
 import RocketData from "./model/Rocket/RocketData";
-
-require("logs-module");
-require('dotenv').config()
 import RocketAPI from './API/soap/node-calls/rocketAPI';
 import weatherAPI from './API/rest/weatherAPI';
 import MissionAPI from './API/rest/missionAPI';
@@ -11,6 +8,11 @@ import TelemetryAPI from './API/rest/telemetryAPI';
 import {setIntervalConditionPromise} from './tools/set_intervalx';
 import BoosterData from "./model/Booster/BoosterData";
 import PayloadData from "./model/Payload/PayloadData";
+import RocketStatus from "./model/Rocket/RocketStatus";
+import {BoosterStatus} from "./model/Booster/BoosterStatus";
+
+require("logs-module");
+require('dotenv').config()
 
 const weatherAPIInstance = new weatherAPI();
 const rocketAPIInstance = new RocketAPI();
@@ -87,13 +89,13 @@ async function main() {
 
     setTimeout(() => {
         console.log("Once the poll is good, Elon launches the rocket");
-        boosterAPIInstance.launchBoosterSOAPBack();
+        rocketAPIInstance.initializeStartupProcess();
     }, 100);
 
 
     let passOnce = false;
     setIntervalConditionPromise(() => {
-            if (rocketData.rocketStatus == 4) {
+            if (rocketData.rocketStatus == RocketStatus.FAIRING_SEPARATION) {
                 console.log("Gwynne delivers the payload");
                 payloadAPIInstance.deliverPayloadSOAPBack();
                 passOnce = true;
@@ -105,7 +107,7 @@ async function main() {
 
     let passOnce2 = false;
     setIntervalConditionPromise(() => {
-            if (payloadData.payloadStatus == 2 && boosterData.boosterStatus == 3) {
+            if (payloadData.payloadStatus == 2 && boosterData.boosterStatus == BoosterStatus.LANDED) {
                 console.log("If something went wrong, the rocket and the booster can be destroyed separately");
                 console.log("Richard wants to destroy the rocket");
                 rocketAPIInstance.destroyRocketSOAPBack();
@@ -117,7 +119,7 @@ async function main() {
 
     let passOnce3 = false;
     setIntervalConditionPromise(() => {
-            if (rocketData.rocketStatus == 5) {
+            if (rocketData.rocketStatus == RocketStatus.DESTROYED) {
                 console.log("Richard wants to destroy the booster too");
                 boosterAPIInstance.destroyBoosterSOAPBack();
                 passOnce3 = true;
