@@ -1,13 +1,15 @@
 const { Kafka, logLevel,CompressionTypes } = require('kafkajs')
-const host = '192.168.1.47'
+const host = process.env.HOST_IP ?? '127.0.0.1';
+
 
 // Create the client with the broker list
 const kafka = new Kafka({
-    logLevel: logLevel.DEBUG,
+    logLevel: logLevel.ERROR,
     clientId: 'blue-app',
     brokers: [`${host}:9092`],
 
 });
+
 const topic = 'mission-topic'
 const errorTypes = ['unhandledRejection', 'uncaughtException']
 const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
@@ -16,53 +18,57 @@ const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
 class Producer{
 
     producer : any;
+    kafka : any;
 
-    constructor(){
-        this.producer = kafka.producer()
-    }
+     constructor(){
 
-     async sendMissionStatus() {
+      
+      this.kafka = new Kafka({
+        logLevel: logLevel.DEBUG,
+        brokers: [`${host}:9092`],
+        clientId: 'example-producer',
+      })
+      this.producer = this.kafka.producer()
+
+      
+      
+      
        
-        await this.run().catch((e: { message: any; }) => console.error(`[example/producer] ${e.message}`, e))
-        console.log(" - - - - - - - - - sent -  - - - - - -  -");
     }
 
-    getRandomNumber = () => Math.round(Math.random() * 1000)
-    createMessage = (num: any) => ({
-        key :'hellllooooooooooooooo',
-        value : 'woooooooorld'
-    })
-
-    sendMessage(){
-        return this.producer
-            .send({
-            topic,
-            compression: CompressionTypes.GZIP,
-            messages: this.createMessage(this.getRandomNumber()),
-            })
-            .then(console.log)
-            .catch((e: { message: any; }) => console.error(`[example/producer] ${e.message}`, e))
-    }
-
-    async run (){
+    async sendMissionStatus(message : String) {
+     // this.sendMissionStatus().catch(e => console.error(`[example/producer] ${e.message}`, e))
+      
+      /*errorTypes.map(type => {
+        process.on(type, async () => {
+          try {
+            console.log(`process.on ${type}`)
+            await this.producer.disconnect()
+            process.exit(0)
+          } catch (_) {
+            process.exit(1)
+          }
+        })
+      })*/
         await this.producer.connect()
-        console.log("connected or not ..................")
-        this.sendMessage;
-        this.sendMessage;
-
-        errorTypes.map(type => {
-            process.on(type, async () => {
-              try {
-                console.log(`process.on ${type}`)
-                console.log("exit")
-                await this.producer.disconnect()
-                process.exit(0)
-              } catch (_) {
-                process.exit(1)
-              }
-            })
-          })
+        this.sendMessage(message);
+      
     }
+
+    sendMessage (message : String ) {
+      
+      return this.producer
+        .send({
+          topic,
+          compression: CompressionTypes.GZIP,
+          messages: [{value:message}],
+        })
+        .then()
+        .catch((e: { message: any; }) => console.error(`[example/producer] ${e.message}`, e))
+    }
+    
+
+    
 
 }
 export default Producer;
