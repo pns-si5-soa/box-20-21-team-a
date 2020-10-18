@@ -70,7 +70,14 @@ First run `docker-compose run --rm waitforservices` to launch services
 
 Then run `docker-compose up front`
 
+## To run kafka 
+Go to kafka_2.* directory on your terminal
 
+First run zookeeper with :
+`bin/zookeeper-server-start.sh config/zookeeper.properties`
+
+Then run kafka with :
+`bin/kafka-server-start.sh config/server.properties`
 
 ## Logs for Release
 

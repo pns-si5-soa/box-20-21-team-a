@@ -1,8 +1,8 @@
 import express = require('express')
 const router = express.Router();
 
-import missionouter from "./mission"
+import missionrouter from "./mission"
 
-router.use("/mission", missionouter)
+router.use("/mission", missionrouter)
 
 export default router;

@@ -4,14 +4,18 @@ import BoosterStatus from "../entities/Booster/BoosterStatus";
 import RocketStatus from "../entities/Rocket/RocketStatus";
 import BoosterDataMission from "../entities/Booster/BoosterDataMission";
 import RocketDataMission from "../entities/Rocket/RocketDataMission";
+import Producer from '../producer/producer';
 
 
 class MissionController {
 
     mission : Mission;
+    producerKafka : Producer;
+
 
     constructor() {
         this.mission = new Mission();
+        this.producerKafka = new Producer();
     }
 
     createPoll(): Poll {
@@ -38,7 +42,8 @@ class MissionController {
         return this.mission.getBoosterMissionStatus();
     }
 
-    modifyMissionStatusForBooster(boosterData : BoosterDataMission) {
+    async modifyMissionStatusForBooster(boosterData : BoosterDataMission) {
+        await this.producerKafka.sendMissionStatus(boosterData,'booster-topic');
         const booster = Object.assign(new BoosterDataMission(), boosterData);
         console.log(booster)
         booster.save()
@@ -49,7 +54,8 @@ class MissionController {
         return this.mission.getRocketMissionStatus();
     }
 
-    modifyMissionStatusForRocket(rocketStatus : RocketDataMission) {
+    async modifyMissionStatusForRocket(rocketStatus : RocketDataMission) {
+        await this.producerKafka.sendMissionStatus(rocketStatus,'rocket-topic');
         const rocket = Object.assign(new RocketDataMission(), rocketStatus);
         console.log(rocket)
         rocket.save()

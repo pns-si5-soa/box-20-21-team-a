@@ -1,3 +1,4 @@
+import Producer from "../producer/producer";
 import Poll from "./poll";
 import RocketStatus from "./Rocket/RocketStatus";
 import BoosterStatus from "./Booster/BoosterStatus";
