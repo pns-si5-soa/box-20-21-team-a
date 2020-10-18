@@ -93,7 +93,6 @@ class RocketData extends Entitie {
         this.pressure = other.pressure
         this.id = other.id
     }
-
 }
 
 

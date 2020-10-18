@@ -20,9 +20,10 @@ class TelemetryService {
         return rocketData;
     }
 
-    getRocketData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.rocketDataArray[this.rocketDataArray.length - 1]));
-        return this.rocketDataArray[this.rocketDataArray.length - 1];
+    async getRocketData() {
+        const rocketData = new RocketData()
+        console.log(await rocketData.findLastAndAssign())
+        return rocketData.findLastAndAssign()
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
@@ -32,8 +33,9 @@ class TelemetryService {
         return boosterData;
     }
 
-    getBoosterData() {
+    async getBoosterData() {
         const boosterData = new BoosterData()
+        console.log(await boosterData.findLastAndAssign())
         return boosterData.findLastAndAssign()
     }
 
@@ -45,8 +47,8 @@ class TelemetryService {
     }
 
     getPayloadData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.payloadDataArray[this.payloadDataArray.length - 1]));
-        return this.payloadDataArray[this.payloadDataArray.length - 1];
+        const payloadData = new PayloadData()
+        return payloadData.findLastAndAssign()
     }
 }
 
