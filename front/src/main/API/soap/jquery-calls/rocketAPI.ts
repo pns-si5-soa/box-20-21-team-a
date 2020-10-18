@@ -102,7 +102,7 @@ class RocketAPI {
                     var xmlDoc = parser.parseFromString(myxml as string,"text/xml");
                     if(xmlDoc.getElementsByTagName("tns:rocket") == null) console.error("Error : tns:rocket expected in the response but not found");
 
-                    resolve(xmlDoc.getElementsByTagName("tns:rocket")[0].childNodes[0].nodeValue);
+                    resolve(xmlDoc.getElementsByTagName("tns:rocketService")[0].childNodes[0].nodeValue);
 
                 },
                 error: function (SOAPResponse) {
@@ -125,9 +125,9 @@ class RocketAPI {
                     var parser = new DOMParser();
                     var myxml = soapResponse.toString();
                     var xmlDoc = parser.parseFromString(myxml as string,"text/xml");
-                    if(xmlDoc.getElementsByTagName("tns:rocket") == null) console.error("Error : tns:rocket expected in the response but not found");
+                    if(xmlDoc.getElementsByTagName("tns:rocketService") == undefined) console.error("Error : tns:rocket expected in the response but not found");
 
-                    resolve(xmlDoc.getElementsByTagName("tns:rocket")[0].childNodes[0].nodeValue);
+                    resolve(xmlDoc.getElementsByTagName("tns:rocketService")[0].childNodes[0].nodeValue);
 
                 },
                 error: function (SOAPResponse) {
