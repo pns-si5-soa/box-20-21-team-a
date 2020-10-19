@@ -1,4 +1,5 @@
 import {insertOne, removeOne, update, find} from "../db/Mongo"
+import BoosterData from "./Booster/BoosterData";
 
 abstract class Entitie {
 
@@ -24,23 +25,23 @@ abstract class Entitie {
     }
 
     update() {
+        if(this.id == -1) throw new Error("Impossible to remove because is not in db")
         update(this.constructor.name, this.toObjectJSON(), {id: this.id}).catch(err => {
             console.error(err)
         })
     }
 
-    findIdAndAssign<T>(id: number) {
-        const that = this;
+    findIdAndAssign<T extends Entitie>(id: number) : Promise<Entitie> {
         return new Promise((resolve, reject) => {
             find<T>(this.constructor.name, {id: id}).then(res => {
-                if(res === undefined) reject(that.constructor.name + " has not object with id " + id)
-                that.assign(res[0])
-                resolve(that)
+                if(res === undefined) reject(this.constructor.name + " has not object with id " + id)
+                this.assign(res[0])
+                resolve(this)
             }).catch(err => reject(err))
         }) 
     }
 
-    findFirstAndAssign<T>() {
+    findFirstAndAssign<T extends Entitie>() : Promise<Entitie> {
         return new Promise((resolve, reject) => {
             find<T>(this.constructor.name, {}, {_id: 1}).then(res => {
                 if(res === undefined || res.length === 0 ) reject(this.constructor.name + " has not object")
@@ -50,7 +51,7 @@ abstract class Entitie {
         })
     }
 
-    findLastAndAssign<T>() {
+    findLastAndAssign<T extends Entitie>() : Promise<Entitie> {
         return new Promise((resolve, reject) => {
             find<T>(this.constructor.name, {}, {_id: -1}).then(res => {
                 if(res === undefined || res.length === 0 ) reject(this.constructor.name + " has not object")
@@ -60,7 +61,9 @@ abstract class Entitie {
         })
     }
 
+    //Serialize to database
     abstract toObjectJSON() : Object;
+    //Unserialise from database
     abstract assign(other: any) : void;
 }
 
