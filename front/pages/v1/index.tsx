@@ -42,7 +42,6 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         this.validateMission = this.validateMission.bind(this);
         this.validateRocket = this.validateRocket.bind(this);
         this.destroyBooster = this.destroyBooster.bind(this);
-        this.launchBooster = this.launchBooster.bind(this);
         this.validateRocket = this.validateRocket.bind(this);
         this.Weather = this.Weather.bind(this);
 
@@ -118,10 +117,6 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
         return <div/>
     }
 
-    launchBooster() {
-        this.boosterAPI.launchBoosterSOAP();
-    }
-
     destroyBooster() {
         this.boosterAPI.destroyBooster();
     }
@@ -155,9 +150,6 @@ class Home extends React.Component<{}, { weather: string, poll: Poll | undefined
 
                         <div className="col-sm">
                         <h2>Booster department</h2>
-                        <Button variant="contained" color="primary" onClick={this.launchBooster}>
-                            Launch Booster
-                        </Button>
                         <Button variant="contained" color="primary" onClick={this.destroyBooster}>
                             Destroy Booster
                         </Button>
