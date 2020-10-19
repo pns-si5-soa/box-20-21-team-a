@@ -21,6 +21,7 @@ const rocketTelemetry = () => {
 
 
     useEffect(() => {
+        getMissionStatus();
         setInterval(() => {
             getMissionStatus();
         }, 3000);
