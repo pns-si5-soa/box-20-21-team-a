@@ -82,15 +82,13 @@ services:
         - "3002:3002"
       depends_on:
         - waitforservices1
+        - mongodb
       volumes:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3002
         - HOST_IP=kafka
         - PORT_KAFKA=9092
-      
-      depends_on:
-        - mongodb
 
   weather-service:
       image: blue-origin/weather-service
