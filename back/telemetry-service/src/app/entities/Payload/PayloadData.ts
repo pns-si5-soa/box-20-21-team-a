@@ -1,6 +1,5 @@
 import Entitie from "../Entitie";
 import PayloadStatus from "./PayloadStatus";
-import Entitie from "../Entitie";
 
 class PayloadData extends Entitie {
 
