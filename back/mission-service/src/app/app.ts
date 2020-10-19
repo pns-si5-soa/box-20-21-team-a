@@ -1,12 +1,13 @@
-import express = require('express')
+import express = require('express');
 import createError = require('http-errors');
+require('dotenv').config();
 import indexRouter from "./routes";
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
 
 
-require('dotenv').config()
+
 const app: express.Application = express();
 const port = normalizePort(process.env.PORT) ?? 3001;
 
@@ -95,3 +96,9 @@ function onListening() {
         process.exit(0);
     }
 }
+
+
+
+
+
+

@@ -18,7 +18,13 @@ class PayloadAPI {
         return new Promise((resolve, reject) => 
         {
             soap.createClient(this.urlSOAP, function (err: String, client: Client) {
+                if(err != null){
+                    reject(err);
+                }
                 client.deliverPayload(args, function (err: String, result: Client) {
+                    if(err != null){
+                        reject(err);
+                    }
                     resolve(result);
                 });
             });

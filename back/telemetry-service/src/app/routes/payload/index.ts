@@ -8,7 +8,8 @@ router.post('/', (req, res) => {
             res.status(500).send("Error: PayloadData wasn't sent");
             return;
         }
-        res.send(TelemetryService.addPayloadData(req.body.payloadData));
+        TelemetryService.addPayloadData(req.body.payloadData)
+        res.send();
     } catch (e: any) {
         res.status(500).json({
             message: e.message
@@ -17,13 +18,11 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    try {
-        res.send(TelemetryService.getPayloadData());
-    } catch (e: any) {
-        res.status(500).json({
-            message: e.message
-        });
-    }
-});
+    TelemetryService.getPayloadData().then(payloadData => {
+        res.json(payloadData)
+    }).catch(err => {
+        res.status(500).send(err)
+    })
+})
 
 export default router;

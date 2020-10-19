@@ -1,16 +1,45 @@
 version: "3"
 
 services:
-  waitforservices:
+  mongodb:
+    image: mongo:latest
+    container_name: blue_origin_mongodb
+    volumes:
+        - ./.docker/db/:/data/
+    expose: 
+        - "27018"
+    ports:
+        - "27018:27017"
+  
+  waitforservices1:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - zookeeper 
+    command: zookeeper:2181
+    
+
+
+  waitforservices2:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - kafka 
+    command: kafka:9092
+    
+
+  
+  waitforservices3:
     image: dadarek/wait-for-dependencies
     depends_on:
       - rocket-service
       - weather-service 
       - mission-service
-      - telemetry-service
       - booster-service
       - payload-service
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-service:3003 booster-service:3004 payload-service:3005
+      - real-time-service
+      - waitforservices1
+      - waitforservices2
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 booster-service:3004 payload-service:3005 real-time-service:3006
+    
 
   telemetry-service:
     image: blue_origin/telemetry-service
@@ -26,6 +55,11 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3003
+      - MONGO_HOST=localhost
+      - MONGO_PORT=27018
+      - MONGO_DB=telemetry
+    depends_on:
+      - mongodb
 
   mission-service:
       image: blue_origin/mission-service
@@ -37,11 +71,18 @@ services:
         - "3002"
       ports:
         - "3002:3002"
+      depends_on:
+        - waitforservices1
+        - mongodb
       volumes:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3002
-
+        - HOST_IP=kafka
+        - PORT_KAFKA=9092
+        - MONGO_HOST=localhost
+        - MONGO_PORT=27018
+        - MONGO_DB=mission
 
   weather-service:
       image: blue-origin/weather-service
@@ -57,6 +98,26 @@ services:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3001
+      depends_on:
+        - mongodb
+
+  real-time-service:
+      image: blue-origin/real-time-service
+      container_name: real-time-container
+      build:
+        context: .
+        dockerfile: ./back/real-time-service/Dockerfile
+      expose:
+        - "3006"
+      ports:
+        - "3006:3006"
+      volumes:
+        - ./container-logs:/usr/src/app/logs
+      environment:
+        - PORT=3006
+        - HOST_IP=kafka
+        - PORT_KAFKA=9092
+      
 
 
   rocket-service:
@@ -75,8 +136,13 @@ services:
         - PORT=3000
         - HOST_TELEMETRY=telemetry-service
         - PORT_TELEMETRY=3003
+        - HOST_BOOSTER=booster-service
+        - PORT_BOOSTER=3004
+        - HOST_MISSION=mission-service
+        - PORT_MISSION=3002
       depends_on:
         - telemetry-service
+        - mongodb
   
   booster-service:
     image: blue-origin/booster-service
@@ -96,6 +162,11 @@ services:
       - PORT_ROCKET=3000
       - HOST_TELEMETRY=telemetry-service
       - PORT_TELEMETRY=3003
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
+    
+    depends_on:
+      - mongodb
 
 
   payload-service:
@@ -114,10 +185,35 @@ services:
       - PORT=3005
       - HOST_TELEMETRY=telemetry-service
       - PORT_TELEMETRY=3003
+    
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:2.11-1.1.1
+    ports:
+      - "9092:9092"
+    links:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 100
+      #KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+    
+    
+
 
   front:
       image: blue-origin/front
       container_name: front-container
+      ports:
+        - "8080:8080"
       build: 
         context: .
         dockerfile: ./front/Dockerfile
@@ -134,13 +230,16 @@ services:
         - PORT_BOOSTER=3004
         - HOST_PAYLOAD=payload-service
         - PORT_PAYLOAD=3005
-      depends_on:
-        - rocket-service
-        - weather-service
-        - mission-service
-        - telemetry-service
-        - booster-service
-        - payload-service
-        - waitforservices
+      # Uncommente below if you want to build all these service when building front
+      #depends_on:
+        #- rocket-service
+        #- weather-service
+        #- mission-service
+        #- telemetry-service
+        #- booster-service
+        #- payload-service
+        #- waitforservices3
+        #- real-time-service
       stdin_open: true
       tty: true
+      

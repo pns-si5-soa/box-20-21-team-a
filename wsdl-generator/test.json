@@ -1,0 +1,19 @@
+{
+    "copyright": "(c) World Corp",
+    "service": "booster",
+    "provider": "booster",
+    "domain": "fr.teamA",
+    "brief": "description",
+
+    "ports": [
+        "/wsdl?wsdl"
+    ],
+
+    "types": [
+        "string text"
+    ],
+
+    "functions": [
+        "text toString()"
+    ]
+}

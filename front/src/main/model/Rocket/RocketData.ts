@@ -9,10 +9,10 @@ class RocketData {
     speed: number;
     pressure: number;
 
-    constructor(rocketStatus = RocketStatus.NOT_READY, fuelLevel = -1, altitude=-1, speed=-1, pressure=-1) {
+    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = -1, speed=-1, pressure=-1) {
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
-        this.altitude=altitude;
+        this.altitude=0;
         this.speed=speed;
         this.pressure=pressure;
     }

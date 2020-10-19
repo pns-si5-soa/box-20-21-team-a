@@ -16,8 +16,10 @@ To install each service, follow the README of each service.
 - [Front](front/README.md)
 - [Mission-Service](mission-service/README.md)
 - [Weather-Service](weather-service/README.md)
-- [Mission-Service](mission-service/README.md)
+- [Rocket-Service](rocket-service/README.md)
 - [Booster-Service](booster-service/README.md)
+- [Payload-Service](payload-service/README.md)
+- [Telemetry-Service](telemetry-service/README.md)
 
 ## PM2 
 
@@ -68,7 +70,14 @@ First run `docker-compose run --rm waitforservices` to launch services
 
 Then run `docker-compose up front`
 
+## To run kafka 
+Go to kafka_2.* directory on your terminal
 
+First run zookeeper with :
+`bin/zookeeper-server-start.sh config/zookeeper.properties`
+
+Then run kafka with :
+`bin/kafka-server-start.sh config/server.properties`
 
 ## Logs for Release
 

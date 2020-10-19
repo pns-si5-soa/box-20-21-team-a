@@ -1,7 +1,8 @@
 import express = require('express')
 import createError = require('http-errors');
 import indexRouter from "./routes";
-import Payload from "../app/entities/Payload"
+import Payload from "./aggregate/Payload"
+import PayloadController from './controller/PayloadController';
 const cors = require('cors');
 const path = require('path');
 var bodyParser = require('body-parser');
@@ -41,14 +42,14 @@ function normalizePort(val: any) {
  * Create SOAP server.
  */
 
- const payload = new Payload();
+ const payloadController = new PayloadController();
 
 var myService = {
     payload: {
         payload_0: {
             deliverPayload : function(args : any){
-                payload.detach();
-                return {deliverPayload : payload.toObjectJSON()};
+                payloadController.detachThePayload();
+                return {deliverPayload : payloadController.payload.payloadData.toObjectJSON()};
             },
         }
     }

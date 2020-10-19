@@ -33,6 +33,7 @@ class PayloadAPI {
                     var parser = new DOMParser();
                     var myxml = soapResponse.toString();
                     var xmlDoc = parser.parseFromString(myxml as string, "text/xml");
+                    if(xmlDoc.getElementsByTagName("payloadStatus") == null) console.error("Error : payloadStatus expected in the response but not found");
                     var stringToReturn = "Status : " + xmlDoc.getElementsByTagName("payloadStatus")[0].childNodes[0].nodeValue + " ,Altitude : " + xmlDoc.getElementsByTagName("speed")[0].childNodes[0].nodeValue! + ",Speed : " + xmlDoc.getElementsByTagName("altitude")[0].childNodes[0].nodeValue!;
                     resolve(stringToReturn);
 

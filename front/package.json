@@ -12,6 +12,7 @@
   },
   "author": "SOA-20-21-A",
   "license": "ISC",
+  "fs": "empty",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@types/jquery.soap": "^1.7.0",
@@ -24,13 +25,13 @@
     "expect": "^26.4.2",
     "jquery": "^3.5.1",
     "jquery.soap": "^1.7.3",
+    "logs-module": "file:../logs-module",
     "next": "^9.5.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "sass": "^1.26.11",
     "soap": "^0.33.0",
-    "xml2json": "^0.12.0",
-    "logs-module": "file:../logs-module"
+    "xml2json": "^0.12.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.1",

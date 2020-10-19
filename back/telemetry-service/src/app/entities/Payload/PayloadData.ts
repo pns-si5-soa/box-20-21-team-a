@@ -1,19 +1,14 @@
+import Entitie from "../Entitie";
 import PayloadStatus from "./PayloadStatus";
 
-interface IPayloadData{
-    payloadData: {
-        payloadStatus: PayloadStatus,
-        altitude: number,
-        speed: number,
-    }
-}
+class PayloadData extends Entitie {
 
-class PayloadData {
     private payloadStatus: PayloadStatus;
     private speed: number;
     private altitude: number;
 
     constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1) {
+        super();
         this.payloadStatus = payloadStatus;
         this.speed = speed;
         this.altitude = altitude;
@@ -43,14 +38,19 @@ class PayloadData {
         this.speed = value;
     }
 
-    toObjectJSON(): IPayloadData {
+    toObjectJSON(): Object {
         return {
-            payloadData: {
                 payloadStatus: this.payloadStatus,
                 speed: this.speed,
                 altitude: this.altitude,
-            }
         }
+    }
+
+    assign(other: any): void {
+        this.altitude = other.altitude
+        this.speed = other.speed
+        this.payloadStatus = other.payloadStatus
+        this.id = other.id
     }
 }
 

@@ -4,46 +4,51 @@ import PayloadData from "../entities/Payload/PayloadData";
 
 class TelemetryService {
     rocketDataArray: RocketData[];
-    boosterDataArray: BoosterData[];
     payloadDataArray: PayloadData[];
 
     constructor() {
         this.rocketDataArray = [];
-        this.boosterDataArray = [];
         this.payloadDataArray = [];
         this.rocketDataArray.push(new RocketData());
-        this.boosterDataArray.push(new BoosterData());
         this.payloadDataArray.push(new PayloadData());
     }
 
     addRocketData(rocketData: RocketData): RocketData {
-        this.rocketDataArray.push(rocketData);
+        const rocket = Object.assign(new RocketData(), rocketData);
+        console.log(rocket)
+        rocket.save()
         return rocketData;
     }
 
     getRocketData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.rocketDataArray[this.rocketDataArray.length - 1]));
-        return this.rocketDataArray[this.rocketDataArray.length - 1];
+        const rocketData = new RocketData()
+        return rocketData.findLastAndAssign()
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
-        this.boosterDataArray.push(boosterData);
+        //TODO mettre dans la route
+        const booster = Object.assign(new BoosterData(), boosterData);
+        console.log(boosterData)
+        booster.save()
         return boosterData;
     }
 
-    getBoosterData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.boosterDataArray[this.boosterDataArray.length - 1]));
-        return this.boosterDataArray[this.boosterDataArray.length - 1];
+    async getBoosterData() {
+        const boosterData = new BoosterData()
+        console.log(await boosterData.findLastAndAssign())
+        return boosterData.findLastAndAssign()
     }
 
     addPayloadData(payloadData: PayloadData): PayloadData {
-        this.payloadDataArray.push(payloadData);
-        return payloadData;
+        const payload = Object.assign(new PayloadData(), payloadData);
+        console.log(payload)
+        payload.save()
+        return payload;
     }
 
     getPayloadData() {
-        console.log("\t\t\t\t" + JSON.stringify(this.payloadDataArray[this.payloadDataArray.length - 1]));
-        return this.payloadDataArray[this.payloadDataArray.length - 1];
+        const payloadData = new PayloadData()
+        return payloadData.findLastAndAssign()
     }
 }
 

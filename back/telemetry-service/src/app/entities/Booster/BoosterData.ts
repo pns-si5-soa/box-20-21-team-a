@@ -1,27 +1,21 @@
 import {BoosterStatus} from "./BoosterStatus";
+import Entitie from '../Entitie'
 
-interface IBoosterData{
-    boosterData: {
-        boosterStatus: BoosterStatus,
-        altitude: number,
-        speed: number,
-        fuelLevel: number,
-    }
-}
-
-class BoosterData {
+class BoosterData extends Entitie {
     private boosterStatus : BoosterStatus;
     private altitude: number;
     private speed: number;
     private fuelLevel: number;
 
 
-    constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.NOT_LAUNCHED) {
+    constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
+        super()
         this.altitude=altitude;
         this.speed=speed;
         this.fuelLevel=fuelLevel;
         this.boosterStatus=boosterStatus;
     }
+
 
     getFuelLevel(): number {
         return this.fuelLevel;
@@ -57,17 +51,22 @@ class BoosterData {
         this.boosterStatus = value;
     }
 
-    toObjectJSON(): IBoosterData {
+    toObjectJSON(): Object {
         return {
-            boosterData: {
-                boosterStatus: this.boosterStatus,
-                fuelLevel: this.fuelLevel,
-                altitude: this.altitude,
-                speed: this.speed,
-            }
+            boosterStatus: this.boosterStatus,
+            fuelLevel: this.fuelLevel,
+            altitude: this.altitude,
+            speed: this.speed,
         };
     }
 
+    assign(other: any): void {
+        this.altitude = other.altitude
+        this.fuelLevel = other.fuelLevel
+        this.speed = other.speed
+        this.boosterStatus = other.boosterStatus
+        this.id = other.id
+    }
 }
-
+//ops.insertedIds:
 export default BoosterData
