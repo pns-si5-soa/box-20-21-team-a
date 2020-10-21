@@ -1,6 +1,6 @@
-import telemetryService from "../app/services/telemetry-service";
 import RocketData from "../app/entities/Rocket/RocketData";
 import {RocketStatus} from "../app/entities/Rocket/RocketStatus";
+import telemetryController from "../app/services/telemetry-controller";
 
 test.skip('get rocket data test', () => {
     const testData = new RocketData();
@@ -10,13 +10,13 @@ test.skip('get rocket data test', () => {
 
 test.skip('add rocket data test', async () => {
     const fuelLevel = 10;
-    const length = telemetryService.rocketDataArray.length;
+    const length = telemetryController.rocketDataArray.length;
     let rocketData = new RocketData(RocketStatus.LAUNCHED,fuelLevel);
-    await telemetryService.addRocketData(rocketData);
-    (telemetryService.getRocketData()).then( res => {
+    await telemetryController.addRocketData(rocketData);
+    (telemetryController.getRocketData()).then( res => {
         console.log(res);
         //expect(res.data.rocketStatus).toBe(RocketStatus.LAUNCHED);
     });
     //expect(telemetryService.getRocketData().getFuelLevel()).toBe(fuelLevel);
-    expect(telemetryService.rocketDataArray.length).toBe(length+1);
+    expect(telemetryController.rocketDataArray.length).toBe(length+1);
 });

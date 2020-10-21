@@ -2,7 +2,7 @@ import RocketData from "../entities/Rocket/RocketData";
 import BoosterData from "../entities/Booster/BoosterData";
 import PayloadData from "../entities/Payload/PayloadData";
 
-class TelemetryService {
+class TelemetryController {
     rocketDataArray: RocketData[];
     payloadDataArray: PayloadData[];
 
@@ -52,4 +52,4 @@ class TelemetryService {
     }
 }
 
-export default new TelemetryService();
+export default new TelemetryController();
