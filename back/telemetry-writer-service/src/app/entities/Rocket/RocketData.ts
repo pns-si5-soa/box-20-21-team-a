@@ -1,18 +1,7 @@
 import {RocketStatus} from "./RocketStatus";
 import Entitie from "../Entitie";
 
-interface IRocketData{
-    rocketData: {
-        rocketStatus: RocketStatus,
-        altitude: number,
-        speed: number,
-        fuelLevel: number,
-        pressure: number,
-    }
-}
-
 class RocketData extends Entitie {
-
 
     private rocketStatus: RocketStatus;
     private fuelLevel: number;     // from 0 to 10

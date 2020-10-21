@@ -42,7 +42,7 @@ npm install
 echo $red 
 echo "Installing Telemetry-service"
 echo $reset
-cd ../telemetry-service
+cd ../telemetry-writer-service
 npm install
 
 echo $red 

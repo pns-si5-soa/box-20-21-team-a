@@ -13,7 +13,7 @@ elif [[ $PROJECT == "rocket" ]]; then
 elif [[ $PROJECT == "mission" ]]; then
     docker build -f ./back/mission-service/Dockerfile . -t blue-origin/mission-service
 elif [[ $PROJECT == "telemetry" ]]; then
-    docker build -f ./back/telemetry-service/Dockerfile . -t blue-origin/telemetry-service
+    docker build -f ./back/telemetry-writer-service/Dockerfile . -t blue-origin/telemetry-writer-service
 elif [[ $PROJECT == "booster" ]]; then
     docker build -f ./back/booster-service/Dockerfile . -t blue-origin/booster-service
 elif [[ $PROJECT == "payload" ]]; then
