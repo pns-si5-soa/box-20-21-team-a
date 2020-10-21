@@ -151,7 +151,6 @@ export default function Home() {
 							<Tab label="Rocket Department" {...a11yProps(1)} />
 							<Tab label="Booster Department" {...a11yProps(2)} />
 							<Tab label="Mission Department" {...a11yProps(3)} />
-							<Tab label="RealTime Department" {...a11yProps(4)} />
 						</Tabs>
 					</AppBar>
 					<TabPanel value={value} index={0}>
@@ -229,9 +228,7 @@ export default function Home() {
 							Validate on poll
 						</Button>
 					</TabPanel>
-					<TabPanel value={value} index={4}>
-						<RealTime></RealTime>
-					</TabPanel>
+					<RealTime></RealTime>
 					<TelemetryMonitor />
 				</div>
 			</div>

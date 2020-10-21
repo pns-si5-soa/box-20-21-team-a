@@ -31,7 +31,7 @@ const RocketMonitor = (props: IProps) => {
     const destroyRocket = () => {
         rocketAPI.destroyRocket()
             .then(res => {
-                alert(res);
+            
             })
             .catch(() => {
             });
@@ -40,7 +40,6 @@ const RocketMonitor = (props: IProps) => {
     const putRocketOnInternalPower = () => {
         rocketAPI.putRocketOnInternalPower()
             .then(res => {
-                alert(res);
             })
             .catch(() => {
             });
@@ -49,7 +48,7 @@ const RocketMonitor = (props: IProps) => {
     const initializeStartupProcess = () => {
         rocketAPI.initializeStartupProcess()
             .then(res => {
-                alert(res);
+                
             })
             .catch(() => {
             });
@@ -57,7 +56,6 @@ const RocketMonitor = (props: IProps) => {
     const deliverPayload = () => {
         payloadAPI.deliverPayloadSOAP()
             .then(res => {
-                alert(res);
             })
             .catch(() => {
             });

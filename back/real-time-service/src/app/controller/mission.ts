@@ -5,8 +5,8 @@ class Mission {
     
 
     constructor() {
-        this.boosterStatus = undefined
-        this.rocketStatus = undefined
+        this.boosterStatus = 0
+        this.rocketStatus = 0
 
     }
 

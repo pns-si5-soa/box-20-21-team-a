@@ -1,0 +1,7 @@
+[2020-10-19 15:04:45,019] INFO [GroupCoordinator 0]: Preparing to rebalance group test-group in state PreparingRebalance with old generation 499 (__consumer_offsets-12) (reason: Adding new member example-consumer-7ff582f0-6de2-4ce7-96bb-eae9b04f9b37 with group instance id None) (kafka.coordinator.group.GroupCoordinator)
+[2020-10-19 15:04:56,846] INFO [GroupCoordinator 0]: Member example-consumer-ab2ce723-679f-4245-abf4-829735c18109 in group test-group has failed, removing it from the group (kafka.coordinator.group.GroupCoordinator)
+[2020-10-19 15:04:56,850] INFO [GroupCoordinator 0]: Stabilized group test-group generation 500 (__consumer_offsets-12) (kafka.coordinator.group.GroupCoordinator)
+[2020-10-19 15:04:56,861] INFO [GroupCoordinator 0]: Assignment received from leader for group test-group for generation 500 (kafka.coordinator.group.GroupCoordinator)
+[2020-10-19 15:08:14,962] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
+[2020-10-19 15:18:14,965] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
+[2020-10-19 15:46:25,297] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
