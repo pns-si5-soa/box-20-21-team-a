@@ -1,54 +1,22 @@
 import RocketData from "../entities/Rocket/RocketData";
 import BoosterData from "../entities/Booster/BoosterData";
 import PayloadData from "../entities/Payload/PayloadData";
+import Producer from "../producer/producer";
+
+const producerKafka = new Producer();
 
 class TelemetryController {
-    rocketDataArray: RocketData[];
-    payloadDataArray: PayloadData[];
 
-    constructor() {
-        this.rocketDataArray = [];
-        this.payloadDataArray = [];
-        this.rocketDataArray.push(new RocketData());
-        this.payloadDataArray.push(new PayloadData());
+    async addRocketData(rocketData: RocketData) {
+        producerKafka.sendMessage(rocketData, 'telemetry-rocket')
     }
 
-    addRocketData(rocketData: RocketData): RocketData {
-        const rocket = Object.assign(new RocketData(), rocketData);
-        console.log(rocket)
-        // rocket.save()
-        return rocketData;
+    async addBoosterData(boosterData: BoosterData) {
+        producerKafka.sendMessage(boosterData, 'telemetry-booster')
     }
 
-    getRocketData() {
-        const rocketData = new RocketData()
-        // return rocketData.findLastAndAssign()
-    }
-
-    addBoosterData(boosterData: BoosterData): BoosterData {
-        //TODO mettre dans la route
-        const booster = Object.assign(new BoosterData(), boosterData);
-        console.log(boosterData)
-        // booster.save()
-        return boosterData;
-    }
-
-    async getBoosterData() {
-        const boosterData = new BoosterData()
-        // console.log(await boosterData.findLastAndAssign())
-        // return boosterData.findLastAndAssign()
-    }
-
-    addPayloadData(payloadData: PayloadData): PayloadData {
-        const payload = Object.assign(new PayloadData(), payloadData);
-        console.log(payload)
-        // payload.save()
-        return payload;
-    }
-
-    getPayloadData() {
-        const payloadData = new PayloadData()
-        // return payloadData.findLastAndAssign()
+    async addPayloadData(payloadData: PayloadData) {
+        producerKafka.sendMessage(payloadData, 'telemetry-payload')
     }
 }
 

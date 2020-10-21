@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
             return;
         }
         TelemetryController.addPayloadData(req.body.payloadData)
-        res.send();
+        res.send("sent");
     } catch (e: any) {
         res.status(500).json({
             message: e.message

@@ -9,7 +9,8 @@ router.post('/', (req, res) => {
             return;
         }
         console.log(req.body.boosterData)
-        res.send(TelemetryController.addBoosterData(req.body.boosterData));
+        TelemetryController.addBoosterData(req.body.boosterData)
+        res.send("Sent");
     } catch (e: any) {
         res.status(500).json({
             message: e.message
