@@ -1,7 +1,13 @@
 {
+<<<<<<< develop
   "name": "telemetry-listener",
   "version": "1.0.0",
   "description": "telemetry listener service",
+=======
+  "name": "telemetry",
+  "version": "1.0.0",
+  "description": "telemetry service",
+>>>>>>> #168 Create telemetry-listener from telemetry
   "main": "app.ts",
   "scripts": {
     "tsc": "tsc",
@@ -21,8 +27,13 @@
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "jest": "^26.5.0",
+<<<<<<< develop
     "kafkajs": "^1.14.0",
     "logs-module": "file:../../logs-module",
+=======
+    "logs-module": "file:../../logs-module",
+    "mongodb": "^3.6.2",
+>>>>>>> #168 Create telemetry-listener from telemetry
     "ts-jest": "^26.4.1",
     "ts-node-dev": "^1.0.0-pre.63",
     "typescript": "^4.0.3"
