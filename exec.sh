@@ -101,8 +101,10 @@ function changedirectory() {
         cd back/rocket-service || exit
     elif [[ $PROJECT == "mission" ]]; then
         cd back/mission-service || exit
-    elif [[ $PROJECT == "telemetry" ]]; then
+    elif [[ $PROJECT == "telemetry-writer" ]]; then
         cd back/telemetry-writer-service || exit
+    elif [[ $PROJECT == "telemetry-listener" ]]; then
+        cd back/telemetry-listener-service || exit
     elif [[ $PROJECT == "booster" ]]; then
         cd back/booster-service || exit
     elif [[ $PROJECT == "payload" ]]; then
@@ -164,7 +166,9 @@ elif [[ $PARAMS == "clean" ]]; then
         cd ../..
         runclean "weather"
         cd ../..
-        runclean "telemetry"
+        runclean "telemetry-writer"
+        cd ../..
+        runclean "telemetry-listener"
         cd ../..
         runclean "booster"
         cd ../..

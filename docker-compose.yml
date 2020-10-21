@@ -36,9 +36,11 @@ services:
       - booster-service
       - payload-service
       - real-time-service
+      - telemetry-writer-service
+      - telemetry-listener-service
       - waitforservices1
       - waitforservices2
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 booster-service:3004 payload-service:3005 real-time-service:3006
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007
     
 
   telemetry-writer-service:
@@ -60,6 +62,21 @@ services:
       - MONGO_DB=telemetry
     depends_on:
       - mongodb
+
+  telemetry-listener-service:
+    image: blue_origin/telemetry-listener-service
+    container_name: telemetry-listener-container
+    build: 
+      context: .
+      dockerfile: ./back/telemetry-listener-service/Dockerfile
+    expose:
+      - "3007"
+    ports:
+      - "3003:3007"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3007
 
   mission-service:
       image: blue_origin/mission-service

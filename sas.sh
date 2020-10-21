@@ -64,9 +64,12 @@ function runstart() {
     elif [[ $PROJECT == "mission" ]]; then
         cd back/mission-service
         pm2 start ./src/app/app.ts --watch --name "mission"
-    elif [[ $PROJECT == "telemetry" ]]; then
+    elif [[ $PROJECT == "telemetry-writer" ]]; then
         cd back/telemetry-writer-service
-        pm2 start ./src/app/app.ts --watch --name "telemetry"
+        pm2 start ./src/app/app.ts --watch --name "telemetry-writer"
+    elif [[ $PROJECT == "telemetry-listener" ]]; then
+        cd back/telemetry-writer-service
+        pm2 start ./src/app/app.ts --watch --name "telemetry-listener"
     elif [[ $PROJECT == "booster" ]]; then
         cd back/booster-service
         pm2 start ./src/app/app.ts --watch --name "booster"
@@ -98,7 +101,9 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "weather"
         cd ../..
-        runstart "telemetry"
+        runstart "telemetry-listener"
+        cd ../..
+        runstart "telemetry-writer"
         cd ../..
         runstart "rocket"
         cd ../..
@@ -118,7 +123,8 @@ elif [[ $PARAMS == "stop" ]]; then
         runstop "mission"
         runstop "rocket"
         runstop "weather"
-        runstop "telemetry"
+        runstop "telemetry-listener"
+        runstop "telemetry-writer"
         runstop "booster"
         runstop "payload"
         runstop "real-time"

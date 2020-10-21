@@ -34,6 +34,12 @@ jobs:
         - cp .env.travis .env
         - npm install
         - npm run test
+    - stage: telemetry-listener
+      script:
+        - cd back/telemetry-listener-service
+        - cp .env.travis .env
+        - npm install
+        - npm run test
     - stage: payload
       script:
         - cd back/payload-service
