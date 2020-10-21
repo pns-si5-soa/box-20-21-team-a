@@ -1,17 +1,6 @@
 import {RocketStatus} from "./RocketStatus";
-import Entitie from "../Entitie";
 
-interface IRocketData{
-    rocketData: {
-        rocketStatus: RocketStatus,
-        altitude: number,
-        speed: number,
-        fuelLevel: number,
-        pressure: number,
-    }
-}
-
-class RocketData extends Entitie {
+class RocketData {
 
 
     private rocketStatus: RocketStatus;
@@ -21,7 +10,6 @@ class RocketData extends Entitie {
     private pressure: number;
 
     constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0) {
-        super();
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
         this.altitude = 0;
@@ -77,15 +65,6 @@ class RocketData extends Entitie {
                 speed: this.speed,
                 pressure: this.pressure,
         };
-    }
-
-    assign(other: any): void {
-        this.altitude = other.altitude
-        this.fuelLevel = other.fuelLevel
-        this.speed = other.speed
-        this.rocketStatus = other.rocketStatus
-        this.pressure = other.pressure
-        this.id = other.id
     }
 }
 

@@ -1,7 +1,6 @@
 import {BoosterStatus} from "./BoosterStatus";
-import Entitie from '../Entitie'
 
-class BoosterData extends Entitie {
+class BoosterData {
     private boosterStatus : BoosterStatus;
     private altitude: number;
     private speed: number;
@@ -9,7 +8,6 @@ class BoosterData extends Entitie {
 
 
     constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
-        super()
         this.altitude=altitude;
         this.speed=speed;
         this.fuelLevel=fuelLevel;
@@ -58,14 +56,6 @@ class BoosterData extends Entitie {
             altitude: this.altitude,
             speed: this.speed,
         };
-    }
-
-    assign(other: any): void {
-        this.altitude = other.altitude
-        this.fuelLevel = other.fuelLevel
-        this.speed = other.speed
-        this.boosterStatus = other.boosterStatus
-        this.id = other.id
     }
 }
 //ops.insertedIds:

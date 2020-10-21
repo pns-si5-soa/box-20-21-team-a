@@ -1,7 +1,7 @@
 {
-  "name": "telemetry",
+  "name": "telemetry-writer",
   "version": "1.0.0",
-  "description": "telemetry service",
+  "description": "telemetry writer service",
   "main": "app.ts",
   "scripts": {
     "tsc": "tsc",
