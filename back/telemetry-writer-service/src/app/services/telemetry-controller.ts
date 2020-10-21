@@ -3,15 +3,6 @@ import BoosterData from "../entities/Booster/BoosterData";
 import PayloadData from "../entities/Payload/PayloadData";
 
 class TelemetryController {
-    rocketDataArray: RocketData[];
-    payloadDataArray: PayloadData[];
-
-    constructor() {
-        this.rocketDataArray = [];
-        this.payloadDataArray = [];
-        this.rocketDataArray.push(new RocketData());
-        this.payloadDataArray.push(new PayloadData());
-    }
 
     addRocketData(rocketData: RocketData): RocketData {
         const rocket = Object.assign(new RocketData(), rocketData);
