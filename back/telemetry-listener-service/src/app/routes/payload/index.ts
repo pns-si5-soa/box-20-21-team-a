@@ -1,6 +1,6 @@
 import express = require('express');
 const router = express.Router();
-import TelemetryService from "../../services/telemetry-service";
+import TelemetryController from "../../services/telemetry-controller";
 
 router.post('/', (req, res) => {
     try {
@@ -8,7 +8,7 @@ router.post('/', (req, res) => {
             res.status(500).send("Error: PayloadData wasn't sent");
             return;
         }
-        TelemetryService.addPayloadData(req.body.payloadData)
+        TelemetryController.addPayloadData(req.body.payloadData)
         res.send();
     } catch (e: any) {
         res.status(500).json({
@@ -16,13 +16,5 @@ router.post('/', (req, res) => {
         });
     }
 });
-
-router.get('/', (req, res) => {
-    TelemetryService.getPayloadData().then(payloadData => {
-        res.json(payloadData)
-    }).catch(err => {
-        res.status(500).send(err)
-    })
-})
 
 export default router;
