@@ -36,17 +36,19 @@ services:
       - booster-service
       - payload-service
       - real-time-service
+      - telemetry-writer-service
+      - telemetry-listener-service
       - waitforservices1
       - waitforservices2
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 booster-service:3004 payload-service:3005 real-time-service:3006
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007
     
 
-  telemetry-service:
-    image: blue_origin/telemetry-service
-    container_name: telemetry-container
+  telemetry-writer-service:
+    image: blue_origin/telemetry-writer-service
+    container_name: telemetry-writer-container
     build: 
       context: .
-      dockerfile: ./back/telemetry-service/Dockerfile
+      dockerfile: ./back/telemetry-writer-service/Dockerfile
     expose:
       - "3003"
     ports:
@@ -60,6 +62,21 @@ services:
       - MONGO_DB=telemetry
     depends_on:
       - mongodb
+
+  telemetry-listener-service:
+    image: blue_origin/telemetry-listener-service
+    container_name: telemetry-listener-container
+    build: 
+      context: .
+      dockerfile: ./back/telemetry-listener-service/Dockerfile
+    expose:
+      - "3007"
+    ports:
+      - "3003:3007"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3007
 
   mission-service:
       image: blue_origin/mission-service
@@ -134,14 +151,14 @@ services:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3000
-        - HOST_TELEMETRY=telemetry-service
+        - HOST_TELEMETRY=telemetry-writer-service
         - PORT_TELEMETRY=3003
         - HOST_BOOSTER=booster-service
         - PORT_BOOSTER=3004
         - HOST_MISSION=mission-service
         - PORT_MISSION=3002
       depends_on:
-        - telemetry-service
+        - telemetry-writer-service
         - mongodb
   
   booster-service:
@@ -160,7 +177,7 @@ services:
       - PORT=3004
       - HOST_ROCKET=rocket-service
       - PORT_ROCKET=3000
-      - HOST_TELEMETRY=telemetry-service
+      - HOST_TELEMETRY=telemetry-writer-service
       - PORT_TELEMETRY=3003
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
@@ -183,7 +200,7 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3005
-      - HOST_TELEMETRY=telemetry-service
+      - HOST_TELEMETRY=telemetry-writer-service
       - PORT_TELEMETRY=3003
     
 
@@ -224,7 +241,7 @@ services:
         - PORT_WEATHER=3001
         - HOST_MISSION=mission-service
         - PORT_MISSION=3002
-        - HOST_TELEMETRY=telemetry-service
+        - HOST_TELEMETRY=telemetry-writer-service
         - PORT_TELEMETRY=3003
         - HOST_BOOSTER=booster-service
         - PORT_BOOSTER=3004
@@ -235,7 +252,7 @@ services:
         #- rocket-service
         #- weather-service
         #- mission-service
-        #- telemetry-service
+        #- telemetry-writer-service
         #- booster-service
         #- payload-service
         #- waitforservices3
