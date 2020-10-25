@@ -12,4 +12,14 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:id', (req, res) => {
+    TelemetryService.getRocketData({missionId: req.params.id}).then(data => {
+        res.send(data);
+    }).catch( (error) => {
+        res.status(500).json({
+            message: error.message
+        });
+    });
+});
+
 export default router;

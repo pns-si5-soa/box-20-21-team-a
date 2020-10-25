@@ -8,15 +8,26 @@ class RocketData extends Entitie {
     private altitude: number;
     private speed: number;
     private pressure: number;
+    private missionId: number;
 
-    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0) {
+    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0, missionId: -1) {
         super();
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
         this.altitude = 0;
         this.speed = speed;
         this.pressure = pressure;
+        this.missionId = missionId
     }
+
+    getMissionId() {
+        return this.missionId;
+    }
+
+    setMissionId() {
+        this.missionId = this.missionId
+    }
+
 
     getRocketStatus() {
         return this.rocketStatus;
@@ -60,11 +71,12 @@ class RocketData extends Entitie {
 
     toObjectJSON(): Object {
         return {
-                rocketStatus: this.rocketStatus,
-                fuelLevel: this.fuelLevel,
-                altitude: this.altitude,
-                speed: this.speed,
-                pressure: this.pressure,
+            rocketStatus: this.rocketStatus,
+            fuelLevel: this.fuelLevel,
+            altitude: this.altitude,
+            speed: this.speed,
+            pressure: this.pressure,
+            missionId: this.missionId
         };
     }
 
@@ -75,6 +87,7 @@ class RocketData extends Entitie {
         this.rocketStatus = other.rocketStatus
         this.pressure = other.pressure
         this.id = other.id
+        this.missionId = other.missionId
     }
 }
 

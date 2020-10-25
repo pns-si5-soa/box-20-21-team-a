@@ -1,10 +1,16 @@
 import express = require('express')
 import createError = require('http-errors');
+import BoosterData from './entities/Booster/BoosterData';
+import PayloadData from './entities/Payload/PayloadData';
+import RocketData from './entities/Rocket/RocketData';
 require('dotenv').config()
 import indexRouter from "./routes";
+import telemetryController from './services/telemetry-controller';
 var http = require('http');
 var cors = require('cors');
 require ("logs-module");
+
+const consumer = require('./consumer/consumer')
 
 const app: express.Application = express();
 const port = normalizePort(process.env.PORT) ?? 3003;
@@ -94,3 +100,15 @@ function onListening() {
         process.exit(0);
     }
 }
+
+consumer.run('telemetry-booster', (value: BoosterData) => {
+    telemetryController.addBoosterData(value);
+})
+
+consumer.run('telemetry-payload', (value: PayloadData) => {
+    telemetryController.addPayloadData(value);
+})
+
+consumer.run('telemetry-rocket', (value: RocketData) => {
+    telemetryController.addRocketData(value);
+})

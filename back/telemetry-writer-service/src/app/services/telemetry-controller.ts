@@ -11,9 +11,9 @@ class TelemetryController {
         return rocketData;
     }
 
-    getRocketData() {
+    getRocketData(filter: Object = {}) {
         const rocketData = new RocketData()
-        return rocketData.findLastAndAssign()
+        return rocketData.findLastAndAssign(filter)
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
@@ -24,10 +24,9 @@ class TelemetryController {
         return boosterData;
     }
 
-    async getBoosterData() {
+    getBoosterData(filter: Object = {}) {
         const boosterData = new BoosterData()
-        console.log(await boosterData.findLastAndAssign())
-        return boosterData.findLastAndAssign()
+        return boosterData.findLastAndAssign(filter)
     }
 
     addPayloadData(payloadData: PayloadData): PayloadData {
@@ -37,9 +36,9 @@ class TelemetryController {
         return payload;
     }
 
-    getPayloadData() {
+    getPayloadData(filter: Object = {}) {
         const payloadData = new PayloadData()
-        return payloadData.findLastAndAssign()
+        return payloadData.findLastAndAssign(filter)
     }
 }
 

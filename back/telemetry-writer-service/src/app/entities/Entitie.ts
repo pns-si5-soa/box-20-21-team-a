@@ -41,9 +41,9 @@ abstract class Entitie {
         }) 
     }
 
-    findFirstAndAssign<T extends Entitie>() : Promise<Entitie> {
+    findFirstAndAssign<T extends Entitie>(filter: Object = {}) : Promise<Entitie> {
         return new Promise((resolve, reject) => {
-            find<T>(this.constructor.name, {}, {_id: 1}).then(res => {
+            find<T>(this.constructor.name, filter, {_id: 1}).then(res => {
                 if(res === undefined || res.length === 0 ) reject(this.constructor.name + " has not object")
                 this.assign(res[0])
                 resolve(this)
@@ -51,9 +51,9 @@ abstract class Entitie {
         })
     }
 
-    findLastAndAssign<T extends Entitie>() : Promise<Entitie> {
+    findLastAndAssign<T extends Entitie>(filter: Object = {}) : Promise<Entitie> {
         return new Promise((resolve, reject) => {
-            find<T>(this.constructor.name, {}, {_id: -1}).then(res => {
+            find<T>(this.constructor.name, filter, {_id: -1}).then(res => {
                 if(res === undefined || res.length === 0 ) reject(this.constructor.name + " has not object")
                 this.assign(res[0])
                 resolve(this)

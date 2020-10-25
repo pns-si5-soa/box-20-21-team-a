@@ -8,15 +8,24 @@ class RocketData {
     private altitude: number;
     private speed: number;
     private pressure: number;
+    private missionId: number;
 
-    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0) {
+    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0, missionId: -1) {
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
         this.altitude = 0;
         this.speed = speed;
         this.pressure = pressure;
+        this.missionId = missionId
     }
 
+    getMissionId() {
+        return this.missionId;
+    }
+
+    setMissionId() {
+        this.missionId = this.missionId
+    }
     getRocketStatus() {
         return this.rocketStatus;
     }

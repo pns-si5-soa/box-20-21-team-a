@@ -6,12 +6,22 @@ class PayloadData extends Entitie {
     private payloadStatus: PayloadStatus;
     private speed: number;
     private altitude: number;
+    private missionId: number;
 
-    constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1) {
+    constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1, missionId = -1) {
         super();
         this.payloadStatus = payloadStatus;
         this.speed = speed;
         this.altitude = altitude;
+        this.missionId = missionId
+    }
+
+    getMissionId() {
+        return this.missionId;
+    }
+
+    setMissionId() {
+        this.missionId = this.missionId
     }
 
     getPayloadStatus(): PayloadStatus {
@@ -40,9 +50,10 @@ class PayloadData extends Entitie {
 
     toObjectJSON(): Object {
         return {
-                payloadStatus: this.payloadStatus,
-                speed: this.speed,
-                altitude: this.altitude,
+            payloadStatus: this.payloadStatus,
+            speed: this.speed,
+            altitude: this.altitude,
+            missionId: this.missionId
         }
     }
 
@@ -51,6 +62,7 @@ class PayloadData extends Entitie {
         this.speed = other.speed
         this.payloadStatus = other.payloadStatus
         this.id = other.id
+        this.missionId = other.missionId
     }
 }
 
