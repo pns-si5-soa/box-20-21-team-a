@@ -2,6 +2,7 @@ import express = require('express');
 import createError = require('http-errors');
 require('dotenv').config();
 import indexRouter from "./routes";
+import AnomalyAnalyserService from "./controller/AnomalyAnalyserService";
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
@@ -97,7 +98,70 @@ function onListening() {
     }
 }
 
+// KAFKA
+const { Kafka, logLevel } = require('kafkajs')
+const host = process.env.HOST_IP;
 
+
+
+const kafka = new Kafka({
+    logLevel: logLevel.INFO,
+    brokers: [`${host}:9092`],
+    clientId: 'example-consumer',
+})
+
+const topicRocket = 'telemetry-rocket'
+const topicBooster = 'telemetry-booster'
+
+const consumer = kafka.consumer({ groupId: 'test-group' })
+
+const run = async () => {
+    await consumer.connect()
+    await consumer.subscribe({ topic : topicRocket, fromBeginning: true })
+    await consumer.subscribe({ topic : topicBooster, fromBeginning: true })
+    await consumer.run({
+        eachBatch: async ({ batch } : any) => {
+            console.log(batch)
+        },
+        eachMessage: async ({ topic, partition, message } : any) => {
+
+            const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
+
+            console.log(`- ${prefix} ${message.key}#${message.value}`)
+            var msg = message.value;
+            var json = JSON.parse(msg)
+            if(topic =='telemetry-rocket'){
+                AnomalyAnalyserService.analyseRocketData(json.rocketData);
+                console.log("rocket data : "+json.rocketData);
+            }
+            if(topic == 'telemetry-booster') {
+                AnomalyAnalyserService.analyseBoosterData(json.boosterData);
+                console.log("booster data : "+json.boosterData);
+            }
+
+
+        },
+    })
+
+}
+
+run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
+
+const errorTypes = ['unhandledRejection', 'uncaughtException']
+const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
+
+errorTypes.map(type => {
+    process.on(type, async e => {
+        try {
+            console.log(`process.on ${type}`)
+            console.error(e)
+            await consumer.disconnect()
+            process.exit(0)
+        } catch (_) {
+            process.exit(1)
+        }
+    })
+})
 
 
 
