@@ -202,7 +202,25 @@ services:
       - PORT=3005
       - HOST_TELEMETRY=telemetry-writer-service
       - PORT_TELEMETRY=3003
-    
+
+
+
+  anomaly-analyser-service:
+    image: blue_origin/anomaly-analyser-service
+    container_name: anomaly-container
+    build:
+      context: .
+      dockerfile: ./back/anomaly-analyser-service/Dockerfile
+    expose:
+      - "3006"
+    ports:
+      - "3006:3006"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3006
+      - HOST_IP=kafka
+      - PORT_KAFKA=9092
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
@@ -247,6 +265,8 @@ services:
         - PORT_BOOSTER=3004
         - HOST_PAYLOAD=payload-service
         - PORT_PAYLOAD=3005
+        - HOST_ANOMALY_ANALYSER=anomaly_analyser_service
+        - PORT_ANOMALY_ANALYSER=3006
       # Uncommente below if you want to build all these service when building front
       #depends_on:
         #- rocket-service

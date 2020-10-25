@@ -20,6 +20,8 @@ elif [[ $PROJECT == "booster" ]]; then
     docker build -f ./back/booster-service/Dockerfile . -t blue-origin/booster-service
 elif [[ $PROJECT == "payload" ]]; then
     docker build -f ./back/payload-service/Dockerfile . -t blue-origin/payload-service
+elif [[ $PROJECT == "anomaly-analyser" ]]; then
+    docker build -f ./back/anomaly-analyser-service/Dockerfile . -t blue-origin/anomaly-analyser-service
 else
     echo "Project $PROJECT doesn't exist."
     echo "Exiting..."
