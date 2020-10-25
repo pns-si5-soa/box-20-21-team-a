@@ -4,24 +4,37 @@ import RocketData from "../entities/RocketData";
 
 class RocketController {
 
-    rocket: Rocket;
+    rockets : Rocket[];
 
     constructor() {
-        this.rocket = new Rocket(
+        this.rockets = [];
+    }
+
+
+
+    addNewRocket(rocketId :number) : number{
+        console.log(rocketId);
+        let rocket = new Rocket(
             new RocketData(
-                RocketStatus.PREPARATION, 70, 50, 0));
+                RocketStatus.PREPARATION, 70, 50, 0)); 
+           this.rockets[rocketId] = rocket;
+        return rocketId;
+        
     }
 
     // For tests only
-    getStatus(): RocketStatus {
-        return this.rocket.getRocketStatus();
+    getStatus(id : number): RocketStatus {
+        return this.rockets[id].getRocketStatus();
+    
     }
 
     /**
      * Puts the rocket on internal power (first action)
      */
-    putRocketOnInternalPower() {
-        this.rocket.putRocketOnInternalPower();
+    putRocketOnInternalPower(id : number) {
+        
+        if(this.rockets[id] != null)
+            this.rockets[id].putRocketOnInternalPower();
     }
 
     /**
@@ -30,8 +43,8 @@ class RocketController {
      * - STARTUP
      * - MAIN_ENGINE_STARTED
      */
-    async initializeStartupProcess() {
-        await this.rocket.initializeStartupProcess();
+    async initializeStartupProcess(id:number) {
+        await this.rockets[id].initializeStartupProcess();
     }
 
     /**
@@ -40,8 +53,8 @@ class RocketController {
      * - LAUNCHED
      * - MAX_Q_REACHED
      */
-    async notifyOfBoosterLaunch(): Promise<void> {
-        await this.rocket.notifyOfBoosterLaunch();
+    async notifyOfBoosterLaunch(id:number): Promise<void> {
+        await this.rockets[id].notifyOfBoosterLaunch();
     }
 
     /**
@@ -53,15 +66,15 @@ class RocketController {
      * - FAIRING_SEPARATION
      * - SECOND_ENGINE_CUT_OFF
      */
-    async initializeSecondEngineForSecondStage(): Promise<void> {
-        await this.rocket.initializeSecondEngineForSecondStage();
+    async initializeSecondEngineForSecondStage(id : number): Promise<void> {
+        await this.rockets[id].initializeSecondEngineForSecondStage();
     }
 
     /**
      * Destroys rocket.
      */
-    destroy(): void {
-        this.rocket.destroy();
+    destroy(id:number): void {
+        this.rockets[id].destroy();
     }
 
 }

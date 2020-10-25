@@ -1,7 +1,10 @@
 import express = require('express');
+import createError = require('http-errors');
 
 const cors = require('cors');
 import rocketService from "./controller";
+var http = require('http');
+
 
 let soap = require('soap');
 let bodyParser = require('body-parser');
@@ -10,9 +13,10 @@ require("logs-module");
 
 require('dotenv').config()
 
-require('dotenv').config()
 const app: express.Application = express();
 const port = normalizePort(process.env.PORT) ?? 3000;
+const portHttp = normalizePort(process.env.PORT_HTTP) ?? 3008;
+import indexRouter from "./routes";
 
 app.use(cors())
 app.use(express.json());
@@ -43,29 +47,52 @@ function normalizePort(val: any) {
 let myService = {
     rocket: {
         rocket_0: {
+
             putRocketOnInternalPower: function (args: any) {
-                rocketService.putRocketOnInternalPower();
-                return {rocketService: rocketService.rocket.getRocketData().toJsonObject()};
+              if(rocketService.rockets[args.id] != undefined){
+                rocketService.putRocketOnInternalPower(args.id);
+                return {rocketService : rocketService.rockets[args.id].getRocketData().toJsonObject()};
+              }
+            return {rocketService : 'This rocket doesn\'t exist' }
             },
 
             initializeStartupProcess: function (args: any) {
-                rocketService.initializeStartupProcess();
-                return {rocketService: rocketService.rocket.getRocketData().toJsonObject()};
+                if(rocketService.rockets[args.id] != undefined){
+                    rocketService.initializeStartupProcess(args.id);
+                    return {rocketService: rocketService.rockets[args.id].getRocketData().toJsonObject()};
+                }
+            return {rocketService : 'This rocket doesn\'t exist' }
+
             },
 
             notifyLaunch: function (args: any) {
-                rocketService.notifyOfBoosterLaunch();
-                return {rocket: rocketService.rocket.getRocketData().toJsonObject()};
+                if(rocketService.rockets[args.id] != undefined){
+                
+                rocketService.notifyOfBoosterLaunch(args.id);
+                return {rocket: rocketService.rockets[args.id].getRocketData().toJsonObject()};
+                }
+            return {rocketService : 'This rocket doesn\'t exist' }
+
             },
 
             initializeSecondEngineForSecondStage: function (args: any) {
-                rocketService.initializeSecondEngineForSecondStage();
-                return {rocket: rocketService.rocket.getRocketData().toJsonObject()};
+                if(rocketService.rockets[args.id] != undefined){
+
+                rocketService.initializeSecondEngineForSecondStage(args.id);
+                return {rocket: rocketService.rockets[args.id].getRocketData().toJsonObject()};
+                }
+            return {rocketService : 'This rocket doesn\'t exist' }
+
             },
 
             destroy: function (args: any) {
-                rocketService.destroy();
-                return {rocketService: rocketService.rocket.getRocketData().toJsonObject()};
+                if(rocketService.rockets[args.id] != undefined){
+
+                rocketService.destroy(args.id);
+                return {rocketService: rocketService.rockets[args.id].getRocketData().toJsonObject()};
+                }
+            return {rocketService : 'This rocket doesn\'t exist' }
+
             },
         }
     }
@@ -82,9 +109,73 @@ app.use(bodyParser.raw({
     }, limit: '5mb'
 }));
 app.listen(port, function () {
+
     //Note: /wsdl route will be handled by soap module
     //and all other routes & middleware will continue to work
     soap.listen(app, '/wsdl', myService, xml, function () {
         console.log('SOAP server listening on port ' + port);
     });
 });
+
+
+
+/**
+ * Create HTTP server.
+ */
+app.use('/', indexRouter);
+
+
+var server = http.createServer(app);
+
+
+server.listen(portHttp);
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+
+/**
+ * Event listener for HTTP server "error" events.
+ */
+
+function onError(error: any) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof portHttp === 'string'
+        ? 'Pipe ' + portHttp
+        : 'Port ' + portHttp;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" events.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    console.log('Rocket : Listening on ' + bind);
+    if (process.env.CI !== undefined) {
+        process.exit(0);
+    }
+}
