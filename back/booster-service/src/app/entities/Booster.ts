@@ -9,6 +9,7 @@ import MissionAPI from "../API/MissionAPI";
 export default class Booster {
 
     booster : BoosterData;
+
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     private rocketAPI: RocketAPI = new RocketAPI();
     public dataUpdateDelay = 500;
@@ -21,7 +22,7 @@ export default class Booster {
     sendData(): void {
         if (this.booster.canSendData) {
             this.telemetryAPI.sendBoosterData(this.booster);
-            this.missionAPI.sendBoosterData(this.booster.boosterStatus);
+            this.missionAPI.sendBoosterData(this.booster.boosterStatus,this.booster.boosterId);
         }
     }
 

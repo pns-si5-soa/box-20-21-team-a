@@ -3,7 +3,7 @@ import payloadController from "../app/controller/PayloadController";
 import PayloadStatus from "../app/entities/PayloadStatus";
 
 test('not launched payload init values', () => {
-    const payload = new Payload();
+    const payload = new Payload(0);
     expect(payload.payloadData.toObjectJSON().altitude).toBe(0);
     expect(payload.payloadData.toObjectJSON().speed).toBe(0);
     expect(payload.payloadData.toObjectJSON().payloadStatus).toBe(PayloadStatus.ATTACHED);

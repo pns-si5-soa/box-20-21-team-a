@@ -10,11 +10,11 @@ class MissionAPI extends API {
         super(host, port)
     }
 
-    public sendPayloadSeparationStatus<T>(missionPayloadStatus: MissionPayloadStatus): AxiosPromise {
+    public sendPayloadSeparationStatus<T>(missionPayloadStatus: MissionPayloadStatus,missionId:number): AxiosPromise {
         return this.axios({
             method: 'put',
             url: '/rocket',
-            data: {rocketStatus : missionPayloadStatus}
+            data: {rocketStatus : missionPayloadStatus,missionId:missionId}
         });
     }
 
