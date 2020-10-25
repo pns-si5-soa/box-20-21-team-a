@@ -129,7 +129,7 @@ function onListening() {
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
-    console.log('Rocket : Listening on ' + bind);
+    console.log('Booster : Listening on ' + bind);
     if (process.env.CI !== undefined) {
         process.exit(0);
     }

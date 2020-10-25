@@ -32,6 +32,11 @@ class BoosterController {
     async destroy(id:number) {
         this.boosters[id].destroy();
     }
+
+    drainBooster(id:number) {
+        this.boosters[id].drainBooster();
+        console.log("drain booster : "+id);
+    }
 }
 
 export default new BoosterController();
