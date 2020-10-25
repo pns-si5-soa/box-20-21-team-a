@@ -14,6 +14,7 @@ export default class Booster {
     private rocketAPI: RocketAPI = new RocketAPI();
     public dataUpdateDelay = 500;
     private missionAPI = new MissionAPI();
+    private boosterDrained = false;
 
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
@@ -44,7 +45,7 @@ export default class Booster {
     }
 
     canDetachFromRocket(): boolean {
-        return this.booster.fuelLevel <= 0;
+        return this.booster.fuelLevel <= 10;
     }
 
     async initializeDetachment(): Promise<void> {
@@ -63,7 +64,7 @@ export default class Booster {
                 that.sendData();
                 that.booster.altitude += that.booster.speed;
                 that.booster.speed += 1;
-                that.booster.fuelLevel -= 1;
+                if (!this.boosterDrained) that.booster.fuelLevel -= 1;
             },
             this.dataUpdateDelay,
             () => (that.canDetachFromRocket() || that.isDestroyed()));
@@ -138,5 +139,11 @@ export default class Booster {
         console.log("*BOOM!* - Booster destroyed!");
         this.sendData();
 
+    }
+
+    drainBooster() {
+        this.booster.fuelLevel=0;
+        this.boosterDrained=true;
+        console.log(this.boosterDrained)
     }
 }
