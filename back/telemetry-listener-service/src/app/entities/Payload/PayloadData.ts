@@ -5,12 +5,23 @@ class PayloadData {
     private payloadStatus: PayloadStatus;
     private speed: number;
     private altitude: number;
+    private missionId: number;
 
-    constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1) {
+    constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1, missionId = -1) {
         this.payloadStatus = payloadStatus;
         this.speed = speed;
         this.altitude = altitude;
+        this.missionId = missionId
     }
+
+    getMissionId() {
+        return this.missionId;
+    }
+
+    setMissionId() {
+        this.missionId = this.missionId
+    }
+
 
     getPayloadStatus(): PayloadStatus {
         return this.payloadStatus;

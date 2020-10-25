@@ -6,14 +6,24 @@ class BoosterData extends Entitie {
     private altitude: number;
     private speed: number;
     private fuelLevel: number;
+    private missionId: number;
 
 
-    constructor(altitude=-1, speed=-1,fuelLevel=-1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
+    constructor(altitude=-1, speed=-1,fuelLevel=-1, missionId: -1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
         super()
         this.altitude=altitude;
         this.speed=speed;
         this.fuelLevel=fuelLevel;
         this.boosterStatus=boosterStatus;
+        this.missionId = missionId
+    }
+
+    getMissionId() {
+        return this.missionId;
+    }
+
+    setMissionId() {
+        this.missionId = this.missionId
     }
 
 
@@ -57,6 +67,7 @@ class BoosterData extends Entitie {
             fuelLevel: this.fuelLevel,
             altitude: this.altitude,
             speed: this.speed,
+            missionId: this.missionId
         };
     }
 
@@ -66,6 +77,7 @@ class BoosterData extends Entitie {
         this.speed = other.speed
         this.boosterStatus = other.boosterStatus
         this.id = other.id
+        this.missionId = other.missionId
     }
 }
 //ops.insertedIds:
