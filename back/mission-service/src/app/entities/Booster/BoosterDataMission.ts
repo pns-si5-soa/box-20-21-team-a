@@ -2,17 +2,22 @@ import BoosterStatus from "./BoosterStatus";
 import Entitie from '../Entitie'
 
 class BoosterDataMission extends Entitie {
+
+    missionId : number;
     private boosterStatus : BoosterStatus;
 
 
 
-    constructor( boosterStatus=BoosterStatus.ON_THE_ROCKET) {
+    constructor( missionId:number,boosterStatus=BoosterStatus.ON_THE_ROCKET) {
         super()
+        this.missionId = missionId;
         this.boosterStatus=boosterStatus;
+        
     }
 
     toObjectJSON(): Object {
         return {
+            missionId : this.missionId,
             boosterStatus: this.boosterStatus,
         };
     }

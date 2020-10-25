@@ -3,8 +3,12 @@ import BoosterTelemetry from './boosterTelemetry'
 import RocketTelemetry from './rocketTelemetry'
 import PayloadTelemetry from './payloadTelemetry'
 
+interface IProps {
+    id: number;
+}
 
-const TelemetryMonitor = () => {
+
+const TelemetryMonitor = (props: IProps) => {
 
     return (
         <>
@@ -13,13 +17,13 @@ const TelemetryMonitor = () => {
             <h2>Telemetry monitoring</h2>
             <div className="row">
                 <div className="col-sm">
-                    <RocketTelemetry />
+                    <RocketTelemetry id={props.id} />
                 </div>
                 <div className="col-sm">
-                    <BoosterTelemetry />
+                    <BoosterTelemetry id={props.id} />
                 </div>
                 <div className="col-sm">
-                    <PayloadTelemetry />
+                    <PayloadTelemetry id={props.id} />
                 </div>
             </div>
         </>

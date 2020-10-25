@@ -4,7 +4,7 @@ import mission from "../../controller/MissionController";
 
 router.get('/', (req, res) => {
     try {
-        res.send(mission.getMissionStatusForBooster());
+        res.send(mission.getMissionStatusForBooster(parseInt(req.params.id)));
     } catch (e: any) {
         res.status(500).json({
             message: e.message

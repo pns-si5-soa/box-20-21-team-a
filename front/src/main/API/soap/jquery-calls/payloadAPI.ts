@@ -22,13 +22,15 @@ class PayloadAPI {
     //     });
     // }
 
-    public deliverPayloadSOAP(): Promise<any> {
+    public deliverPayloadSOAP(id:number): Promise<any> {
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'deliverPayload',
 
-                data: {},
+                data: {
+                    'id' : id
+                },
                 success: function (soapResponse) {
                     var parser = new DOMParser();
                     var myxml = soapResponse.toString();

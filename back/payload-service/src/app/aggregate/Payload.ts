@@ -13,9 +13,9 @@ export default class Payload{
     
 
 
-    constructor(){
+    constructor(payloadId : number){
 
-        this.payloadData = new PayloadData();
+        this.payloadData = new PayloadData(payloadId);
     }
 
     detach(){

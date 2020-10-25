@@ -1,22 +1,26 @@
 import PayloadStatus from "./PayloadStatus";
 
 export default class PayloadData{
-     payloadStatus: PayloadStatus;
-     speed: number;
-     altitude: number;
 
-        constructor(){
-            this.speed = 0;
-            this.altitude = 0;
-            this.payloadStatus = PayloadStatus.ATTACHED;
-        }
+    payloadId: number;
+    payloadStatus: PayloadStatus;
+    speed: number;
+    altitude: number;
 
-        toObjectJSON(){
-            return {
-                speed : this.speed,
-                altitude : this.altitude,
-                payloadStatus: this.payloadStatus
-                    }
-        }
+    constructor(payloadId : number){
+        this.payloadId = payloadId;
+        this.speed = 0;
+        this.altitude = 0;
+        this.payloadStatus = PayloadStatus.ATTACHED;
+    }
+
+    toObjectJSON(){
+        return {
+            missionId: this.payloadId,
+            speed : this.speed,
+            altitude : this.altitude,
+            payloadStatus: this.payloadStatus
+                }
+    }
 
 }

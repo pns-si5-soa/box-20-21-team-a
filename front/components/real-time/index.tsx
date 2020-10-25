@@ -11,7 +11,11 @@ interface ImissionStatus {
     booster: BoosterStatus;
   }
 
-const rocketTelemetry = () => {
+  interface IProps{
+    id:number;
+  }
+
+const rocketTelemetry = (props : IProps) => {
 
     const [missionStatus, setMissionStatus] = useState<ImissionStatus>( {
         rocket: 0,
@@ -28,7 +32,7 @@ const rocketTelemetry = () => {
     }, []);
 
     const getMissionStatus = () => {
-        telemetryAPI.getStatus()
+        telemetryAPI.getStatus(props.id)
             .then(res => {
                 console.log(res.data);
                 setMissionStatus(res.data);

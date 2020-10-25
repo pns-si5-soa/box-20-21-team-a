@@ -12,14 +12,14 @@ class RocketAPI {
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
     
-    public destroyRocket(): Promise<any>{
+    public destroyRocket(id:number): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'destroy',
 
                 data: {
-
+                    'id' : id
                 },
                 success: function (soapResponse) {
                     var parser = new DOMParser();
@@ -37,14 +37,14 @@ class RocketAPI {
         });
     }
 
-    public putRocketOnInternalPower(): Promise<any>{
+    public putRocketOnInternalPower(id:number): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'putRocketOnInternalPower',
 
                 data: {
-
+                    'id' : id
                 },
                 success: function (soapResponse) {
                     var parser = new DOMParser();
@@ -62,14 +62,14 @@ class RocketAPI {
         });
     }
 
-    public initializeStartupProcess(): Promise<any>{
+    public initializeStartupProcess(id:number): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'initializeStartupProcess',
 
                 data: {
-
+                    'id' : id
                 },
                 success: function (soapResponse) {
                     var parser = new DOMParser();

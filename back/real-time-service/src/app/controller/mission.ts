@@ -1,27 +1,31 @@
+import MissionStatus from "../entities/missionStatus";
+
 class Mission {
-    boosterStatus: any;
-    rocketStatus: any;
+    missions : MissionStatus[];
+    
 
     
 
     constructor() {
-        this.boosterStatus = 0
-        this.rocketStatus = 0
+        this.missions = []
 
     }
 
-    getStatus() {
-        return {
-            rocket : this.rocketStatus,
-            booster : this.boosterStatus
-        }
+    addNewMission(missionId :number) : number{
+        let missionStatus = new MissionStatus();
+           this.missions[missionId] = missionStatus;
+        return missionId; 
     }
 
-    updateStatusBoosterInRealTime(status: any) {
-        this.boosterStatus = status;
+    getStatus(id : number) {
+        return this.missions[id].toObjectJSON();
     }
-    updateStatusRocketInRealTime(status: any) {
-        this.rocketStatus = status;
+
+    updateStatusBoosterInRealTime(status: any,id:number) {
+        this.missions[id].boosterStatus = status;
+    }
+    updateStatusRocketInRealTime(status: any,id:number) {
+        this.missions[id].rocketStatus = status;
     }
 }
 

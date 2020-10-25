@@ -30,14 +30,14 @@ class BoosterAPI {
 //         });
 //     });
 // }
-    public destroyBooster() : Promise<any>{
+    public destroyBooster(id:number) : Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'destroy',
     
                 data: {
-    
+                    'id' : id
                 },
                 success: function (soapResponse) {
                     var parser = new DOMParser();

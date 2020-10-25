@@ -10,11 +10,11 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public sendData<T>(rocketStatus: RocketStatus): AxiosPromise {
+    public sendData<T>(rocketStatus: RocketStatus,missionId : number): AxiosPromise {
         return this.axios({
             method: 'put',
             url: '/rocket',
-            data: {rocketStatus}
+            data: {rocketStatus,missionId:missionId}
         })
     }
 }

@@ -16,3 +16,30 @@ h1 {
     font-family: 'Press Start 2P', cursive;
     margin: 20px;
 }
+
+.link-button{
+    display: inline-block;
+    text-align: center;
+    color: black;
+    width: 50px;
+    padding: 5px;
+    background-color: orange;
+    border-radius: 5px;
+    border: 1 px solid orange;
+    margin: 5px;
+    text-decoration: none;
+
+}
+
+.link-button:hover{
+    background-color: darkorange;
+    border-radius: 5px;
+    border: 1 px solid orange;
+    box-shadow: 2px 2px 0px gray;
+    text-decoration: none;
+}
+
+.cntainer{
+    display: block;
+    margin: auto;
+}

@@ -130,12 +130,12 @@ const run = async () => {
       var msg = message.value; 
       var json = JSON.parse(msg)  
       if(topic =='rocket-topic'){
-        mission.updateStatusRocketInRealTime(json.rocketStatus);
+        mission.updateStatusRocketInRealTime(json.rocketStatus,json.missionId);
       console.log("rocket status : "+json.rocketStatus);
 
       }
       else {
-        mission.updateStatusBoosterInRealTime(json.boosterStatus);
+        mission.updateStatusBoosterInRealTime(json.boosterStatus,json.missionId);
       console.log("booster status : "+json.boosterStatus);
 
       }

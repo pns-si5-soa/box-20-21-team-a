@@ -27,7 +27,7 @@ class Rocket {
 
     private sendDataToTelemetryAndMission(): void {
         if (process.env.NODE_ENV != "test") {
-            MISSION_API.sendData(this.rocketData.rocketStatus).catch((e) => {
+            MISSION_API.sendData(this.rocketData.rocketStatus,this.rocketData.rocketId).catch((e) => {
                 console.error(e);
             });
             TELEMETRY_API.sendData(this.rocketData)

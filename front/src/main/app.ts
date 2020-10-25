@@ -10,6 +10,7 @@ import BoosterData from "./model/Booster/BoosterData";
 import PayloadData from "./model/Payload/PayloadData";
 import RocketStatus from "./model/Rocket/RocketStatus";
 import {BoosterStatus} from "./model/Booster/BoosterStatus";
+import MissionsCoordinatorAPI from "./API/rest/missionsCoordinatorAPI";
 
 require("logs-module");
 require('dotenv').config()
@@ -20,6 +21,7 @@ const missionAPIInstance = new MissionAPI();
 const boosterAPIInstance = new BoosterAPI();
 const payloadAPIInstance = new PayloadAPI();
 const telemetryAPIInstance = new TelemetryAPI();
+const missionsCoordinatorAPIInstance = new MissionsCoordinatorAPI();
 let rocketData = new RocketData();
 let boosterData = new BoosterData();
 let payloadData = new PayloadData();
@@ -30,10 +32,15 @@ main();
 async function main() {
 
     let stop = false;
+    let missionsId : number[];
 
 
     console.log("Richard creates the poll to start the mission");
-    await missionAPIInstance.createPoll().catch(err => {
+    missionsId = await missionAPIInstance.createPoll().then((res) => {
+        return missionsCoordinatorAPIInstance.getMissions().then((res) =>{
+            return res.data;
+        });
+    }).catch(err => {
         console.error('There is an error : ', err);
     })
 
@@ -45,40 +52,40 @@ async function main() {
 
 
     console.log("If the weather is good, Tory answers \"Go\" to the poll");
-    await missionAPIInstance.modifyPoll("weather", "true").catch(err => {
+    await missionAPIInstance.modifyPoll("weather", "true",missionsId[0]).catch(err => {
         console.error('There is an error : ', err);
     })
 
 
     console.log("Elon checks the rocket status");
-    await telemetryAPIInstance.getRocketData().catch(err => {
+    await telemetryAPIInstance.getRocketData(missionsId[0]).catch(err => {
         console.error('There is an error : ', err);
     })
 
     console.log("Once the weather response is \"Go\" and the rocket status is Ready, Elon answers \"Go\" to the poll");
-    await missionAPIInstance.modifyPoll("rocket", "true").catch(err => {
+    await missionAPIInstance.modifyPoll("rocket", "true",missionsId[0]).catch(err => {
         console.error('There is an error : ', err);
     })
 
 
     console.log("Once the weather and rocket responses are \"Go\",Richard answers \"Go\" to the poll");
-    await missionAPIInstance.modifyPoll("mission", "true").catch(err => {
+    await missionAPIInstance.modifyPoll("mission", "true",missionsId[0]).catch(err => {
         console.error('There is an error : ', err);
     })
 
 
     setIntervalConditionPromise(() => {
-            telemetryAPIInstance.getRocketData().then(res => {
+            telemetryAPIInstance.getRocketData(missionsId[0]).then(res => {
                 rocketData = res.data;
             }).catch(err => {
                 console.error('There is an error : ', err);
             });
-            telemetryAPIInstance.getBoosterData().then(res => {
+            telemetryAPIInstance.getBoosterData(missionsId[0]).then(res => {
                 boosterData = res.data;
             }).catch(err => {
                 console.error('There is an error : ', err);
             });
-            telemetryAPIInstance.getPayloadData().then(res => {
+            telemetryAPIInstance.getPayloadData(missionsId[0]).then(res => {
                 payloadData = res.data;
             }).catch(err => {
                 console.error('There is an error : ', err);
@@ -89,7 +96,7 @@ async function main() {
 
     setTimeout(() => {
         console.log("Once the poll is good, Elon launches the rocket");
-        rocketAPIInstance.initializeStartupProcess();
+        rocketAPIInstance.initializeStartupProcess(missionsId[0]);
     }, 100);
 
 
@@ -97,7 +104,7 @@ async function main() {
     setIntervalConditionPromise(() => {
             if (rocketData.rocketStatus == RocketStatus.FAIRING_SEPARATION) {
                 console.log("Gwynne delivers the payload");
-                payloadAPIInstance.deliverPayloadSOAPBack();
+                payloadAPIInstance.deliverPayloadSOAPBack(missionsId[0]);
                 passOnce = true;
             }
         },
@@ -110,7 +117,7 @@ async function main() {
             if (payloadData.payloadStatus == 2 && boosterData.boosterStatus == BoosterStatus.LANDED) {
                 console.log("If something went wrong, the rocket and the booster can be destroyed separately");
                 console.log("Richard wants to destroy the rocket");
-                rocketAPIInstance.destroyRocketSOAPBack();
+                rocketAPIInstance.destroyRocketSOAPBack(missionsId[0]);
                 passOnce2 = true;
             }
         },
@@ -121,7 +128,7 @@ async function main() {
     setIntervalConditionPromise(() => {
             if (rocketData.rocketStatus == RocketStatus.DESTROYED) {
                 console.log("Richard wants to destroy the booster too");
-                boosterAPIInstance.destroyBoosterSOAPBack();
+                boosterAPIInstance.destroyBoosterSOAPBack(missionsId[0]);
                 passOnce3 = true;
                 stop = true;
             }
