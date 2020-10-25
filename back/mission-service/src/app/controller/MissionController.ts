@@ -5,43 +5,57 @@ import RocketStatus from "../entities/Rocket/RocketStatus";
 import BoosterDataMission from "../entities/Booster/BoosterDataMission";
 import RocketDataMission from "../entities/Rocket/RocketDataMission";
 import Producer from '../producer/producer';
+import MissionsCoordinatorAPI from '../API/missionsCoordinatorAPI';
 
+const MISSIONS_COORDINATOR_API: MissionsCoordinatorAPI = new MissionsCoordinatorAPI();
 
 class MissionController {
 
-    mission : Mission;
+    
+    missions : Mission[]
     producerKafka : Producer;
 
 
     constructor() {
-        this.mission = new Mission();
+        this.missions= [];
         this.producerKafka = new Producer();
     }
 
-    createPoll(): Poll {
-        return this.mission.createPoll();
+    async createPoll(id :number) {
+        return await MISSIONS_COORDINATOR_API.createMission().then((res) =>{
+console.log(res.data.missionId);
+            this.missions[res.data.missionId] = new Mission();
+            return this.missions[res.data.missionId].createPoll()
+        }).catch((err)=>{
+            console.error(err);
+        });
+        
     }
 
-    getPoll(): Poll {
-        return this.mission.getPoll();
+    getPoll(id :number): Poll {
+        return this.missions[id].getPoll();
     }
 
-    modifyPoll(serviceName: string, answer: boolean): Poll {
-        return this.mission.modifyPoll(serviceName, answer);
+    async modifyPoll(serviceName: string, answer: boolean,id:number): Promise<Poll> {
+        console.log(id);
+        console.log(this.missions[id]);
+        console.log(this.missions[id+1]);
+        console.log(this.missions);
+        return this.missions[id].modifyPoll(serviceName, answer);
     }
 
-    getRocket() : boolean {
-        return this.mission.getPoll().getRocketResponse();
+    getRocket(id:number) : boolean {
+        return this.missions[id].getPoll().getRocketResponse();
     }
 
-    getWeather() : boolean {
-        return this.mission.getPoll().getWeatherResponse();
+    getWeather(id:number) : boolean {
+        return this.missions[id].getPoll().getWeatherResponse();
     }
 
-    getMissionStatusForBooster() : BoosterStatus {
-        return this.mission.getBoosterMissionStatus();
+    getMissionStatusForBooster(id:number) : BoosterStatus {
+        return this.missions[id].getBoosterMissionStatus();
     }
-
+   
     async modifyMissionStatusForBooster(boosterData : BoosterDataMission) {
         await this.producerKafka.sendMissionStatus(boosterData,'booster-topic');
         const booster = Object.assign(new BoosterDataMission(), boosterData);
@@ -50,8 +64,8 @@ class MissionController {
         return booster;
     }
 
-    getMissionStatusForRocket() : RocketStatus {
-        return this.mission.getRocketMissionStatus();
+    getMissionStatusForRocket(id:number) : RocketStatus {
+        return this.missions[id].getRocketMissionStatus();
     }
 
     async modifyMissionStatusForRocket(rocketStatus : RocketDataMission) {
