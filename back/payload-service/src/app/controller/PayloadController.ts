@@ -28,8 +28,7 @@ class PayloadController {
             this.telemetryAPI.sendPayloadData(this.payloads[id].payloadData);
         }
         if (process.env.NODE_ENV != "test") {
-            // TODO 
-            this.missionAPI.sendPayloadSeparationStatus(MissionPayloadStatus.PAYLOAD_SEPARATION_STATUS_FOR_MISSION);
+            this.missionAPI.sendPayloadSeparationStatus(MissionPayloadStatus.PAYLOAD_SEPARATION_STATUS_FOR_MISSION,id);
         }
         await this.payloads[id].progressingToOrbitalPosition();
         var that = this;
