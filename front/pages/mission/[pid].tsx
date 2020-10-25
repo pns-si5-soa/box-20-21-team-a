@@ -12,6 +12,7 @@ import Poll from '../../src/main/model/Poll';
 import WeatherAPI from '../../src/main/API/rest/weatherAPI';
 import MissionAPI from '../../src/main/API/rest/missionAPI';
 import MissionsCoordinatorAPI from '../../src/main/API/rest/missionsCoordinatorAPI';
+import AnomalyMonitor from "../../components/anomalyMonitor";
 
 
 const Post = () => {
@@ -153,6 +154,7 @@ const Post = () => {
                     </Button>
 
                     <RealTime id={pid}></RealTime>
+					<AnomalyMonitor id={pid} />
                     <TelemetryMonitor id={pid} />
                 </div>
                 <Button
