@@ -1,23 +1,44 @@
-export enum anomaly {
-    NOTHING,
-    BOOSTER_FUEL_EMPTY,
-    ROCKET_FUEL_EMPTY,
-    ROCKET_FALLING,
-}
+import RocketAnomalies from "../entities/RocketAnomalies";
+import {Anomaly} from "../entities/Anomaly";
+import RocketData from "../entities/Rocket/RocketData";
+import BoosterData from "../entities/Booster/BoosterData";
+
+
 
 class AnomalyAnalyserService {
 
-    anomalies : anomaly[];
+    rocketAnomalies : RocketAnomalies[];
 
     constructor() {
-        this.anomalies.push(anomaly.NOTHING);
+        this.rocketAnomalies = [];
     }
 
-    getAnomalies() : anomaly[] {
-        return this.anomalies;
+    getAnomalies(rocketId : number) : Anomaly[] {
+        return this.rocketAnomalies[rocketId].getAnomalies();
+    }
+
+    analyseRocketData(rocketData: RocketData) {
+        let rocketAlreadyExists = false;
+        this.rocketAnomalies.forEach(rocket => {
+            if (rocket.missionId == rocketData.getMissionId()) rocketAlreadyExists = true;
+        });
+        if (!rocketAlreadyExists){
+            this.rocketAnomalies.push(new RocketAnomalies(rocketData.getMissionId()));
+        }
+        this.rocketAnomalies[rocketData.getMissionId()].analyseRocketData(rocketData);
     }
 
 
+    analyseBoosterData(boosterData: BoosterData) {
+        let rocketAlreadyExists = false;
+        this.rocketAnomalies.forEach(rocket => {
+            if (rocket.missionId == boosterData.getMissionId()) rocketAlreadyExists = true;
+        });
+        if (!rocketAlreadyExists){
+            this.rocketAnomalies.push(new RocketAnomalies(boosterData.getMissionId()));
+        }
+        this.rocketAnomalies[boosterData.getMissionId()].analyseBoosterData(boosterData);
+    }
 }
 
 
