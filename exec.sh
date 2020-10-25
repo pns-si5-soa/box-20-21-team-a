@@ -77,6 +77,8 @@ if [[ $UARG == 1 ]]; then
     npm install
     cd ../real-time-service || exit
     npm install
+    cd ../anomaly-analyser-service || exit
+    npm install
     exit
 fi
 
@@ -111,6 +113,8 @@ function changedirectory() {
         cd back/payload-service || exit
     elif [[ $PROJECT == "real-time" ]]; then
         cd back/real-time-service || exit
+    elif [[ $PROJECT == "anomaly-analyser" ]]; then
+        cd back/anomaly-analyser-service || exit
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -175,6 +179,8 @@ elif [[ $PARAMS == "clean" ]]; then
         runclean "payload"
         cd ../..
         runclean "real-time"
+        cd ../..
+        runclean "anomaly-analyser"
         cd ../..
     else
         runclean $PARG
