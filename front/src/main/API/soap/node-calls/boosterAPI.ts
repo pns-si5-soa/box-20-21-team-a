@@ -14,8 +14,10 @@ class BoosterAPI {
 
 
 
-    public destroyBoosterSOAPBack<T>(): Promise<any> {
-        var args = {};
+    public destroyBoosterSOAPBack<T>(id:number): Promise<any> {
+        var args = {
+            'id' : id
+        };
         return new Promise((resolve, reject) => 
             {
                 soap.createClient(this.urlSOAP, function (err: String, client: Client) {

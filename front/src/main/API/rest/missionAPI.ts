@@ -16,15 +16,15 @@ class MissionAPI extends API {
     }
 
 
-    public modifyPoll(serviceName: String | undefined,answer: String|undefined) : AxiosPromise {
+    public modifyPoll(serviceName: String | undefined,answer: String|undefined,id:number) : AxiosPromise {
         return this.axios({method: 'put',
                              url: '/poll',
-                            data: {service_name: serviceName, answer: answer}});
+                            data: {service_name: serviceName, answer: answer,id:id}});
     }
 
     public getPoll(): AxiosPromise {
         return this.axios(
-            '/poll'
+            '/poll/:id'
         );
     }
 }
