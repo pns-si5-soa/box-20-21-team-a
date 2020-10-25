@@ -58,7 +58,7 @@ console.log(res.data.missionId);
    
     async modifyMissionStatusForBooster(boosterData : BoosterDataMission) {
         await this.producerKafka.sendMissionStatus(boosterData,'booster-topic');
-        const booster = Object.assign(new BoosterDataMission(), boosterData);
+        const booster = Object.assign(new BoosterDataMission(boosterData.missionId), boosterData);
         console.log(booster)
         booster.save()
         return booster;
@@ -70,7 +70,7 @@ console.log(res.data.missionId);
 
     async modifyMissionStatusForRocket(rocketStatus : RocketDataMission) {
         await this.producerKafka.sendMissionStatus(rocketStatus,'rocket-topic');
-        const rocket = Object.assign(new RocketDataMission(), rocketStatus);
+        const rocket = Object.assign(new RocketDataMission(rocketStatus.missionId), rocketStatus);
         console.log(rocket)
         rocket.save()
         return rocket;
