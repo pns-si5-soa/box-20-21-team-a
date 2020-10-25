@@ -21,7 +21,6 @@
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "jest": "^26.5.0",
-<<<<<<< develop
     "kafkajs": "^1.14.0",
     "logs-module": "file:../../logs-module",
     "ts-jest": "^26.4.1",
