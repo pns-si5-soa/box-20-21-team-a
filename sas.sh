@@ -39,6 +39,7 @@ if [[ $HARG == 1 ]]; then
     echo "Action list:"
     echo "	start						start project"
     echo "	stop						stop project"
+    echo "	restart						restart project"
     echo "	logs						show logs"
     echo ""
     exit
@@ -130,6 +131,38 @@ elif [[ $PARAMS == "stop" ]]; then
         runstop "real-time"
     else
         runstop $PARG
+    fi
+elif [[ $PARAMS == "restart" ]]; then
+    if [[ -z $PARG ]]; then
+        runstop "front"
+        runstop "mission"
+        runstop "rocket"
+        runstop "weather"
+        runstop "telemetry-listener"
+        runstop "telemetry-writer"
+        runstop "booster"
+        runstop "payload"
+        runstop "real-time"
+        runstart "mission"
+        cd ../..
+        runstart "weather"
+        cd ../..
+        runstart "telemetry-listener"
+        cd ../..
+        runstart "telemetry-writer"
+        cd ../..
+        runstart "rocket"
+        cd ../..
+        runstart "booster"
+        cd ../..
+        runstart "payload"
+        cd ../..
+        runstart "real-time"
+        cd ../..
+        runstart "front"
+    else
+        runstop $PARG
+        runstart $PARG
     fi
 elif [[ $PARAMS == "logs" ]]; then
     if [[ -z $PARG ]]; then
