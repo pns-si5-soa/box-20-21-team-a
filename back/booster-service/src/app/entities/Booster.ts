@@ -12,7 +12,7 @@ export default class Booster {
 
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     private rocketAPI: RocketAPI = new RocketAPI();
-    public dataUpdateDelay = 500;
+    public dataUpdateDelay = 1000;
     private missionAPI = new MissionAPI();
 
     constructor(boosterData: BoosterData) {
@@ -44,7 +44,7 @@ export default class Booster {
     }
 
     canDetachFromRocket(): boolean {
-        return this.booster.fuelLevel <= 0;
+        return this.booster.fuelLevel <= 15;
     }
 
     async initializeDetachment(): Promise<void> {
