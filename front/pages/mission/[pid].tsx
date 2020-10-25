@@ -29,7 +29,9 @@ const Post = () => {
     const [currentWeather, setWeather] = React.useState('');
     const [poll, setPoll] = React.useState<Poll | undefined>(undefined);
     const [value, setValue] = React.useState(0);
-    
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+		setValue(newValue);
+	};
     function Weather(weather: any) {
         if (weather == 'Sunny')
             return (
@@ -106,7 +108,7 @@ const Post = () => {
     return (
         <View>
            
-            <center className="container">
+            <div className="container">
 			
                 <h1 style={{ textAlign: "center" }}>Blue_origin</h1>
                 <img
@@ -184,7 +186,7 @@ const Post = () => {
 						>
 							Validate on poll
 						</Button>			
-            </center>
+            </div>
         </View>
     );
 };

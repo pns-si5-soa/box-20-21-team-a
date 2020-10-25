@@ -34,9 +34,6 @@ export default function Home() {
 	const missionAPI = new MissionAPI();
 	const missionsCoordinatorAPI = new MissionsCoordinatorAPI();
 
-	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-		setValue(newValue);
-	};
 
 	// Similaire à componentDidMount et componentDidUpdate :
 	useEffect(() => {
@@ -65,7 +62,7 @@ export default function Home() {
 		return (
 			<>
 			  {missions.map((mission) => (
-				<a class="link-button" href={'mission/'+mission.id}>{mission.id}</a>
+				<a className="link-button" href={'mission/'+mission.id}>{mission.id}</a>
 			  ))}
 			</>
 		  );
