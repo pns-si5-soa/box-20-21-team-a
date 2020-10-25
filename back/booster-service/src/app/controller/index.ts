@@ -14,7 +14,7 @@ class BoosterController {
 
     addNewBooster(boosterId :number) : number{
         let booster = new Booster(
-            new BoosterData(
+            new BoosterData(boosterId,
                 BoosterStatus.ON_THE_ROCKET, 30, 0, 0, 0));
            this.boosters[boosterId] = booster;
         return boosterId; 

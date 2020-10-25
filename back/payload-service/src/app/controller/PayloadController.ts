@@ -17,7 +17,7 @@ class PayloadController {
     }
 
     addNewPayload(payloadId :number) : number{
-        let payload = new Payload(); 
+        let payload = new Payload(payloadId); 
            this.payloads[payloadId] = payload;
         return payloadId; 
     }
