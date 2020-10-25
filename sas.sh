@@ -122,9 +122,10 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "missions-coordinator"
         cd ../..
-        runstart "front"
-        cd ../..
         runstart "anomaly-analyser"
+        cd ../..
+        runstart "front"
+
     else
         runstart $PARG
     fi

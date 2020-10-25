@@ -13,7 +13,7 @@ require ("logs-module");
 const consumer = require('./consumer/consumer')
 
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3003;
+const port = normalizePort(process.env.PORT) ?? 3007;
 
 app.use(cors())
 app.use(express.json());

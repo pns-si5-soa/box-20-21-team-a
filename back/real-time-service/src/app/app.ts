@@ -9,7 +9,7 @@ require ("logs-module");
 
 require('dotenv').config()
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3001;
+const port = normalizePort(process.env.PORT) ?? 3006;
 
 app.use(cors())
 app.use(express.json());

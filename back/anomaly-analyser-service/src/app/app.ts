@@ -10,7 +10,7 @@ require ("logs-module");
 
 
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3006;
+const port = normalizePort(process.env.PORT) ?? 3013;
 
 app.use(cors())
 app.use(express.json());
