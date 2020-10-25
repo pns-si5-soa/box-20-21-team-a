@@ -4,19 +4,21 @@ const router = express.Router();
 import TelemetryService from "../../services/telemetry-controller";
 
 router.get('/', (req, res) => {
-    try {
-        TelemetryService.getBoosterData().then(data => {
-            res.send(data);
-        }).catch(err => {
-            console.error(err)
-            res.status(500).send(err)
-        })
-        
-    } catch (e: any) {
-        res.status(500).json({
-            message: e.message
-        });
-    }
+    TelemetryService.getBoosterData().then(data => {
+        res.send(data);
+    }).catch(err => {
+        console.error(err)
+        res.status(500).send(err)
+    })
+});
+
+router.get('/:id', (req, res) => {
+    TelemetryService.getBoosterData({missionId: req.params.id}).then(data => {
+        res.send(data);
+    }).catch(err => {
+        console.error(err)
+        res.status(500).send(err)
+    })
 });
 
 export default router;
