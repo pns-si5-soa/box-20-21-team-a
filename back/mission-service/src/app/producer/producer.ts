@@ -21,19 +21,12 @@ class Producer{
     kafka : any;
 
      constructor(){
-
-      
       this.kafka = new Kafka({
         logLevel: logLevel.DEBUG,
         brokers: [`${host}:9092`],
         clientId: 'example-producer',
-      })
+      });
       this.producer = this.kafka.producer()
-
-      
-      
-      
-       
     }
 
     async sendMissionStatus(message : Object,topic : string) {
@@ -67,9 +60,6 @@ class Producer{
         .then(console.log('sent ' +JSON.stringify(message)))
         .catch((e: { message: any; }) => console.error(`[example/producer] ${e.message}`, e))
     }
-    
-
-    
 
 }
 export default Producer;
