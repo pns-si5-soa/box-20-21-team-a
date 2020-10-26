@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    TelemetryService.getPayloadData({missionId: req.params.id}).then(payloadData => {
+    TelemetryService.getPayloadData({missionId: parseInt(req.params.id)}).then(payloadData => {
         res.json(payloadData)
     }).catch(err => {
         res.status(500).send(err)

@@ -8,6 +8,7 @@ router.post('/', (req, res) => {
             res.status(500).send("Error: PayloadData wasn't sent");
             return;
         }
+        console.log('Payload data received : ',  req.body.payloadData)
         TelemetryController.addPayloadData(req.body.payloadData)
         res.send("sent");
     } catch (e: any) {

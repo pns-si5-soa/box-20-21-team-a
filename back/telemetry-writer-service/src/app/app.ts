@@ -1,6 +1,7 @@
 require('dotenv').config()
 import express = require('express')
 import createError = require('http-errors');
+import Consumer from './consumer/Consumer';
 import BoosterData from './entities/Booster/BoosterData';
 import PayloadData from './entities/Payload/PayloadData';
 import RocketData from './entities/Rocket/RocketData';
@@ -9,8 +10,6 @@ import telemetryController from './services/telemetry-controller';
 var http = require('http');
 var cors = require('cors');
 require ("logs-module");
-
-const consumer = require('./consumer/consumer')
 
 const app: express.Application = express();
 if(process.env.PORT == undefined) throw Error("port is missing on .env file");
@@ -102,14 +101,19 @@ function onListening() {
     }
 }
 
-consumer.run('telemetry-booster', (value: BoosterData) => {
-    telemetryController.addBoosterData(value);
-})
+const consumer = new Consumer();
 
-consumer.run('telemetry-payload', (value: PayloadData) => {
+consumer.append('telemetry-payload', (value: PayloadData) => {
     telemetryController.addPayloadData(value);
 })
 
-consumer.run('telemetry-rocket', (value: RocketData) => {
+consumer.append('telemetry-booster', (value: BoosterData) => {
+    console.log(value);
+    telemetryController.addBoosterData(value);
+})
+
+consumer.append('telemetry-rocket', (value: RocketData) => {
     telemetryController.addRocketData(value);
 })
+
+consumer.subscribe()

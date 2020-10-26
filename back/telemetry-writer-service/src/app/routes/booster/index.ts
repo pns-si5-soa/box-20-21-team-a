@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    TelemetryService.getBoosterData({missionId: req.params.id}).then(data => {
+    console.log({missionId: req.params.id})
+    TelemetryService.getBoosterData({missionId: parseInt(req.params.id)}).then(data => {
         res.send(data);
     }).catch(err => {
         console.error(err)
