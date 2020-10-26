@@ -156,6 +156,7 @@ elif [[ $PARAMS == "restart" ]]; then
         runstop "booster"
         runstop "payload"
         runstop "real-time"
+        runstop "missions-coordinator"
         runstart "mission"
         cd ../..
         runstart "weather"
@@ -173,6 +174,9 @@ elif [[ $PARAMS == "restart" ]]; then
         runstart "real-time"
         cd ../..
         runstart "front"
+        cd ../..
+        runstart "missions-coordinator"
+        cd ../..
     else
         runstop $PARG
         runstart $PARG
