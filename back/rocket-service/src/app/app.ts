@@ -3,6 +3,7 @@ import createError = require('http-errors');
 
 const cors = require('cors');
 import rocketService from "./controller";
+import indexRouter from "./routes"
 var http = require('http');
 
 
@@ -16,7 +17,6 @@ require('dotenv').config()
 const app: express.Application = express();
 if(process.env.PORT == undefined) throw Error("port is missing on .env file");
 const port = normalizePort(process.env.PORT)
-const portHttp = normalizePort(process.env.PORT_HTTP) ?? 3008;
 if(process.env.PORT_HTTP == undefined) throw Error("port http is missing on .env file");
 const portHttp = normalizePort(process.env.PORT_HTTP)
 
