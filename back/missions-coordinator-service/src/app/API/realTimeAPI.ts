@@ -1,11 +1,12 @@
 import {AxiosPromise} from 'axios';
 import API from './API';
 
-class PayloadsAPI extends API {
+class RealTimeAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_REAL_TIME?? "localhost";
-        if(process.env.PORT_REAL_TIME == undefined) throw Error("port is missing on .env file");
+        if(process.env.HOST_REAL_TIME == undefined) throw Error("host real-time is missing on .env file");
+        const host: String = process.env.HOST_REAL_TIME;
+        if(process.env.PORT_REAL_TIME == undefined) throw Error("port real-time is missing on .env file");
 		const port: String = process.env.PORT_REAL_TIME
         super(host, port)
     }
@@ -20,4 +21,4 @@ class PayloadsAPI extends API {
 
 }
 
-export default PayloadsAPI;
+export default RealTimeAPI;

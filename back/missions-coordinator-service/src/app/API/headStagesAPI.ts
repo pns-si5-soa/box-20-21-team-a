@@ -4,8 +4,9 @@ import API from './API';
 class HeadStagesAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_HEAD_STAGES?? "localhost";
-        if(process.env.PORT_HEAD_STAGES == undefined) throw Error("port is missing on .env file");
+        if(process.env.PORT_HEAD_STAGES == undefined) throw Error("port headstages is missing on .env file");
+        if(process.env.HOST_HEAD_STAGES == undefined) throw Error("host headstages is missing on .env file");
+        const host: String = process.env.HOST_HEAD_STAGES;
 		const port: String = process.env.PORT_HEAD_STAGES
         super(host, port)
     }
