@@ -83,6 +83,9 @@ function runstart() {
     elif [[ $PROJECT == "missions-coordinator" ]]; then
         cd back/missions-coordinator-service
         pm2 start ./src/app/app.ts --watch --name "missions-coordinator"
+    elif [[ $PROJECT == "anomaly-analyser" ]]; then
+        cd back/anomaly-analyser-service
+        pm2 start ./src/app/app.ts --watch --name "anomaly-analyser"
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -119,7 +122,10 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "missions-coordinator"
         cd ../..
+        runstart "anomaly-analyser"
+        cd ../..
         runstart "front"
+
     else
         runstart $PARG
     fi
@@ -135,6 +141,7 @@ elif [[ $PARAMS == "stop" ]]; then
         runstop "payload"
         runstop "real-time"
         runstop "missions-coordinator"
+        runstop "anomaly-analyser"
     else
         runstop $PARG
     fi

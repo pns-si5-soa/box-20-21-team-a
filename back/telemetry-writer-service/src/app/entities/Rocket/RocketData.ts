@@ -10,7 +10,7 @@ class RocketData extends Entitie {
     private pressure: number;
     private missionId: number;
 
-    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0, missionId: -1) {
+    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel = 0, speed = 0, pressure = 0, missionId= -1) {
         super();
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;

@@ -51,6 +51,12 @@ echo $reset
 cd ../weather-service
 npm install
 
+echo $red
+echo "Installing Anomaly-analyser-service"
+echo $reset
+cd ../anomaly-analyser-service
+npm install
+
 echo $green
 echo "All modules are installed"
 

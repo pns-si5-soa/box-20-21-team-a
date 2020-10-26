@@ -8,8 +8,10 @@ class RocketAPI {
     urlSOAP: string;
 
     constructor() {
-        const host: String = process.env.HOST_ROCKET ?? "localhost";
-        const port: String = process.env.PORT_ROCKET ?? "3000";
+        if(process.env.HOST_ROCKET == undefined) throw Error("host is missing on .env file");
+		const host: String = process.env.HOST_ROCKET
+        if(process.env.PORT_ROCKET == undefined) throw Error("port is missing on .env file");
+		const port: String = process.env.PORT_ROCKET
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
 

@@ -4,7 +4,7 @@ import API from './API';
 class TelemetryAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_TELEMETRY ?? "localhost";
+        if( process.env.HOST_TELEMETRY ?? == undefined ) throw Error("host is missing on .env file") 
         const port: String = process.env.PORT_TELEMETRY ?? "3003";
         super(host, port)
     }

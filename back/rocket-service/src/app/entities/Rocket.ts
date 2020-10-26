@@ -19,6 +19,8 @@ const NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS = 3;
 class Rocket {
 
     private rocketData: RocketData;
+    private rocketDrained = false;
+    private rocketFallingDown = false;
 
     constructor(rocketData: RocketData) {
         this.rocketData = rocketData;
@@ -115,9 +117,10 @@ class Rocket {
     private async controlFlightBeforeMaxQ(): Promise<void> {
         const that = this;
         await setIntervalConditionPromise(() => {
-                that.rocketData.altitude += this.rocketData.speed;
+            if (!this.rocketFallingDown) that.rocketData.altitude -= this.rocketData.speed;
+            else that.rocketData.altitude += this.rocketData.speed;
                 that.rocketData.speed += ACCELERATION;
-                that.rocketData.fuelLevel -= 1;
+            if (!this.rocketDrained) that.rocketData.fuelLevel -= 1;
                 that.rocketData.pressure += PRESSURE_INCREASE;
                 that.sendDataToTelemetryAndMission();
             },
@@ -132,7 +135,8 @@ class Rocket {
         this.changeRocketStatusAndNotifyTelemetry(RocketStatus.MAX_Q_REACHED);
         const that = this;
         await setIntervalConditionPromise(() => {
-                that.rocketData.altitude += that.rocketData.speed;
+                if (!this.rocketFallingDown) that.rocketData.altitude -= this.rocketData.speed;
+                else that.rocketData.altitude += this.rocketData.speed;
                 that.rocketData.fuelLevel -= 1;
                 that.sendDataToTelemetryAndMission();
             },
@@ -172,8 +176,9 @@ class Rocket {
         console.log("Second stage of flight initialized.");
         const that = this;
         await setIntervalConditionPromise(() => {
-                that.rocketData.altitude += this.rocketData.speed;
-                that.rocketData.fuelLevel -= 1;
+                if (!this.rocketFallingDown) that.rocketData.altitude -= this.rocketData.speed;
+                else that.rocketData.altitude += this.rocketData.speed;
+                if(!this.rocketDrained) that.rocketData.fuelLevel -= 1;
                 that.sendDataToTelemetryAndMission();
             },
             DATA_UPDATE_DELAY_IN_MS,
@@ -200,6 +205,17 @@ class Rocket {
     destroy(): void {
         this.changeRocketStatusAndNotifyTelemetry(RocketStatus.DESTROYED);
         console.log("*BOOM!* - Rocket destroyed!");
+    }
+
+    drainRocket() {
+        this.rocketData.fuelLevel=0;
+        this.rocketDrained = true;
+        console.log(this.rocketDrained)
+    }
+
+    makeRocketFall() {
+        this.rocketFallingDown = true;
+        console.log(this.rocketFallingDown)
     }
 }
 

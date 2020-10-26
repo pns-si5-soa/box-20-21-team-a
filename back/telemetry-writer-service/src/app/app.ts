@@ -13,7 +13,8 @@ require ("logs-module");
 const consumer = require('./consumer/consumer')
 
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3003;
+if(process.env.PORT == undefined) throw Error("port is missing on .env file");
+const port = normalizePort(process.env.PORT)
 
 app.use(cors())
 app.use(express.json());

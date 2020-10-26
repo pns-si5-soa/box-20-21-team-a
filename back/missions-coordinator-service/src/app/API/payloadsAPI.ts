@@ -5,7 +5,8 @@ class PayloadsAPI extends API {
 
     public constructor() {
         const host: String = process.env.HOST_PAYLOAD?? "localhost";
-        const port: String = process.env.PORT_PAYLOAD ?? "3009";
+        if(process.env.PORT_PAYLOAD == undefined) throw Error("port is missing on .env file");
+		const port: String = process.env.PORT_PAYLOAD
         super(host, port)
     }
 

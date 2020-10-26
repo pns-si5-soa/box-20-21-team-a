@@ -77,6 +77,13 @@ class RocketController {
         this.rockets[id].destroy();
     }
 
+    drainRocket(id : number) {
+        this.rockets[id].drainRocket();
+    }
+
+    makeRocketFall(id: number) {
+        this.rockets[id].makeRocketFall();
+    }
 }
 
 export default new RocketController();
