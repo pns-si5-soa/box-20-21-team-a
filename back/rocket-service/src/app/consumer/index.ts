@@ -13,7 +13,7 @@ export default class Consumer {
 			brokers: [`${host}:9092`],
 			clientId: 'consumer-head-stages',
 		});
-		this.consumer = this.kafka.consumer({ groupId: 'consumers' });
+		this.consumer = this.kafka.consumer({ groupId: 'consumers-rocket' });
 		
 
 	}

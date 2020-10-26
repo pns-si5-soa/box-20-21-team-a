@@ -30,16 +30,16 @@ class Rocket {
         this.rocketData = rocketData;
         console.log("Rocket is on preparation.");
         this.rocketBus = new Consumer();
-        this.rocketBus.run('rocket-'+this.rocketData.missionId+'-head-stages',(value: String) => {
+        this.rocketBus.run('rocket-'+this.rocketData.missionId+'-head-stages',(value: Object) => {
             this.triggerActionWhenReceiveBusSignal(value);
         })
     }
 
-    private triggerActionWhenReceiveBusSignal(signal : String){
-        if(signal == 'notifyLaunch'){
+    private triggerActionWhenReceiveBusSignal(signal : any){
+        if(signal.action == 'notifyLaunch'){
             this.notifyOfBoosterLaunch;
         }
-        else if(signal == 'notifyDetachment'){
+        else if(signal.action== 'notifyDetachment'){
             this.initializeSecondEngineForSecondStage();
         }
         // TODO : if on signal and action to do 

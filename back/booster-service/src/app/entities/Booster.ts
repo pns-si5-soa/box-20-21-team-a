@@ -8,7 +8,9 @@ import Consumer from '../consumer';
 import Producer from '../../consumer';
 const producer = new Producer();
 
-
+interface Iaction{
+    action : String;
+}
 export default class Booster {
 
     booster : BoosterData;
@@ -23,21 +25,25 @@ export default class Booster {
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
         this.rocketBus = new Consumer();
-        this.rocketBus.run('rocket-'+this.booster.missionId+'-booster',(value: String) => {
+        this.rocketBus.run('rocket-'+this.booster.missionId+'-booster',(value: Object) => {
+            console.log(" callback");
+
             this.triggerActionWhenReceiveBusSignal(value);
         })
     }
 
-    private triggerActionWhenReceiveBusSignal(signal : String){
-        if(signal == 'launchBooster'){
+    private triggerActionWhenReceiveBusSignal(signal : any){
+        if(signal.action == 'launchBooster'){
             this.launch();
         }
         // TODO : if on signal and action to do 
     }
 
     sendData(): void {
-        if (process.env.NODE_ENV == 'test') {
+      
+        if (process.env.NODE_ENV != 'test') {
             this.telemetryAPI.sendBoosterData(this.booster);
+            console.log("sent to mission : status "+this.booster.boosterStatus+" id : "+this.booster.missionId)
             this.missionAPI.sendBoosterData(this.booster.boosterStatus,this.booster.missionId);
         }
     }
@@ -64,9 +70,7 @@ export default class Booster {
     async initializeDetachment(): Promise<void> {
         console.log("Initializing booster detachment.");
         this.booster.boosterStatus = BoosterStatus.FLIP_MANEUVER;
-        if (process.env.NODE_ENV == 'test') {
-
-
+        if (process.env.NODE_ENV != 'test') {
             //await this.rocketAPI.initializeSecondEngineForSecondStage();
             producer.sendMessage({action : 'notifyDetachment'},'rocket-'+this.booster.missionId+'-head-stages')
             this.sendData();
@@ -94,6 +98,7 @@ export default class Booster {
         await setIntervalConditionPromise(() => {
                 if (that.booster.altitude<nextBearing){
                     this.booster.boosterStatus++;
+                    console.log("----> "+this.booster.boosterStatus);
                     nextBearing=this.booster.altitude-altitudeBearings;
                 }
                 that.sendData();
@@ -102,7 +107,7 @@ export default class Booster {
                 that.booster.speed = that.booster.speed < 1 ? 2 : that.booster.speed;
                 // that.fuelLevel -= 1;
             },
-            this.dataUpdateDelay,
+            this.dataUpdateDelay+500,
             () => (that.booster.altitude <= 0 || that.isDestroyed()));
         if (this.booster.boosterStatus === BoosterStatus.DESTROYED) {
             return;
@@ -135,7 +140,7 @@ export default class Booster {
         this.booster.speed = 10;
         console.log("Booster launched");
         this.sendData();
-        if (process.env.NODE_ENV == 'test') {
+        if (process.env.NODE_ENV != 'test') {
             producer.sendMessage({action : 'notifyLaunch'},'rocket-'+this.booster.missionId+'-head-stages')
            // await this.rocketAPI.notifyLaunch();
         }

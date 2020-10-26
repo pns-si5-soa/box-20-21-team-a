@@ -7,10 +7,10 @@ import BoosterStatus from "../entities/BoosterStatus";
 class MissionAPI extends API {
 
     public constructor() {
-        if(process.env.HOST_TELEMETRY == undefined) throw Error("host is missing on .env file");
-		const host: String = process.env.HOST_TELEMETRY
-        if(process.env.PORT_TELEMETRY == undefined) throw Error("port is missing on .env file");
-		const port: String = process.env.PORT_TELEMETRY
+        if(process.env.HOST_MISSION == undefined) throw Error("host is missing on .env file");
+		const host: String = process.env.HOST_MISSION
+        if(process.env.PORT_MISSION == undefined) throw Error("port is missing on .env file");
+		const port: String = process.env.PORT_MISSION
         super(host, port)
     }
 
