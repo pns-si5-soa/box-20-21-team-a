@@ -69,13 +69,15 @@ if [[ $UARG == 1 ]]; then
     npm install
     cd ../weather-service || exit
     npm install
-    cd ../telemetry-service || exit
+    cd ../telemetry-writer-service || exit
     npm install
     cd ../booster-service || exit
     npm install
     cd ../payload-service || exit
     npm install
     cd ../real-time-service || exit
+    npm install
+    cd ../anomaly-analyser-service || exit
     npm install
     exit
 fi
@@ -101,14 +103,18 @@ function changedirectory() {
         cd back/rocket-service || exit
     elif [[ $PROJECT == "mission" ]]; then
         cd back/mission-service || exit
-    elif [[ $PROJECT == "telemetry" ]]; then
-        cd back/telemetry-service || exit
+    elif [[ $PROJECT == "telemetry-writer" ]]; then
+        cd back/telemetry-writer-service || exit
+    elif [[ $PROJECT == "telemetry-listener" ]]; then
+        cd back/telemetry-listener-service || exit
     elif [[ $PROJECT == "booster" ]]; then
         cd back/booster-service || exit
     elif [[ $PROJECT == "payload" ]]; then
         cd back/payload-service || exit
     elif [[ $PROJECT == "real-time" ]]; then
         cd back/real-time-service || exit
+    elif [[ $PROJECT == "anomaly-analyser" ]]; then
+        cd back/anomaly-analyser-service || exit
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -164,13 +170,17 @@ elif [[ $PARAMS == "clean" ]]; then
         cd ../..
         runclean "weather"
         cd ../..
-        runclean "telemetry"
+        runclean "telemetry-writer"
+        cd ../..
+        runclean "telemetry-listener"
         cd ../..
         runclean "booster"
         cd ../..
         runclean "payload"
         cd ../..
         runclean "real-time"
+        cd ../..
+        runclean "anomaly-analyser"
         cd ../..
     else
         runclean $PARG

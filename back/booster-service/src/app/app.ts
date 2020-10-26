@@ -1,15 +1,19 @@
 import express = require('express')
+require('dotenv').config()
 import BoosterController from './controller/index';
 import path from 'path';
 import bodyParser from 'body-parser'
 require ("logs-module");
+import indexRouter from "./routes";
 
 const cors = require('cors');
 var soap = require('soap');
 
-require('dotenv').config()
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3001;
+if(process.env.PORT == undefined) throw Error("port is missing on .env file");
+const port = normalizePort(process.env.PORT)
+if(process.env.PORT_HTTP == undefined) throw Error("port http is missing on .env file");
+const portHttp = normalizePort(process.env.PORT_HTTP)
 
 app.use(cors())
 app.use(express.json());
@@ -41,12 +45,18 @@ var myService = {
     booster: {
         booster_0: {
             launchBooster : function(args : any){
-                BoosterController.launch();
-                return {booster : BoosterController.Booster.getBoosterData().toObjectJSON()};
-            },
+                if(BoosterController.boosters[args.id] != undefined){
+                    BoosterController.launch(args.id);
+                    return {booster : BoosterController.boosters[args.id].getBoosterData().toObjectJSON()};
+                }
+                return {booster : 'This booster doesn\'t exist'};
+                },
             destroy : function(args : any){
-                BoosterController.destroy();
-                return {booster : BoosterController.Booster.getBoosterData().toObjectJSON()};
+                if(BoosterController.boosters[args.id] != undefined){
+                BoosterController.destroy(args.id);
+                return {booster : BoosterController.boosters[args.id].getBoosterData().toObjectJSON()};
+                }
+                return {booster : 'This booster doesn\'t exist'};
             },
         }
     }
@@ -65,3 +75,64 @@ var myService = {
         console.log('SOAP server listening on port ' + port);
     });
   });
+
+   /**
+ * Create HTTP server.
+ */
+app.use('/', indexRouter);
+var http = require('http');
+
+var server = http.createServer(app);
+
+
+server.listen(portHttp);
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+
+/**
+ * Event listener for HTTP server "error" events.
+ */
+
+function onError(error: any) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof portHttp === 'string'
+        ? 'Pipe ' + portHttp
+        : 'Port ' + portHttp;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" events.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    console.log('Booster : Listening on ' + bind);
+    if (process.env.CI !== undefined) {
+        process.exit(0);
+    }
+}

@@ -5,7 +5,10 @@ import {mapStatusToText} from "../../../src/main/model/Booster/BoosterStatus";
 
 const telemetryAPI = new TelemetryAPI();
 
-const boosterTelemetry = () => {
+interface IProps {
+    id: number;
+}
+const boosterTelemetry = (props: IProps) => {
 
     const [boosterData, setBoosterData] = useState(new BoosterData());
 
@@ -16,7 +19,7 @@ const boosterTelemetry = () => {
     }, []);
 
     const getBoosterData = () => {
-        telemetryAPI.getBoosterData()
+        telemetryAPI.getBoosterData(props.id)
             .then(res => {
                 console.log(res.data);
                 setBoosterData(res.data);

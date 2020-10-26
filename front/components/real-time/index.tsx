@@ -11,7 +11,11 @@ interface ImissionStatus {
     booster: BoosterStatus;
   }
 
-const rocketTelemetry = () => {
+  interface IProps{
+    id:number;
+  }
+
+const rocketTelemetry = (props : IProps) => {
 
     const [missionStatus, setMissionStatus] = useState<ImissionStatus>( {
         rocket: 0,
@@ -28,7 +32,7 @@ const rocketTelemetry = () => {
     }, []);
 
     const getMissionStatus = () => {
-        telemetryAPI.getStatus()
+        telemetryAPI.getStatus(props.id)
             .then(res => {
                 console.log(res.data);
                 setMissionStatus(res.data);
@@ -41,7 +45,7 @@ const rocketTelemetry = () => {
     return (
         <div className="card" style={{width: "18rem"}}>
             <div className="card-body">
-                <h5 className="card-title">Mission</h5>
+                <h5 className="card-title">Real Time Mission</h5>
                 <p className="card-text">{`Rocket status: ${mapStatusToTextRocket[missionStatus.rocket]}`}</p>
                 <p className="card-text">{`Booster status: ${mapStatusToTextBooster[missionStatus.booster]}`}</p>
                 

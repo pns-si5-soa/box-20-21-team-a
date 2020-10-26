@@ -5,7 +5,10 @@ import {mapStatusToText} from "../../../src/main/model/Rocket/RocketStatus";
 
 const telemetryAPI = new TelemetryAPI();
 
-const rocketTelemetry = () => {
+interface IProps {
+    id: number;
+}
+const rocketTelemetry = (props: IProps) => {
 
     const [rocketData, setRocketData] = useState(new RocketData());
 
@@ -16,7 +19,7 @@ const rocketTelemetry = () => {
     }, []);
 
     const getRocketData = () => {
-        telemetryAPI.getRocketData()
+        telemetryAPI.getRocketData(props.id)
             .then(res => {
                 console.log(res.data);
                 setRocketData(res.data);

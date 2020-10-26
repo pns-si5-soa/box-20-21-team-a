@@ -19,7 +19,7 @@ To install each service, follow the README of each service.
 - [Rocket-Service](rocket-service/README.md)
 - [Booster-Service](booster-service/README.md)
 - [Payload-Service](payload-service/README.md)
-- [Telemetry-Service](telemetry-service/README.md)
+- [Telemetry-Service](telemetry-writer-service/README.md)
 
 ## PM2 
 

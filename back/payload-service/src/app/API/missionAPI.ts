@@ -5,16 +5,18 @@ import API from './API';
 class MissionAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_MISSION ?? "localhost";
-        const port: String = process.env.PORT_MISSION ?? "3002";
+        if(process.env.HOST_MISSION == undefined) throw Error("host is missing on .env file");
+		const host: String = process.env.HOST_MISSION
+        if(process.env.PORT_MISSION == undefined) throw Error("port is missing on .env file");
+		const port: String = process.env.PORT_MISSION
         super(host, port)
     }
 
-    public sendPayloadSeparationStatus<T>(missionPayloadStatus: MissionPayloadStatus): AxiosPromise {
+    public sendPayloadSeparationStatus<T>(missionPayloadStatus: MissionPayloadStatus,missionId:number): AxiosPromise {
         return this.axios({
             method: 'put',
             url: '/rocket',
-            data: {rocketStatus : missionPayloadStatus}
+            data: {rocketStatus : missionPayloadStatus,missionId:missionId}
         });
     }
 

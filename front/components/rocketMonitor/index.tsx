@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import RocketAPI from '../../src/main/API/soap/jquery-calls/rocketAPI'
 import TelemetryAPI from '../../src/main/API/rest/telemetryAPI'
 import PayloadAPI from '../../src/main/API/soap/jquery-calls/payloadAPI'
+import { Divider } from '@material-ui/core';
 
 
 const rocketAPI = new RocketAPI();
@@ -11,7 +12,7 @@ const payloadAPI = new PayloadAPI();
 
 
 interface IProps {
-    validateRocket: () => void;
+    id : number
 }
 
 const RocketMonitor = (props: IProps) => {
@@ -29,39 +30,38 @@ const RocketMonitor = (props: IProps) => {
     };*/
 
     const destroyRocket = () => {
-        rocketAPI.destroyRocket()
+        rocketAPI.destroyRocket(props.id)
             .then(res => {
-                alert(res);
+            
             })
             .catch(() => {
             });
     };
 
     const putRocketOnInternalPower = () => {
-        rocketAPI.putRocketOnInternalPower()
+        rocketAPI.putRocketOnInternalPower(props.id)
             .then(res => {
-                alert(res);
             })
             .catch(() => {
             });
     };
 
     const initializeStartupProcess = () => {
-        rocketAPI.initializeStartupProcess()
+        rocketAPI.initializeStartupProcess(props.id)
             .then(res => {
-                alert(res);
+                
             })
             .catch(() => {
             });
     };
     const deliverPayload = () => {
-        payloadAPI.deliverPayloadSOAP()
+        payloadAPI.deliverPayloadSOAP(props.id)
             .then(res => {
-                alert(res);
             })
             .catch(() => {
             });
     };
+
 
     return (
         <>
@@ -71,10 +71,7 @@ const RocketMonitor = (props: IProps) => {
             </Button>
             <br/>*/}
 
-            <Button variant="contained" color="secondary" onClick={props.validateRocket}>
-                Validate on mission poll
-            </Button>
-            <br/>
+            
 
             <Button variant="contained" color="primary" onClick={destroyRocket}>
                 Destroy rocket

@@ -39,6 +39,7 @@ if [[ $HARG == 1 ]]; then
     echo "Action list:"
     echo "	start						start project"
     echo "	stop						stop project"
+    echo "	restart						restart project"
     echo "	logs						show logs"
     echo ""
     exit
@@ -64,9 +65,12 @@ function runstart() {
     elif [[ $PROJECT == "mission" ]]; then
         cd back/mission-service
         pm2 start ./src/app/app.ts --watch --name "mission"
-    elif [[ $PROJECT == "telemetry" ]]; then
-        cd back/telemetry-service
-        pm2 start ./src/app/app.ts --watch --name "telemetry"
+    elif [[ $PROJECT == "telemetry-writer" ]]; then
+        cd back/telemetry-writer-service
+        pm2 start ./src/app/app.ts --watch --name "telemetry-writer"
+    elif [[ $PROJECT == "telemetry-listener" ]]; then
+        cd back/telemetry-listener-service
+        pm2 start ./src/app/app.ts --watch --name "telemetry-listener"
     elif [[ $PROJECT == "booster" ]]; then
         cd back/booster-service
         pm2 start ./src/app/app.ts --watch --name "booster"
@@ -76,6 +80,12 @@ function runstart() {
     elif [[ $PROJECT == "real-time" ]]; then
         cd back/real-time-service
         pm2 start ./src/app/app.ts --watch --name "real-time"
+    elif [[ $PROJECT == "missions-coordinator" ]]; then
+        cd back/missions-coordinator-service
+        pm2 start ./src/app/app.ts --watch --name "missions-coordinator"
+    elif [[ $PROJECT == "anomaly-analyser" ]]; then
+        cd back/anomaly-analyser-service
+        pm2 start ./src/app/app.ts --watch --name "anomaly-analyser"
     else
         echo "Project $PROJECT doesn't exist."
         echo "Exiting..."
@@ -98,7 +108,62 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "weather"
         cd ../..
-        runstart "telemetry"
+        runstart "telemetry-listener"
+        cd ../..
+        runstart "telemetry-writer"
+        cd ../..
+        runstart "rocket"
+        cd ../..
+        runstart "booster"
+        cd ../..
+        runstart "payload"
+        cd ../..
+        runstart "real-time"
+        cd ../..
+        runstart "missions-coordinator"
+        cd ../..
+        runstart "anomaly-analyser"
+        cd ../..
+        runstart "front"
+
+    else
+        runstart $PARG
+    fi
+elif [[ $PARAMS == "stop" ]]; then
+    if [[ -z $PARG ]]; then
+        runstop "front"
+        runstop "mission"
+        runstop "rocket"
+        runstop "weather"
+        runstop "telemetry-listener"
+        runstop "telemetry-writer"
+        runstop "booster"
+        runstop "payload"
+        runstop "real-time"
+        runstop "missions-coordinator"
+        runstop "anomaly-analyser"
+    else
+        runstop $PARG
+    fi
+elif [[ $PARAMS == "restart" ]]; then
+    if [[ -z $PARG ]]; then
+        runstop "front"
+        runstop "mission"
+        runstop "rocket"
+        runstop "weather"
+        runstop "telemetry-listener"
+        runstop "telemetry-writer"
+        runstop "booster"
+        runstop "payload"
+        runstop "real-time"
+        runstop "missions-coordinator"
+        runstart "mission"
+        cd ../..
+        runstart "weather"
+        cd ../..
+        runstart "telemetry-listener"
+        cd ../..
+        runstart "telemetry-writer"
         cd ../..
         runstart "rocket"
         cd ../..
@@ -109,21 +174,12 @@ if [[ $PARAMS == "start" ]]; then
         runstart "real-time"
         cd ../..
         runstart "front"
-    else
-        runstart $PARG
-    fi
-elif [[ $PARAMS == "stop" ]]; then
-    if [[ -z $PARG ]]; then
-        runstop "front"
-        runstop "mission"
-        runstop "rocket"
-        runstop "weather"
-        runstop "telemetry"
-        runstop "booster"
-        runstop "payload"
-        runstop "real-time"
+        cd ../..
+        runstart "missions-coordinator"
+        cd ../..
     else
         runstop $PARG
+        runstart $PARG
     fi
 elif [[ $PARAMS == "logs" ]]; then
     if [[ -z $PARG ]]; then

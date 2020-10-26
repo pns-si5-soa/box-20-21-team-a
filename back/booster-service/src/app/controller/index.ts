@@ -6,25 +6,36 @@ import MissionAPI from "../API/MissionAPI";
 class BoosterController {
 
     MissionAPI = new MissionAPI();
-    Booster: Booster;
+    boosters : Booster[];
 
     constructor() {
-        this.Booster = new Booster(
-            new BoosterData(
+        this.boosters  = []
+    }
+
+    addNewBooster(boosterId :number) : number{
+        let booster = new Booster(
+            new BoosterData(boosterId,
                 BoosterStatus.ON_THE_ROCKET, 30, 0, 0, 0));
+           this.boosters[boosterId] = booster;
+        return boosterId; 
     }
 
     // For tests only
-    getStatus(): BoosterStatus {
-        return this.Booster.getBoosterData().boosterStatus;
+    getStatus(id:number): BoosterStatus {
+        return this.boosters[id].getBoosterData().boosterStatus;
     }
 
-    async launch(): Promise<void> {
-        await this.Booster.launch();
+    async launch(id:number): Promise<void> {
+        await this.boosters[id].launch();
     }
 
-    async destroy() {
-        this.Booster.destroy();
+    async destroy(id:number) {
+        this.boosters[id].destroy();
+    }
+
+    drainBooster(id:number) {
+        this.boosters[id].drainBooster();
+        console.log("drain booster : "+id);
     }
 }
 

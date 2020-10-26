@@ -4,7 +4,10 @@ import PayloadData from '../../../src/main/model/Payload/PayloadData';
 import {mapStatusToText} from '../../../src/main/model/Payload/PayloadStatus';
 const telemetryAPI = new TelemetryAPI();
 
-const payloadTelemetry = () => {
+interface IProps {
+    id: number;
+}
+const payloadTelemetry = (props: IProps) => {
 
     const [payloadData, setPayloadData] = useState(new PayloadData());
 
@@ -16,7 +19,7 @@ const payloadTelemetry = () => {
     }, []);
 
     const getPayloadData = () => {
-        telemetryAPI.getPayloadData()
+        telemetryAPI.getPayloadData(props.id)
             .then(res => {
                 console.log(res.data);
                 setPayloadData(res.data);

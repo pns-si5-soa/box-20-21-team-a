@@ -7,8 +7,10 @@ class RocketData {
     altitude: number;
     speed: number;
     pressure: number;
+    missionId : number;
 
-    constructor(rocketStatus = RocketStatus.PREPARATION, fuelLevel: number, speed: number, pressure: number) {
+    constructor(missionId : number,rocketStatus = RocketStatus.PREPARATION, fuelLevel: number, speed: number, pressure: number) {
+        this.missionId = missionId;
         this.rocketStatus = rocketStatus;
         this.fuelLevel = fuelLevel;
         this.altitude = 0;
@@ -18,6 +20,7 @@ class RocketData {
 
     toJsonObject() {
         return {
+            missionId : this.missionId,
             rocketStatus: this.rocketStatus,
             fuelLevel: this.fuelLevel,
             altitude: this.altitude,

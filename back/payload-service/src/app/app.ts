@@ -1,8 +1,9 @@
+require('dotenv').config()
 import express = require('express')
 import createError = require('http-errors');
 import indexRouter from "./routes";
 import Payload from "./aggregate/Payload"
-import PayloadController from './controller/PayloadController';
+import payloadController from './controller/PayloadController';
 const cors = require('cors');
 const path = require('path');
 var bodyParser = require('body-parser');
@@ -10,12 +11,11 @@ const soap = require('soap');
 require ("logs-module");
 
 
-
-
-require('dotenv').config()
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3005;
-
+if(process.env.PORT == undefined) throw Error("port is missing on .env file");
+const port = normalizePort(process.env.PORT)
+if(process.env.PORT_HTTP == undefined) throw Error("port http is missing on .env file");
+const portHttp = normalizePort(process.env.PORT_HTTP)
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -42,15 +42,18 @@ function normalizePort(val: any) {
  * Create SOAP server.
  */
 
- const payloadController = new PayloadController();
 
 var myService = {
     payload: {
         payload_0: {
             deliverPayload : function(args : any){
-                payloadController.detachThePayload();
-                return {deliverPayload : payloadController.payload.payloadData.toObjectJSON()};
-            },
+                if(payloadController.payloads[args.id] != undefined){
+                    payloadController.detachThePayload(args.id);
+                    return {deliverPayload : payloadController.payloads[args.id].payloadData.toObjectJSON()};
+               
+                }
+                return{deliverPayload: 'This payload doesn\'t exist'} 
+                 },
         }
     }
   };
@@ -68,3 +71,64 @@ var myService = {
         console.log('SOAP server listening on port ' + port);
     });
   });
+
+  /**
+ * Create HTTP server.
+ */
+app.use('/', indexRouter);
+var http = require('http');
+
+var server = http.createServer(app);
+
+
+server.listen(portHttp);
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+
+/**
+ * Event listener for HTTP server "error" events.
+ */
+
+function onError(error: any) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof portHttp === 'string'
+        ? 'Pipe ' + portHttp
+        : 'Port ' + portHttp;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" events.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    console.log('Rocket : Listening on ' + bind);
+    if (process.env.CI !== undefined) {
+        process.exit(0);
+    }
+}

@@ -7,19 +7,21 @@ class RocketAPI {
     urlSOAP: string;
 
     constructor() {
-        const host: String = process.env.HOST_ROCKET ?? "localhost";
-        const port: String = process.env.PORT_ROCKET ?? "3000";
+        if(process.env.HOST_ROCKET == undefined) throw Error("host is missing on .env file");
+		const host: String = process.env.HOST_ROCKET
+        if(process.env.PORT_ROCKET == undefined) throw Error("port is missing on .env file");
+		const port: String = process.env.PORT_ROCKET
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
     
-    public destroyRocket(): Promise<any>{
+    public destroyRocket(id:number): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'destroy',
 
                 data: {
-
+                    'id' : id
                 },
                 success: function (soapResponse) {
                     var parser = new DOMParser();
@@ -37,14 +39,14 @@ class RocketAPI {
         });
     }
 
-    public putRocketOnInternalPower(): Promise<any>{
+    public putRocketOnInternalPower(id:number): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'putRocketOnInternalPower',
 
                 data: {
-
+                    'id' : id
                 },
                 success: function (soapResponse) {
                     var parser = new DOMParser();
@@ -62,14 +64,14 @@ class RocketAPI {
         });
     }
 
-    public initializeStartupProcess(): Promise<any>{
+    public initializeStartupProcess(id:number): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
                 method: 'initializeStartupProcess',
 
                 data: {
-
+                    'id' : id
                 },
                 success: function (soapResponse) {
                     var parser = new DOMParser();

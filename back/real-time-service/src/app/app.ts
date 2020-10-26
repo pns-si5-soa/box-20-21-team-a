@@ -1,3 +1,4 @@
+require('dotenv').config()
 import express = require('express')
 import createError = require('http-errors');
 import mission from './controller/mission';
@@ -6,10 +7,9 @@ const cors = require('cors');
 var http = require('http');
 require ("logs-module");
 
-
-require('dotenv').config()
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3001;
+if(process.env.PORT == undefined) throw Error("port is missing on .env file");
+const port = normalizePort(process.env.PORT)
 
 app.use(cors())
 app.use(express.json());
@@ -107,17 +107,17 @@ const host = process.env.HOST_IP;
 const kafka = new Kafka({
   logLevel: logLevel.INFO,
   brokers: [`${host}:9092`],
-  clientId: 'example-consumer',
+  clientId: 'real-time',
 })
 
 const topicRocket = 'rocket-topic'
 const topicBooster = 'booster-topic'
-const consumer = kafka.consumer({ groupId: 'test-group' })
+const consumer = kafka.consumer({ groupId: 'group-realtime' })
 
 const run = async () => {
   await consumer.connect()
-  await consumer.subscribe({ topic : topicRocket, fromBeginning: true })
-  await consumer.subscribe({ topic : topicBooster, fromBeginning: true })
+  await consumer.subscribe({ topic : topicRocket })
+  await consumer.subscribe({ topic : topicBooster})
   await consumer.run({
      eachBatch: async ({ batch } : any) => {
        console.log(batch)
@@ -130,14 +130,18 @@ const run = async () => {
       var msg = message.value; 
       var json = JSON.parse(msg)  
       if(topic =='rocket-topic'){
-        mission.updateStatusRocketInRealTime(json.rocketStatus);
+        mission.updateStatusRocketInRealTime(json.rocketStatus,json.missionId);
       console.log("rocket status : "+json.rocketStatus);
 
       }
-      else {
-        mission.updateStatusBoosterInRealTime(json.boosterStatus);
-      console.log("booster status : "+json.boosterStatus);
+      else if (topic =='booster-topic'){
 
+
+        mission.updateStatusBoosterInRealTime(json.boosterStatus,json.missionId);
+
+      }
+      else{
+        console.log('topic :'+topic+' ignored');
       }
 
 
