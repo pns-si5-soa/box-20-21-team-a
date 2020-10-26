@@ -1,6 +1,7 @@
+require('dotenv').config()
 import express = require('express')
 import createError = require('http-errors');
-require('dotenv').config()
+
 import indexRouter from "./routes";
 var http = require('http');
 var cors = require('cors');

@@ -69,7 +69,7 @@ function runstart() {
         cd back/telemetry-writer-service
         pm2 start ./src/app/app.ts --watch --name "telemetry-writer"
     elif [[ $PROJECT == "telemetry-listener" ]]; then
-        cd back/telemetry-writer-service
+        cd back/telemetry-listener-service
         pm2 start ./src/app/app.ts --watch --name "telemetry-listener"
     elif [[ $PROJECT == "booster" ]]; then
         cd back/booster-service

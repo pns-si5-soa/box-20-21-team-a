@@ -18,6 +18,10 @@ class Mission {
     }
 
     getStatus(id : number) {
+        if(this.missions[id] == undefined){
+            console.log(this.missions);
+            console.log(id);
+        }
         return this.missions[id].toObjectJSON();
     }
 

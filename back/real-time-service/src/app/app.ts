@@ -107,17 +107,17 @@ const host = process.env.HOST_IP;
 const kafka = new Kafka({
   logLevel: logLevel.INFO,
   brokers: [`${host}:9092`],
-  clientId: 'example-consumer',
+  clientId: 'real-time',
 })
 
 const topicRocket = 'rocket-topic'
 const topicBooster = 'booster-topic'
-const consumer = kafka.consumer({ groupId: 'test-group' })
+const consumer = kafka.consumer({ groupId: 'group-realtime' })
 
 const run = async () => {
   await consumer.connect()
-  await consumer.subscribe({ topic : topicRocket, fromBeginning: true })
-  await consumer.subscribe({ topic : topicBooster, fromBeginning: true })
+  await consumer.subscribe({ topic : topicRocket })
+  await consumer.subscribe({ topic : topicBooster})
   await consumer.run({
      eachBatch: async ({ batch } : any) => {
        console.log(batch)
@@ -134,10 +134,14 @@ const run = async () => {
       console.log("rocket status : "+json.rocketStatus);
 
       }
-      else {
-        mission.updateStatusBoosterInRealTime(json.boosterStatus,json.missionId);
-      console.log("booster status : "+json.boosterStatus);
+      else if (topic =='booster-topic'){
 
+
+        mission.updateStatusBoosterInRealTime(json.boosterStatus,json.missionId);
+
+      }
+      else{
+        console.log('topic :'+topic+' ignored');
       }
 
 
