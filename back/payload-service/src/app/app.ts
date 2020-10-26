@@ -1,3 +1,4 @@
+require('dotenv').config()
 import express = require('express')
 import createError = require('http-errors');
 import indexRouter from "./routes";
@@ -10,13 +11,9 @@ const soap = require('soap');
 require ("logs-module");
 
 
-
-
-require('dotenv').config()
 const app: express.Application = express();
 if(process.env.PORT == undefined) throw Error("port is missing on .env file");
 const port = normalizePort(process.env.PORT)
-const portHttp = normalizePort(process.env.PORT_HTTP) ?? 3009;
 if(process.env.PORT_HTTP == undefined) throw Error("port http is missing on .env file");
 const portHttp = normalizePort(process.env.PORT_HTTP)
 app.use(cors())

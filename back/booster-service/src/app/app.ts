@@ -1,4 +1,5 @@
 import express = require('express')
+require('dotenv').config()
 import BoosterController from './controller/index';
 import path from 'path';
 import bodyParser from 'body-parser'
@@ -8,7 +9,6 @@ import indexRouter from "./routes";
 const cors = require('cors');
 var soap = require('soap');
 
-require('dotenv').config()
 const app: express.Application = express();
 if(process.env.PORT == undefined) throw Error("port is missing on .env file");
 const port = normalizePort(process.env.PORT)

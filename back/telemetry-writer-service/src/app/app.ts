@@ -1,9 +1,9 @@
+require('dotenv').config()
 import express = require('express')
 import createError = require('http-errors');
 import BoosterData from './entities/Booster/BoosterData';
 import PayloadData from './entities/Payload/PayloadData';
 import RocketData from './entities/Rocket/RocketData';
-require('dotenv').config()
 import indexRouter from "./routes";
 import telemetryController from './services/telemetry-controller';
 var http = require('http');
