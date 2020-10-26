@@ -23,7 +23,7 @@ class AnomalyAnalyserService {
             if (rocket.missionId == rocketData.getMissionId()) rocketAlreadyExists = true;
         });
         if (!rocketAlreadyExists){
-            this.rocketAnomalies.push(new RocketAnomalies(rocketData.getMissionId()));
+            this.rocketAnomalies[rocketData.getMissionId()]= new RocketAnomalies(rocketData.getMissionId());
         }
         this.rocketAnomalies[rocketData.getMissionId()].analyseRocketData(rocketData);
     }
@@ -35,7 +35,7 @@ class AnomalyAnalyserService {
             if (rocket.missionId == boosterData.getMissionId()) rocketAlreadyExists = true;
         });
         if (!rocketAlreadyExists){
-            this.rocketAnomalies.push(new RocketAnomalies(boosterData.getMissionId()));
+            this.rocketAnomalies[boosterData.getMissionId()]= new RocketAnomalies(boosterData.getMissionId());
         }
         this.rocketAnomalies[boosterData.getMissionId()].analyseBoosterData(boosterData);
     }
