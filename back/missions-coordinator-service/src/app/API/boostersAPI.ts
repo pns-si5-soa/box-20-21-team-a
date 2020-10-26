@@ -5,8 +5,10 @@ import API from './API';
 class BoostersAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_BOOSTER ?? "localhost";
-        const port: String = process.env.PORT_BOOSTER ?? "3010";
+        if(process.env.HOST_BOOSTER == undefined) throw Error("host is missing on .env file");
+		const host: String = process.env.HOST_BOOSTER
+        if(process.env.PORT_BOOSTER == undefined) throw Error("port is missing on .env file");
+		const port: String = process.env.PORT_BOOSTER
         super(host, port)
     }
 

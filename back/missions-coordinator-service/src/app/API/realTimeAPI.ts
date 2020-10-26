@@ -5,7 +5,8 @@ class PayloadsAPI extends API {
 
     public constructor() {
         const host: String = process.env.HOST_REAL_TIME?? "localhost";
-        const port: String = process.env.PORT_REAL_TIME ?? "3006";
+        if(process.env.PORT_REAL_TIME == undefined) throw Error("port is missing on .env file");
+		const port: String = process.env.PORT_REAL_TIME
         super(host, port)
     }
 

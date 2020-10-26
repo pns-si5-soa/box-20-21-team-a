@@ -10,8 +10,10 @@ var soap = require('soap');
 
 require('dotenv').config()
 const app: express.Application = express();
-const port = normalizePort(process.env.PORT) ?? 3004;
-const portHttp = normalizePort(process.env.PORT_HTTP) ?? 3010;
+if(process.env.PORT == undefined) throw Error("port is missing on .env file");
+const port = normalizePort(process.env.PORT)
+if(process.env.PORT_HTTP == undefined) throw Error("port http is missing on .env file");
+const portHttp = normalizePort(process.env.PORT_HTTP)
 
 app.use(cors())
 app.use(express.json());
