@@ -4,7 +4,7 @@ import mission from "../../controller/MissionController";
 
 router.post('/', async (req, res) => {
     try {
-        res.send( mission.createPoll(parseInt(req.body.id)));
+        res.send( mission.createPoll());
     } catch (e: any) {
         res.status(500).json({
             message: e.message

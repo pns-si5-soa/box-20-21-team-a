@@ -6,7 +6,7 @@ class BoosterAPI {
     urlSOAP: string;
 
     constructor() {
-        const host: String = process.env.HOST_BOOSTER ?? "localhost";
+        if( process.env.HOST_BOOSTER ?? == undefined ) throw Error("host is missing on .env file") 
         const port: String = process.env.PORT_BOOSTER ?? "3004";
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }

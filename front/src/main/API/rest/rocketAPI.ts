@@ -4,7 +4,7 @@ import API from './API'
 class RocketAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_ROCKET ?? "localhost";
+        if( process.env.HOST_ROCKET ?? == undefined ) throw Error("host is missing on .env file") 
         const port: String = process.env.PORT_ROCKET ?? "3008";
         super(host, port);
     }

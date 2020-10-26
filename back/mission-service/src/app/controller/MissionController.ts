@@ -21,9 +21,10 @@ class MissionController {
         this.producerKafka = new Producer();
     }
 
-    async createPoll(id :number) {
+    async createPoll() {
+        console.log("====>")
         return await MISSIONS_COORDINATOR_API.createMission().then((res) =>{
-console.log(res.data.missionId);
+            console.log(res.data.missionId);
             this.missions[res.data.missionId] = new Mission();
             return this.missions[res.data.missionId].createPoll()
         }).catch((err)=>{

@@ -4,7 +4,7 @@ import API from './API'
 class BoosterAPI extends API {
 
     public constructor() {
-        const host: String = process.env.HOST_ROCKET ?? "localhost";
+        if( process.env.HOST_ROCKET ?? == undefined ) throw Error("host is missing on .env file") 
         const port: String = process.env.PORT_ROCKET ?? "3010";
         super(host, port);
     }
