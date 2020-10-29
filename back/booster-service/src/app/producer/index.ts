@@ -1,50 +1,33 @@
-const {Kafka, logLevel} = require('kafkajs');
+const { Kafka, logLevel, CompressionTypes } = require('kafkajs');
 const host = process.env.HOST_IP ?? '127.0.0.1';
 
-const kafka = new Kafka({
-    logLevel: logLevel.INFO,
-    brokers: [`${host}:9092`],
-    clientId: 'blue-app',
-});
+class Producer {
+	producer: any;
+	kafka: any;
+	uuid:string
 
-const consumer = kafka.consumer({groupId: 'test-group'});
+	constructor(uuid:string) {
+		this.uuid=uuid
+		this.kafka = new Kafka({
+			logLevel: logLevel.DEBUG,
+			brokers: [`${host}:9092`],
+			clientId: 'producer-booster-'+uuid,
+		});
+		this.producer = this.kafka.producer();
+	}
 
-const run = async (topic_name: string, callback: (response: string) => void) => {
-    await consumer.connect();
-    await consumer.subscribe({topic: topic_name, fromBeginning: true});
-    await consumer.run({
-        eachBatch: async ({batch}: any) => {
-            console.log(batch);
-        },
-        eachMessage: async ({topic, partition, message}: any) => {
-            const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`;
-
-            console.log(`- ${prefix} ${message.key}#${message.value}`);
-            var msg = message.value;
-            var json = JSON.parse(msg);
-            if (topic == topic_name) {
-                callback(json)
-            }
-        },
-    });
-};
-
-// run().catch((e) => console.error(`[example/consumer] ${e.message}`, e));
-
-const errorTypes = ['unhandledRejection', 'uncaughtException'];
-const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2'];
-
-errorTypes.forEach((type) => {
-    process.on(type, async (e) => {
-        try {
-            console.log(`process.on ${type}`);
-            console.error(e);
-            await consumer.disconnect();
-            process.exit(0);
-        } catch (_) {
-            process.exit(1);
-        }
-    });
-});
-
-export {run};
+	async sendMessage(message: Object, topic: string) {
+		await this.producer.connect();
+		return this.producer
+			.send({
+				topic,
+				compression: CompressionTypes.GZIP,
+				messages: [{ value: JSON.stringify(message) }],
+			})
+			.then(console.log('sent - - - - - - - - - - - - -: ' + JSON.stringify(message)+' on topic '+topic))
+			.catch((e: { message: any }) =>
+				console.error(`[example/producer] ${e.message}`, e)
+			);
+	}
+}
+export default Producer;
