@@ -9,23 +9,26 @@ import MissionsCoordinatorAPI from '../API/missionsCoordinatorAPI';
 
 const MISSIONS_COORDINATOR_API: MissionsCoordinatorAPI = new MissionsCoordinatorAPI();
 
+interface IMissions{
+    [id : string] : Mission
+}
 class MissionController {
 
     
-    missions : Mission[]
+    missions : IMissions
     producerKafka : Producer;
 
 
     constructor() {
-        this.missions= [];
+        this.missions= {};
         this.producerKafka = new Producer();
     }
 
     async createPoll() {
         console.log("====>")
         return await MISSIONS_COORDINATOR_API.createMission().then((res) =>{
-            console.log(res.data.missionId);
             this.missions[res.data.missionId] = new Mission();
+            console.log(this.missions[res.data.missionId]);
             return this.missions[res.data.missionId].createPoll()
         }).catch((err)=>{
             console.error(err);
@@ -33,27 +36,23 @@ class MissionController {
         
     }
 
-    getPoll(id :number): Poll {
+    getPoll(id :string): Poll {
         return this.missions[id].getPoll();
     }
 
-    async modifyPoll(serviceName: string, answer: boolean,id:number): Promise<Poll> {
-        console.log(id);
-        console.log(this.missions[id]);
-        console.log(this.missions[id+1]);
-        console.log(this.missions);
+    async modifyPoll(serviceName: string, answer: boolean,id:string): Promise<Poll> {
         return this.missions[id].modifyPoll(serviceName, answer);
     }
 
-    getRocket(id:number) : boolean {
+    getRocket(id:string) : boolean {
         return this.missions[id].getPoll().getRocketResponse();
     }
 
-    getWeather(id:number) : boolean {
+    getWeather(id:string) : boolean {
         return this.missions[id].getPoll().getWeatherResponse();
     }
 
-    getMissionStatusForBooster(id:number) : BoosterStatus {
+    getMissionStatusForBooster(id:string) : BoosterStatus {
         return this.missions[id].getBoosterMissionStatus();
     }
    
@@ -65,7 +64,7 @@ class MissionController {
         return booster;
     }
 
-    getMissionStatusForRocket(id:number) : RocketStatus {
+    getMissionStatusForRocket(id:string) : RocketStatus {
         return this.missions[id].getRocketMissionStatus();
     }
 

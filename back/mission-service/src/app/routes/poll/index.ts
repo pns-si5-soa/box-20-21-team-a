@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 //todo insert name and answer at the body
 router.put('/', (req, res) => {
     try {
-        const result = mission.modifyPoll(req.body.service_name, JSON.parse(req.body.answer),parseInt(req.body.id)).then(
+        const result = mission.modifyPoll(req.body.service_name, JSON.parse(req.body.answer),req.body.id).then(
             (value) =>{
                 res.send(value);
             }
@@ -29,7 +29,7 @@ router.put('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     try {
-        res.send(mission.getPoll(parseInt(req.params.id),));
+        res.send(mission.getPoll(req.params.id));
     } catch (e: any) {
         res.status(500).json({
             message: e.message

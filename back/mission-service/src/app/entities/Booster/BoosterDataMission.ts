@@ -3,12 +3,12 @@ import Entitie from '../Entitie'
 
 class BoosterDataMission extends Entitie {
 
-    missionId : number;
+    missionId : string;
     private boosterStatus : BoosterStatus;
 
 
 
-    constructor( missionId:number,boosterStatus=BoosterStatus.ON_THE_ROCKET) {
+    constructor( missionId:string,boosterStatus=BoosterStatus.ON_THE_ROCKET) {
         super()
         this.missionId = missionId;
         this.boosterStatus=boosterStatus;

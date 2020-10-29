@@ -3,17 +3,17 @@ import Entitie from "../Entitie";
 
 interface IRocketData{
     rocketData: {
-        missionId: number,
+        missionId: string,
         rocketStatus: RocketStatus,
     }
 }
 
 class RocketDataMission extends Entitie {
     private rocketStatus: RocketStatus;
-    missionId : number
+    missionId : string
 
 
-    constructor(rocketId:number,rocketStatus = RocketStatus.PREPARATION) {
+    constructor(rocketId:string,rocketStatus = RocketStatus.PREPARATION) {
         super();
         this.missionId = rocketId;
         this.rocketStatus = rocketStatus;
