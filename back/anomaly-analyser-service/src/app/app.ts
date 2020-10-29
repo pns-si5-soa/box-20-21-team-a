@@ -108,13 +108,13 @@ const host = process.env.HOST_IP;
 const kafka = new Kafka({
     logLevel: logLevel.INFO,
     brokers: [`${host}:9092`],
-    clientId: 'example-consumer',
+    clientId: 'consumer-anomalies',
 })
 
 const topicRocket = 'telemetry-rocket'
 const topicBooster = 'telemetry-booster'
 
-const consumer = kafka.consumer({ groupId: 'test-group' })
+const consumer = kafka.consumer({ groupId: 'test-anomalies' })
 
 const run = async () => {
     await consumer.connect()
@@ -131,13 +131,17 @@ const run = async () => {
             console.log(`- ${prefix} ${message.key}#${message.value}`)
             var msg = message.value;
             var json = JSON.parse(msg)
+            
             if(topic =='telemetry-rocket'){
-                AnomalyAnalyserService.analyseRocketData(json.rocketData);
-                console.log("rocket data : "+json.rocketData);
+               
+                AnomalyAnalyserService.analyseRocketData(json);
             }
             if(topic == 'telemetry-booster') {
-                AnomalyAnalyserService.analyseBoosterData(json.boosterData);
-                console.log("booster data : "+json.boosterData);
+              
+                AnomalyAnalyserService.analyseBoosterData(json);
+                
+
+                
             }
 
 

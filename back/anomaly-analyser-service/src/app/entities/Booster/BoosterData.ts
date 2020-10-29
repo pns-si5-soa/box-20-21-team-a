@@ -5,10 +5,10 @@ class BoosterData {
     private altitude: number;
     private speed: number;
     private fuelLevel: number;
-    private missionId: number;
+    private missionId: string;
 
 
-    constructor(altitude=-1, speed=-1,fuelLevel=-1, missionId: -1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
+    constructor(altitude=-1, speed=-1,fuelLevel=-1, missionId="", boosterStatus=BoosterStatus.ON_THE_ROCKET) {
         this.altitude=altitude;
         this.speed=speed;
         this.fuelLevel=fuelLevel;
@@ -66,6 +66,15 @@ class BoosterData {
             altitude: this.altitude,
             speed: this.speed,
         };
+    }
+
+    assign(other: any): BoosterData {
+        this.altitude = other.altitude
+        this.fuelLevel = other.fuelLevel
+        this.speed = other.speed
+        this.boosterStatus = other.boosterStatus
+        this.missionId = other.missionId
+        return this;
     }
 }
 //ops.insertedIds:
