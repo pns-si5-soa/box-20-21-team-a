@@ -12,7 +12,7 @@ class BoostersAPI extends API {
         super(host, port)
     }
 
-    public createBooster(newMissionIdentifier : number) :AxiosPromise{
+    public createBooster(newMissionIdentifier : string) :AxiosPromise{
         return this.axios({
             method: 'post',
             url: '/boosters',

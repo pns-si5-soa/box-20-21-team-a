@@ -11,7 +11,7 @@ class RealTimeAPI extends API {
         super(host, port)
     }
 
-    public createMission(newMissionIdentifier : number) :AxiosPromise{
+    public createMission(newMissionIdentifier : string) :AxiosPromise{
         return this.axios({
             method: 'post',
             url: '/mission',

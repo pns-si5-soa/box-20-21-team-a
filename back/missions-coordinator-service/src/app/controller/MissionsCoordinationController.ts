@@ -8,43 +8,46 @@ const HEAD_STAGES_API: HeadStagesAPI = new HeadStagesAPI();
 const PAYLOADS_API: PayloadAPI = new PayloadAPI();
 const BOOSTERS_API: BoostersAPI = new BoostersAPI();
 const REAL_TIME_API: RealTimeAPI = new RealTimeAPI();
+const { v4: uuidv4 } = require('uuid');
 
 
 interface IMission{
-    id : number
+    id : string
 }
 
 class MissionsCoordinationController {
 
-     missionsNumber : number;
-     missions : number[]; // create an empty array
+    
+     missions : IMission[]; // create an empty array
 
     
     constructor() {
-        this.missionsNumber = 1;
         this.missions = [];
     }
 
     createNewMission() : number{
-        HEAD_STAGES_API.createHeadStage(this.missionsNumber).then((res)=>{
+        var missionNumber = uuidv4(); 
+        HEAD_STAGES_API.createHeadStage(missionNumber).then((res)=>{
             console.log(res.data);
         }).catch((error)=>{console.error(error)});
-        PAYLOADS_API.createPayload(this.missionsNumber).then((res)=>{
+        PAYLOADS_API.createPayload(missionNumber).then((res)=>{
             console.log(res.data);
         }).catch((error)=>{console.error(error)});
-        BOOSTERS_API.createBooster(this.missionsNumber).catch((error)=>{console.error(error)});
-        REAL_TIME_API.createMission(this.missionsNumber).catch((error)=>{console.error(error)});
-        this.missions.push(this.missionsNumber);
-        this.missionsNumber ++;
-        return this.missionsNumber-1;
+        BOOSTERS_API.createBooster(missionNumber).catch((error)=>{console.error(error)});
+        REAL_TIME_API.createMission(missionNumber).catch((error)=>{console.error(error)});
+        this.missions.push(missionNumber);
+       
+        return missionNumber;
         
     }
 
-    missionExists(id:number) : boolean{
-        return this.missions.indexOf(id) >= 0;
+    missionExists(id:string) : boolean{
+        return this.missions.filter(element => element.id === id).length > 0;
+        
     }
     listMissions() : IMission[]{
-        return this.missions.map((mission)=>{return {id : mission}});
+        console.log(this.missions);
+        return this.missions;
     }
 
     

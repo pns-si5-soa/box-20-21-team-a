@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     res.send(missionsCoordinationController.listMissions());
 });
 router.get('/:id', (req, res) => {
-    res.send(missionsCoordinationController.missionExists(parseInt(req.params.id)));
+    res.send(missionsCoordinationController.missionExists(req.params.id));
 });
 router.post('/', (req, res) => {
     res.send({missionId : missionsCoordinationController.createNewMission()});
