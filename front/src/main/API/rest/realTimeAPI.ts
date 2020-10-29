@@ -12,7 +12,7 @@ class realTimeAPI extends API {
         super(host, port);
     }
 
-    public getStatus(id:number): AxiosPromise {
+    public getStatus(id:string): AxiosPromise {
         return this.axios(
             '/mission'+'/'+id
         );

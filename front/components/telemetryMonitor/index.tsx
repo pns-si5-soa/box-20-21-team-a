@@ -4,7 +4,7 @@ import RocketTelemetry from './rocketTelemetry'
 import PayloadTelemetry from './payloadTelemetry'
 
 interface IProps {
-    id: number;
+    id: string;
 }
 
 

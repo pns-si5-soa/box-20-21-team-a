@@ -10,7 +10,7 @@ const rocketAPI = new RocketAPI();
 const anomalyAPI = new AnomalyAPI();
 
 interface IProps {
-    id: number;
+    id: string;
 }
 
 

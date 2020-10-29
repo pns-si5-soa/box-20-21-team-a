@@ -15,7 +15,7 @@ class RocketAPI {
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
 
-    public destroyRocketSOAPBack<T>(id:number): Promise<any> {
+    public destroyRocketSOAPBack<T>(id:string): Promise<any> {
         var args = {
             'id' : id
         };
@@ -35,7 +35,7 @@ class RocketAPI {
         });
     }
 
-    public putRocketOnInternalPower<T>(id:number): Promise<any> {
+    public putRocketOnInternalPower<T>(id:string): Promise<any> {
         var args = {
             'id' : id
         };
@@ -55,7 +55,7 @@ class RocketAPI {
         });
     }
 
-    public initializeStartupProcess<T>(id:number): Promise<any> {
+    public initializeStartupProcess<T>(id:string): Promise<any> {
         var args = {
             'id' : id
         };

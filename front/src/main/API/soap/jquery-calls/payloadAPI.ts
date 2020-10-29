@@ -24,7 +24,7 @@ class PayloadAPI {
     //     });
     // }
 
-    public deliverPayloadSOAP(id:number): Promise<any> {
+    public deliverPayloadSOAP(id:string): Promise<any> {
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,

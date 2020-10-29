@@ -11,15 +11,15 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public getRocketData<T>(id:number): AxiosPromise {
+    public getRocketData<T>(id:string): AxiosPromise {
         return this.axios('/telemetry/rocket/'+id);
     }
 
-    public getBoosterData<T>(id:number): AxiosPromise {
+    public getBoosterData<T>(id:string): AxiosPromise {
         return this.axios('/telemetry/booster/'+id);
     }
 
-    public getPayloadData<T>(id:number): AxiosPromise {
+    public getPayloadData<T>(id:string): AxiosPromise {
         return this.axios('/telemetry/payload/'+id);
     }
 

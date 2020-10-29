@@ -32,7 +32,7 @@ class BoosterAPI {
 //         });
 //     });
 // }
-    public destroyBooster(id:number) : Promise<any>{
+    public destroyBooster(id:string) : Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,

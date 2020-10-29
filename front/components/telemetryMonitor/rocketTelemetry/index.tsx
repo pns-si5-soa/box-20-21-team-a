@@ -6,7 +6,7 @@ import {mapStatusToText} from "../../../src/main/model/Rocket/RocketStatus";
 const telemetryAPI = new TelemetryAPI();
 
 interface IProps {
-    id: number;
+    id: string;
 }
 const rocketTelemetry = (props: IProps) => {
 

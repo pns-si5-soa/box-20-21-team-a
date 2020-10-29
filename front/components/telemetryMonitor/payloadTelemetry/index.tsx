@@ -5,7 +5,7 @@ import {mapStatusToText} from '../../../src/main/model/Payload/PayloadStatus';
 const telemetryAPI = new TelemetryAPI();
 
 interface IProps {
-    id: number;
+    id: string;
 }
 const payloadTelemetry = (props: IProps) => {
 

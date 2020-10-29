@@ -16,7 +16,7 @@ class BoosterAPI {
 
 
 
-    public destroyBoosterSOAPBack<T>(id:number): Promise<any> {
+    public destroyBoosterSOAPBack<T>(id:string): Promise<any> {
         var args = {
             'id' : id
         };

@@ -15,7 +15,7 @@ class PayloadAPI {
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
 
-    public deliverPayloadSOAPBack<T>(id:number): Promise<any> {
+    public deliverPayloadSOAPBack<T>(id:string): Promise<any> {
         var args = {
             'id' : id
         };

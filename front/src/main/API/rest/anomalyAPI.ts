@@ -12,7 +12,7 @@ class AnomalyAPI extends API {
         super(host, port);
     }
 
-    public getAnomaly(missionId : number): AxiosPromise {
+    public getAnomaly(missionId : string): AxiosPromise {
         return this.axios(
             '/anomaly/'+missionId
         );

@@ -11,11 +11,11 @@ class RocketAPI extends API {
         super(host, port);
     }
 
-    public drainFuelTank<T>(id: number): AxiosPromise<any> {
+    public drainFuelTank<T>(id: string): AxiosPromise<any> {
         return this.axios('/headstages/drainfuel/'+id)
     }
 
-    public makeRocketFall<T>(id: number): AxiosPromise<any> {
+    public makeRocketFall<T>(id: string): AxiosPromise<any> {
         return this.axios('/headstages/makerocketfall/'+id)
     }
 }

@@ -12,7 +12,7 @@ const payloadAPI = new PayloadAPI();
 
 
 interface IProps {
-    id : number
+    id : string
 }
 
 const RocketMonitor = (props: IProps) => {

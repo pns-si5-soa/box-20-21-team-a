@@ -14,7 +14,7 @@ class RocketAPI {
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
     
-    public destroyRocket(id:number): Promise<any>{
+    public destroyRocket(id:string): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
@@ -39,7 +39,7 @@ class RocketAPI {
         });
     }
 
-    public putRocketOnInternalPower(id:number): Promise<any>{
+    public putRocketOnInternalPower(id:string): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
@@ -64,7 +64,7 @@ class RocketAPI {
         });
     }
 
-    public initializeStartupProcess(id:number): Promise<any>{
+    public initializeStartupProcess(id:string): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,

@@ -12,7 +12,7 @@ interface ImissionStatus {
   }
 
   interface IProps{
-    id:number;
+    id:string;
   }
 
 const rocketTelemetry = (props : IProps) => {
@@ -34,7 +34,7 @@ const rocketTelemetry = (props : IProps) => {
     const getMissionStatus = () => {
         telemetryAPI.getStatus(props.id)
             .then(res => {
-                console.log(res.data);
+                console.log("===================>"+res.data);
                 setMissionStatus(res.data);
             })
             .catch((err) => {

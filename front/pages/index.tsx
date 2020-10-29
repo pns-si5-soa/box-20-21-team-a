@@ -21,7 +21,7 @@ interface TabPanelProps {
 import MissionsCoordinatorAPI from '../src/main/API/rest/missionsCoordinatorAPI';
 
 interface IMission{
-	id :number;
+	id :string;
 }
 
 
@@ -58,7 +58,6 @@ export default function Home() {
 	const createPoll = function () {
 		missionAPI.createPoll().then((res) => {
 			missionsCoordinatorAPI.getMissions().then((res) =>{
-				console.log(res.data);
 				setMissions(res.data);
 			});
 			//setPoll(Object.assign(new Poll(), res.data));
@@ -69,11 +68,11 @@ export default function Home() {
 	
 
 	function MissionsButtons(){
-		
+		missions.map(mission => console.log(mission));
 		return (
 			<>
-			  {missions.map((mission) => (
-				<a className="link-button" href={'mission/'+mission.id}>{mission.id}</a>
+			  {missions.map((mission,index) => (
+				<a className="link-button" href={'mission/'+mission}>{index}</a>
 			  ))}
 			</>
 		  );

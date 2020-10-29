@@ -6,7 +6,7 @@ import {mapStatusToText} from "../../../src/main/model/Booster/BoosterStatus";
 const telemetryAPI = new TelemetryAPI();
 
 interface IProps {
-    id: number;
+    id: string;
 }
 const boosterTelemetry = (props: IProps) => {
 
