@@ -32,7 +32,7 @@ main();
 async function main() {
 
     let stop = false;
-    let missionsId : number[];
+    let missionsId : string[];
 
 
     console.log("Richard creates the poll to start the mission");
