@@ -3,9 +3,8 @@ import Booster from "../app/entities/Booster";
 import BoosterStatus from "../app/entities/BoosterStatus";
 
 test.skip('Launching booster', async () => {
-    const boosterService = new Booster(new BoosterData(0));
+    const boosterService = new Booster(new BoosterData("123"));
     boosterService.setTimer(1)
-    boosterService.stopSendingData()
     let json = boosterService.booster.toObjectJSON()
     expect(json.boosterStatus).toBe(BoosterStatus.ON_THE_ROCKET)
     await boosterService.launch();
@@ -15,9 +14,8 @@ test.skip('Launching booster', async () => {
 
 
 test('Destroy booster', () => {
-    const boosterService = new Booster(new BoosterData(0));
+    const boosterService = new Booster(new BoosterData("123"));
     boosterService.setTimer(10);
-    boosterService.stopSendingData();
     const json = boosterService.booster.toObjectJSON();
     expect(json.boosterStatus).toBe(BoosterStatus.ON_THE_ROCKET);
     boosterService.launch();
