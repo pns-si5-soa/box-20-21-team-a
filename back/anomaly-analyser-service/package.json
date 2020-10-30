@@ -8,7 +8,7 @@
     "start": "tsc && node ./build/app/app.js",
     "ci": "tsc && CI=true node ./build/app/app.js",
     "dev": "ts-node-dev ./src/app/app.ts",
-    "test": "tsc && jest ./build/tests"
+    "test": "tsc && jest ./build/tests --passWithNoTests"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jest": "^26.6.1",
     "kafkajs": "^1.14.0",
     "logs-module": "file:../../logs-module",
     "ts-node-dev": "^1.0.0",

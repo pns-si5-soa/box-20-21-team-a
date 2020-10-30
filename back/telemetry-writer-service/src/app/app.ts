@@ -1,7 +1,7 @@
 require('dotenv').config()
 import express = require('express')
 import createError = require('http-errors');
-import Consumer from './consumer/Consumer';
+import Consumer from './consumer/consumer';
 import BoosterData from './entities/Booster/BoosterData';
 import PayloadData from './entities/Payload/PayloadData';
 import RocketData from './entities/Rocket/RocketData';
