@@ -1,5 +1,5 @@
 {
-  "name": "weather",
+  "name": "missions-coordinator",
   "version": "1.0.0",
   "description": "Missions-coordinator µservice",
   "main": "index.js",

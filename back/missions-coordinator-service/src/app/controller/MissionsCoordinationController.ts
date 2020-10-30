@@ -34,7 +34,10 @@ class MissionsCoordinationController {
             console.log(res.data);
         }).catch((error)=>{console.error(error)});
         BOOSTERS_API.createBooster(missionNumber).catch((error)=>{console.error(error)});
-        REAL_TIME_API.createMission(missionNumber).catch((error)=>{console.error(error)});
+        REAL_TIME_API.createMission(missionNumber).then(res => {
+            console.log("realtime")
+            console.log(res.data)
+        }).catch((error)=>{console.error(error)});
         this.missions.push(missionNumber);
        
         return missionNumber;

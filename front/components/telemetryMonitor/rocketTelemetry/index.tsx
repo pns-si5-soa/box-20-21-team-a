@@ -10,7 +10,7 @@ interface IProps {
 }
 const rocketTelemetry = (props: IProps) => {
 
-    const [rocketData, setRocketData] = useState(new RocketData());
+    const [rocketData, setRocketData] = useState<RocketData | null>(null);
 
     useEffect(() => {
         setInterval(() => {
@@ -22,13 +22,15 @@ const rocketTelemetry = (props: IProps) => {
         telemetryAPI.getRocketData(props.id)
             .then(res => {
                 console.log(res.data);
-                setRocketData(res.data);
+                if(res.data != null && res.data != undefined && res.data != "")
+                    setRocketData(res.data);
             })
             .catch((err) => {
                 console.error(err);
             });
     }
 
+    if(rocketData !== null)
     return (
         <div className="card" style={{width: "18rem"}}>
             <div className="card-body">
@@ -41,6 +43,8 @@ const rocketTelemetry = (props: IProps) => {
             </div>
         </div>
     )
+
+    else return <p></p>
 }
 
 export default rocketTelemetry;

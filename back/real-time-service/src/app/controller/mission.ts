@@ -6,9 +6,6 @@ interface IMissions{
 class Mission {
     missions : IMissions;
     
-
-    
-
     constructor() {
         this.missions = {}
 

@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
     TelemetryService.getPayloadData().then(payloadData => {
         res.json(payloadData)
     }).catch(err => {
-        res.status(500).send(err)
+        res.send(null)
     })
 })
 
@@ -14,7 +14,7 @@ router.get('/:id', (req, res) => {
     TelemetryService.getPayloadData({missionId: req.params.id}).then(payloadData => {
         res.json(payloadData)
     }).catch(err => {
-        res.status(500).send(err)
+        res.send(null)
     })
 })
 

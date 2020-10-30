@@ -10,7 +10,7 @@ interface IProps {
 }
 const boosterTelemetry = (props: IProps) => {
 
-    const [boosterData, setBoosterData] = useState(new BoosterData());
+    const [boosterData, setBoosterData] = useState<BoosterData | null>(null);
 
     useEffect(() => {
         setInterval(() => {
@@ -22,24 +22,29 @@ const boosterTelemetry = (props: IProps) => {
         telemetryAPI.getBoosterData(props.id)
             .then(res => {
                 console.log(res.data);
-                setBoosterData(res.data);
+                if(res.data != null && res.data != undefined && res.data != "")
+                    setBoosterData(res.data);
             })
             .catch((err) => {
                 console.error(err)
             });
     }
 
-    return (
-        <div className="card" style={{width: "18rem"}}>
-            <div className="card-body">
-                <h5 className="card-title">Booster</h5>
-                <p className="card-text">{`Booster Status: ${mapStatusToText[boosterData.boosterStatus]}`}</p>
-                <p className="card-text">{`Altitude: ${boosterData.altitude}`}km</p>
-                <p className="card-text">{`Fuel Level: ${boosterData.fuelLevel}`}L</p>
-                <p className="card-text">{`Speed: ${boosterData.speed}`}km.s-1</p>
+    if(boosterData !== null) {
+        return (
+            <div className="card" style={{width: "18rem"}}>
+                <div className="card-body">
+                    <h5 className="card-title">Booster</h5>
+                    <p className="card-text">{`Booster Status: ${mapStatusToText[boosterData.boosterStatus]}`}</p>
+                    <p className="card-text">{`Altitude: ${boosterData.altitude}`}km</p>
+                    <p className="card-text">{`Fuel Level: ${boosterData.fuelLevel}`}L</p>
+                    <p className="card-text">{`Speed: ${boosterData.speed}`}km.s-1</p>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+
+    else return <p></p>
 }
 
 export default boosterTelemetry;
