@@ -2,17 +2,20 @@ import Rocket from "../entities/Rocket";
 import RocketStatus from "../entities/RocketStatus";
 import RocketData from "../entities/RocketData";
 
+interface IRockets{
+    [id : string] : Rocket
+}
 class RocketController {
 
-    rockets : Rocket[];
+    rockets : IRockets;
 
     constructor() {
-        this.rockets = [];
+        this.rockets = {};
     }
 
 
 
-    addNewRocket(rocketId :number) : number{
+    addNewRocket(rocketId :string) : string{
         console.log(rocketId);
         let rocket = new Rocket(
             new RocketData(rocketId,
@@ -23,7 +26,7 @@ class RocketController {
     }
 
     // For tests only
-    getStatus(id : number): RocketStatus {
+    getStatus(id : string): RocketStatus {
         return this.rockets[id].getRocketStatus();
     
     }
@@ -31,7 +34,7 @@ class RocketController {
     /**
      * Puts the rocket on internal power (first action)
      */
-    putRocketOnInternalPower(id : number) {
+    putRocketOnInternalPower(id : string) {
         
         if(this.rockets[id] != null)
             this.rockets[id].putRocketOnInternalPower();
@@ -43,7 +46,7 @@ class RocketController {
      * - STARTUP
      * - MAIN_ENGINE_STARTED
      */
-    async initializeStartupProcess(id:number) {
+    async initializeStartupProcess(id:string) {
         await this.rockets[id].initializeStartupProcess();
     }
 
@@ -53,7 +56,7 @@ class RocketController {
      * - LAUNCHED
      * - MAX_Q_REACHED
      */
-    async notifyOfBoosterLaunch(id:number): Promise<void> {
+    async notifyOfBoosterLaunch(id:string): Promise<void> {
         await this.rockets[id].notifyOfBoosterLaunch();
     }
 
@@ -66,22 +69,22 @@ class RocketController {
      * - FAIRING_SEPARATION
      * - SECOND_ENGINE_CUT_OFF
      */
-    async initializeSecondEngineForSecondStage(id : number): Promise<void> {
+    async initializeSecondEngineForSecondStage(id : string): Promise<void> {
         await this.rockets[id].initializeSecondEngineForSecondStage();
     }
 
     /**
      * Destroys rocket.
      */
-    destroy(id:number): void {
+    destroy(id:string): void {
         this.rockets[id].destroy();
     }
 
-    drainRocket(id : number) {
+    drainRocket(id : string) {
         this.rockets[id].drainRocket();
     }
 
-    makeRocketFall(id: number) {
+    makeRocketFall(id: string) {
         this.rockets[id].makeRocketFall();
     }
 }

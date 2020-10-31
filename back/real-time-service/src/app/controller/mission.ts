@@ -1,34 +1,34 @@
 import MissionStatus from "../entities/missionStatus";
 
+interface IMissions{
+    [id : string] : MissionStatus
+}
 class Mission {
-    missions : MissionStatus[];
+    missions : IMissions;
     
-
-    
-
     constructor() {
-        this.missions = []
+        this.missions = {}
 
     }
 
-    addNewMission(missionId :number) : number{
+    addNewMission(missionId :string) : string{
         let missionStatus = new MissionStatus();
            this.missions[missionId] = missionStatus;
         return missionId; 
     }
 
-    getStatus(id : number) {
+    getStatus(id : string) {
         if(this.missions[id] == undefined){
             console.log(this.missions);
             console.log(id);
         }
-        return this.missions[id].toObjectJSON();
+        return this.missions[id] == undefined? null :this.missions[id].toObjectJSON();
     }
 
-    updateStatusBoosterInRealTime(status: any,id:number) {
+    updateStatusBoosterInRealTime(status: any,id:string) {
         this.missions[id].boosterStatus = status;
     }
-    updateStatusRocketInRealTime(status: any,id:number) {
+    updateStatusRocketInRealTime(status: any,id:string) {
         this.missions[id].rocketStatus = status;
     }
 }

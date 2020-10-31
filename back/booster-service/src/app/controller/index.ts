@@ -3,16 +3,20 @@ import BoosterStatus from "../entities/BoosterStatus";
 import BoosterData from "../entities/BoosterData";
 import MissionAPI from "../API/MissionAPI";
 
+
+interface IBoosters{
+    [id : string] : Booster
+}
 class BoosterController {
 
     MissionAPI = new MissionAPI();
-    boosters : Booster[];
+    boosters : IBoosters;
 
     constructor() {
-        this.boosters  = []
+        this.boosters  = {}
     }
 
-    addNewBooster(boosterId :number) : number{
+    addNewBooster(boosterId :string) : string{
         let booster = new Booster(
             new BoosterData(boosterId,
                 BoosterStatus.ON_THE_ROCKET, 30, 0, 0, 0));
@@ -21,19 +25,19 @@ class BoosterController {
     }
 
     // For tests only
-    getStatus(id:number): BoosterStatus {
+    getStatus(id:string): BoosterStatus {
         return this.boosters[id].getBoosterData().boosterStatus;
     }
 
-    async launch(id:number): Promise<void> {
+    async launch(id:string): Promise<void> {
         await this.boosters[id].launch();
     }
 
-    async destroy(id:number) {
+    async destroy(id:string) {
         this.boosters[id].destroy();
     }
 
-    drainBooster(id:number) {
+    drainBooster(id:string) {
         this.boosters[id].drainBooster();
         console.log("drain booster : "+id);
     }

@@ -6,15 +6,16 @@ export default class Consumer {
 
 	consumer: any;
 	kafka: any;
+	uuid:string;
 
-	constructor(){
+	constructor(uuid : string){
 		this.kafka = new Kafka({
 			logLevel: logLevel.DEBUG,
 			brokers: [`${host}:9092`],
 			clientId: 'consumer-booster',
 		});
-		this.consumer = this.kafka.consumer({ groupId: 'consumers-booster' });
-		
+		this.consumer = this.kafka.consumer({ groupId: 'consumers-booster-'+uuid });
+		this.uuid = uuid;
 
 	}
 	

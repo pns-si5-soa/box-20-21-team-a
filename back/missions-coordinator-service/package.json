@@ -1,5 +1,5 @@
 {
-  "name": "weather",
+  "name": "missions-coordinator",
   "version": "1.0.0",
   "description": "Missions-coordinator µservice",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "start": "tsc && node ./build/app/app.js",
     "ci": "tsc && CI=true node ./build/app/app.js",
     "dev": "ts-node-dev ./src/app/app.ts",
-    "test": "tsc && jest ./build/tests"
+    "test": "tsc && jest ./build/tests --passWithNoTests"
   },
   "author": "SOA-20-21-A",
   "license": "ISC",
@@ -21,7 +21,8 @@
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
     "logs-module": "file:../../logs-module",
-    "ts-node-dev": "^1.0.0-pre.62"
+    "ts-node-dev": "^1.0.0-pre.62",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.14",

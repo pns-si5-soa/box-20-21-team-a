@@ -12,7 +12,7 @@ class TelemetryAPI extends API {
         super(host, port)
     }
 
-    public sendData<T>(rocketStatus: RocketStatus,missionId : number): AxiosPromise {
+    public sendData<T>(rocketStatus: RocketStatus,missionId : string): AxiosPromise {
         return this.axios({
             method: 'put',
             url: '/rocket',

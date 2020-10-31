@@ -14,7 +14,7 @@ class MissionAPI extends API {
         super(host, port)
     }
 
-    public sendBoosterData<T>(boosterStatus: BoosterStatus,missionId:number): AxiosPromise {
+    public sendBoosterData<T>(boosterStatus: BoosterStatus,missionId:string): AxiosPromise {
         return this.axios({method: 'put',
             url: '/booster',
             data: {boosterStatus: boosterStatus,missionId:missionId}});

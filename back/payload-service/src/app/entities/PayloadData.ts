@@ -2,12 +2,12 @@ import PayloadStatus from "./PayloadStatus";
 
 export default class PayloadData{
 
-    payloadId: number;
+    payloadId: string;
     payloadStatus: PayloadStatus;
     speed: number;
     altitude: number;
 
-    constructor(payloadId : number){
+    constructor(payloadId : string){
         this.payloadId = payloadId;
         this.speed = 0;
         this.altitude = 0;

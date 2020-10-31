@@ -1,4 +1,5 @@
 require('dotenv').config()
+import "logs-module"
 import express = require('express')
 import createError = require('http-errors');
 import indexRouter from "./routes";

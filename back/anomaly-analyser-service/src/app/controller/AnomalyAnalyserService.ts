@@ -3,25 +3,28 @@ import {Anomaly} from "../entities/Anomaly";
 import RocketData from "../entities/Rocket/RocketData";
 import BoosterData from "../entities/Booster/BoosterData";
 
-
-
+interface IAnomalies{
+    [id : string] : RocketAnomalies
+}
 class AnomalyAnalyserService {
 
-    rocketAnomalies : RocketAnomalies[];
+    rocketAnomalies : IAnomalies;
 
     constructor() {
-        this.rocketAnomalies = [];
+        this.rocketAnomalies = {};
     }
 
-    getAnomalies(rocketId : number) : Anomaly[] {
+    getAnomalies(rocketId : string) : Anomaly[] {;
         return this.rocketAnomalies[rocketId].getAnomalies();
     }
 
-    analyseRocketData(rocketData: RocketData) {
+    analyseRocketData(rocketDataJSON: RocketData) {
         let rocketAlreadyExists = false;
-        this.rocketAnomalies.forEach(rocket => {
-            if (rocket.missionId == rocketData.getMissionId()) rocketAlreadyExists = true;
-        });
+        
+        const rocketData = new RocketData().assign(rocketDataJSON);
+        if(this.rocketAnomalies[rocketData.getMissionId()] != undefined){
+            rocketAlreadyExists = true;
+        }
         if (!rocketAlreadyExists){
             this.rocketAnomalies[rocketData.getMissionId()]= new RocketAnomalies(rocketData.getMissionId());
         }
@@ -29,11 +32,13 @@ class AnomalyAnalyserService {
     }
 
 
-    analyseBoosterData(boosterData: BoosterData) {
+    analyseBoosterData(boosterDataJSON: BoosterData) {
         let rocketAlreadyExists = false;
-        this.rocketAnomalies.forEach(rocket => {
-            if (rocket.missionId == boosterData.getMissionId()) rocketAlreadyExists = true;
-        });
+        const boosterData = new BoosterData().assign(boosterDataJSON);
+       
+        if(this.rocketAnomalies[boosterData.getMissionId()] != undefined){
+            rocketAlreadyExists = true;
+        }
         if (!rocketAlreadyExists){
             this.rocketAnomalies[boosterData.getMissionId()]= new RocketAnomalies(boosterData.getMissionId());
         }

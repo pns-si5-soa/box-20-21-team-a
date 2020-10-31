@@ -6,7 +6,7 @@ class TelemetryController {
 
     addRocketData(rocketData: RocketData): RocketData {
         const rocket = Object.assign(new RocketData(), rocketData);
-        console.log(rocket)
+       
         rocket.save()
         return rocketData;
     }
@@ -18,6 +18,7 @@ class TelemetryController {
 
     addBoosterData(boosterData: BoosterData): BoosterData {
         //TODO mettre dans la route
+        
         const booster = Object.assign(new BoosterData(), boosterData);
         console.log(boosterData)
         booster.save()

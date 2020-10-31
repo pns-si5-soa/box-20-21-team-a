@@ -6,9 +6,9 @@ class PayloadData extends Entitie {
     private payloadStatus: PayloadStatus;
     private speed: number;
     private altitude: number;
-    private missionId: number;
+    private missionId: string;
 
-    constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1, missionId = -1) {
+    constructor(payloadStatus = PayloadStatus.ATTACHED, altitude = -1, speed = -1, missionId = "") {
         super();
         this.payloadStatus = payloadStatus;
         this.speed = speed;

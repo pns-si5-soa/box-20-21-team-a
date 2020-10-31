@@ -11,7 +11,7 @@ class PayloadsAPI extends API {
         super(host, port)
     }
 
-    public createPayload(newMissionIdentifier : number) :AxiosPromise{
+    public createPayload(newMissionIdentifier : string) :AxiosPromise{
         return this.axios({
             method: 'post',
             url: '/payloads',

@@ -7,18 +7,17 @@ router.get('/', (req, res) => {
     TelemetryService.getBoosterData().then(data => {
         res.send(data);
     }).catch(err => {
-        console.error(err)
-        res.status(500).send(err)
+        res.send(null)
     })
 });
 
 router.get('/:id', (req, res) => {
     console.log({missionId: req.params.id})
-    TelemetryService.getBoosterData({missionId: parseInt(req.params.id)}).then(data => {
+
+    TelemetryService.getBoosterData({missionId: req.params.id}).then(data => {
         res.send(data);
     }).catch(err => {
-        console.error(err)
-        res.status(500).send(err)
+        res.send(null);
     })
 });
 

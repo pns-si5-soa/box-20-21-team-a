@@ -6,16 +6,16 @@ export default class Consumer {
 
 	consumer: any;
 	kafka: any;
+	uuid:string;
 
-	constructor(){
+	constructor(uuid:string){
+		this.uuid = uuid;
 		this.kafka = new Kafka({
 			logLevel: logLevel.DEBUG,
 			brokers: [`${host}:9092`],
-			clientId: 'consumer-head-stages',
+			clientId: 'consumer-head-stages-'+uuid,
 		});
-		this.consumer = this.kafka.consumer({ groupId: 'consumers-rocket' });
-		
-
+		this.consumer = this.kafka.consumer({ groupId: 'consumer-rocket-'+uuid });
 	}
 	
 	run = async (topic_name : string, callback: (response: string) => void) =>   {

@@ -4,14 +4,14 @@ import API from './API'
 class BoosterAPI extends API {
 
     public constructor() {
-        if(process.env.HOST_ROCKET == undefined) throw Error("host is missing on .env file");
-		const host: String = process.env.HOST_ROCKET
-        if(process.env.PORT_ROCKET == undefined) throw Error("port is missing on .env file");
-		const port: String = process.env.PORT_ROCKET
+        if(process.env.REACT_APP_HOST_BOOSTER == undefined) throw Error("host booster is missing on .env file");
+		const host: String = process.env.REACT_APP_HOST_BOOSTER
+        if(process.env.REACT_APP_PORT_BOOSTER == undefined) throw Error("port booster is missing on .env file");
+		const port: String = process.env.REACT_APP_PORT_BOOSTER
         super(host, port);
     }
 
-    public drainFuelTank<T>(id: number): AxiosPromise<any> {
+    public drainFuelTank<T>(id: string): AxiosPromise<any> {
         return this.axios('/boosters/drainfuel/'+id)
     }
 

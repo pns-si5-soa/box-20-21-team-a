@@ -5,12 +5,9 @@ import BoosterStatus from "./BoosterStatus"
 import BoosterData from "./BoosterData";
 import MissionAPI from "../API/MissionAPI";
 import Consumer from '../consumer';
-import Producer from '../../consumer';
-const producer = new Producer();
+import Producer from '../producer/index';
 
-interface Iaction{
-    action : String;
-}
+
 export default class Booster {
 
     booster : BoosterData;
@@ -20,12 +17,14 @@ export default class Booster {
     public dataUpdateDelay = 1000;
     private missionAPI = new MissionAPI();
     private boosterDrained = false;
-    private rocketBus : Consumer;
+    private rocketBusConsumer : Consumer;
+    private rocketBusProducer : Producer;
 
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
-        this.rocketBus = new Consumer();
-        this.rocketBus.run('rocket-'+this.booster.missionId+'-booster',(value: Object) => {
+        this.rocketBusProducer = new Producer(boosterData.missionId);
+        this.rocketBusConsumer = new Consumer(boosterData.missionId);
+        this.rocketBusConsumer.run('rocket-'+this.booster.missionId+'-booster',(value: Object) => {
             console.log(" callback");
 
             this.triggerActionWhenReceiveBusSignal(value);
@@ -43,7 +42,7 @@ export default class Booster {
       
         if (process.env.NODE_ENV != 'test') {
             this.telemetryAPI.sendBoosterData(this.booster);
-            console.log("sent to mission : status "+this.booster.boosterStatus+" id : "+this.booster.missionId)
+            console.log(" ===========> sent to mission : status "+this.booster.boosterStatus+" id : "+this.booster.missionId)
             this.missionAPI.sendBoosterData(this.booster.boosterStatus,this.booster.missionId);
         }
     }
@@ -72,7 +71,7 @@ export default class Booster {
         this.booster.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         if (process.env.NODE_ENV != 'test') {
             //await this.rocketAPI.initializeSecondEngineForSecondStage();
-            producer.sendMessage({action : 'notifyDetachment'},'rocket-'+this.booster.missionId+'-head-stages')
+            this.rocketBusProducer.sendMessage({action : 'notifyDetachment'},'rocket-'+this.booster.missionId+'-head-stages')
             this.sendData();
 
         }
@@ -98,7 +97,6 @@ export default class Booster {
         await setIntervalConditionPromise(() => {
                 if (that.booster.altitude<nextBearing){
                     this.booster.boosterStatus++;
-                    console.log("----> "+this.booster.boosterStatus);
                     nextBearing=this.booster.altitude-altitudeBearings;
                 }
                 that.sendData();
@@ -141,7 +139,7 @@ export default class Booster {
         console.log("Booster launched");
         this.sendData();
         if (process.env.NODE_ENV != 'test') {
-            producer.sendMessage({action : 'notifyLaunch'},'rocket-'+this.booster.missionId+'-head-stages')
+            this.rocketBusProducer.sendMessage({action : 'notifyLaunch'},'rocket-'+this.booster.missionId+'-head-stages')
            // await this.rocketAPI.notifyLaunch();
         }
 
@@ -168,6 +166,5 @@ export default class Booster {
     drainBooster() {
         this.booster.fuelLevel=0;
         this.boosterDrained=true;
-        console.log(this.boosterDrained)
     }
 }

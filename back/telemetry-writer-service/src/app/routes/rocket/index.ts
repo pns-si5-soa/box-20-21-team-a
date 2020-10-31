@@ -6,19 +6,15 @@ router.get('/', (req, res) => {
         TelemetryService.getRocketData().then(data => {
             res.send(data);
         }).catch( (error) => {
-            res.status(500).json({
-                message: error.message
-            });
+            res.send(null)
         });
 });
 
 router.get('/:id', (req, res) => {
-    TelemetryService.getRocketData({missionId: parseInt(req.params.id)}).then(data => {
+    TelemetryService.getRocketData({missionId: req.params.id}).then(data => {
         res.send(data);
     }).catch( (error) => {
-        res.status(500).json({
-            message: error.message
-        });
+        res.send(null)
     });
 });
 

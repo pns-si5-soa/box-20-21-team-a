@@ -4,12 +4,14 @@ const host = process.env.HOST_IP ?? '127.0.0.1';
 class Producer {
 	producer: any;
 	kafka: any;
+	uuid:string
 
-	constructor() {
+	constructor(uuid:string) {
+		this.uuid=uuid
 		this.kafka = new Kafka({
 			logLevel: logLevel.DEBUG,
 			brokers: [`${host}:9092`],
-			clientId: 'example-producer',
+			clientId: 'producer-rocket-'+uuid,
 		});
 		this.producer = this.kafka.producer();
 	}
@@ -22,7 +24,7 @@ class Producer {
 				compression: CompressionTypes.GZIP,
 				messages: [{ value: JSON.stringify(message) }],
 			})
-			.then(console.log('sent - - - - - - - - - - - - -: ' + JSON.stringify(message)))
+			.then(console.log('sent - - - - - - - - - - - - -: ' + JSON.stringify(message)+' on topic '+topic))
 			.catch((e: { message: any }) =>
 				console.error(`[example/producer] ${e.message}`, e)
 			);

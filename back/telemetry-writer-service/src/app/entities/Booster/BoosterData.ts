@@ -6,10 +6,10 @@ class BoosterData extends Entitie {
     private altitude: number;
     private speed: number;
     private fuelLevel: number;
-    private missionId: number;
+    private missionId: string;
 
 
-    constructor(altitude=-1, speed=-1,fuelLevel=-1, missionId= -1, boosterStatus=BoosterStatus.ON_THE_ROCKET) {
+    constructor(altitude=-1, speed=-1,fuelLevel=-1, missionId= "", boosterStatus=BoosterStatus.ON_THE_ROCKET) {
         super()
         this.altitude=altitude;
         this.speed=speed;

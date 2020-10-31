@@ -7,14 +7,14 @@ class RocketAPI {
     urlSOAP: string;
 
     constructor() {
-        if(process.env.HOST_ROCKET == undefined) throw Error("host is missing on .env file");
-		const host: String = process.env.HOST_ROCKET
-        if(process.env.PORT_ROCKET == undefined) throw Error("port is missing on .env file");
-		const port: String = process.env.PORT_ROCKET
+        if(process.env.REACT_APP_HOST_ROCKET == undefined) throw Error("host soap rocket is missing on .env file");
+		const host: String = process.env.REACT_APP_HOST_ROCKET
+        if(process.env.REACT_APP_PORT_ROCKET == undefined) throw Error("port soap rocket is missing on .env file");
+		const port: String = process.env.REACT_APP_PORT_ROCKET
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
     
-    public destroyRocket(id:number): Promise<any>{
+    public destroyRocket(id:string): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
@@ -39,7 +39,7 @@ class RocketAPI {
         });
     }
 
-    public putRocketOnInternalPower(id:number): Promise<any>{
+    public putRocketOnInternalPower(id:string): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,
@@ -64,7 +64,7 @@ class RocketAPI {
         });
     }
 
-    public initializeStartupProcess(id:number): Promise<any>{
+    public initializeStartupProcess(id:string): Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({
                 url: this.urlSOAP,

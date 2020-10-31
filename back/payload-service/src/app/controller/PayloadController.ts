@@ -4,25 +4,28 @@ import MissionAPI from "../API/missionAPI";
 import MissionPayloadStatus from "../entities/MissionPayloadStatus";
 
 
+interface IPayloads{
+    [id : string] : Payload
+}
 class PayloadController {
 
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
     private missionAPI: MissionAPI = new MissionAPI();
 
-    payloads : Payload[];
+    payloads : IPayloads;
 
 
     constructor() {
-        this.payloads = [];
+        this.payloads = {};
     }
 
-    addNewPayload(payloadId :number) : number{
+    addNewPayload(payloadId :string) : string{
         let payload = new Payload(payloadId); 
            this.payloads[payloadId] = payload;
         return payloadId; 
     }
 
-    async detachThePayload(id : number) {
+    async detachThePayload(id : string) {
         this.payloads[id].detach();
         if (process.env.NODE_ENV != "test") {
             this.telemetryAPI.sendPayloadData(this.payloads[id].payloadData);

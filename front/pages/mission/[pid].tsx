@@ -21,11 +21,7 @@ const Post = () => {
     if (Array.isArray(pids) || pids == undefined) {
         return <p>Impossible to find a mission with id : {pids}</p>;
     }
-
-    if (!Number.isInteger(parseInt(pids))) {
-        return <p>Impossible to find a mission with id : {pids}</p>;
-    }
-    const pid = parseInt(pids);
+    const pid = pids;
 
     const [currentWeather, setWeather] = React.useState('');
     const [poll, setPoll] = React.useState<Poll | undefined>(undefined);

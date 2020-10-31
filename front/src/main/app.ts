@@ -1,3 +1,5 @@
+require('dotenv').config()
+require("logs-module");
 import RocketData from "./model/Rocket/RocketData";
 import RocketAPI from './API/soap/node-calls/rocketAPI';
 import weatherAPI from './API/rest/weatherAPI';
@@ -11,9 +13,6 @@ import PayloadData from "./model/Payload/PayloadData";
 import RocketStatus from "./model/Rocket/RocketStatus";
 import {BoosterStatus} from "./model/Booster/BoosterStatus";
 import MissionsCoordinatorAPI from "./API/rest/missionsCoordinatorAPI";
-
-require("logs-module");
-require('dotenv').config()
 
 const weatherAPIInstance = new weatherAPI();
 const rocketAPIInstance = new RocketAPI();
@@ -32,7 +31,7 @@ main();
 async function main() {
 
     let stop = false;
-    let missionsId : number[];
+    let missionsId : string[];
 
 
     console.log("Richard creates the poll to start the mission");

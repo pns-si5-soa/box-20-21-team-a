@@ -5,10 +5,10 @@ import API from './API'
 class MissionAPI extends API {
 
     public constructor() {
-        if(process.env.HOST_MISSION == undefined) throw Error("host is missing on .env file");
-		const host: String = process.env.HOST_MISSION
-        if(process.env.PORT_MISSION == undefined) throw Error("port is missing on .env file");
-		const port: String = process.env.PORT_MISSION
+        if(process.env.REACT_APP_HOST_MISSION == undefined) throw Error("host mission is missing on .env file");
+		const host: String = process.env.REACT_APP_HOST_MISSION
+        if(process.env.REACT_APP_PORT_MISSION == undefined) throw Error("port mission is missing on .env file");
+		const port: String = process.env.REACT_APP_PORT_MISSION
         super(host, port);
     }
 
@@ -18,7 +18,7 @@ class MissionAPI extends API {
     }
 
 
-    public modifyPoll(serviceName: String | undefined,answer: String|undefined,id:number) : AxiosPromise {
+    public modifyPoll(serviceName: String | undefined,answer: String|undefined,id:string) : AxiosPromise {
         return this.axios({method: 'put',
                              url: '/poll',
                             data: {service_name: serviceName, answer: answer,id:id}});

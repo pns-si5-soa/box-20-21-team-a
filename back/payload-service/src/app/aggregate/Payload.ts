@@ -13,7 +13,7 @@ export default class Payload{
     
 
 
-    constructor(payloadId : number){
+    constructor(payloadId : string){
 
         this.payloadData = new PayloadData(payloadId);
     }

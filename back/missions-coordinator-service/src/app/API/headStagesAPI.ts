@@ -11,7 +11,7 @@ class HeadStagesAPI extends API {
         super(host, port)
     }
 
-    public createHeadStage(newMissionIdentifier : number) :AxiosPromise{
+    public createHeadStage(newMissionIdentifier : string) :AxiosPromise{
         return this.axios({
             method: 'post',
             url: '/headstages',

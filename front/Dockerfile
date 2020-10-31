@@ -10,6 +10,7 @@ COPY ./logs-module /usr/src/app/logs-module
 
 # Copying source files
 COPY ./front /usr/src/app/front
+RUN cp .env.docker .env
 
 RUN rm -rf node_modules
 RUN npm install
