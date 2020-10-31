@@ -6,10 +6,10 @@ class BoosterAPI {
     urlSOAP: string;
 
     constructor() {
-        if(process.env.HOST_BOOSTER == undefined) throw Error("host is missing on .env file");
-		const host: String = process.env.HOST_BOOSTER
-        if(process.env.PORT_BOOSTER == undefined) throw Error("port is missing on .env file");
-		const port: String = process.env.PORT_BOOSTER
+        if(process.env.REACT_APP_HOST_BOOSTER == undefined) throw Error("host soap booster is missing on .env file");
+		const host: String = process.env.REACT_APP_HOST_BOOSTER
+        if(process.env.REACT_APP_PORT_BOOSTER == undefined) throw Error("port soap booster is missing on .env file");
+		const port: String = process.env.REACT_APP_PORT_BOOSTER
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
 

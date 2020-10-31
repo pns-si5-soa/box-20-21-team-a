@@ -63,7 +63,7 @@ jobs:
         - docker-compose up --build --exit-code-from front
       after-script:
         - docker-compose kill
-      if: branch = master OR branch = release OR branch = test-ci OR type = pull_request
+      if: branch = master OR branch = release OR branch = ci OR type = pull_request
 
 notifications:
   slack: informatiquep-kyw7477:InXvtw4L5aLweMKgjOygoiZB

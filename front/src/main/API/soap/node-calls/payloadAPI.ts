@@ -8,9 +8,9 @@ class PayloadAPI {
     urlSOAP: string;
 
     constructor() {
-        if(process.env.HOST_PAYLOAD == undefined) throw Error("host is missing on .env file");
+        if(process.env.HOST_PAYLOAD == undefined) throw Error("host node soap payload is missing on .env file");
 		const host: String = process.env.HOST_PAYLOAD
-        if(process.env.PORT_PAYLOAD == undefined) throw Error("port is missing on .env file");
+        if(process.env.PORT_PAYLOAD == undefined) throw Error("port node soap payload is missing on .env file");
 		const port: String = process.env.PORT_PAYLOAD
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
