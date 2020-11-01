@@ -88,6 +88,9 @@ function runstart() {
     elif [[ $PROJECT == "missions-coordinator" ]]; then
         cd back/missions-coordinator-service
         pm2 start ./src/app/app.ts --watch --name "missions-coordinator"
+    elif [[ $PROJECT == "telemetry-analyser" ]]; then
+        cd back/telemetry-analyser-service
+        pm2 start ./src/app/app.ts --watch --name "telemetry-analyser"
     elif [[ $PROJECT == "anomaly-analyser" ]]; then
         cd back/anomaly-analyser-service
         pm2 start ./src/app/app.ts --watch --name "anomaly-analyser"
@@ -137,7 +140,7 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "missions-coordinator"
         cd ../..
-        runstart "anomaly-analyser"
+        runstart "telemetry-analyser"
         cd ../..
         runstart "poll"
         
@@ -161,6 +164,7 @@ elif [[ $PARAMS == "stop" ]]; then
         runstop "missions-coordinator"
         runstop "anomaly-analyser"
         runstop "poll"  
+        runstop "telemetry-analyser"
     else
         runstop $PARG
     fi
