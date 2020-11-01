@@ -1,5 +1,3 @@
-
-// TODO the file should have a capital first letter
 class Poll {
 
     weatherStatus: boolean; // todo this could be an object of its own (with a name and a status)
