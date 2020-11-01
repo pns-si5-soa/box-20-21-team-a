@@ -19,9 +19,11 @@
     "axios": "^0.21.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "kafkajs": "^1.14.0",
+    "logs-module": "file:../../logs-module",
+    "soap": "^0.34.0",
     "ts-node-dev": "^1.0.0",
-    "typescript": "^4.0.5",
-    "logs-module": "file:../../logs-module"
+    "typescript": "^4.0.5"
   }
 }

@@ -1,46 +1,31 @@
+import {AnomalyEnum} from '../entities/Anomaly'
+import RocketAnomaly from "../entities/RocketAnomaly";
+import MissionAPI from "../API/missionAPI";
+import BoosterAPI from "../API/boosterAPI";
+import RocketAPI from "../API/rocketAPI";
+import RocketStatus from "../entities/RocketStatus";
 
-interface IAnomalies{
-    [id : string] : RocketAnomalies
-}
+const missionAPI = new MissionAPI();
+const boosterAPI = new BoosterAPI();
+const rocketAPI = new RocketAPI();
+
 class AnomalyAnalyserService {
 
-    rocketAnomalies : IAnomalies;
 
     constructor() {
-        this.rocketAnomalies = {};
     }
 
-    getAnomalies(rocketId : string) : Anomaly[] {
-        return this.rocketAnomalies[rocketId].getAnomalies();
+    analyseAnomaly(id : string, anomaly : AnomalyEnum){
+        let newAnomaly = new RocketAnomaly(id, anomaly);
+        if (newAnomaly.analyseAnomaly()){
+            console.log("BOUM BOUM");
+            missionAPI.sendData(RocketStatus.ABORTED_AND_ROCKET_DESTROYED, id);
+            boosterAPI.destroyBoosterSOAPBack(id);
+            rocketAPI.destroyRocketSOAPBack(id);
+        }
     }
 
-    analyseRocketData(rocketDataJSON: RocketData) {
-        let rocketAlreadyExists = false;
-        
-        const rocketData = new RocketData().assign(rocketDataJSON);
-        if(this.rocketAnomalies[rocketData.getMissionId()] != undefined){
-            rocketAlreadyExists = true;
-        }
-        if (!rocketAlreadyExists){
-            this.rocketAnomalies[rocketData.getMissionId()]= new RocketAnomalies(rocketData.getMissionId());
-        }
-        this.rocketAnomalies[rocketData.getMissionId()].analyseRocketData(rocketData);
-    }
-
-
-    analyseBoosterData(boosterDataJSON: BoosterData) {
-        let rocketAlreadyExists = false;
-        const boosterData = new BoosterData().assign(boosterDataJSON);
-       
-        if(this.rocketAnomalies[boosterData.getMissionId()] != undefined){
-            rocketAlreadyExists = true;
-        }
-        if (!rocketAlreadyExists){
-            this.rocketAnomalies[boosterData.getMissionId()]= new RocketAnomalies(boosterData.getMissionId());
-        }
-        this.rocketAnomalies[boosterData.getMissionId()].analyseBoosterData(boosterData);
-    }
 }
 
 
-export default new TelemetryAnalyserService();
+export default new AnomalyAnalyserService();

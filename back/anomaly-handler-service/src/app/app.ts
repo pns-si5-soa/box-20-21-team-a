@@ -1,7 +1,7 @@
 import express = require('express');
 import createError = require('http-errors');
 require('dotenv').config();
-import AnomalyHandlerService from "./controller/";
+import AnomalyHandlerService from "./controller/AnomalyHandlerService";
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
@@ -130,7 +130,7 @@ const run = async () => {
             
             if(topic =='anomaly-topic'){
                console.log("oui")
-                AnomalyAnalyserService.analyseRocketData(json);
+                AnomalyHandlerService.analyseAnomaly(json.missionId, json.newAnomaly);
             }
         },
     })
@@ -154,6 +154,22 @@ errorTypes.map(type => {
         }
     })
 })
+
+async function mockAnomalyData(){
+
+    let anomaly =  {
+        previousAltitude: 0,
+        missionId: '451946f2-db19-46e6-85dc-b4e4ed537e4f',
+        anomalies: [ 1 ],
+        newAnomaly: 2
+    };
+
+    AnomalyHandlerService.analyseAnomaly(anomaly.missionId, anomaly.newAnomaly);
+
+}
+
+
+//mockAnomalyData();
 
 
 
