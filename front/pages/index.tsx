@@ -55,6 +55,14 @@ export default function Home() {
 		});*/
 	  });
 
+	function createMission(){
+		  missionsCoordinatorAPI.createMission().then((res)=>{
+			missionsCoordinatorAPI.getMissions().then((res) =>{
+				setMissions(res.data);
+			});
+		  })
+	}
+
 	const createPoll = function () {
 		missionAPI.createPoll().then((res) => {
 			missionsCoordinatorAPI.getMissions().then((res) =>{
@@ -98,9 +106,9 @@ export default function Home() {
 						<Button
 							variant="contained"
 							color="secondary"
-							onClick={createPoll}
+							onClick={createMission}
 						>
-							Create the poll
+							Create the mission
 						</Button>
 						<br />
 						
