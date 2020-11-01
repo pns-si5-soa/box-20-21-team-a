@@ -3,6 +3,9 @@ import createError = require('http-errors');
 require('dotenv').config();
 import indexRouter from "./routes";
 import AnomalyAnalyserService from "./controller/TelemetryAnalyserService";
+import RocketData from "./entities/Rocket/RocketData";
+import {setIntervalConditionPromise} from "./tools/set_intervalx";
+import BoosterData from "./entities/Booster/BoosterData";
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
@@ -140,9 +143,6 @@ const run = async () => {
                 console.log("non")
 
                 AnomalyAnalyserService.analyseBoosterData(json);
-                
-
-                
             }
 
 
@@ -170,5 +170,36 @@ errorTypes.map(type => {
 })
 
 
+async function mockTelemetryData(){
+    /*let boosterDataJSON = {
+        missionId: 'a8139e88-0844-4f02-99e0-635e8eec76eb',
+        rocketStatus: 0,
+        fuelLevel: 10,
+        altitude: 100,
+        speed: 50,
+        pressure: 0
+    }*/
 
+    let boosterDataJSON = {
+        boosterStatus: 0,
+            fuelLevel: 0,
+            altitude: 0,
+            speed: 0,
+            missionId: 'd5f16c28-96d9-4524-9618-c62bd197fdb0'
+    };
+    
+    await setIntervalConditionPromise(() => {
+            let boosterData = new BoosterData(boosterDataJSON.altitude,boosterDataJSON.speed,boosterDataJSON.fuelLevel,boosterDataJSON.missionId,boosterDataJSON.boosterStatus)
+            boosterDataJSON.altitude = boosterDataJSON.altitude-20;
+            boosterData.setAltitude(boosterDataJSON.altitude);
+            AnomalyAnalyserService.analyseBoosterData(boosterData);
+            boosterDataJSON.altitude = boosterDataJSON.altitude-20;
+            console.log(boosterDataJSON.altitude);
+        },
+        1000,
+        () => boosterDataJSON.altitude<=0);
+}
+
+
+//mockTelemetryData();
 

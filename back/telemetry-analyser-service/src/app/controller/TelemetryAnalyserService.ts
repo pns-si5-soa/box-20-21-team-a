@@ -50,7 +50,7 @@ class TelemetryAnalyserService {
             this.rocketAnomalies[boosterData.getMissionId()]= new RocketAnomalies(boosterData.getMissionId());
         }
         this.newAnomaly = this.rocketAnomalies[boosterData.getMissionId()].analyseBoosterData(boosterData);
-        if(this.newAnomaly != null) this.producer.sendAnomaly(this.newAnomaly,this.ANOMALY_TOPIC)
+        if(this.newAnomaly != null) this.producer.sendAnomaly(this.newAnomaly,this.ANOMALY_TOPIC);
     }
 }
 
