@@ -1,0 +1,19 @@
+{
+  "name": "kafka-debug",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arg": "^4.1.3",
+    "kafkajs": "^1.14.0"
+  },
+  "bin": {
+    "kafka-debug": "./index.js"
+  }
+}
