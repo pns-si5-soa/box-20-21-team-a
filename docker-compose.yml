@@ -240,12 +240,32 @@ services:
       - PORT=3008
       - HOST_BOOSTER=booster-service
       - PORT_BOOSTER=3004
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
       - HOST_HEAD_STAGES=rocket-service
       - PORT_HEAD_STAGES=3000
       - HOST_PAYLOAD=payload-service
       - PORT_PAYLOAD=3005
       - HOST_REAL_TIME=real-time-service
       - PORT_REAL_TIME=3006
+      - HOST_POLL=poll-service
+      - PORT_POLL=3012
+
+  poll-service:
+    image: blue_origin/poll-service
+    container_name: poll-container
+    build:
+      context: .
+      dockerfile: ./back/poll-service/Dockerfile
+    expose:
+      - "3012"
+    ports:
+      - "3012:3012"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      #Listening Port
+      - PORT=3012
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
@@ -294,6 +314,8 @@ services:
         - REACT_APP_PORT_MISSIONS_COORDINATOR=3008
         - REACT_APP_HOST_REAL_TIME=real-time-service
         - REACT_APP_PORT_REAL_TIME=3006
+        - REACT_APP_HOST_POLL=poll-service
+        - REACT_APP_PORT_POLL=3012
       # Uncommente below if you want to build all these service when building front
       #depends_on:
         #- rocket-service
