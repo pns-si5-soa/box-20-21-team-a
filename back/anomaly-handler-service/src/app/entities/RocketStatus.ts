@@ -1,4 +1,5 @@
-export enum RocketStatus {
+
+enum RocketStatus {
     PREPARATION = 0,
     ON_INTERNAL_POWER = 1,
     STARTUP = 2,
@@ -10,5 +11,9 @@ export enum RocketStatus {
     SECOND_ENGINE_START = 8,
     FAIRING_SEPARATION = 9,
     SECOND_ENGINE_CUT_OFF = 10,
-    DESTROYED = 99,
+    ABORTED_AND_ROCKET_DESTROYED = 99,
 }
+
+export default RocketStatus;
+
+
