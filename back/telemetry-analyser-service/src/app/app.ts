@@ -2,7 +2,7 @@ import express = require('express');
 import createError = require('http-errors');
 require('dotenv').config();
 import indexRouter from "./routes";
-import AnomalyAnalyserService from "./controller/AnomalyAnalyserService";
+import AnomalyAnalyserService from "./controller/TelemetryAnalyserService";
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
@@ -93,7 +93,7 @@ function onListening() {
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
-    console.log('Anomaly Analyser : Listening on ' + bind);
+    console.log('Telemetry Analyser : Listening on ' + bind);
     if (process.env.CI !== undefined) {
         process.exit(0);
     }
@@ -133,11 +133,12 @@ const run = async () => {
             var json = JSON.parse(msg)
             
             if(topic =='telemetry-rocket'){
-               
+               console.log("oui")
                 AnomalyAnalyserService.analyseRocketData(json);
             }
             if(topic == 'telemetry-booster') {
-              
+                console.log("non")
+
                 AnomalyAnalyserService.analyseBoosterData(json);
                 
 
