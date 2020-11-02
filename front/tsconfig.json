@@ -25,6 +25,7 @@
     "**/*.tsx", "src/tests/integration_testing/steps/payload-service.ts.ignore", "src/tests/integration_testing/steps/mission-service.ts.ignore"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/tests/ignored/"
   ]
 }
