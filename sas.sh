@@ -2,6 +2,7 @@
 PARAMS=""
 HARG=0
 PARG=""
+BARG=0
 while (("$#")); do
     case "$1" in
     -h | --help)
@@ -11,6 +12,10 @@ while (("$#")); do
     -p | --project)
         PARG=$2
         shift 2
+        ;;
+    -b | --only-back)
+        BARG=1
+        break
         ;;
     --) # end argument parsing
         shift
@@ -100,13 +105,20 @@ function runstop() {
     pm2 delete $1
 }
 
+function runrestart() {
+    pm2 restart $1
+}
+
 function runlog() {
     pm2 logs $1
 }
 
 if [[ $PARAMS == "start" ]]; then
     if [[ -z $PARG ]]; then
-        
+        if [[ $BARG == 0  ]]; then
+            runstart "front"
+            cd ../..
+        fi
         runstart "mission"
         cd ../..
         runstart "weather"
@@ -128,15 +140,16 @@ if [[ $PARAMS == "start" ]]; then
         runstart "anomaly-analyser"
         cd ../..
         runstart "poll"
-        cd ../..
-        runstart "front"
+        
 
     else
         runstart $PARG
     fi
 elif [[ $PARAMS == "stop" ]]; then
     if [[ -z $PARG ]]; then
-        runstop "front"
+        if [[ $BARG == 0  ]]; then
+            runstop "front"
+        fi
         runstop "mission"
         runstop "rocket"
         runstop "weather"
@@ -153,42 +166,22 @@ elif [[ $PARAMS == "stop" ]]; then
     fi
 elif [[ $PARAMS == "restart" ]]; then
     if [[ -z $PARG ]]; then
-        runstop "front"
-        runstop "mission"
-        runstop "rocket"
-        runstop "weather"
-        runstop "telemetry-listener"
-        runstop "telemetry-writer"
-        runstop "booster"
-        runstop "payload"
-        runstop "real-time"
-        runstop "missions-coordinator"
-        runstop "poll"
-        runstart "mission"
-        cd ../..
-        runstart "weather"
-        cd ../..
-        runstart "telemetry-listener"
-        cd ../..
-        runstart "telemetry-writer"
-        cd ../..
-        runstart "rocket"
-        cd ../..
-        runstart "booster"
-        cd ../..
-        runstart "payload"
-        cd ../..
-        runstart "real-time"
-        cd ../..
-        runstart "front"
-        cd ../..
-        runstart "missions-coordinator"
-        cd ../..
-        runstart "poll"
-        cd ../..
+        if [[ $BARG == 0  ]]; then
+            runrestart "front"
+        fi
+        runrestart "mission"
+        runrestart "rocket"
+        runrestart "weather"
+        runrestart "telemetry-listener"
+        runrestart "telemetry-writer"
+        runrestart "booster"
+        runrestart "payload"
+        runrestart "real-time"
+        runrestart "missions-coordinator"
+        runrestart "poll"
+        runrestart "mission"
     else
-        runstop $PARG
-        runstart $PARG
+        runrestart $PARG
     fi
 elif [[ $PARAMS == "logs" ]]; then
     if [[ -z $PARG ]]; then
