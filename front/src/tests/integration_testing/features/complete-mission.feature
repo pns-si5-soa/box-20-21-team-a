@@ -27,22 +27,22 @@ Feature: Complete scenario
 
     When Elon initializes the launch process
     Then Richard and Marie see in real time that the status of the rocket is now on 'Startup'
-    When 57 seconds have passed
-    Then Richard and Marie see in real time that the rocket status is now 'Main engine started'
-    When 3 seconds have passed
+    When 57 seconds have passed after startup
+    Then Richard and Marie see in real time that the rocket status is now 'Main engine started' after startup
+    When 3 seconds have passed after main engine
     Then Richard and Marie see in real time that the rocket is 'Launched'
     When the pressure of the rocket is at 000?
-    Then Richard and Marie see in real time that the rocket status is now 'Max Q reached'
+    Then Richard and Marie see in real time that the rocket status is now 'Max Q reached' after main engine started
     And the speed of the rocket does not increase anymore
     When the booster has 15hl of fuel left
     Then Richard and Marie see in real time that the rocket status is 'Main engine cut off'
-    And then the rocket status is 'Stage separation'
-    And then the rocket status is 'Second engine started'
+    And then the rocket status is 'Stage separation' after main engine
+    And then the rocket status is 'Second engine started' after stage separation
     And that the booster is going through a 'Flip maneuver'
-    And then the booster status is 'Entry burn'
-    And then the booster status is 'Guidance'
-    And then the booster status is Landing burn'
-    And then the booster status is Landing legs deployed
+    And then the booster status is 'Entry burn' after flip maneuver
+    And then the booster status is 'Guidance' after entry burn
+    And then the booster status is Landing burn' after guidance
+    And then the booster status is Landing legs deployed after landing burn
     And then the booster has landed, its status is 'Landed'
     And then the rocket status is 'fairing separation'
     When the rocket has no more fuel

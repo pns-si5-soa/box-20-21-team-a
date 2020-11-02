@@ -43,7 +43,9 @@ function Line(text) {
             if (text == this.text) break;
             this.text = text
             this.len++;
-            this.types.push(value.replace('{', '').replace('}', ''))
+            let type = value.replace('{', '').replace('}', '');
+            if(type == 'int' || type == 'float') type = 'number'
+            this.types.push(type)
         }
         return this;
     }
@@ -74,12 +76,8 @@ fs.readFile(inputfile, 'utf8', function (err, data) {
         .filter(e => e[0].toLowerCase() == 'given' || e[0].toLowerCase() == 'when' || e[0].toLowerCase() == 'and' || e[0].toLowerCase() == 'then')
         .map(line => {
             const lineObject = new Line(line[1])
-                .replaceAndCount('"false"', "{boolean}")
-                .replaceAndCount('"true"', "{boolean}")
-                .replaceAndCount("'true'", "{boolean}")
-                .replaceAndCount("'false'", "{boolean}")
-
-                .replaceAndCount(/[+-]?([0-9]*[.])?[0-9]+/, '{number}')
+                .replaceAndCount(/[+-]?[0-9]+/, '{int}')
+                .replaceAndCount(/[+-]?([0-9]*[.])?[0-9]+/, '{float}')
                 .replaceAndCount(/"[^"]+"/, '{string}')
                 .replaceAndCount(/'[^']+'/, '{string}')
 
