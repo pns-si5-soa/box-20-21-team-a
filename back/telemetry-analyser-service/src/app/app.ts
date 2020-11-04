@@ -111,13 +111,13 @@ const host = process.env.HOST_IP;
 const kafka = new Kafka({
     logLevel: logLevel.INFO,
     brokers: [`${host}:9092`],
-    clientId: 'consumer-anomalies',
+    clientId: 'example-consumer',
 })
 
 const topicRocket = 'telemetry-rocket'
 const topicBooster = 'telemetry-booster'
 
-const consumer = kafka.consumer({ groupId: 'test-anomalies' })
+const consumer = kafka.consumer({ groupId: 'test-group' })
 
 const run = async () => {
     await consumer.connect()
@@ -134,6 +134,10 @@ const run = async () => {
             console.log(`- ${prefix} ${message.key}#${message.value}`)
             var msg = message.value;
             var json = JSON.parse(msg)
+
+            console.log("====>")
+            console.log(topic)
+            console.log(json)
             
             if(topic =='telemetry-rocket'){
                console.log("oui")

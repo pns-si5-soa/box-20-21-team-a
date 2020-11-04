@@ -109,13 +109,11 @@ const kafka = new Kafka({
     clientId: 'consumer-anomalies',
 })
 
-const topicRocket = 'telemetry-rocket'
-
 const consumer = kafka.consumer({ groupId: 'test-anomalies' })
 
 const run = async () => {
     await consumer.connect()
-    await consumer.subscribe({ topic : topicRocket, fromBeginning: true })
+    await consumer.subscribe({ topic : 'anomaly-topic', fromBeginning: true })
     await consumer.run({
         eachBatch: async ({ batch } : any) => {
             console.log(batch)
