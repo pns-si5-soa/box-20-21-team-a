@@ -117,7 +117,7 @@ if [[ $PARAMS == "start" ]]; then
     if [[ -z $PARG ]]; then
         if [[ $BARG == 0  ]]; then
             runstart "front"
-            cd ../..
+            cd ..
         fi
         runstart "mission"
         cd ../..
