@@ -16,13 +16,15 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "jsx": "preserve"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx", "src/tests/integration_testing/steps/payload-service.ts.ignore", "src/tests/integration_testing/steps/mission-service.ts.ignore"
+    "**/*.tsx",
+    "src/tests/integration_testing/steps/payload-service.ts.ignore",
+    "src/tests/integration_testing/steps/mission-service.ts.ignore"
   ],
   "exclude": [
     "node_modules",

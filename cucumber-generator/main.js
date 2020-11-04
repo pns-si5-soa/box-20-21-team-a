@@ -43,7 +43,7 @@ function Line(text) {
             if (text == this.text) break;
             this.text = text
             this.len++;
-            let type = value.replace('{', '').replace('}', '');
+            let type = value.replace('{', '').replace('}', '').trim();
             if(type == 'int' || type == 'float') type = 'number'
             this.types.push(type)
         }
@@ -78,8 +78,8 @@ fs.readFile(inputfile, 'utf8', function (err, data) {
             const lineObject = new Line(line[1])
                 .replaceAndCount(/[+-]?[0-9]+/, '{int}')
                 .replaceAndCount(/[+-]?([0-9]*[.])?[0-9]+/, '{float}')
-                .replaceAndCount(/"[^"]+"/, '{string}')
-                .replaceAndCount(/'[^']+'/, '{string}')
+                .replaceAndCount(/ "[^"]+"/, ' {string}')
+                .replaceAndCount(/ '[^']+'/, ' {string}')
 
             const args = new Array(lineObject.getLength())
                 .fill("arg")

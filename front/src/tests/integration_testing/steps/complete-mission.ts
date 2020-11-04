@@ -1,32 +1,88 @@
+require('dotenv').config()
+import MissionsCoordinatorAPI from "../../../main/API/rest/missionsCoordinatorAPI";
+import PollAPI from "../../../main/API/rest/pollAPI";
+import Poll from "../../../main/model/Poll";
+
 const {
 	When,
 	Then,
 	Given,
 } = require('cucumber');
 
-When("Richard creates a new mission", function() {
-	//do something
+import expect from 'expect';
+import TelemetryAPI from "../../../main/API/rest/telemetryAPI";
+import { AxiosPromise } from "axios";
+import BoosterData from "../../../main/model/Booster/BoosterData";
+import PayloadData from "../../../main/model/Payload/PayloadData";
+import RocketData from "../../../main/model/Rocket/RocketData";
+import WeatherAPI from "../../../main/API/rest/weatherAPI";
+
+const missionsCoordinatorAPI = new MissionsCoordinatorAPI();
+const pollAPI = new PollAPI();
+const telemetryAPI = new TelemetryAPI();
+const weatherAPI = new WeatherAPI();
+
+let missionID: string = "";
+let weather: string|null = null;
+
+const verifyExistTelemetryData = async <T>(api: <T>(id:string) => AxiosPromise) => {
+	const telemetryData: T = await new Promise<T>((resolve, reject) => {
+		api(missionID).then(res => {
+			resolve(res.data)
+		}).catch(err => {
+			reject(err)
+		})
+	})
+	expect(telemetryData).not.toBeNull()
+}
+
+When("Richard creates a new mission", async function() {
+	missionID = await new Promise<string>((resolve, reject) => {
+		missionsCoordinatorAPI.createMission().then(res => {
+			resolve(res.data.id)
+		}).catch(err => {
+			reject(err)
+		})
+	});
 })
-Then("a new poll is created with its values set as {string}", function(arg0: string) {
-	//do something
+Then("a new poll is created with its values set as {string}", async function(arg0: string) {
+	expect(missionID).not.toBe("")
+	const poll: Poll = await new Promise<Poll>((resolve, reject) => {
+		 pollAPI.getPoll().then(res => {
+			 resolve(res.data)
+		 }).catch(err => {
+			 reject(err)
+		 }) 
+	})
+	expect(poll).not.toBeNull()
+	expect(poll).not.toBe("")
+	expect(poll.getMissionStatus()).toBe(arg0)
+	expect(poll.getRocketStatus()).toBe(arg0)
+	expect(poll.getWeatherStatus()).toBe(arg0)
 })
-Then("a new head stage is created #tester l'existance en faisant un get sur la télémétrie", function() {
-	//do something
+Then("a new head stage is created #tester l'existance en faisant un get sur la télémétrie", async function() {
+	await verifyExistTelemetryData<RocketData>(telemetryAPI.getRocketData)
 })
-Then("a new booster is created", function() {
-	//do something
+Then("a new booster is created", async function() {
+	await verifyExistTelemetryData<BoosterData>(telemetryAPI.getBoosterData)
 })
-Then("a new payload is creaded", function() {
-	//do something
+Then("a new payload is creaded", async function() {
+	await verifyExistTelemetryData<PayloadData>(telemetryAPI.getPayloadData)
 })
-When("Tory has been informed that the poll has been created, she can check the weather status", function() {
-	//do something
+When("Tory has been informed that the poll has been created, she can check the weather status", async function() {
+	weather = await new Promise((resolve, reject) => {
+		weatherAPI.getWeather().then(res => {
+			resolve(res.data);
+		}).then(err => {
+			reject(err);
+		})
+	})
 })
 Then("the weather status is {string}, {string} or {string}", function(arg0: string, arg1: string, arg2: string) {
-	//do something
+	expect([arg0, arg1, arg2]).toContain(weather)
 })
-When("she answers positively to the poll", function() {
-	//do something
+When("she answers positively to the poll", async function() {
+	await pollAPI.modifyPoll("weather", "true", missionID)
 })
 Then("the weather department vote is {string}", function(arg0: string) {
 	//do something
@@ -55,7 +111,7 @@ When("he answers positively to the poll", function() {
 Then("the rocket department answer to the poll is now {string}", function(arg0: string) {
 	//do something
 })
-When("it{string}s turn to answer, he votes on the poll", function(arg0: string) {
+When("it's Richard's turn to answer, he votes on the poll", function() {
 	//do something
 })
 Then("the poll shows that the mission department vote is {string}", function(arg0: string) {
