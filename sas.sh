@@ -143,7 +143,8 @@ if [[ $PARAMS == "start" ]]; then
         runstart "telemetry-analyser"
         cd ../..
         runstart "poll"
-        
+        cd ../..
+        runstart "anomaly-handler"
 
     else
         runstart $PARG
@@ -162,7 +163,7 @@ elif [[ $PARAMS == "stop" ]]; then
         runstop "payload"
         runstop "real-time"
         runstop "missions-coordinator"
-        runstop "anomaly-analyser"
+        runstop "anomaly-handler"
         runstop "poll"  
         runstop "telemetry-analyser"
     else
@@ -184,6 +185,8 @@ elif [[ $PARAMS == "restart" ]]; then
         runrestart "missions-coordinator"
         runrestart "poll"
         runrestart "mission"
+        runrestart "telemetry-analyser"
+        runrestart "anomaly-handler"
     else
         runrestart $PARG
     fi
