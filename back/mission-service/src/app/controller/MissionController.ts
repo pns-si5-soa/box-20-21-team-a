@@ -23,7 +23,7 @@ class MissionController {
         this.producerKafka = new Producer();
     }
      addNewMission(id:string):string {
-        this.missions[id] = new Mission();
+        this.missions[id] = new Mission(); // TODO mettre en BD
         return id;
         
     }

@@ -2,20 +2,18 @@ import RocketStatus from "./RocketStatus";
 import {setIntervalConditionPromise} from '../tools/setIntervalx'
 import TelemetryAPI from '../API/telemetryAPI';
 import RocketData from "./RocketData";
-import BoosterAPI from "../API/boosterAPI";
 import MissionAPI from "../API/missionAPI";
 import Producer from "../producer/index"
 import Consumer from "../consumer";
 
 const TELEMETRY_API: TelemetryAPI = new TelemetryAPI();
 const MISSION_API: MissionAPI = new MissionAPI();
-const BOOSTER_API: BoosterAPI = new BoosterAPI();
 
 const DATA_UPDATE_DELAY_IN_MS = 500;
 const ACCELERATION = 2;
 const PRESSURE_INCREASE = 5;
 
-const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 5;
+const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 6; // todo put to 1 minute
 const NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS = 3;
 
 class Rocket {
@@ -23,8 +21,8 @@ class Rocket {
     private rocketData: RocketData;
     private rocketDrained = false;
     private rocketFallingDown = false;
-    private rocketBusConsumer : Consumer;
-    private rocketBusProducer : Producer;
+    private rocketBusConsumer: Consumer;
+    private rocketBusProducer: Producer;
 
 
     constructor(rocketData: RocketData) {
@@ -32,24 +30,24 @@ class Rocket {
         console.log("Rocket is on preparation.");
         this.rocketBusProducer = new Producer(rocketData.missionId.toString());
         this.rocketBusConsumer = new Consumer(rocketData.missionId.toString());
-        this.rocketBusConsumer.run('rocket-'+this.rocketData.missionId+'-head-stages',(value: Object) => {
+        this.rocketBusConsumer.run('rocket-' + this.rocketData.missionId + '-head-stages', (value: Object) => {
             this.triggerActionWhenReceiveBusSignal(value);
-        })
+        });
     }
 
-    private triggerActionWhenReceiveBusSignal(signal : any){
-        if(signal.action == 'notifyLaunch'){
-            this.notifyOfBoosterLaunch;
-        }
-        else if(signal.action== 'notifyDetachment'){
+    private triggerActionWhenReceiveBusSignal(signal: any) {
+        if (signal.action == 'notifyLaunch') {
+            this.notifyOfBoosterLaunch();
+        } else if (signal.action == 'notifyDetachment') {
             this.initializeSecondEngineForSecondStage();
+        } else if (signal.action == 'updateDataFromBoosterData') { // todo
+            this.sendDataToTelemetryAndMission();
         }
-        // TODO : if on signal and action to do 
     }
 
     private sendDataToTelemetryAndMission(): void {
         if (process.env.NODE_ENV != "test") {
-            MISSION_API.sendData(this.rocketData.rocketStatus,this.rocketData.missionId).catch((e) => {
+            MISSION_API.sendData(this.rocketData.rocketStatus, this.rocketData.missionId).catch((e) => {
                 console.error(e);
             });
             TELEMETRY_API.sendData(this.rocketData)
@@ -101,7 +99,7 @@ class Rocket {
     }
 
     private async startEnginesForLaunch(): Promise<void> {
-        let numberOfSecondsBeforeLaunch = NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS; // TODO constant
+        let numberOfSecondsBeforeLaunch = NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS;
         console.log("Starting main engine.");
         this.changeRocketStatusAndNotifyTelemetry(RocketStatus.STARTUP);
         this.changeRocketStatusAndNotifyTelemetry(RocketStatus.MAIN_ENGINE_STARTED);
@@ -117,11 +115,7 @@ class Rocket {
     private async launchRocket(): Promise<void> {
         console.log("T+00:00:00.");
         console.log("Sending launch signal to booster!");
-        this.rocketBusProducer.sendMessage({action : 'launchBooster'},'rocket-'+this.rocketData.missionId+'-booster')
-        // TODO : remove
-        /*BOOSTER_API.launchBooster().catch((e) => {
-            console.error(e);
-        });*/
+        this.rocketBusProducer.sendMessage({action: 'launchBooster'}, 'rocket-' + this.rocketData.missionId + '-booster');
     }
 
     /**
@@ -139,10 +133,14 @@ class Rocket {
     private async controlFlightBeforeMaxQ(): Promise<void> {
         const that = this;
         await setIntervalConditionPromise(() => {
-            if (!this.rocketFallingDown) that.rocketData.altitude += this.rocketData.speed;
-            else that.rocketData.altitude -= this.rocketData.speed;
+                if (!this.rocketFallingDown) {
+                    that.rocketData.altitude += this.rocketData.speed;
+                }
+                else {
+                    that.rocketData.altitude -= this.rocketData.speed;
+                }
                 that.rocketData.speed += ACCELERATION;
-            if (!this.rocketDrained) that.rocketData.fuelLevel -= 1;
+                if (!this.rocketDrained) that.rocketData.fuelLevel -= 1;
                 that.rocketData.pressure += PRESSURE_INCREASE;
                 that.sendDataToTelemetryAndMission();
             },
@@ -157,8 +155,12 @@ class Rocket {
         this.changeRocketStatusAndNotifyTelemetry(RocketStatus.MAX_Q_REACHED);
         const that = this;
         await setIntervalConditionPromise(() => {
-                if (!this.rocketFallingDown) that.rocketData.altitude += this.rocketData.speed;
-                else that.rocketData.altitude -= this.rocketData.speed;
+                if (!this.rocketFallingDown) {
+                    that.rocketData.altitude += this.rocketData.speed;
+                }
+                else {
+                    that.rocketData.altitude -= this.rocketData.speed;
+                }
                 that.rocketData.fuelLevel -= 1;
                 that.sendDataToTelemetryAndMission();
             },
@@ -200,7 +202,7 @@ class Rocket {
         await setIntervalConditionPromise(() => {
                 if (!this.rocketFallingDown) that.rocketData.altitude += this.rocketData.speed;
                 else that.rocketData.altitude -= this.rocketData.speed;
-                if(!this.rocketDrained) that.rocketData.fuelLevel -= 1;
+                if (!this.rocketDrained) that.rocketData.fuelLevel -= 1;
                 that.sendDataToTelemetryAndMission();
             },
             DATA_UPDATE_DELAY_IN_MS,
@@ -230,7 +232,7 @@ class Rocket {
     }
 
     drainRocket() {
-        this.rocketData.fuelLevel=0;
+        this.rocketData.fuelLevel = 0;
         this.rocketDrained = true;
         console.log(this.rocketDrained)
     }

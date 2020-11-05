@@ -1,6 +1,5 @@
 import {setIntervalConditionPromise} from '../tools/set_intervalx';
 import TelemetryAPI from '../API/telemetryAPI';
-import RocketAPI from "../API/RocketAPI";
 import BoosterStatus from "./BoosterStatus"
 import BoosterData from "./BoosterData";
 import MissionAPI from "../API/MissionAPI";
@@ -13,29 +12,25 @@ export default class Booster {
     booster : BoosterData;
 
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
-    private rocketAPI: RocketAPI = new RocketAPI();
     public dataUpdateDelay = 1000;
     private missionAPI = new MissionAPI();
     private boosterDrained = false;
     private rocketBusConsumer : Consumer;
     private rocketBusProducer : Producer;
-
     constructor(boosterData: BoosterData) {
         this.booster = boosterData;
         this.rocketBusProducer = new Producer(boosterData.missionId);
         this.rocketBusConsumer = new Consumer(boosterData.missionId);
         this.rocketBusConsumer.run('rocket-'+this.booster.missionId+'-booster',(value: Object) => {
             console.log(" callback");
-
             this.triggerActionWhenReceiveBusSignal(value);
-        })
+        });
     }
 
     private triggerActionWhenReceiveBusSignal(signal : any){
         if(signal.action == 'launchBooster'){
             this.launch();
         }
-        // TODO : if on signal and action to do 
     }
 
     sendData(): void {
@@ -73,7 +68,6 @@ export default class Booster {
             //await this.rocketAPI.initializeSecondEngineForSecondStage();
             this.rocketBusProducer.sendMessage({action : 'notifyDetachment'},'rocket-'+this.booster.missionId+'-head-stages')
             this.sendData();
-
         }
     }
 

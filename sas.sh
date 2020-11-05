@@ -146,6 +146,7 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "anomaly-handler"
 
+
     else
         runstart $PARG
     fi
@@ -196,7 +197,7 @@ elif [[ $PARAMS == "logs" ]]; then
     else
         runlog $PARG
     fi
-else 
+else
     echo "Action $PARAMS doesn't exist."
 fi
 

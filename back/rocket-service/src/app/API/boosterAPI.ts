@@ -2,6 +2,7 @@ import {Client} from 'soap';
 
 let soap = require('soap');
 
+//FIXME not used anymore
 class BoosterAPI {
 
     urlSOAP: string;
