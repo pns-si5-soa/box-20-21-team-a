@@ -12,7 +12,7 @@ class TelemetryAnalyserService {
     rocketAnomalies : IAnomalies;
     producer: Producer;
     newAnomaly : RocketAnomalies | null ;
-    ANOMALY_TOPIC = "anomaly_topic";
+    ANOMALY_TOPIC = "anomaly-topic";
 
 
     constructor() {

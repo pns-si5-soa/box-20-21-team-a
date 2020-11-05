@@ -91,9 +91,9 @@ function runstart() {
     elif [[ $PROJECT == "telemetry-analyser" ]]; then
         cd back/telemetry-analyser-service
         pm2 start ./src/app/app.ts --watch --name "telemetry-analyser"
-    elif [[ $PROJECT == "anomaly-analyser" ]]; then
-        cd back/anomaly-analyser-service
-        pm2 start ./src/app/app.ts --watch --name "anomaly-analyser"
+    elif [[ $PROJECT == "anomaly-handler" ]]; then
+        cd back/anomaly-handler-service
+        pm2 start ./src/app/app.ts --watch --name "anomaly-handler"
     elif [[ $PROJECT == "poll" ]]; then
         cd back/poll-service
         pm2 start ./src/app/app.ts --watch --name "poll"

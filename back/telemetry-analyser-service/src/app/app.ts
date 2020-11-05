@@ -117,13 +117,14 @@ const kafka = new Kafka({
 const topicRocket = 'telemetry-rocket'
 const topicBooster = 'telemetry-booster'
 
-const consumer = kafka.consumer({ groupId: 'test-group' })
+const consumer = kafka.consumer({ groupId: 'anomaly-group' })
 
 const run = async () => {
     await consumer.connect()
-    await consumer.subscribe({ topic : topicRocket, fromBeginning: true })
-    await consumer.subscribe({ topic : topicBooster, fromBeginning: true })
+    await consumer.subscribe({ topic : topicRocket,fromBeginning : true })
+    await consumer.subscribe({ topic : topicBooster, fromBeginning : true })
     await consumer.run({
+        eachBatchAutoResolve: true,
         eachBatch: async ({ batch } : any) => {
             console.log(batch)
         },
