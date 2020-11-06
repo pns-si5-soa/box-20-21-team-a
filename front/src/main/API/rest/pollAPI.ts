@@ -19,10 +19,10 @@ class PollAPI extends API {
                             data: {service_name: serviceName, answer: answer,id:id}});
     }
 
-    public getPoll(): AxiosPromise {
+    public getPoll(id: string): AxiosPromise {
         console.log("requestPoll");
         return this.axios(
-            '/poll/:id'
+            '/poll/' + id
         );
     }
 }

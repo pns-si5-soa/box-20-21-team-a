@@ -72,7 +72,7 @@ const Post = () => {
 		});
 	};
 	const getPoll = function () {
-		pollAPI.getPoll().then((res) => {
+		pollAPI.getPoll(pid).then((res) => {
 			setPoll(res.data);
 		});
     };
