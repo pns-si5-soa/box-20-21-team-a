@@ -1,4 +1,4 @@
-# Anomaly Analyser µservice
+# Telemetry Analyser µservice
 
 ## Description 
 This service analyse data and warn the user if an anomaly is triggered.

@@ -88,9 +88,12 @@ function runstart() {
     elif [[ $PROJECT == "missions-coordinator" ]]; then
         cd back/missions-coordinator-service
         pm2 start ./src/app/app.ts --watch --name "missions-coordinator"
-    elif [[ $PROJECT == "anomaly-analyser" ]]; then
-        cd back/anomaly-analyser-service
-        pm2 start ./src/app/app.ts --watch --name "anomaly-analyser"
+    elif [[ $PROJECT == "telemetry-analyser" ]]; then
+        cd back/telemetry-analyser-service
+        pm2 start ./src/app/app.ts --watch --name "telemetry-analyser"
+    elif [[ $PROJECT == "anomaly-handler" ]]; then
+        cd back/anomaly-handler-service
+        pm2 start ./src/app/app.ts --watch --name "anomaly-handler"
     elif [[ $PROJECT == "poll" ]]; then
         cd back/poll-service
         pm2 start ./src/app/app.ts --watch --name "poll"
@@ -137,10 +140,11 @@ if [[ $PARAMS == "start" ]]; then
         cd ../..
         runstart "missions-coordinator"
         cd ../..
-        runstart "anomaly-analyser"
+        runstart "telemetry-analyser"
         cd ../..
         runstart "poll"
-        
+        cd ../..
+        runstart "anomaly-handler"
 
     else
         runstart $PARG
@@ -159,8 +163,9 @@ elif [[ $PARAMS == "stop" ]]; then
         runstop "payload"
         runstop "real-time"
         runstop "missions-coordinator"
-        runstop "anomaly-analyser"
+        runstop "anomaly-handler"
         runstop "poll"  
+        runstop "telemetry-analyser"
     else
         runstop $PARG
     fi
@@ -180,6 +185,8 @@ elif [[ $PARAMS == "restart" ]]; then
         runrestart "missions-coordinator"
         runrestart "poll"
         runrestart "mission"
+        runrestart "telemetry-analyser"
+        runrestart "anomaly-handler"
     else
         runrestart $PARG
     fi

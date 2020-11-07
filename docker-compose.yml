@@ -38,11 +38,11 @@ services:
       - telemetry-writer-service
       - telemetry-listener-service
       - missions-coordinator-service
-      - anomaly-analyser-service
+      - telemetry-analyser-service
       - poll-service
       - waitforservices1
       - waitforservices2
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 anomaly-analyser-service:3009 poll-service:3012
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012
     
 
   telemetry-writer-service:
@@ -208,12 +208,12 @@ services:
       - HOST_TELEMETRY=telemetry-listener-service
       - PORT_TELEMETRY=3007
 
-  anomaly-analyser-service:
-    image: blue_origin/anomaly-analyser-service
-    container_name: anomaly-container
+  telemetry-analyser-service:
+    image: blue_origin/telemetry-analyser-service
+    container_name: telemetry-analyser-container
     build:
       context: .
-      dockerfile: ./back/anomaly-analyser-service/Dockerfile
+      dockerfile: back/telemetry-analyser-service/Dockerfile
     expose:
       - "3009"
     ports:
@@ -310,8 +310,8 @@ services:
         - REACT_APP_PORT_BOOSTER=3004
         - REACT_APP_HOST_PAYLOAD=payload-service
         - REACT_APP_PORT_PAYLOAD=3005
-        - REACT_APP_HOST_ANOMALY=anomaly-analyser-service
-        - REACT_APP_PORT_ANOMALY=3009
+        - REACT_APP_HOST_TELEMETRY_ANALYSER=telemetry-analyser-service
+        - REACT_APP_PORT_TELEMETRY_ANALYSER=3009
         - REACT_APP_HOST_MISSIONS_COORDINATOR=missions-coordinator-service
         - REACT_APP_PORT_MISSIONS_COORDINATOR=3008
         - REACT_APP_HOST_REAL_TIME=real-time-service

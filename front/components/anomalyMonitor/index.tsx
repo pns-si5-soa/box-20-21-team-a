@@ -20,7 +20,7 @@ const AnomalyMonitor = (props: IProps) => {
 
     useEffect(() => {
         setInterval(() => {
-            getAnomalies();
+            //getAnomalies();
         }, 3000);
     }, []);
 
