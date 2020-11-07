@@ -9,7 +9,7 @@ Feature: Complete scenario
     And a new payload is creaded
 
     When Tory has been informed that the poll has been created, she can check the weather status
-    Then the weather status is 'sunny', 'rainy' or 'cloudy'
+    Then the weather status is 'Sunny', 'Rainy' or 'Cloudy'
     When she answers positively to the poll
     Then the weather department vote is 'true'
 

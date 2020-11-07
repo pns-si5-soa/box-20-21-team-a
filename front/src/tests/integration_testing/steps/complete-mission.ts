@@ -48,7 +48,7 @@ When("Richard creates a new mission", async function() {
 Then("a new poll is created with its values set as {string}", async function(arg0: string) {
 	expect(missionID).not.toBe("")
 	const poll: Poll = await new Promise<Poll>((resolve, reject) => {
-		 pollAPI.getPoll().then(res => {
+		 pollAPI.getPoll(missionID).then(res => {
 			 resolve(res.data)
 		 }).catch(err => {
 			 reject(err)
