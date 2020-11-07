@@ -154,6 +154,7 @@ services:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3000
+        - PORT_HTTP=3011
         - HOST_TELEMETRY=telemetry-listener-service
         - PORT_TELEMETRY=3007
         - HOST_BOOSTER=booster-service
@@ -245,7 +246,7 @@ services:
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
       - HOST_HEAD_STAGES=rocket-service
-      - PORT_HEAD_STAGES=3000
+      - PORT_HEAD_STAGES=3011
       - HOST_PAYLOAD=payload-service
       - PORT_PAYLOAD=3005
       - HOST_REAL_TIME=real-time-service
@@ -298,6 +299,7 @@ services:
         context: .
         dockerfile: ./front/Dockerfile
       environment:
+      ## For integrated test
         - REACT_APP_HOST_ROCKET=rocket-service
         - REACT_APP_PORT_ROCKET=3000
         - REACT_APP_HOST_WEATHER=weather-service
@@ -318,16 +320,37 @@ services:
         - REACT_APP_PORT_REAL_TIME=3006
         - REACT_APP_HOST_POLL=poll-service
         - REACT_APP_PORT_POLL=3012
+      ## For front
+        # - REACT_APP_HOST_ROCKET=localhost
+        # - REACT_APP_PORT_ROCKET=3000
+        # - REACT_APP_HOST_WEATHER=localhost
+        # - REACT_APP_PORT_WEATHER=3001
+        # - REACT_APP_HOST_MISSION=localhost
+        # - REACT_APP_PORT_MISSION=3002
+        # - REACT_APP_HOST_TELEMETRY=localhost
+        # - REACT_APP_PORT_TELEMETRY=3003
+        # - REACT_APP_HOST_BOOSTER=localhost
+        # - REACT_APP_PORT_BOOSTER=3004
+        # - REACT_APP_HOST_PAYLOAD=localhost
+        # - REACT_APP_PORT_PAYLOAD=3005
+        # - REACT_APP_HOST_TELEMETRY_ANALYSER=localhost
+        # - REACT_APP_PORT_TELEMETRY_ANALYSER=3009
+        # - REACT_APP_HOST_MISSIONS_COORDINATOR=localhost
+        # - REACT_APP_PORT_MISSIONS_COORDINATOR=3008
+        # - REACT_APP_HOST_REAL_TIME=localhost
+        # - REACT_APP_PORT_REAL_TIME=3006
+        # - REACT_APP_HOST_POLL=localhost
+        # - REACT_APP_PORT_POLL=3012
       # Uncommente below if you want to build all these service when building front
-      #depends_on:
-        #- rocket-service
-        #- weather-service
-        #- mission-service
-        #- telemetry-writer-service
-        #- booster-service
-        #- payload-service
-        #- waitforservices3
-        #- real-time-service
+      depends_on:
+        - rocket-service
+        - weather-service
+        - mission-service
+        - telemetry-writer-service
+        - booster-service
+        - payload-service
+        - waitforservices3
+        - real-time-service
       stdin_open: true
       tty: true
       
