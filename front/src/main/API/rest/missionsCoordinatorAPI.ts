@@ -12,7 +12,11 @@ class MissionsCoordinatorAPI extends API {
         super(host, port);
     }
 
-    
+    public createMission(): AxiosPromise {
+        return this.axios.post(
+            '/missions-coordinator'
+        );
+    }
 
     public getMissions(): AxiosPromise {
         return this.axios(

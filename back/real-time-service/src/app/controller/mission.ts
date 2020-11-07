@@ -18,9 +18,8 @@ class Mission {
     }
 
     getStatus(id : string) {
-        if(this.missions[id] == undefined){
-            console.log(this.missions);
-            console.log(id);
+        if(this.missions[id] == undefined){ 
+            console.log("undefined - - - - - - - - -");
         }
         return this.missions[id] == undefined? null :this.missions[id].toObjectJSON();
     }

@@ -38,10 +38,11 @@ services:
       - telemetry-writer-service
       - telemetry-listener-service
       - missions-coordinator-service
-      - anomaly-analyser-service
+      - telemetry-analyser-service
+      - poll-service
       - waitforservices1
       - waitforservices2
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 anomaly-analyser-service:3009
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012
     
 
   telemetry-writer-service:
@@ -58,6 +59,7 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3003
+      - HOST_IP=kafka
       - MONGO_HOST=localhost
       - MONGO_PORT=27018
       - MONGO_DB=telemetry
@@ -206,12 +208,12 @@ services:
       - HOST_TELEMETRY=telemetry-listener-service
       - PORT_TELEMETRY=3007
 
-  anomaly-analyser-service:
-    image: blue_origin/anomaly-analyser-service
-    container_name: anomaly-container
+  telemetry-analyser-service:
+    image: blue_origin/telemetry-analyser-service
+    container_name: telemetry-analyser-container
     build:
       context: .
-      dockerfile: ./back/anomaly-analyser-service/Dockerfile
+      dockerfile: back/telemetry-analyser-service/Dockerfile
     expose:
       - "3009"
     ports:
@@ -240,12 +242,32 @@ services:
       - PORT=3008
       - HOST_BOOSTER=booster-service
       - PORT_BOOSTER=3004
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
       - HOST_HEAD_STAGES=rocket-service
       - PORT_HEAD_STAGES=3000
       - HOST_PAYLOAD=payload-service
       - PORT_PAYLOAD=3005
       - HOST_REAL_TIME=real-time-service
       - PORT_REAL_TIME=3006
+      - HOST_POLL=poll-service
+      - PORT_POLL=3012
+
+  poll-service:
+    image: blue_origin/poll-service
+    container_name: poll-container
+    build:
+      context: .
+      dockerfile: ./back/poll-service/Dockerfile
+    expose:
+      - "3012"
+    ports:
+      - "3012:3012"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      #Listening Port
+      - PORT=3012
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
@@ -288,12 +310,14 @@ services:
         - REACT_APP_PORT_BOOSTER=3004
         - REACT_APP_HOST_PAYLOAD=payload-service
         - REACT_APP_PORT_PAYLOAD=3005
-        - REACT_APP_HOST_ANOMALY=anomaly-analyser-service
-        - REACT_APP_PORT_ANOMALY=3009
+        - REACT_APP_HOST_TELEMETRY_ANALYSER=telemetry-analyser-service
+        - REACT_APP_PORT_TELEMETRY_ANALYSER=3009
         - REACT_APP_HOST_MISSIONS_COORDINATOR=missions-coordinator-service
         - REACT_APP_PORT_MISSIONS_COORDINATOR=3008
         - REACT_APP_HOST_REAL_TIME=real-time-service
         - REACT_APP_PORT_REAL_TIME=3006
+        - REACT_APP_HOST_POLL=poll-service
+        - REACT_APP_PORT_POLL=3012
       # Uncommente below if you want to build all these service when building front
       #depends_on:
         #- rocket-service

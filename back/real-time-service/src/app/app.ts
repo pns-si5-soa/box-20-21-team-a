@@ -125,14 +125,11 @@ const run = async () => {
 					json.rocketStatus,
 					json.missionId
 				);
-				console.log(json)
-				console.log('rocket status : ' + json.rocketStatus);
 			} else if (topic == 'booster-topic') {
 				mission.updateStatusBoosterInRealTime(
 					json.boosterStatus,
 					json.missionId
 				);
-				console.log(json)
 			} else {
 				console.log('topic :' + topic + ' ignored');
 			}

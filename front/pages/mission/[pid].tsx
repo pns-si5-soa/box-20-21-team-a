@@ -13,6 +13,7 @@ import WeatherAPI from '../../src/main/API/rest/weatherAPI';
 import MissionAPI from '../../src/main/API/rest/missionAPI';
 import MissionsCoordinatorAPI from '../../src/main/API/rest/missionsCoordinatorAPI';
 import AnomalyMonitor from "../../components/anomalyMonitor";
+import PollAPI from "../../src/main/API/rest/pollAPI";
 
 
 const Post = () => {
@@ -59,6 +60,7 @@ const Post = () => {
     const boosterAPI = new BoosterAPI();
     const weatherAPI = new WeatherAPI();
 	const missionAPI = new MissionAPI();
+	const pollAPI = new PollAPI();
     const missionsCoordinatorAPI = new MissionsCoordinatorAPI();
     
     const destroyBooster = function () {
@@ -70,19 +72,19 @@ const Post = () => {
 		});
 	};
 	const getPoll = function () {
-		missionAPI.getPoll().then((res) => {
+		pollAPI.getPoll(pid).then((res) => {
 			setPoll(res.data);
 		});
     };
     
     const validateWeather = function () {
-		missionAPI.modifyPoll('weather', 'true',pid).then((res) => {
+		pollAPI.modifyPoll('weather', 'true',pid).then((res) => {
 			setPoll(Object.assign(new Poll(), res.data));
 			alert(`Voted ${res.data.weatherStatus} for weather.`);
 		});
 	};
 	const validateRocket = function () {
-		missionAPI
+		pollAPI
 			.modifyPoll('rocket', 'true',pid)
 			.then((res) => {
 				setPoll(Object.assign(new Poll(), res.data));
@@ -91,7 +93,7 @@ const Post = () => {
 			.catch(() => {});
 	};
 	const validateMission = function () {
-		missionAPI.modifyPoll('mission', 'true',pid).then((res) => {
+		pollAPI.modifyPoll('mission', 'true',pid).then((res) => {
 			setPoll(Object.assign(new Poll(), res.data));
 			alert(`Voted ${res.data.rocketStatus} for mission.`);
 

@@ -1,4 +1,3 @@
-import Poll from '../entities/poll';
 import Mission from "../entities/Mission";
 import BoosterStatus from "../entities/Booster/BoosterStatus";
 import RocketStatus from "../entities/Rocket/RocketStatus";
@@ -23,33 +22,10 @@ class MissionController {
         this.missions= {};
         this.producerKafka = new Producer();
     }
-
-    async createPoll() {
-        console.log("====>")
-        return await MISSIONS_COORDINATOR_API.createMission().then((res) =>{
-            this.missions[res.data.missionId] = new Mission();
-            console.log(this.missions[res.data.missionId]);
-            return this.missions[res.data.missionId].createPoll()
-        }).catch((err)=>{
-            console.error(err);
-        });
+     addNewMission(id:string):string {
+        this.missions[id] = new Mission();
+        return id;
         
-    }
-
-    getPoll(id :string): Poll {
-        return this.missions[id].getPoll();
-    }
-
-    async modifyPoll(serviceName: string, answer: boolean,id:string): Promise<Poll> {
-        return this.missions[id].modifyPoll(serviceName, answer);
-    }
-
-    getRocket(id:string) : boolean {
-        return this.missions[id].getPoll().getRocketResponse();
-    }
-
-    getWeather(id:string) : boolean {
-        return this.missions[id].getPoll().getWeatherResponse();
     }
 
     getMissionStatusForBooster(id:string) : BoosterStatus {

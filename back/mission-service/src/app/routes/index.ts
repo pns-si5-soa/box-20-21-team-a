@@ -1,11 +1,11 @@
 import express = require('express');
 const router = express.Router();
 
-import pollRouter from './poll';
+import missionRouter from './mission';
 import boosterRouter from './booster';
 import rocketRouter from './rocket';
 
-router.use("/poll", pollRouter);
+router.use("/mission", missionRouter);
 router.use("/booster",boosterRouter);
 router.use("/rocket",rocketRouter);
 

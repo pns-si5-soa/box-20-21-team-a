@@ -1,7 +1,7 @@
 cd back 
 
-cd anomaly-analyser-service
-echo "anomaly : "
+cd telemetry-analyser-service
+echo "telemetry analyser: "
 cat .env | grep PORT=
 
 cd ../booster-service
