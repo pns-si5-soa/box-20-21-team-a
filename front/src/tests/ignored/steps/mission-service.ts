@@ -58,7 +58,7 @@ When('I received a {string} answer from rocket service,I modify the poll', async
 
 Then("The new rocket status is {string}", async function(status: string)
     {
-        expect((await pollAPI.getPoll()).data.rocketStatus.toString()).toEqual(status);
+        expect((await pollAPI.getPoll()).data.rocketStatus.toString()).toEqual(status); // FIXME add uuid
     }
 )
 
@@ -84,6 +84,6 @@ When('I received a {string} answer from weather service,I modify the poll', asyn
 
 Then("The new weather status is {string}", async function(status: boolean)
     {
-        expect((await pollAPI.getPoll()).data.weatherStatus.toString()).toEqual(status);
+        expect((await pollAPI.getPoll()).data.weatherStatus.toString()).toEqual(status); // FIXME Add uuid
     }
 )
