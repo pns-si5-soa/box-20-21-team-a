@@ -44,8 +44,8 @@ Feature: Complete scenario
     And then the booster status is 'Landing burn' after guidance
     And then the booster status is 'Landing legs deployed' after landing burn
     And then the booster has landed, its status is 'Landed'
-    And then the rocket status is 'fairing separation'
-    When the booster has no more fuel
+    And then the rocket status is 'Fairing separation'
+    When the rocket has no more fuel
     Then the rocket status is 'Second engine cut off'
 
     When Gwynn decides to deliver the payload
