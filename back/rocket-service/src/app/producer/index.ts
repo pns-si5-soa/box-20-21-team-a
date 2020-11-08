@@ -9,7 +9,7 @@ class Producer {
 	constructor(uuid:string) {
 		this.uuid=uuid
 		this.kafka = new Kafka({
-			logLevel: logLevel.DEBUG,
+			logLevel: logLEVEL.NOTHING,
 			brokers: [`${host}:9092`],
 			clientId: 'producer-rocket-'+uuid,
 		});

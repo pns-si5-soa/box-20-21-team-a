@@ -5,7 +5,7 @@ const { Kafka, logLevel } = require('kafkajs');
 const host = process.env.HOST_IP ?? '127.0.0.1';
 
 const kafka = new Kafka({
-	logLevel: logLevel.INFO,
+	logLevel: logLEVEL.NOTHING,
 	brokers: [`${host}:9092`],
 	clientId: 'example-consumer',
 });
