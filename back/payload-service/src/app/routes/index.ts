@@ -1,7 +1,7 @@
-import express = require('express')
-import Payload from '../aggregate/Payload';
-const router = express.Router(); 
+import express = require('express');
 import payloads from './payloads';
+
+const router = express.Router();
 
 
 router.use("/payloads", payloads)

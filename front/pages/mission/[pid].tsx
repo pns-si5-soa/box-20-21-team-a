@@ -1,12 +1,11 @@
-import { useRouter } from "next/router";
-import React, { useEffect } from 'react';
+import {useRouter} from "next/router";
+import React from 'react';
 import TelemetryMonitor from "../../components/telemetryMonitor";
 import RealTime from "../../components/real-time";
 import BoosterAPI from "../../src/main/API/soap/jquery-calls/boosterAPI";
 import RocketMonitor from "../../components/rocketMonitor";
 import Button from "@material-ui/core/Button";
 import View from "../../components/View";
-import Box from "@material-ui/core/Box";
 import '../index.scss';
 import Poll from '../../src/main/model/Poll';
 import WeatherAPI from '../../src/main/API/rest/weatherAPI';

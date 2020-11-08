@@ -17,7 +17,7 @@ class RocketController {
         console.log(rocketId);
         let rocket = new Rocket(
             new RocketData(rocketId,
-                RocketStatus.PREPARATION, 70, 50, 0)); 
+                RocketStatus.PREPARATION, 70, 1, 0));
            this.rockets[rocketId] = rocket;
         return rocketId;
     }

@@ -10,7 +10,7 @@ const TELEMETRY_API: TelemetryAPI = new TelemetryAPI();
 const MISSION_API: MissionAPI = new MissionAPI();
 
 const DATA_UPDATE_DELAY_IN_MS = 500;
-const ACCELERATION = 2;
+const ACCELERATION = 1;
 const PRESSURE_INCREASE = 5;
 
 const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 10; // todo put to 1 minute

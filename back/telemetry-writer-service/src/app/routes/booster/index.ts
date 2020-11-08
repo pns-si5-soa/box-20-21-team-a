@@ -1,7 +1,7 @@
 import express = require('express');
-import { removeMany } from '../../db/Mongo';
-const router = express.Router();
 import TelemetryService from "../../services/telemetry-controller";
+
+const router = express.Router();
 
 router.get('/', (req, res) => {
     TelemetryService.getBoosterData().then(data => {

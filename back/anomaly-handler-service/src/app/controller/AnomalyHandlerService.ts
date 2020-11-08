@@ -17,8 +17,7 @@ class AnomalyAnalyserService {
 
     analyseAnomaly(id : string, anomaly : AnomalyEnum){
         let newAnomaly = new RocketAnomaly(id, anomaly);
-        if (newAnomaly.analyseAnomaly()){
-            console.log("BOUM BOUM");
+        if (newAnomaly.anomalyIsCritical()){
             missionAPI.sendData(RocketStatus.ABORTED_AND_ROCKET_DESTROYED, id);
             boosterAPI.destroyBoosterSOAPBack(id);
             rocketAPI.destroyRocketSOAPBack(id);

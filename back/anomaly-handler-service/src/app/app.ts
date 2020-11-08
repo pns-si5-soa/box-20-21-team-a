@@ -1,7 +1,9 @@
 import express = require('express');
 import createError = require('http-errors');
+
 require('dotenv').config();
 import AnomalyHandlerService from "./controller/AnomalyHandlerService";
+
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
@@ -99,7 +101,7 @@ function onListening() {
 
 // KAFKA
 const { Kafka, logLevel } = require('kafkajs')
-const host = process.env.HOST_IP;
+const host = process.env.KAFKA_HOST_IP;
 
 
 

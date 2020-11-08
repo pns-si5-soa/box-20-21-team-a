@@ -1,5 +1,6 @@
 import TelemetryController from "../../services/telemetry-controller";
 import express = require('express');
+
 const router = express.Router();
 
 router.post('/', (req, res) => {

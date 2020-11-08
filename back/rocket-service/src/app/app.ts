@@ -1,10 +1,10 @@
 require('dotenv').config()
 import express = require('express');
-import createError = require('http-errors');
 
 const cors = require('cors');
 import rocketService from "./controller";
 import indexRouter from "./routes"
+
 var http = require('http');
 
 
@@ -62,28 +62,27 @@ let myService = {
                     return {rocketService: rocketService.rockets[args.id].getRocketData().toJsonObject()};
                 }
             return {rocketService : 'This rocket doesn\'t exist' }
-
             },
 
-            notifyLaunch: function (args: any) {
-                if(rocketService.rockets[args.id] != undefined){
-                
-                rocketService.notifyOfBoosterLaunch(args.id);
-                return {rocket: rocketService.rockets[args.id].getRocketData().toJsonObject()};
-                }
-            return {rocketService : 'This rocket doesn\'t exist' }
-
-            },
-
-            initializeSecondEngineForSecondStage: function (args: any) {
-                if(rocketService.rockets[args.id] != undefined){
-
-                rocketService.initializeSecondEngineForSecondStage(args.id);
-                return {rocket: rocketService.rockets[args.id].getRocketData().toJsonObject()};
-                }
-            return {rocketService : 'This rocket doesn\'t exist' }
-
-            },
+            // notifyLaunch: function (args: any) {
+            //     if(rocketService.rockets[args.id] != undefined){
+            //
+            //     rocketService.notifyOfBoosterLaunch(args.id);
+            //     return {rocket: rocketService.rockets[args.id].getRocketData().toJsonObject()};
+            //     }
+            // return {rocketService : 'This rocket doesn\'t exist' }
+            //
+            // },
+            //
+            // initializeSecondEngineForSecondStage: function (args: any) {
+            //     if(rocketService.rockets[args.id] != undefined){
+            //
+            //     rocketService.initializeSecondEngineForSecondStage(args.id);
+            //     return {rocket: rocketService.rockets[args.id].getRocketData().toJsonObject()};
+            //     }
+            // return {rocketService : 'This rocket doesn\'t exist' }
+            //
+            // },
 
             destroy: function (args: any) {
                 if(rocketService.rockets[args.id] != undefined){

@@ -1,6 +1,6 @@
 import express = require('express');
 import AnomalyAnalyserService from '../controller/TelemetryAnalyserService';
-import {parse} from "dotenv";
+
 const router = express.Router();
 
 
