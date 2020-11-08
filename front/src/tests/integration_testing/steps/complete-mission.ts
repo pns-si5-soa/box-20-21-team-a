@@ -101,7 +101,7 @@ Then("a new booster is created", async function() {
 Then("a new payload is created", async function() {
 	await verifyExistTelemetryData<PayloadData>("getPayloadData", new PayloadData())
 })
-When("Tory has been informed that the poll has been created, she can check the weather status", async function() {
+/*When("Tory has been informed that the poll has been created, she can check the weather status", async function() {
 	weather = await new Promise((resolve, reject) => {
 		weatherAPI.getWeather().then(res => {
 			resolve(res.data);
@@ -109,10 +109,10 @@ When("Tory has been informed that the poll has been created, she can check the w
 			reject(err);
 		})
 	})
-})
-Then("the weather status is {string}, {string} or {string}", function(arg0: string, arg1: string, arg2: string) {
+})*/
+/*Then("the weather status is {string}, {string} or {string}", function(arg0: string, arg1: string, arg2: string) {
 	expect([arg0, arg1, arg2]).toContain(weather)
-})
+})*/
 When("she answers positively to the poll", async function() {
 	await pollAPI.modifyPoll("weather", "true", missionID)
 })
