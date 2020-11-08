@@ -1,4 +1,4 @@
-enum RocketStatus {
+export enum RocketStatus {
     PREPARATION = 0,
     ON_INTERNAL_POWER = 1,
     STARTUP = 2,
