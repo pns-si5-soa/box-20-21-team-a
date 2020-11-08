@@ -97,7 +97,7 @@ const { Kafka, logLevel } = require('kafkajs');
 const host = process.env.HOST_IP;
 
 const kafka = new Kafka({
-	logLevel: logLevel.INFO,
+	logLevel: logLevel.NOTHING,
 	brokers: [`${host}:9092`],
 	clientId: 'real-time',
 });
@@ -111,13 +111,7 @@ const run = async () => {
 	await consumer.subscribe({ topic: topicRocket });
 	await consumer.subscribe({ topic: topicBooster });
 	await consumer.run({
-		eachBatch: async ({ batch }: any) => {
-			console.log(batch);
-		},
 		eachMessage: async ({ topic, partition, message }: any) => {
-			const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`;
-
-			console.log(`- ${prefix} ${message.key}#${message.value}`);
 			var msg = message.value;
 			var json = JSON.parse(msg);
 			if (topic == 'rocket-topic') {
