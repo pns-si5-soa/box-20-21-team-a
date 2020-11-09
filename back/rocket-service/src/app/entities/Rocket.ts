@@ -302,6 +302,7 @@ class Rocket {
     }
 
     makeRocketFall() {
+        console.log(" ==========>falllllllllllling");
         this.isFallingDown = true;
         this.controlRocketFalling();
     }

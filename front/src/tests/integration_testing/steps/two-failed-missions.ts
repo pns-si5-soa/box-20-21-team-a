@@ -52,17 +52,17 @@ Given("the rocket has been launched for each mission",async function () {
     
 });
 
-Given("the first mission has already its rocket and its booster detached from each other", function () {
+Given("the first mission has its rocket still attached to the booster", function () {
     
 });
 
 
-Given('the second mission has its rocket still attached to the booster', function () {
+Given('the second mission has already its rocket and its booster detached from each other', function () {
     // Write code here that turns the phrase above into concrete actions
    // return 'pending';
   });
 
-When("the anomaly {string} which have a severity of 3 is detected in the first mission's rocket",{timeout: 3 * 5000},async function(anomaly:string) {
+When("the anomaly {string} which have a severity of 3 is detected in the first mission's rocket",{timeout: 15 * 5000},async function(anomaly:string) {
    let status : RocketStatus;
     // Wait forrocket on internal power
     await setIntervalConditionPromise(function(){
@@ -72,7 +72,7 @@ When("the anomaly {string} which have a severity of 3 is detected in the first m
            
         })
         },1000,function(){
-            return status > RocketStatus.ON_INTERNAL_POWER ;
+            return status >= RocketStatus.LAUNCHED ;
         }
     )
     console.log("Make fall ====>"+missions[missions.length-1])
@@ -90,8 +90,10 @@ Then("the mission is immediately aborted which cause the head stage status to ch
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-1]).then((res)=>{
             
-            console.log(res.data);
+            console.log(res.data.rocket + " == "+status);
             rocketStatusTemp = res.data.rocket;
+            console.log(mapStatusToTextRocket[rocketStatusTemp] == status);
+
         })
         },1000,function(){
             return mapStatusToTextRocket[rocketStatusTemp] == status;
@@ -105,11 +107,9 @@ Then('the booster continues its landing process normally and finally has the {st
     var boosterStatus : BoosterStatus = BoosterStatus.ON_THE_ROCKET;
 
     await setIntervalConditionPromise(function(){
-        realTimeAPI.getStatus(missions[0]).then(function(res){
+        realTimeAPI.getStatus(missions[missions.length-1]).then(function(res){
             responseData = res.data;
-            console.log(responseData);
             boosterStatus = responseData.booster
-            console.log(boosterStatus);
         }).catch(function(err)
         {
             return err.response;
