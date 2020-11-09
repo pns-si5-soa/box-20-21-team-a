@@ -9,7 +9,7 @@ import Consumer from "../consumer";
 const TELEMETRY_API: TelemetryAPI = new TelemetryAPI();
 const MISSION_API: MissionAPI = new MissionAPI();
 
-const DATA_UPDATE_DELAY_IN_MS = 500;
+const DATA_UPDATE_DELAY_IN_MS = 1000;
 const ACCELERATION = 1;
 const PRESSURE_INCREASE = 5;
 
@@ -17,6 +17,10 @@ const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 10; // todo put to 1 minute
 const NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS = 3;
 
 class Rocket {
+
+
+// TODO CHECK SKYFALL BEHAVIOR AND CHECK WHY THE ALTITUDE GOWS UP SO QUICKLY. RENAME ROCKET!
+
 
     private rocketData: RocketData;
     private rocketDrained = false;
@@ -40,6 +44,8 @@ class Rocket {
             this.notifyOfBoosterLaunch();
         } else if (signal.action == 'notifyDetachment') {
             this.initializeSecondEngineForSecondStage();
+        } else if (signal.action == 'notifyOfBoosterDestruction') {
+            this.destroy();
         }
     }
 
@@ -107,7 +113,7 @@ class Rocket {
             },
             1000,
             () => numberOfSecondsBeforeLaunch === NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS);
-        await this.startEnginesForLaunch();
+        this.startEnginesForLaunch();
     }
 
     private async startEnginesForLaunch(): Promise<void> {
@@ -121,7 +127,7 @@ class Rocket {
             },
             1000,
             () => numberOfSecondsBeforeLaunch === 0);
-        await this.launchRocket();
+        this.launchRocket();
     }
 
     private async launchRocket(): Promise<void> {
@@ -139,17 +145,13 @@ class Rocket {
     async notifyOfBoosterLaunch(): Promise<void> {
         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.LAUNCHED);
         console.log("Rocket has been launched!");
-        return await this.controlFlightBeforeMaxQ();
+        this.controlFlightBeforeMaxQ();
     }
 
     private async controlFlightBeforeMaxQ(): Promise<void> {
         const that = this;
         await setIntervalConditionPromise(() => {
-                // if (!that.rocketFallingDown) {
                 that.rocketData.altitude += that.rocketData.speed;
-                // } else {
-                //     that.rocketData.altitude -= that.rocketData.speed;
-                // }
                 that.rocketData.speed += ACCELERATION;
                 if (that.rocketDrained) {
                     that.rocketData.fuelLevel -= 1;
@@ -165,7 +167,7 @@ class Rocket {
         if (that.rocketData.rocketStatus === RocketStatus.DESTROYED || this.isFallingDown) {
             return;
         }
-        return await this.controlFlightAfterMaxQ();
+        this.controlFlightAfterMaxQ();
     }
 
     private async controlFlightAfterMaxQ(): Promise<void> {
@@ -173,11 +175,7 @@ class Rocket {
         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.MAX_Q_REACHED);
         const that = this;
         await setIntervalConditionPromise(() => {
-                // if (!this.isFallingDown) {
                 that.rocketData.altitude += this.rocketData.speed;
-                // } else {
-                //     that.rocketData.altitude -= this.rocketData.speed;
-                // }
                 that.sendDataToTelemetryAndMission();
                 that.sendDataToAttachedBooster();
             },
@@ -186,9 +184,6 @@ class Rocket {
                 that.rocketData.rocketStatus === RocketStatus.DESTROYED ||
                 that.rocketData.rocketStatus === RocketStatus.MAIN_ENGINE_CUT_OFF
                 || that.isFallingDown));
-        if (this.rocketData.rocketStatus === RocketStatus.DESTROYED || this.isFallingDown) {
-            return;
-        }
     }
 
     /**
@@ -225,17 +220,7 @@ class Rocket {
             || this.isFallingDown) {
             return;
         }
-        // setTimeout(() => {
-        //         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.BOOSTER_DETACHED);
-        //         console.log("Booster detached.");
-        //     },
-        //     3000);
-        // setTimeout(() => {
-        //         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.SECOND_ENGINE_START);
-        //         console.log("Rocket engines started.");
-        //     },
-        //     3000);
-        await this.controlSecondStageOfFlight();
+        this.controlSecondStageOfFlight();
     }
 
     private async controlSecondStageOfFlight(): Promise<void> {
@@ -255,7 +240,7 @@ class Rocket {
         if (this.rocketData.rocketStatus === RocketStatus.DESTROYED || this.isFallingDown) {
             return;
         }
-        await this.initializeFairingSeparation();
+        this.initializeFairingSeparation();
     }
 
     private async initializeFairingSeparation(): Promise<void> {
@@ -273,15 +258,18 @@ class Rocket {
         if (this.rocketData.rocketStatus === RocketStatus.DESTROYED || this.isFallingDown) {
             return;
         }
-        await this.cutOffSecondEngine();
+        this.cutOffSecondEngine();
     }
 
-    private async cutOffSecondEngine() {
+    private cutOffSecondEngine() {
         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.SECOND_ENGINE_CUT_OFF);
         console.log("Second engine cut off.");
     }
 
     destroy(): void {
+        if (this.rocketData.rocketStatus < RocketStatus.BOOSTER_DETACHED) {
+            this.rocketBusProducer.sendMessage({action: 'notifyOfHeadDestruction'}, 'rocket-' + this.rocketData.missionId + '-booster');
+        }
         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.DESTROYED);
         console.log("*BOOM!* - Rocket destroyed!");
     }
