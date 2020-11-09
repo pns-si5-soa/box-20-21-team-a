@@ -111,7 +111,7 @@ const host = process.env.HOST_IP;
 const kafka = new Kafka({
     logLevel: logLevel.NOTHING,
     brokers: [`${host}:9092`],
-    clientId: 'example-consumer',
+    clientId: 'consumer-analyser',
 })
 
 const topicRocket = 'telemetry-rocket'

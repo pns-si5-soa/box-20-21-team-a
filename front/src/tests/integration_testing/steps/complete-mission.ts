@@ -1,4 +1,5 @@
 require('dotenv').config()
+import "logs-module"
 import MissionsCoordinatorAPI from "../../../main/API/rest/missionsCoordinatorAPI";
 import PollAPI from "../../../main/API/rest/pollAPI";
 import Poll from "../../../main/model/Poll";

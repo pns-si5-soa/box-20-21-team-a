@@ -42,6 +42,7 @@ services:
       - poll-service
       - waitforservices1
       - waitforservices2
+      - anomaly-handler-service
     command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012 anomaly-handler-service:3013
     
 
@@ -80,6 +81,7 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3007
+      - HOST_IP=kafka
 
   mission-service:
       image: blue_origin/mission-service
@@ -100,10 +102,10 @@ services:
         - PORT=3002
         - HOST_IP=kafka
         - PORT_KAFKA=9092
-        - MONGO_HOST=localhost
-        - MONGO_PORT=27018
+        - MONGO_HOST=mongodb
+        - MONGO_PORT=27017
         - MONGO_DB=mission
-        - HOST_MISSIONS_COORDINATOR=localhost
+        - HOST_MISSIONS_COORDINATOR=missions-coordinator
         - PORT_MISSIONS_COORDINATOR=3008
 
   weather-service:
@@ -148,8 +150,10 @@ services:
         dockerfile: ./back/rocket-service/Dockerfile
       expose: 
         - "3000"
+        - "3011"
       ports:
         - "3000:3000"
+        - "3011:3011"
       volumes:
         - ./container-logs:/usr/src/app/logs
       environment:
@@ -162,6 +166,7 @@ services:
         - HOST_MISSION=mission-service
         - PORT_MISSION=3002
         - HOST_IP=kafka
+        - NODE_TLS_REJECT_UNAUTHORIZED=0
       depends_on:
         - telemetry-listener-service
         - mongodb
@@ -174,8 +179,10 @@ services:
       dockerfile: ./back/booster-service/Dockerfile
     expose: 
       - "3004"
+      - "3010"
     ports:
       - "3004:3004"
+      - "3010:3010"
     volumes:
       - ./container-logs:/usr/src/app/logs
     environment:
@@ -188,6 +195,7 @@ services:
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
       - HOST_IP=kafka
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
     
     depends_on:
       - mongodb
@@ -201,17 +209,20 @@ services:
       dockerfile: ./back/payload-service/Dockerfile
     expose:
       - "3005"
+      - "3015"
     ports:
       - "3005:3005"
+      - "3015:3015"
     volumes:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3005
-      - PORT_HTTP=3011
+      - PORT_HTTP=3015
       - HOST_TELEMETRY=telemetry-listener-service
       - PORT_TELEMETRY=3007
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
 
   anomaly-handler-service:
     image: blue_origin/anomaly-handler-service
@@ -273,7 +284,7 @@ services:
       - HOST_HEAD_STAGES=rocket-service
       - PORT_HEAD_STAGES=3011
       - HOST_PAYLOAD=payload-service
-      - PORT_PAYLOAD=3005
+      - PORT_PAYLOAD=3015
       - HOST_REAL_TIME=real-time-service
       - PORT_REAL_TIME=3006
       - HOST_POLL=poll-service
@@ -300,6 +311,8 @@ services:
     image: wurstmeister/zookeeper:latest
     ports:
       - "2181:2181"
+    logging:
+      driver: none
   kafka:
     image: wurstmeister/kafka:2.11-1.1.1
     ports:
@@ -308,6 +321,8 @@ services:
       - "9092"
     links:
       - zookeeper
+    logging:
+      driver: none
     environment:
       KAFKA_BROKER_ID: 100
       #KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
@@ -339,7 +354,7 @@ services:
         - REACT_APP_HOST_BOOSTER=booster-service
         - REACT_APP_PORT_BOOSTER=3004
         - REACT_APP_HOST_PAYLOAD=payload-service
-        - REACT_APP_PORT_PAYLOAD=3005
+        - REACT_APP_PORT_PAYLOAD=3015
         - REACT_APP_HOST_TELEMETRY_ANALYSER=telemetry-analyser-service
         - REACT_APP_PORT_TELEMETRY_ANALYSER=3009
         - REACT_APP_HOST_MISSIONS_COORDINATOR=missions-coordinator-service
