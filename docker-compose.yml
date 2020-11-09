@@ -42,7 +42,7 @@ services:
       - poll-service
       - waitforservices1
       - waitforservices2
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012
+    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012 anomaly-handler-service:3013
     
 
   telemetry-writer-service:
@@ -60,8 +60,8 @@ services:
     environment:
       - PORT=3003
       - HOST_IP=kafka
-      - MONGO_HOST=localhost
-      - MONGO_PORT=27018
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
       - MONGO_DB=telemetry
     depends_on:
       - mongodb
@@ -161,6 +161,7 @@ services:
         - PORT_BOOSTER=3004
         - HOST_MISSION=mission-service
         - PORT_MISSION=3002
+        - HOST_IP=kafka
       depends_on:
         - telemetry-listener-service
         - mongodb
@@ -186,6 +187,7 @@ services:
       - PORT_TELEMETRY=3007
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
+      - HOST_IP=kafka
     
     depends_on:
       - mongodb
@@ -208,6 +210,30 @@ services:
       - PORT_HTTP=3011
       - HOST_TELEMETRY=telemetry-listener-service
       - PORT_TELEMETRY=3007
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
+
+  anomaly-handler-service:
+    image: blue_origin/anomaly-handler-service
+    container_name: anomaly-handler-container
+    build: 
+      context: .
+      dockerfile: ./back/anomaly-handler-service/Dockerfile
+    expose:
+      - "3013"
+    ports:
+      - "3013:3013"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3013
+      - HOST_IP=kafka
+      - HOST_BOOSTER_SOAP=booster-service
+      - PORT_BOOSTER_SOAP=3004
+      - PORT_ROCKET_SOAP=rocket-service
+      - HOST_ROCKET_SOAP=3000
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
 
   telemetry-analyser-service:
     image: blue_origin/telemetry-analyser-service
@@ -224,7 +250,6 @@ services:
     environment:
       - PORT=3009
       - HOST_IP=kafka
-      - PORT_KAFKA=9092
   
   missions-coordinator-service:
     image: blue_origin/missions-coordinator-service
@@ -269,6 +294,7 @@ services:
     environment:
       #Listening Port
       - PORT=3012
+      - HOST_IP=kafka
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
@@ -278,6 +304,8 @@ services:
     image: wurstmeister/kafka:2.11-1.1.1
     ports:
       - "9092:9092"
+    expose:
+      - "9092"
     links:
       - zookeeper
     environment:
