@@ -16,8 +16,6 @@ services:
     depends_on:
       - zookeeper 
     command: zookeeper:2181
-    
-
 
   waitforservices2:
     image: dadarek/wait-for-dependencies
@@ -141,6 +139,7 @@ services:
         - PORT=3006
         - HOST_IP=kafka
         - PORT_KAFKA=9092
+
 
   rocket-service:
       image: blue-origin/rocket-service
