@@ -4,7 +4,7 @@ const host = process.env.HOST_IP ?? '127.0.0.1';
 
 // Create the client with the broker list
 const kafka = new Kafka({
-    logLevel: logLEVEL.NOTHING,
+    logLevel: logLevel.NOTHING,
     clientId: 'blue-app',
     brokers: [`${host}:9092`],
 
@@ -18,7 +18,7 @@ class Producer{
 
      constructor(){
       this.kafka = new Kafka({
-        logLevel: logLEVEL.NOTHING,
+        logLevel: logLevel.NOTHING,
         brokers: [`${host}:9092`],
         clientId: 'example-producer',
       });

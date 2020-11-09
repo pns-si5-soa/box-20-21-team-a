@@ -109,7 +109,7 @@ const host = process.env.HOST_IP;
 
 
 const kafka = new Kafka({
-    logLevel: logLEVEL.NOTHING,
+    logLevel: logLevel.NOTHING,
     brokers: [`${host}:9092`],
     clientId: 'example-consumer',
 })
