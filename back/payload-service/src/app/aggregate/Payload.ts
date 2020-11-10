@@ -17,6 +17,9 @@ export default class Payload {
     constructor(payloadId: string) {
         this.payloadData = new PayloadData(payloadId);
 
+        this.payloadData.speed = 7;
+        this.payloadData.altitude = 575;
+
         this.payloadBusProducer = new Producer(payloadId.toString());
         this.payloadBusConsumer = new Consumer(payloadId.toString());
         this.payloadBusConsumer.run('rocket-' + payloadId + '-payload', (value: Object) => {
@@ -35,8 +38,6 @@ export default class Payload {
     detach() {
         console.log("Detaching Payload...");
         this.payloadData.payloadStatus = PayloadStatus.IN_PROGRESS;
-        // this.payloadData.speed = 10;
-        // this.payloadData.altitude = 37000;
     }
 
     async progressingToOrbitalPosition() {

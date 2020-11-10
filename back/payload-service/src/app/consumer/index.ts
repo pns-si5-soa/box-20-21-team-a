@@ -26,7 +26,7 @@ export default class Consumer {
 		// Then subscribe
 		await this.consumer.subscribe({ topic: topic_name, fromBeginning: true });
 		console.log("Payload consumer subscribing to topic : "+topic_name);
-	
+
 
 		// Finaly listen 
 		await this.consumer.run({
@@ -35,9 +35,6 @@ export default class Consumer {
 			},
 			eachMessage: async ({ topic, partition, message }: any) => {
 				const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`;
-
-				console.log(`- ${prefix} ${message.key}#${message.value}`);
-				console.log(' - - - - - - - - - - - - - -- - - - - - - - - - -');
 				var msg = message.value;
 				var json = JSON.parse(msg);
 				if (topic == topic_name) {

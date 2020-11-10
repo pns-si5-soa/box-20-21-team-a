@@ -24,7 +24,6 @@ class Producer {
 				compression: CompressionTypes.GZIP,
 				messages: [{ value: JSON.stringify(message) }],
 			})
-			.then(console.log('sent - - - - - - - - - - - - -: ' + JSON.stringify(message)+' on topic '+topic))
 			.catch((e: { message: any }) =>
 				console.error(`[example/producer] ${e.message}`, e)
 			);
