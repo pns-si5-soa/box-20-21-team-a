@@ -1,6 +1,7 @@
 import RocketData from "../entities/Rocket/RocketData";
 import BoosterData from "../entities/Booster/BoosterData";
 import PayloadData from "../entities/Payload/PayloadData";
+import { find } from "../db/Mongo";
 
 class TelemetryController {
 
@@ -28,6 +29,18 @@ class TelemetryController {
     getBoosterData(filter: Object = {}) {
         const boosterData = new BoosterData()
         return boosterData.findLastAndAssign(filter)
+    }
+
+    getAllBoosterData(filter: Object = {}) {
+        return find("BoosterData", filter)
+    }
+
+    getAllRocketData(filter: Object = {}) {
+        return find("RocketData", filter)
+    }
+
+    getAllPayloadData(filter: Object = {}) {
+        return find("PayloadData", filter)
     }
 
     addPayloadData(payloadData: PayloadData): PayloadData {

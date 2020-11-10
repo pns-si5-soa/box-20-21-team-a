@@ -11,6 +11,14 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/:id/all', (req, res) => {
+    TelemetryService.getAllPayloadData({missionId: req.params.id}).then(payloadData => {
+        res.json(payloadData)
+    }).catch(err => {
+        res.send(null)
+    })
+})
+
 router.get('/:id', (req, res) => {
     TelemetryService.getPayloadData({missionId: req.params.id}).then(payloadData => {
         res.json(payloadData)

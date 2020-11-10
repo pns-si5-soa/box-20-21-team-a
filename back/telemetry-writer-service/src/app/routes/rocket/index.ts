@@ -11,6 +11,14 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:id/all', (req, res) => {
+    TelemetryService.getAllRocketData({missionId: req.params.id}).then(data => {
+        res.send(data);
+    }).catch((error) => {
+        res.send(null)
+    });
+});
+
 router.get('/:id', (req, res) => {
     TelemetryService.getRocketData({missionId: req.params.id}).then(data => {
         res.send(data);

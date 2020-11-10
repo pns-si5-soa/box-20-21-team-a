@@ -59,7 +59,7 @@ abstract class Entitie {
             }).catch(err => reject(err))
         })
     }
-
+    
     //Serialize to database
     abstract toObjectJSON() : Object;
     //Unserialise from database
