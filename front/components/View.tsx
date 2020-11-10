@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from "next/head";
-import { Container } from "@material-ui/core";
+import {Container} from "@material-ui/core";
 
 type Props = {
     children: JSX.Element;

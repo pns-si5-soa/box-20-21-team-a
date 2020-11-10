@@ -3,20 +3,19 @@ import "logs-module"
 import MissionsCoordinatorAPI from "../../../main/API/rest/missionsCoordinatorAPI";
 import PollAPI from "../../../main/API/rest/pollAPI";
 import Poll from "../../../main/model/Poll";
+import expect from 'expect';
+import TelemetryAPI from "../../../main/API/rest/telemetryAPI";
+import {AxiosPromise} from "axios";
+import BoosterData from "../../../main/model/Booster/BoosterData";
+import PayloadData from "../../../main/model/Payload/PayloadData";
+import RocketData from "../../../main/model/Rocket/RocketData";
+import WeatherAPI from "../../../main/API/rest/weatherAPI";
 
 const {
 	When,
 	Then,
 	Given,
 } = require('cucumber');
-
-import expect from 'expect';
-import TelemetryAPI from "../../../main/API/rest/telemetryAPI";
-import { AxiosPromise } from "axios";
-import BoosterData from "../../../main/model/Booster/BoosterData";
-import PayloadData from "../../../main/model/Payload/PayloadData";
-import RocketData from "../../../main/model/Rocket/RocketData";
-import WeatherAPI from "../../../main/API/rest/weatherAPI";
 
 const missionsCoordinatorAPI = new MissionsCoordinatorAPI();
 const pollAPI = new PollAPI();

@@ -1,4 +1,4 @@
-import { ISubscriptions } from "./consumer";
+import {ISubscriptions} from "./consumer";
 
 // KAFKA
 const { Kafka, logLevel } = require('kafkajs');

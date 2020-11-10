@@ -1,4 +1,4 @@
-import {MongoClient, Db, InsertWriteOpResult} from 'mongodb'
+import {Db, MongoClient} from 'mongodb'
 
 interface Response {
 	db: Db;

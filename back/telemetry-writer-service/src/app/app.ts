@@ -1,5 +1,5 @@
 require('dotenv').config()
-import express = require('express')
+import express = require('express');
 import createError = require('http-errors');
 import Consumer from './consumer/consumer';
 import BoosterData from './entities/Booster/BoosterData';
@@ -7,6 +7,7 @@ import PayloadData from './entities/Payload/PayloadData';
 import RocketData from './entities/Rocket/RocketData';
 import indexRouter from "./routes";
 import telemetryController from './services/telemetry-controller';
+
 var http = require('http');
 var cors = require('cors');
 require ("logs-module");

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import realTimeAPI from '../../src/main/API/rest/realTimeAPI';
 import {BoosterStatus, mapStatusToText as mapStatusToTextBooster} from '../../src/main/model/Booster/BoosterStatus'
 import RocketStatus, {mapStatusToText as mapStatusToTextRocket} from '../../src/main/model/Rocket/RocketStatus'

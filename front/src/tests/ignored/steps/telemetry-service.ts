@@ -1,4 +1,7 @@
 import TelemetryAPI from "../../../main/API/telemetryAPI";
+import expect from 'expect';
+import RocketStatus from "../../../main/model/Rocket/RocketStatus";
+import BoosterAPI from "../../../main/API/boosterAPI";
 
 const {
     When,
@@ -6,10 +9,6 @@ const {
 } = require('cucumber');
 
 require('dotenv').config()
-
-import expect from 'expect';
-import RocketStatus from "../../../main/model/Rocket/RocketStatus";
-import BoosterAPI from "../../../main/API/boosterAPI";
 
 
 let response: any;

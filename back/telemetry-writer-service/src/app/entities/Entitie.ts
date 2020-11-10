@@ -1,5 +1,4 @@
-import {insertOne, removeOne, update, find} from "../db/Mongo"
-import BoosterData from "./Booster/BoosterData";
+import {find, insertOne, removeOne, update} from "../db/Mongo"
 
 abstract class Entitie {
 

@@ -1,11 +1,12 @@
 import express = require('express');
 import createError = require('http-errors');
+
 require('dotenv').config();
 import indexRouter from "./routes";
 import AnomalyAnalyserService from "./controller/TelemetryAnalyserService";
-import RocketData from "./entities/Rocket/RocketData";
 import {setIntervalConditionPromise} from "./tools/set_intervalx";
 import BoosterData from "./entities/Booster/BoosterData";
+
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");

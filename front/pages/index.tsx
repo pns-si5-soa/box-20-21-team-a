@@ -1,24 +1,16 @@
-import React, { useEffect } from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import React, {useEffect} from 'react';
+import {makeStyles, Theme} from '@material-ui/core/styles';
 import View from '../components/View';
 import './index.scss';
 import Button from '@material-ui/core/Button';
-import Poll from '../src/main/model/Poll';
-import WeatherAPI from '../src/main/API/rest/weatherAPI';
 import MissionAPI from '../src/main/API/rest/missionAPI';
-import BoosterAPI from '../src/main/API/soap/jquery-calls/boosterAPI';
-import RocketData from '../src/main/model/Rocket/RocketData';
-import BoosterData from '../src/main/model/Booster/BoosterData';
-import PayloadData from '../src/main/model/Payload/PayloadData';
-import TelemetryMonitor from '../components/telemetryMonitor';
-import RealTime from '../components/real-time'
-import AnomalyMonitor from "../components/anomalyMonitor";
+import MissionsCoordinatorAPI from '../src/main/API/rest/missionsCoordinatorAPI';
+
 interface TabPanelProps {
 	children?: React.ReactNode;
 	index: any;
 	value: any;
-}    
-import MissionsCoordinatorAPI from '../src/main/API/rest/missionsCoordinatorAPI';
+}
 
 interface IMission{
 	id :string;

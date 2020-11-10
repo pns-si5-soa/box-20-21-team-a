@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import TelemetryAPI from '../../../src/main/API/rest/telemetryAPI';
 import PayloadData from '../../../src/main/model/Payload/PayloadData';
 import {mapStatusToText} from '../../../src/main/model/Payload/PayloadStatus';
+
 const telemetryAPI = new TelemetryAPI();
 
 interface IProps {

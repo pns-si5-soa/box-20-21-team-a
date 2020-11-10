@@ -1,12 +1,12 @@
 import express = require('express');
 import createError = require('http-errors');
+
 require('dotenv').config();
 import AnomalyHandlerService from "./controller/AnomalyHandlerService";
+
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
-
-
 
 const app: express.Application = express();
 if(process.env.PORT == undefined) throw Error("port is missing on .env file");
@@ -100,7 +100,6 @@ function onListening() {
 // KAFKA
 const { Kafka, logLevel } = require('kafkajs')
 const host = process.env.HOST_IP;
-
 
 
 const kafka = new Kafka({

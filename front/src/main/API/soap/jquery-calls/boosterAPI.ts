@@ -13,25 +13,6 @@ class BoosterAPI {
         this.urlSOAP = 'http://' + host + ':' + port + '/wsdl?wsdl';
     }
 
-    // public launchBoosterSOAPBack<T>(): Promise<any> {
-    //     var args = {};
-    //     return soap.createClient(this.urlSOAP, function (err: String, client: Client) {
-    //         client.launchBooster(args, function (err: String, result: Client) {
-    //             return result;
-    //         });
-    //     });
-    // }
-
-
-
-// public destroyBoosterSOAPBack<T>(): Promise<any> {
-//     var args = {};
-//     return soap.createClient(this.urlSOAP, function (err: String, client: Client) {
-//         client.destroy(args, function (err: String, result: Client) {
-//             return result;
-//         });
-//     });
-// }
     public destroyBooster(id:string) : Promise<any>{
         return new Promise((resolve, reject) => {
             $.soap({

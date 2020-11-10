@@ -1,4 +1,5 @@
-import express = require('express')
+import express = require('express');
+
 const router = express.Router();
 
 import mission from "../../controller/mission"

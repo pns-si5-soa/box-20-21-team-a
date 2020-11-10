@@ -1,4 +1,4 @@
-import { AxiosPromise } from 'axios';
+import {AxiosPromise} from 'axios';
 
 import API from './API';
 

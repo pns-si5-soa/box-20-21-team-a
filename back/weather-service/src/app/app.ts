@@ -1,7 +1,8 @@
 require('dotenv').config()
-import express = require('express')
+import express = require('express');
 import createError = require('http-errors');
 import indexRouter from "./routes";
+
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
