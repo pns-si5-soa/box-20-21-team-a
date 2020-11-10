@@ -13,12 +13,10 @@ const DATA_UPDATE_DELAY_IN_MS = 1000;
 const ACCELERATION = 0.5;
 const PRESSURE_INCREASE = 5;
 
-const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 5; // todo put to 1 minute
+const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 10; // todo put to 1 minute
 const NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS = 3;
 
 class Rocket {
-
-
     private rocketData: RocketData;
     private rocketDrained = false;
     private isFallingDown = false;
@@ -235,8 +233,7 @@ class Rocket {
             DATA_UPDATE_DELAY_IN_MS,
             () => (that.rocketData.rocketStatus === RocketStatus.DESTROYED
                 || this.isFallingDown
-                || that.canInitializeFairingSeparation
-                /*|| that.rocketData.fuelLevel <= 7*/)); // fixme this could be to change
+                || that.canInitializeFairingSeparation)); // fixme this could be to change
         if (this.rocketData.rocketStatus === RocketStatus.DESTROYED || this.isFallingDown) {
             return;
         }
@@ -262,13 +259,22 @@ class Rocket {
     }
 
     private cutOffSecondEngine() {
+        this.rocketBusProducer.sendMessage(
+            {
+                action: 'updateDataFromHeadStageData',
+                headStageTelemetryData: {
+                    altitude:this.rocketData.altitude,
+                    speed: this.rocketData.speed,
+                }
+            }, 'rocket-' + this.rocketData.missionId + '-payload');
         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.SECOND_ENGINE_CUT_OFF);
         console.log("Second engine cut off.");
+
     }
 
     destroy(): void {
         if (this.rocketData.rocketStatus < RocketStatus.BOOSTER_DETACHED) {
-            this.rocketBusProducer.sendMessage({action: 'notifyOfHeadDestruction'}, 'rocket-' + this.rocketData.missionId + '-booster');
+            this.rocketBusProducer.sendMessage({action: 'notifyOfHeadDestruction',}, 'rocket-' + this.rocketData.missionId + '-booster');
         }
         this.changeRocketStatusAndNotifyTelemetryAndMission(RocketStatus.DESTROYED);
         console.log("*BOOM!* - Rocket destroyed!");
@@ -277,7 +283,6 @@ class Rocket {
     drainRocket() {
         this.rocketData.fuelLevel = 0;
         this.rocketDrained = true;
-        console.log(this.rocketDrained)
     }
 
     private async controlRocketFalling(): Promise<void> {
