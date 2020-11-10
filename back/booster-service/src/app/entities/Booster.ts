@@ -61,7 +61,7 @@ export default class Booster {
     }
 
     canDetachFromRocket(): boolean {
-        return this.boosterData.fuelLevel <= 15;
+        return this.boosterData.fuelLevel <= 35;
     }
 
     private async initializeDetachment(): Promise<void> {
@@ -97,7 +97,8 @@ export default class Booster {
                 }
 
                 that.boosterData.altitude -= that.boosterData.speed;
-                that.boosterData.speed -= 0.1;
+                that.boosterData.speed -= 0.05;
+                that.boosterData.speed = Math.round(that.boosterData.speed);
                 that.boosterData.speed = that.boosterData.speed < 1 ? 2 : that.boosterData.speed;
                 that.boosterData.fuelLevel -= 1;
                 that.sendData();

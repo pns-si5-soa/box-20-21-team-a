@@ -19,7 +19,7 @@ class BoosterController {
     addNewBooster(boosterId :string) : string{
         let booster = new Booster(
             new BoosterData(boosterId,
-                BoosterStatus.ON_THE_ROCKET, 50, 0, 0, 0));
+                BoosterStatus.ON_THE_ROCKET, 65, 0, 0, 0));
            this.boosters[boosterId] = booster;
         return boosterId; 
     }
