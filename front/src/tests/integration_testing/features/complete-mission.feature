@@ -43,6 +43,7 @@ Feature: Complete scenario
     And then the booster status is 'Guidance' after entry burn
     And then the booster status is 'Landing burn' after guidance
     And then the booster status is 'Landing legs deployed' after landing burn
+    And then the booster is landing, its status is 'Landing'
     And then the booster has landed, its status is 'Landed'
     And then the rocket status is 'Fairing separation'
     When the rocket has no more fuel

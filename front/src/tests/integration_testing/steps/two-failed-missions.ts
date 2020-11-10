@@ -53,7 +53,6 @@ Given("the rocket has been launched for each mission",async function () {
 });
 
 Given("the first mission has its rocket still attached to the booster", function () {
-    
 });
 Given('the second mission has already its rocket and its booster detached from each other', function () {
     // Write code here that turns the phrase above into concrete actions
@@ -82,7 +81,6 @@ When("the anomaly {string} which have a severity of 3 is detected in the first m
 });
 
 Then("the mission is immediately aborted which cause the head stage status to change to {string}",{timeout: 5 * 5000}, async function(status:string) {
-    var responseData;
     var rocketStatusTemp : RocketStatus = RocketStatus.ON_INTERNAL_POWER;
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-1]).then((res)=>{
@@ -96,13 +94,12 @@ Then("the mission is immediately aborted which cause the head stage status to ch
 });
 
 Then('the booster is immediatly {string}', {timeout: 5 * 5000},async function(status : string){
-    var responseData;
     var boosterStatus : BoosterStatus = BoosterStatus.ON_THE_ROCKET;
 
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-1]).then(function(res){
-            responseData = res.data;
-            boosterStatus = responseData.booster
+            
+            boosterStatus = res.data.booster
         }).catch(function(err)
         {
             return err.response;
@@ -136,7 +133,6 @@ When("the anomaly {string} which have a severity of 3 is detected in the second 
  });
 
  Then("the second mission is immediately aborted which cause the head stage status to change to {string}",{timeout: 5 * 5000}, async function(status:string) {
-    var responseData;
     var rocketStatusTemp : RocketStatus = RocketStatus.ON_INTERNAL_POWER;
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-2]).then((res)=>{
@@ -150,14 +146,14 @@ When("the anomaly {string} which have a severity of 3 is detected in the second 
     expect(mapStatusToTextRocket[rocketStatusTemp]).toEqual(status);
 });
 
-Then('the booster continues its landing process normally and finally has the {string} status', {timeout: 40 * 5000},async function(status : string){
+Then('the booster continues its landing process normally and finally has the {string} status', {timeout: 50 * 5000},async function(status : string){
     var responseData;
     var boosterStatus : BoosterStatus = BoosterStatus.ON_THE_ROCKET;
 
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-2]).then(function(res){
-            responseData = res.data;
-            boosterStatus = responseData.booster
+            console.log(res.data);
+            boosterStatus = res.data.booster
         }).catch(function(err)
         {
             return err.response;

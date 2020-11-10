@@ -388,6 +388,19 @@ Then("then the booster status is {string} after landing burn",{timeout: 30*1000}
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
+Then("then the booster is landing, its status is {string}",{timeout: 30*1000},async function(arg0: string) {
+	let tmp = Date.now();
+	await setIntervalConditionPromise(function(){
+			realTimeAPI.getStatus(missionID).then(res => {
+				boosterStatus = res.data.booster
+			}).catch(function(err)
+			{
+				return err.response;
+			});
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+	)
+	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
+})
 Then("then the booster has landed, its status is {string}",{timeout: 30*1000},async function(arg0: string) {
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -428,7 +441,6 @@ When("the rocket has no more fuel",{timeout: 30*1000},async function() {
 	);
 })
 Then("the rocket status is {string}",{timeout: 30*1000},async function(arg0: string) {
-	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
 				rocketStatus = res.data.rocket
@@ -437,7 +449,7 @@ Then("the rocket status is {string}",{timeout: 30*1000},async function(arg0: str
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0)
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
