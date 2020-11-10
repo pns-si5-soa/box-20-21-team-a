@@ -33,7 +33,9 @@ const payloadAPI = new PayloadAPI();
 const rocketAPISoap = new RocketAPISoap();
 const realTimeAPI = new RealTimeAPI();
 let poll : any;
-let rocketStatus : RocketStatus
+let rocketStatus : RocketStatus;
+let rocketSpeed =0;
+let previousSpeed : number;
 var rocketData: RocketData;
 let boosterStatus: BoosterStatus;
 let fuelLevel : number;
@@ -70,7 +72,6 @@ When("Richard creates a new mission", async function() {
 	missionID = await new Promise<string>((resolve, reject) => {
 		missionsCoordinatorAPI.createMission().then(res => {
 			resolve(res.data.missionId)
-			console.log(res.data.id)
 		}).catch(err => {
 			reject(err)
 		})
@@ -100,7 +101,7 @@ Then("a new booster is created", async function() {
 Then("a new payload is created", async function() {
 	await verifyExistTelemetryData<PayloadData>("getPayloadData", new PayloadData())
 })
-/*When("Tory has been informed that the poll has been created, she can check the weather status", async function() {
+When("Tory has been informed that the poll has been created, she can check the weather status", async function() {
 	weather = await new Promise((resolve, reject) => {
 		weatherAPI.getWeather().then(res => {
 			resolve(res.data);
@@ -108,10 +109,10 @@ Then("a new payload is created", async function() {
 			reject(err);
 		})
 	})
-})*/
-/*Then("the weather status is {string}, {string} or {string}", function(arg0: string, arg1: string, arg2: string) {
+})
+Then("the weather status is {string}, {string} or {string}", function(arg0: string, arg1: string, arg2: string) {
 	expect([arg0, arg1, arg2]).toContain(weather)
-})*/
+})
 When("she answers positively to the poll", async function() {
 	await pollAPI.modifyPoll("weather", "true", missionID)
 })
@@ -147,15 +148,11 @@ Then("the status of the rocket is now {string} and everything is going fine for 
 	await setIntervalConditionPromise(function(){
 		realTimeAPI.getStatus(missionID).then(res => {
 			rocketStatus = res.data.rocket
-			console.log(rocketStatus)
-			console.log(mapStatusToText[rocketStatus])
 			}).catch(function(err)
 			{
 				return err.response;
 			});
-		console.log(rocketStatus)
-		console.log(mapStatusToText[rocketStatus])
-		},1000, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
@@ -185,7 +182,7 @@ Then("Richard and Marie see in real time that the status of the rocket is now on
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
@@ -197,9 +194,9 @@ When("{int} seconds have passed after startup",{timeout : 30*1000},async functio
 		{
 			return err.response;
 		});
-	},1000, arg0)
+	},500, arg0)
 })
-Then("Richard and Marie see in real time that the rocket status is now {string} after startup",{timeout: 30*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the rocket status is now {string} after startup",{timeout: 40*1000},async function(arg0: string) {
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
@@ -209,11 +206,11 @@ Then("Richard and Marie see in real time that the rocket status is now {string} 
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+30000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-/*When("{int} seconds have passed after main engine", function(arg0: number) {
+When("{int} seconds have passed after main engine", function(arg0: number) {
 	sleep(arg0*1000);
 })
 Then("Richard and Marie see in real time that the rocket is {string}",{timeout: 30*1000},async function(arg0: string) {
@@ -226,11 +223,12 @@ Then("Richard and Marie see in real time that the rocket is {string}",{timeout: 
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
+
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
-})*/
-/*When("the pressure of the rocket is at {int}?",async function(arg0: number) {
+})
+When("the pressure of the rocket is at {int}",{timeout : 30*1000},async function(arg0: number) {
 	let rocketPressure = 0;
 	await setIntervalConditionPromise(function(){
 			telemetryAPI.getRocketData(missionID).then(function(res){
@@ -240,10 +238,10 @@ Then("Richard and Marie see in real time that the rocket is {string}",{timeout: 
 			{
 				return err.response;
 			});
-		},1000, () => (rocketPressure == arg0)
+		},500, () => (rocketPressure == arg0)
 	);
 })
-Then("Richard and Marie see in real time that the rocket status is now {string} after main engine started",{timeout : 30*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the rocket status is now {string} after main engine started",{timeout : 50*1000},async function(arg0: string) {
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
@@ -253,56 +251,61 @@ Then("Richard and Marie see in real time that the rocket status is now {string} 
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+40000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
-})*/
+})
 Then("the speed of the rocket does not increase anymore",async function() {
-	(await telemetryAPI.getRocketData(missionID)).data // TODO
+	let sameSpeed = false;
+	await setIntervalConditionPromise(async function(){
+			previousSpeed = rocketSpeed;
+			telemetryAPI.getRocketData(missionID).then((res) => {
+				rocketSpeed = res.data.speed;
+				if( previousSpeed == rocketSpeed) sameSpeed = true;
+			})
+		},500, () => (sameSpeed)
+	);
+	expect(previousSpeed).toBe(rocketSpeed);
 })
 When("the booster has {int}hl of fuel left",{timeout : 30*1000},async function(arg0: number) {
 	let boosterFuel = 0;
 	await setIntervalConditionPromise(function(){
 			telemetryAPI.getBoosterData(missionID).then(function(res){
 				boosterFuel = res.data.fuelLevel;
-				console.log(res.data)
 			}).catch(function(err)
 			{
 				return err.response;
 			});
-		},1000, () => (boosterFuel <= arg0)
+		},500, () => (boosterFuel <= arg0)
 	);
 
 })
-Then("Richard and Marie see in real time that the rocket status is {string}",{timeout : 30*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the rocket status is {string}",{timeout : 40*1000},async function(arg0: string) {
 	let tmp = Date.now();
-	console.log("now");
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
 				rocketStatus = res.data.rocket
-				console.log(rocketStatus);
 
 			}).catch(function(err)
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+30000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
 Then("then the rocket status is {string} after main engine",{timeout : 50*1000},async function(arg0: string) {
-	/*let tmp = Date.now();
+	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
 				rocketStatus = res.data.rocket
-				console.log(rocketStatus)
 			}).catch(function(err)
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+40000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+40000))
 	)
-	expect(mapStatusToText[rocketStatus]).toBe(arg0);*/
+	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
 Then("then the rocket status is {string} after stage separation",{timeout: 30*1000},async function(arg0: string) {
 	let tmp = Date.now();
@@ -314,11 +317,11 @@ Then("then the rocket status is {string} after stage separation",{timeout: 30*10
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-Then("that the booster is going through a {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster is going through a {string}",{timeout: 30*1000},async function(arg0: string) {
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
@@ -327,10 +330,11 @@ Then("that the booster is going through a {string}",{timeout: 30*1000},async fun
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToTextBooster[boosterStatus]==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus]==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
+
 Then("then the booster status is {string} after flip maneuver",{timeout: 30*1000},async function(arg0: string) {
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -340,10 +344,11 @@ Then("then the booster status is {string} after flip maneuver",{timeout: 30*1000
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus]==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
+
 Then("then the booster status is {string} after entry burn",{timeout: 30*1000},async function(arg0: string) {
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -353,7 +358,7 @@ Then("then the booster status is {string} after entry burn",{timeout: 30*1000},a
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
@@ -366,7 +371,7 @@ Then("then the booster status is {string} after guidance",{timeout: 30*1000},asy
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
@@ -379,7 +384,7 @@ Then("then the booster status is {string} after landing burn",{timeout: 30*1000}
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
@@ -392,7 +397,7 @@ Then("then the booster has landed, its status is {string}",{timeout: 30*1000},as
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
@@ -401,26 +406,25 @@ Then("then the rocket status is {string}",{timeout: 30*1000},async function(arg0
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
 				rocketStatus = res.data.rocket
-				if(mapStatusToText[rocketData.rocketStatus] == arg0) return;
 			}).catch(function(err)
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-When("the booster has no more fuel",async function() {
-	let boosterFuel = 0;
+When("the rocket has no more fuel",{timeout: 30*1000},async function() {
+	let rocketFuel = 0;
 	await setIntervalConditionPromise(function(){
 			telemetryAPI.getBoosterData(missionID).then(function(res){
-				boosterFuel = res.data.pressure;
+				rocketFuel = res.data.fuelLevel;
 
 			}).catch(function(err)
 			{
 				return err.response;
 			});
-		},1000, () => (boosterFuel == 15) // 15 = EMPTY
+		},500, () => (rocketFuel == 0) // 0 = EMPTY
 	);
 })
 Then("the rocket status is {string}",{timeout: 30*1000},async function(arg0: string) {
@@ -433,7 +437,7 @@ Then("the rocket status is {string}",{timeout: 30*1000},async function(arg0: str
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
@@ -451,7 +455,7 @@ Then("the rocket status is now {string}",{timeout: 30*1000},async function(arg0:
 			{
 				return err.response;
 			});
-		},1000, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
