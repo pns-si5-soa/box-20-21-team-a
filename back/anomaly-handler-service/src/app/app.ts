@@ -8,8 +8,6 @@ const cors = require('cors');
 var http = require('http');
 require ("logs-module");
 
-
-
 const app: express.Application = express();
 if(process.env.PORT == undefined) throw Error("port is missing on .env file");
 const port = normalizePort(process.env.PORT)
@@ -101,8 +99,7 @@ function onListening() {
 
 // KAFKA
 const { Kafka, logLevel } = require('kafkajs')
-const host = process.env.KAFKA_HOST_IP;
-
+const host = process.env.HOST_IP;
 
 
 const kafka = new Kafka({

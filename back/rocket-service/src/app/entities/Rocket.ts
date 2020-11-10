@@ -10,21 +10,19 @@ const TELEMETRY_API: TelemetryAPI = new TelemetryAPI();
 const MISSION_API: MissionAPI = new MissionAPI();
 
 const DATA_UPDATE_DELAY_IN_MS = 1000;
-const ACCELERATION = 1;
+const ACCELERATION = 0.5;
 const PRESSURE_INCREASE = 5;
 
-const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 10; // todo put to 1 minute
+const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 5; // todo put to 1 minute
 const NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS = 3;
 
 class Rocket {
 
 
-// TODO CHECK SKYFALL BEHAVIOR AND CHECK WHY THE ALTITUDE GOWS UP SO QUICKLY. RENAME ROCKET!
-
-
     private rocketData: RocketData;
     private rocketDrained = false;
     private isFallingDown = false;
+    private canInitializeFairingSeparation = false;
     private rocketBusConsumer: Consumer;
     private rocketBusProducer: Producer;
 
@@ -46,6 +44,8 @@ class Rocket {
             this.initializeSecondEngineForSecondStage();
         } else if (signal.action == 'notifyOfBoosterDestruction') {
             this.destroy();
+        } else if (signal.action == 'notifyOfLanding'){
+            this.canInitializeFairingSeparation = true;
         }
     }
 
@@ -77,7 +77,6 @@ class Rocket {
 
     private changeRocketStatusAndNotifyTelemetryAndMission(rocketStatus: RocketStatus): void {
         this.rocketData.rocketStatus = rocketStatus;
-        console.log(rocketStatus)
         this.sendDataToTelemetryAndMission();
     }
 
@@ -236,7 +235,8 @@ class Rocket {
             DATA_UPDATE_DELAY_IN_MS,
             () => (that.rocketData.rocketStatus === RocketStatus.DESTROYED
                 || this.isFallingDown
-                || that.rocketData.fuelLevel <= 7));
+                || that.canInitializeFairingSeparation
+                /*|| that.rocketData.fuelLevel <= 7*/)); // fixme this could be to change
         if (this.rocketData.rocketStatus === RocketStatus.DESTROYED || this.isFallingDown) {
             return;
         }

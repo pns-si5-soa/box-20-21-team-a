@@ -12,7 +12,7 @@ export default class Booster {
     boosterData: BoosterData;
 
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
-    public dataUpdateDelay = 1000;
+    public dataUpdateDelay = 3000;
     private missionAPI = new MissionAPI();
     private boosterDrained = false;
     private rocketBusConsumer: Consumer;
@@ -64,9 +64,8 @@ export default class Booster {
         return this.boosterData.fuelLevel <= 15;
     }
 
-    async initializeDetachment(): Promise<void> {
+    private async initializeDetachment(): Promise<void> {
         console.log("Initializing booster detachment.");
-        this.boosterData.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         if (process.env.NODE_ENV != 'test') {
             //await this.rocketAPI.initializeSecondEngineForSecondStage();
             this.rocketBusProducer.sendMessage({action: 'notifyDetachment'}, 'rocket-' + this.boosterData.missionId + '-head-stages');
@@ -74,20 +73,20 @@ export default class Booster {
         }
     }
 
+    // Waiting for detachment
     private async controlFirstStageOfFlight(): Promise<void> {
         const that = this;
         await setIntervalConditionPromise(() => {
                 that.sendData();
-                that.boosterData.altitude += that.boosterData.speed;
-                that.boosterData.speed += 1;
-                if (!this.boosterDrained) that.boosterData.fuelLevel -= 1;
+                that.boosterData.fuelLevel -= 3;
             },
             this.dataUpdateDelay,
             () => (that.canDetachFromRocket() || that.isDestroyed()));
     }
 
     private async controlLandingProcess(): Promise<void> {
-        console.log("Landing booster");
+        console.log("Landing booster.");
+        this.boosterData.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         const that = this;
         const altitudeBearings = this.boosterData.altitude / 6;
         let nextBearing = this.boosterData.altitude - altitudeBearings;
@@ -96,17 +95,19 @@ export default class Booster {
                     this.boosterData.boosterStatus++;
                     nextBearing = this.boosterData.altitude - altitudeBearings;
                 }
-                that.sendData();
+
                 that.boosterData.altitude -= that.boosterData.speed;
-                that.boosterData.speed -= 1;
+                that.boosterData.speed -= 0.1;
                 that.boosterData.speed = that.boosterData.speed < 1 ? 2 : that.boosterData.speed;
-                // that.fuelLevel -= 1;
+                that.boosterData.fuelLevel -= 1;
+                that.sendData();
             },
-            this.dataUpdateDelay + 500,
+            this.dataUpdateDelay,
             () => (that.boosterData.altitude <= 0 || that.isDestroyed()));
-        if (this.boosterData.boosterStatus === BoosterStatus.DESTROYED) {
+        if (this.boosterData.boosterStatus === 99) {
             return;
         }
+        this.rocketBusProducer.sendMessage({action: 'notifyOfLanding'}, 'rocket-' + this.boosterData.missionId + '-head-stages'); // This should not be here, we put this only so tests are easier to do
         console.log("Booster landed");
         this.boosterData.boosterStatus = BoosterStatus.LANDED;
         this.stopBoosterEnginesAfterLanding();
@@ -144,9 +145,7 @@ export default class Booster {
 
         await this.initializeDetachment();
 
-        this.sendData();
-
-        await this.controlLandingProcess();
+        await this.controlLandingProcess(); // todo here
         if (this.isDestroyed()) return;
 
         this.sendData();
