@@ -1,13 +1,30 @@
 # blue-origin-x-20-21-soa-20-21-a [![Build Status](https://travis-ci.com/pns-si5-soa/box-20-21-team-a.svg?token=iVy7SupLvEyaRHecrkoc&branch=develop)](https://travis-ci.com/pns-si5-soa/box-20-21-team-a)
 
 [![Build Status](https://travis-ci.com/pns-si5-soa/box-20-21-team-a.svg?token=iVy7SupLvEyaRHecrkoc&branch=develop)](https://travis-ci.com/pns-si5-soa/box-20-21-team-a)
-[![Build Status](https://badgen.net/badge/version/2.0/purple)](https://badgen.net/badge/version/2.0/purple)
+[![Build Status](https://badgen.net/badge/version/6.0/purple)](https://badgen.net/badge/version/6.0/purple)
 
-### /!\ There is the scenario LOGS below in case run.sh didn't work
+# FINAL DELIVERY
+
+### Points repartition
+Younes Abdennadher : 100 <br/>
+Alexis Lefebvre : 100 <br/>
+Alexandre Longordo : 100 <br/>
+Thomas Colomban : 100
+
+### What should be expected when running
+`~$ ./prepare.sh`
+Load dependencies, compile if necessary, prepare the environment and starts the docker images.
+
+`~$ ./run.sh`
+Runs docker-compose up and the acceptance scenarios associated to the project and the APIs. 
+
+It must show each step of your acceptance scenarios in a comprehensive manner and include enough logs/traces for us to get a grasp of your architecture as a whole (request payloads, etc...).
+
+# Other infos
 
 ## Description
 
-This project is a class project realized during the 5th year of engineer school. The aim of this project is to create a micro services architecture to set up a system respecting the Blue Galactic X ambitions.
+This project is a class project realized during the 5th year of engineering school. The aim of this project is to create a micro services architecture to set up a system respecting the Blue Galactic X ambitions.
 
 ## Installation
 
@@ -86,5 +103,3 @@ Les logs de tous les services s'affichent tous sur un même fichier dans le doss
 Pour avoir ce scénario, il faut exécuter  :
 
 `./sas.sh` pour lancer tous les services, puis dans le dossier front : `npm run demo`
-
-Les logs sont [ici](LOGS.md).
