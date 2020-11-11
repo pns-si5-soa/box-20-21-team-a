@@ -27,7 +27,7 @@ Once run.sh is finished logs are available in the [container-logs](container-log
 We removed logs from mission in order to improve the logs readability. Mission is just forwarding missions status received from rocket to the kafka bus
 
 Sometimes we have a timeout error on the integration tests because of kafka. We didn't succeed to prevent it from loading old messages when the consumer is created.
-This lead to a problem beacause the tests are running during this loading, and it could trigger a timeout error if kafka is too long.
+This lead to a problem because the tests are running during this loading, and it could trigger a timeout error if kafka is too long.
 
 # Other infos
 
