@@ -127,7 +127,6 @@ const run = async () => {
 					json.missionId
 				);
 			} else {
-				console.log('topic :' + topic + ' ignored');
 			}
 		},
 	});
@@ -141,8 +140,6 @@ const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2'];
 errorTypes.map((type) => {
 	process.on(type, async (e) => {
 		try {
-			console.log(`process.on ${type}`);
-			console.error(e);
 			await consumer.disconnect();
 			process.exit(0);
 		} catch (_) {

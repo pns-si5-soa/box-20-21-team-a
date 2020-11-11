@@ -33,19 +33,37 @@ class MissionsCoordinationController {
     createNewMission() : number{
         // TODO : This method is just going to produce an event in kafka 
         var missionNumber = uuidv4(); 
+        console.log("Creating mission : " + missionNumber)
+        console.log("Initialize HeadStages...")
         HEAD_STAGES_API.createHeadStage(missionNumber).then((res)=>{
-            console.log(res.data);
-        }).catch((error)=>{console.error(error)});
+            console.log("Head Stage initialized")
+        })
+
+        console.log("Initialize Payload...")
         PAYLOADS_API.createPayload(missionNumber).then((res)=>{
-            console.log(res.data);
-        }).catch((error)=>{console.error(error)});
-        BOOSTERS_API.createBooster(missionNumber).catch((error)=>{console.error(error)});
+            console.log("Payload initialized")
+        })
+
+        console.log("Initialize Booster...")
+        BOOSTERS_API.createBooster(missionNumber).then(res => {
+            console.log("Booster initialized")
+        })
+
+        console.log("Initialize RealTime...")
         REAL_TIME_API.createMission(missionNumber).then(res => {
-            console.log("realtime")
-            console.log(res.data)
-        }).catch((error)=>{console.error(error)});
-        MISSION_API.createMission(missionNumber).catch((error)=>{console.error(error)});
-        POLL_API.createPoll(missionNumber).catch((error)=>{console.error(error)});
+            console.log("RealTime initialized")
+        })
+
+        console.log("Initialize Mission...")
+        MISSION_API.createMission(missionNumber).then(res => {
+            console.log("Mission initialized")
+        })
+
+        console.log("Initialize Poll...")
+        POLL_API.createPoll(missionNumber).then(res => {
+            console.log("Poll initialized")
+        })
+
         this.missions.push(missionNumber);
         return missionNumber;
         
@@ -56,7 +74,6 @@ class MissionsCoordinationController {
         
     }
     listMissions() : IMission[]{
-        console.log(this.missions);
         return this.missions;
     }
 

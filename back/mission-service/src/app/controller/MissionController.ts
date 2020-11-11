@@ -22,7 +22,9 @@ class MissionController {
         this.missions= {};
         this.producerKafka = new Producer();
     }
-     addNewMission(id:string):string {
+    
+    addNewMission(id:string):string {
+        console.log("Creating new mission : " + id)
         this.missions[id] = new Mission(); // TODO mettre en BD
         return id;
         
@@ -35,8 +37,8 @@ class MissionController {
     async modifyMissionStatusForBooster(boosterData : BoosterDataMission) {
         await this.producerKafka.sendMissionStatus(boosterData,'booster-topic');
         const booster = Object.assign(new BoosterDataMission(boosterData.missionId), boosterData);
-        console.log(booster)
         booster.save()
+        console.log("New booster status received... Sending to kafka")
         return booster;
     }
 
@@ -47,7 +49,7 @@ class MissionController {
     async modifyMissionStatusForRocket(rocketStatus : RocketDataMission) {
         await this.producerKafka.sendMissionStatus(rocketStatus,'rocket-topic');
         const rocket = Object.assign(new RocketDataMission(rocketStatus.missionId), rocketStatus);
-        console.log(rocket)
+        console.log("New rocket status received... Sending to kafka")
         rocket.save()
         return rocket;
     }

@@ -109,12 +109,13 @@ consumer.append('telemetry-payload', (value: PayloadData) => {
 })
 
 consumer.append('telemetry-booster', (value: BoosterData) => {
-    console.log(value);
     telemetryController.addBoosterData(value);
 })
 
 consumer.append('telemetry-rocket', (value: RocketData) => {
     telemetryController.addRocketData(value);
 })
+
+console.log("Subscribe to telemetryData")
 
 consumer.subscribe()

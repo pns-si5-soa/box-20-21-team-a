@@ -35,7 +35,6 @@ class Producer{
       /*errorTypes.map(type => {
         process.on(type, async () => {
           try {
-            console.log(`process.on ${type}`)
             await this.producer.disconnect()
             process.exit(0)
           } catch (_) {
@@ -43,21 +42,18 @@ class Producer{
           }
         })
       })*/
-      console.log("before connect");
         await this.producer.connect()
         this.sendMessage(message,topic);
       
     }
 
     sendMessage (message : Object,topic : string ) {
-      console.log("send message");
       return this.producer
         .send({
           topic,
           compression: CompressionTypes.GZIP,
           messages: [{value:JSON.stringify(message)}],
         })
-        .then(console.log('sent ' +JSON.stringify(message)+"topic : "+topic))
         .catch((e: { message: any; }) => console.error(`[example/producer] ${e.message}`, e))
     }
 

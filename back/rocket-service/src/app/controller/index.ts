@@ -14,7 +14,6 @@ class RocketController {
     }
 
     addNewRocket(rocketId :string) : string{
-        console.log(rocketId);
         let rocket = new Rocket(
             new RocketData(rocketId,
                 RocketStatus.PREPARATION, 70, 0, 0));
@@ -31,7 +30,6 @@ class RocketController {
      * Puts the rocket on internal power (first action)
      */
     putRocketOnInternalPower(id : string) {
-        
         if(this.rockets[id] != null)
             this.rockets[id].putRocketOnInternalPower();
     }

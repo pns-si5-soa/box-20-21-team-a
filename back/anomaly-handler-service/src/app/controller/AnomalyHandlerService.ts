@@ -16,9 +16,10 @@ class AnomalyAnalyserService {
     }
 
     analyseAnomaly(id : string, anomaly : AnomalyEnum){
-        console.log("anomaly received ==================> "+ anomaly.toString());
         let newAnomaly = new RocketAnomaly(id, anomaly);
+        console.log("New anomaly detected... Checking criticality")
         if (newAnomaly.anomalyIsCritical()){
+            console.log("Anomaly critical, destruction of the rocket")
             rocketAPI.destroyRocketSOAPBack(id);
         }
     }

@@ -17,8 +17,6 @@ class TelemetryController {
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
-        //TODO mettre dans la route
-        
         const booster = Object.assign(new BoosterData(), boosterData);
         booster.save()
         return boosterData;

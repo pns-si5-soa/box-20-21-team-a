@@ -20,8 +20,6 @@ router.get('/:id/all', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    console.log({missionId: req.params.id})
-
     TelemetryService.getBoosterData({missionId: req.params.id}).then(data => {
         res.send(data);
     }).catch(err => {

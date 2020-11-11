@@ -10,6 +10,8 @@ services:
         - "27018"
     ports:
         - "27018:27017"
+    logging:
+      driver: "none"
   
   # waitforservices1:
   #   image: dadarek/wait-for-dependencies
@@ -385,6 +387,8 @@ services:
         # - REACT_APP_HOST_POLL=localhost
         # - REACT_APP_PORT_POLL=3012
       # Uncommente below if you want to build all these service when building front
+      volumes:
+        - ./container-logs:/usr/src/app/logs
       depends_on:
         - rocket-service
         - weather-service

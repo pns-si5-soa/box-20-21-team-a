@@ -1,4 +1,5 @@
 require('dotenv').config()
+import "logs-module"
 const assert = require('assert')
 
 
@@ -152,7 +153,6 @@ Then('the booster continues its landing process normally and finally has the {st
 
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-2]).then(function(res){
-            console.log(res.data);
             boosterStatus = res.data.booster
         }).catch(function(err)
         {

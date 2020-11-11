@@ -18,16 +18,15 @@ class Mission {
     }
 
     getStatus(id : string) {
-        if(this.missions[id] == undefined){ 
-            console.log("undefined - - - - - - - - -");
-        }
         return this.missions[id] == undefined? null :this.missions[id].toObjectJSON();
     }
 
     updateStatusBoosterInRealTime(status: any,id:string) {
+        console.log("Status of the booster changed : " + status)
         this.missions[id].boosterStatus = status;
     }
     updateStatusRocketInRealTime(status: any,id:string) {
+        console.log("Status of the rocket changed : " + status)
         this.missions[id].rocketStatus = status;
     }
 }

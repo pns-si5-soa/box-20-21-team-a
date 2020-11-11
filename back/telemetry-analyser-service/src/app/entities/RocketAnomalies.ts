@@ -31,9 +31,6 @@ export default class RocketAnomalies{
             this.previousAltitude=rocketData.getAltitude()
             return this;
         }
-       
-        console.log(this.previousAltitude)
-        console.log(rocketData.getAltitude())
         this.previousAltitude=rocketData.getAltitude()
         return null;
     }

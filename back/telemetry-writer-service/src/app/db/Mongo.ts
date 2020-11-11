@@ -1,4 +1,4 @@
-import {Db, MongoClient} from 'mongodb'
+import {Db, MongoClient, Logger} from 'mongodb'
 
 
 interface Response {
@@ -14,7 +14,7 @@ function connect() : Promise<Response> {
 			if(err !== null) reject(err)
 		
 			const db = client.db(process.env.MONGO_DB);
-
+			
 			resolve({client, db})
 		});
 	})
