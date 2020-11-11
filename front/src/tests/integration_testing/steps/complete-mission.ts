@@ -108,7 +108,7 @@ Then("a new payload is created", async function() {
 	console.log("And a new payload is created");
 	await verifyExistTelemetryData<PayloadData>("getPayloadData", new PayloadData())
 })
-/*When("Tory has been informed that the poll has been created, she can check the weather status", async function() {
+When("Tory has been informed that the poll has been created, she can check the weather status", async function() {
 	weather = await new Promise((resolve, reject) => {
 		weatherAPI.getWeather().then(res => {
 			resolve(res.data);
@@ -116,10 +116,10 @@ Then("a new payload is created", async function() {
 			reject(err);
 		})
 	})
-})*/
-/*Then("the weather status is {string}, {string} or {string}", function(arg0: string, arg1: string, arg2: string) {
+})
+Then("the weather status is {string}, {string} or {string}", function(arg0: string, arg1: string, arg2: string) {
 	expect([arg0, arg1, arg2]).toContain(weather)
-})*/
+})
 
 
 When("she answers positively to the poll", async function() {
@@ -160,7 +160,7 @@ When("Elon puts the rocket on internal power",async function() {
 	console.log("When Elon puts the rocket on internal power");
 	await rocketAPISoap.putRocketOnInternalPower(missionID);
 })
-Then("the status of the rocket is now {string} and everything is going fine for the rocket",{timeout: 30*1000},async function(arg0: string) {
+Then("the status of the rocket is now {string} and everything is going fine for the rocket",{timeout: 60*1000},async function(arg0: string) {
 	console.log("Then the status of the rocket is now 'On internal power' and everything is going fine for the rocket");
 	await setIntervalConditionPromise(function(){
 		realTimeAPI.getStatus(missionID).then(res => {
@@ -200,7 +200,7 @@ When("Elon initializes the launch process", function() {
 	console.log("When Elon initializes the launch process");
 	rocketAPISoap.initializeStartupProcess(missionID);
 })
-Then("Richard and Marie see in real time that the status of the rocket is now on {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the status of the rocket is now on {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("Then Richard and Marie see in real time that the status of the rocket is now on 'Startup'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -210,11 +210,11 @@ Then("Richard and Marie see in real time that the status of the rocket is now on
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-When("{int} seconds have passed after startup",{timeout : 30*1000},async function(arg0: number) {
+When("{int} seconds have passed after startup",{timeout : 60*1000},async function(arg0: number) {
 	console.log("When 2 seconds have passed after startup");
 	await setIntervalPromiseX(function(){
 		realTimeAPI.getStatus(missionID).then(res => {
@@ -225,7 +225,7 @@ When("{int} seconds have passed after startup",{timeout : 30*1000},async functio
 		});
 	},500, arg0)
 })
-Then("Richard and Marie see in real time that the rocket status is now {string} after startup",{timeout: 40*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the rocket status is now {string} after startup",{timeout: 60*1000},async function(arg0: string) {
 	console.log("Then Richard and Marie see in real time that the rocket status is now 'Main engine started' after startup");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -244,7 +244,7 @@ When("{int} seconds have passed after main engine", function(arg0: number) {
 	console.log("When 3 seconds have passed after main engine");
 	sleep(arg0*1000);
 })
-Then("Richard and Marie see in real time that the rocket is {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the rocket is {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("Then Richard and Marie see in real time that the rocket is 'Launched'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -255,12 +255,12 @@ Then("Richard and Marie see in real time that the rocket is {string}",{timeout: 
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-When("the pressure of the rocket is at {int}",{timeout : 30*1000},async function(arg0: number) {
+When("the pressure of the rocket is at {int}",{timeout : 60*1000},async function(arg0: number) {
 	console.log("When the pressure of the rocket is at 70");
 	let rocketPressure = 0;
 	await setIntervalConditionPromise(function(){
@@ -274,7 +274,7 @@ When("the pressure of the rocket is at {int}",{timeout : 30*1000},async function
 		},500, () => (rocketPressure == arg0)
 	);
 })
-Then("Richard and Marie see in real time that the rocket status is now {string} after main engine started",{timeout : 50*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the rocket status is now {string} after main engine started",{timeout : 60*1000},async function(arg0: string) {
 	console.log("Then Richard and Marie see in real time that the rocket status is now 'Reached max Q' after main engine started");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -285,7 +285,7 @@ Then("Richard and Marie see in real time that the rocket status is now {string} 
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+40000))
+		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
@@ -302,7 +302,7 @@ Then("the speed of the rocket does not increase anymore",async function() {
 	);
 	expect(previousSpeed).toBe(rocketSpeed);
 })
-When("the booster has {int}hl of fuel left",{timeout : 30*1000},async function(arg0: number) {
+When("the booster has {int}hl of fuel left",{timeout : 60*1000},async function(arg0: number) {
 	console.log("When the booster has 15hl of fuel left");
 	let boosterFuel = 0;
 	await setIntervalConditionPromise(function(){
@@ -318,7 +318,7 @@ When("the booster has {int}hl of fuel left",{timeout : 30*1000},async function(a
 })
 
 
-Then("Richard and Marie see in real time that the rocket status is {string}",{timeout : 40*1000},async function(arg0: string) {
+Then("Richard and Marie see in real time that the rocket status is {string}",{timeout : 60*1000},async function(arg0: string) {
 	console.log("Then Richard and Marie see in real time that the rocket status is 'Main engine cut-off'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -333,7 +333,7 @@ Then("Richard and Marie see in real time that the rocket status is {string}",{ti
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-Then("then the rocket status is {string} after main engine",{timeout : 50*1000},async function(arg0: string) {
+Then("then the rocket status is {string} after main engine",{timeout : 60*1000},async function(arg0: string) {
 	console.log("And then the rocket status is 'Stage separation' after main engine");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -343,11 +343,11 @@ Then("then the rocket status is {string} after main engine",{timeout : 50*1000},
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+40000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-Then("then the rocket status is {string} after stage separation",{timeout: 30*1000},async function(arg0: string) {
+Then("then the rocket status is {string} after stage separation",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the rocket status is 'Second engine started' after stage separation");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -358,11 +358,11 @@ Then("then the rocket status is {string} after stage separation",{timeout: 30*10
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-Then("then the booster is going through a {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster is going through a {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the booster is going through a 'Flip maneuver'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -372,12 +372,12 @@ Then("then the booster is going through a {string}",{timeout: 30*1000},async fun
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToTextBooster[boosterStatus]==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus]==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
 
-Then("then the booster status is {string} after flip maneuver",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster status is {string} after flip maneuver",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the booster status is 'Entry burn' after flip maneuver");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -387,12 +387,12 @@ Then("then the booster status is {string} after flip maneuver",{timeout: 30*1000
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToTextBooster[boosterStatus]==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus]==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
 
-Then("then the booster status is {string} after entry burn",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster status is {string} after entry burn",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the booster status is 'Guidance' after entry burn");
 	
 	let tmp = Date.now();
@@ -403,11 +403,11 @@ Then("then the booster status is {string} after entry burn",{timeout: 30*1000},a
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
-Then("then the booster status is {string} after guidance",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster status is {string} after guidance",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the booster status is 'Landing burn' after guidance");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -417,11 +417,11 @@ Then("then the booster status is {string} after guidance",{timeout: 30*1000},asy
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
-Then("then the booster status is {string} after landing burn",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster status is {string} after landing burn",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the booster status is 'Landing legs deployed' after landing burn");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -431,11 +431,11 @@ Then("then the booster status is {string} after landing burn",{timeout: 30*1000}
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
-Then("then the booster is landing, its status is {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster is landing, its status is {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the booster is landing, its status is 'Landing'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -445,11 +445,11 @@ Then("then the booster is landing, its status is {string}",{timeout: 30*1000},as
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
-Then("then the booster has landed, its status is {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("then the booster has landed, its status is {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the booster has landed, its status is 'Landed'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -459,11 +459,11 @@ Then("then the booster has landed, its status is {string}",{timeout: 30*1000},as
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToTextBooster[boosterStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToTextBooster[boosterStatus]).toBe(arg0);
 })
-Then("then the rocket status is {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("then the rocket status is {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("And then the rocket status is 'Fairing separation'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -473,11 +473,11 @@ Then("then the rocket status is {string}",{timeout: 30*1000},async function(arg0
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
-When("the rocket has no more fuel",{timeout: 30*1000},async function() {
+When("the rocket has no more fuel",{timeout: 60*1000},async function() {
 	console.log("When the rocket has no more fuel")
 	let rocketFuel = 0;
 	await setIntervalConditionPromise(function(){
@@ -491,7 +491,7 @@ When("the rocket has no more fuel",{timeout: 30*1000},async function() {
 		},500, () => (rocketFuel == 0) // 0 = EMPTY
 	);
 })
-Then("the rocket status is {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("the rocket status is {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("Then the rocket status is 'Second engine cut-off'");
 	await setIntervalConditionPromise(function(){
 			realTimeAPI.getStatus(missionID).then(res => {
@@ -512,7 +512,7 @@ When("Gwynn decides to deliver the payload",async function() {
 	payloadAPI.deliverPayloadSOAPBack(missionID)
 })
 
-Then("the rocket status is now {string}",{timeout: 30*1000},async function(arg0: string) {
+Then("the rocket status is now {string}",{timeout: 60*1000},async function(arg0: string) {
 	console.log("Then the rocket status is now 'Payload delivered!'");
 	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
@@ -523,7 +523,7 @@ Then("the rocket status is now {string}",{timeout: 30*1000},async function(arg0:
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+20000))
+		},500, ()=>(mapStatusToText[rocketStatus].toString()==arg0 || Date.now()>(tmp+50000))
 	)
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
