@@ -10,7 +10,10 @@ function connect() : Promise<Response> {
 	const url = 'mongodb://' + process.env.MONGO_HOST + ':' + process.env.MONGO_PORT
 
 	return new Promise((resolve, reject) => {
-		MongoClient.connect(url, function(err, client) {
+		MongoClient.connect(url, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		  }, function(err, client) {
 			if(err !== null) reject(err)
 		
 			const db = client.db(process.env.MONGO_DB);

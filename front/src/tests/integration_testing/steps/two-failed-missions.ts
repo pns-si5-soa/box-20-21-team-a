@@ -7,7 +7,7 @@ const {
 	When,
 	Then,
 	Given,
-} = require('cucumber');
+} = require('@cucumber/cucumber');
 
 import expect from 'expect';
 import TelemetryAPI from "../../../main/API/rest/telemetryAPI";

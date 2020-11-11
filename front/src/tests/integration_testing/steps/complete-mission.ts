@@ -20,7 +20,7 @@ import WeatherAPI from "../../../main/API/rest/weatherAPI";
 const {
 	When,
 	Then,
-} = require('cucumber');
+} = require('@cucumber/cucumber');
 
 const pollAPI = new PollAPI();
 const missionsCoordinatorAPI = new MissionsCoordinatorAPI();
