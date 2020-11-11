@@ -18,7 +18,7 @@ Runs docker-compose build to load and build all dockers images
 `~$ ./run.sh`
 Runs docker-compose up and the acceptance scenarios associated to the project and the APIs. 
 
-When run.sh is started, all service are up, and it start cucumber scenario. You can see logs in real time to understand what each service is doing. 
+When run.sh is started, all services are up, and it starts cucumber's scenario. You can see logs in real time to understand what each service is doing. 
 Once run.sh is finished logs are available in the [container-logs](container-logs) folder.
 
 #### Notes : 
