@@ -11,8 +11,8 @@ import expect from 'expect';
 import TelemetryAPI from '../../../main/API/rest/telemetryAPI';
 import PayloadAPI from '../../../main/API/soap/node-calls/payloadAPI';
 import PayloadData from '../../../main/model/Payload/PayloadData';
-import PayloadStatus, { mapStatusToText } from '../../../main/model/Payload/PayloadStatus';
-import { setIntervalConditionPromise } from '../../../main/tools/set_intervalx';
+import PayloadStatus, {mapStatusToText} from '../../../main/model/Payload/PayloadStatus';
+import {setIntervalConditionPromise} from '../../../main/tools/set_intervalx';
 
 let response: any;
 

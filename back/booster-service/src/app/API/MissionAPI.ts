@@ -1,5 +1,4 @@
 import API from './API';
-import BoosterData from "../entities/BoosterData";
 import {AxiosPromise} from "axios";
 import BoosterStatus from "../entities/BoosterStatus";
 

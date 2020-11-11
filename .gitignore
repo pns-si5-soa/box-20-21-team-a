@@ -7,3 +7,10 @@
 
 **/*.http
 .docker
+vpp/.anomaly.vpp.lck
+vpp/.mission.vpp.lck
+vpp/anomaly.vpp.bak_000f
+vpp/mission.vpp.bak_000f
+vpp/mission.vpp.bak_001d
+vpp/mission.vpp.bak_002d
+vpp/anomaly.vpp.bak_001d

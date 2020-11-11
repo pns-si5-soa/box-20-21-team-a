@@ -7,7 +7,7 @@ class Producer {
 
 	constructor() {
 		this.kafka = new Kafka({
-			logLevel: logLevel.DEBUG,
+			logLevel: logLevel.NOTHING,
 			brokers: [`${host}:9092`],
 			clientId: 'example-producer',
 		});
@@ -22,7 +22,6 @@ class Producer {
 				compression: CompressionTypes.GZIP,
 				messages: [{ value: JSON.stringify(message) }],
 			})
-			.then(console.log('sent ' + JSON.stringify(message)))
 			.catch((e: { message: any }) =>
 				console.error(`[example/producer] ${e.message}`, e)
 			);

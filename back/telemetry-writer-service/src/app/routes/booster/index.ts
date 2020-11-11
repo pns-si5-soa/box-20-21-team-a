@@ -1,7 +1,7 @@
 import express = require('express');
-import { removeMany } from '../../db/Mongo';
-const router = express.Router();
 import TelemetryService from "../../services/telemetry-controller";
+
+const router = express.Router();
 
 router.get('/', (req, res) => {
     TelemetryService.getBoosterData().then(data => {
@@ -11,9 +11,15 @@ router.get('/', (req, res) => {
     })
 });
 
-router.get('/:id', (req, res) => {
-    console.log({missionId: req.params.id})
+router.get('/:id/all', (req, res) => {
+    TelemetryService.getAllBoosterData({missionId: req.params.id}).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.send(null)
+    })
+});
 
+router.get('/:id', (req, res) => {
     TelemetryService.getBoosterData({missionId: req.params.id}).then(data => {
         res.send(data);
     }).catch(err => {

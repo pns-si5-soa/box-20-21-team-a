@@ -1,4 +1,3 @@
-import API from '../../rest/API';
 import $ from 'jquery';
 import 'jquery.soap';
 

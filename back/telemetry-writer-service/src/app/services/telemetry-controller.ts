@@ -1,12 +1,12 @@
 import RocketData from "../entities/Rocket/RocketData";
 import BoosterData from "../entities/Booster/BoosterData";
 import PayloadData from "../entities/Payload/PayloadData";
+import { find } from "../db/Mongo";
 
 class TelemetryController {
 
     addRocketData(rocketData: RocketData): RocketData {
         const rocket = Object.assign(new RocketData(), rocketData);
-       
         rocket.save()
         return rocketData;
     }
@@ -17,10 +17,7 @@ class TelemetryController {
     }
 
     addBoosterData(boosterData: BoosterData): BoosterData {
-        //TODO mettre dans la route
-        
         const booster = Object.assign(new BoosterData(), boosterData);
-        console.log(boosterData)
         booster.save()
         return boosterData;
     }
@@ -30,9 +27,20 @@ class TelemetryController {
         return boosterData.findLastAndAssign(filter)
     }
 
+    getAllBoosterData(filter: Object = {}) {
+        return find("BoosterData", filter)
+    }
+
+    getAllRocketData(filter: Object = {}) {
+        return find("RocketData", filter)
+    }
+
+    getAllPayloadData(filter: Object = {}) {
+        return find("PayloadData", filter)
+    }
+
     addPayloadData(payloadData: PayloadData): PayloadData {
         const payload = Object.assign(new PayloadData(), payloadData);
-        console.log(payload)
         payload.save()
         return payload;
     }

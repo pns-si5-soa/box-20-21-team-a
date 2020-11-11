@@ -1,11 +1,12 @@
 import express = require('express');
 import createError = require('http-errors');
+
 require('dotenv').config();
 import indexRouter from "./routes";
 import AnomalyAnalyserService from "./controller/TelemetryAnalyserService";
-import RocketData from "./entities/Rocket/RocketData";
 import {setIntervalConditionPromise} from "./tools/set_intervalx";
 import BoosterData from "./entities/Booster/BoosterData";
+
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
@@ -109,9 +110,9 @@ const host = process.env.HOST_IP;
 
 
 const kafka = new Kafka({
-    logLevel: logLevel.INFO,
+    logLevel: logLevel.NOTHING,
     brokers: [`${host}:9092`],
-    clientId: 'example-consumer',
+    clientId: 'consumer-analyser',
 })
 
 const topicRocket = 'telemetry-rocket'
@@ -124,33 +125,16 @@ const run = async () => {
     await consumer.subscribe({ topic : topicRocket,fromBeginning : true })
     await consumer.subscribe({ topic : topicBooster, fromBeginning : true })
     await consumer.run({
-        eachBatchAutoResolve: true,
-        eachBatch: async ({ batch } : any) => {
-            console.log(batch)
-        },
         eachMessage: async ({ topic, partition, message } : any) => {
-
-            const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
-
-            console.log(`- ${prefix} ${message.key}#${message.value}`)
             var msg = message.value;
             var json = JSON.parse(msg)
 
-            console.log("====>")
-            console.log(topic)
-            console.log(json)
-            
             if(topic =='telemetry-rocket'){
-               console.log("oui")
                 AnomalyAnalyserService.analyseRocketData(json);
             }
             if(topic == 'telemetry-booster') {
-                console.log("non")
-
                 AnomalyAnalyserService.analyseBoosterData(json);
             }
-
-
         },
     })
 
@@ -164,8 +148,6 @@ const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
 errorTypes.map(type => {
     process.on(type, async e => {
         try {
-            console.log(`process.on ${type}`)
-            console.error(e)
             await consumer.disconnect()
             process.exit(0)
         } catch (_) {
@@ -199,7 +181,6 @@ async function mockTelemetryData(){
             boosterData.setAltitude(boosterDataJSON.altitude);
             AnomalyAnalyserService.analyseBoosterData(boosterData);
             boosterDataJSON.altitude = boosterDataJSON.altitude-20;
-            console.log(boosterDataJSON.altitude);
         },
         1000,
         () => boosterDataJSON.altitude<=0);

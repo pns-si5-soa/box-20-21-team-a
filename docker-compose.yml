@@ -10,39 +10,39 @@ services:
         - "27018"
     ports:
         - "27018:27017"
+    logging:
+      driver: "none"
   
-  waitforservices1:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - zookeeper 
-    command: zookeeper:2181
-    
+  # waitforservices1:
+  #   image: dadarek/wait-for-dependencies
+  #   depends_on:
+  #     - zookeeper 
+  #   command: zookeeper:2181
 
+  # waitforservices2:
+  #   image: dadarek/wait-for-dependencies
+  #   depends_on:
+  #     - kafka 
+  #   command: kafka:9092
 
-  waitforservices2:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - kafka 
-    command: kafka:9092
-    
-
-  waitforservices3:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - rocket-service
-      - weather-service 
-      - mission-service
-      - booster-service
-      - payload-service
-      - real-time-service
-      - telemetry-writer-service
-      - telemetry-listener-service
-      - missions-coordinator-service
-      - telemetry-analyser-service
-      - poll-service
-      - waitforservices1
-      - waitforservices2
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012
+  # waitforservices3:
+  #   image: dadarek/wait-for-dependencies
+  #   depends_on:
+  #     - rocket-service
+  #     - weather-service 
+  #     - mission-service
+  #     - booster-service
+  #     - payload-service
+  #     - real-time-service
+  #     - telemetry-writer-service
+  #     - telemetry-listener-service
+  #     - missions-coordinator-service
+  #     - telemetry-analyser-service
+  #     - poll-service
+  #     - waitforservices1
+  #     - waitforservices2
+  #     - anomaly-handler-service
+  #   command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012 anomaly-handler-service:3013
     
 
   telemetry-writer-service:
@@ -60,8 +60,8 @@ services:
     environment:
       - PORT=3003
       - HOST_IP=kafka
-      - MONGO_HOST=localhost
-      - MONGO_PORT=27018
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
       - MONGO_DB=telemetry
     depends_on:
       - mongodb
@@ -80,6 +80,7 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3007
+      - HOST_IP=kafka
 
   mission-service:
       image: blue_origin/mission-service
@@ -92,7 +93,6 @@ services:
       ports:
         - "3002:3002"
       depends_on:
-        - waitforservices1
         - mongodb
       volumes:
         - ./container-logs:/usr/src/app/logs
@@ -100,10 +100,10 @@ services:
         - PORT=3002
         - HOST_IP=kafka
         - PORT_KAFKA=9092
-        - MONGO_HOST=localhost
-        - MONGO_PORT=27018
+        - MONGO_HOST=mongodb
+        - MONGO_PORT=27017
         - MONGO_DB=mission
-        - HOST_MISSIONS_COORDINATOR=localhost
+        - HOST_MISSIONS_COORDINATOR=missions-coordinator
         - PORT_MISSIONS_COORDINATOR=3008
 
   weather-service:
@@ -140,6 +140,7 @@ services:
         - HOST_IP=kafka
         - PORT_KAFKA=9092
 
+
   rocket-service:
       image: blue-origin/rocket-service
       container_name: rocket-container
@@ -148,18 +149,23 @@ services:
         dockerfile: ./back/rocket-service/Dockerfile
       expose: 
         - "3000"
+        - "3011"
       ports:
         - "3000:3000"
+        - "3011:3011"
       volumes:
         - ./container-logs:/usr/src/app/logs
       environment:
         - PORT=3000
+        - PORT_HTTP=3011
         - HOST_TELEMETRY=telemetry-listener-service
         - PORT_TELEMETRY=3007
         - HOST_BOOSTER=booster-service
         - PORT_BOOSTER=3004
         - HOST_MISSION=mission-service
         - PORT_MISSION=3002
+        - HOST_IP=kafka
+        - NODE_TLS_REJECT_UNAUTHORIZED=0
       depends_on:
         - telemetry-listener-service
         - mongodb
@@ -172,8 +178,10 @@ services:
       dockerfile: ./back/booster-service/Dockerfile
     expose: 
       - "3004"
+      - "3010"
     ports:
       - "3004:3004"
+      - "3010:3010"
     volumes:
       - ./container-logs:/usr/src/app/logs
     environment:
@@ -185,6 +193,8 @@ services:
       - PORT_TELEMETRY=3007
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
+      - HOST_IP=kafka
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
     
     depends_on:
       - mongodb
@@ -198,15 +208,43 @@ services:
       dockerfile: ./back/payload-service/Dockerfile
     expose:
       - "3005"
+      - "3015"
     ports:
       - "3005:3005"
+      - "3015:3015"
     volumes:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3005
-      - PORT_HTTP=3011
+      - PORT_HTTP=3015
       - HOST_TELEMETRY=telemetry-listener-service
       - PORT_TELEMETRY=3007
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
+      - HOST_IP=kafka
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+
+  anomaly-handler-service:
+    image: blue_origin/anomaly-handler-service
+    container_name: anomaly-handler-container
+    build: 
+      context: .
+      dockerfile: ./back/anomaly-handler-service/Dockerfile
+    expose:
+      - "3013"
+    ports:
+      - "3013:3013"
+    volumes:
+      - ./container-logs:/usr/src/app/logs
+    environment:
+      - PORT=3013
+      - KAFKA_HOST_IP=kafka
+      - HOST_BOOSTER_SOAP=booster-service
+      - PORT_BOOSTER_SOAP=3004
+      - PORT_ROCKET_SOAP=3000
+      - HOST_ROCKET_SOAP=rocket-service
+      - HOST_MISSION=mission-service
+      - PORT_MISSION=3002
 
   telemetry-analyser-service:
     image: blue_origin/telemetry-analyser-service
@@ -223,7 +261,6 @@ services:
     environment:
       - PORT=3009
       - HOST_IP=kafka
-      - PORT_KAFKA=9092
   
   missions-coordinator-service:
     image: blue_origin/missions-coordinator-service
@@ -245,9 +282,9 @@ services:
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
       - HOST_HEAD_STAGES=rocket-service
-      - PORT_HEAD_STAGES=3000
+      - PORT_HEAD_STAGES=3011
       - HOST_PAYLOAD=payload-service
-      - PORT_PAYLOAD=3005
+      - PORT_PAYLOAD=3015
       - HOST_REAL_TIME=real-time-service
       - PORT_REAL_TIME=3006
       - HOST_POLL=poll-service
@@ -268,17 +305,26 @@ services:
     environment:
       #Listening Port
       - PORT=3012
+      - HOST_IP=kafka
 
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
       - "2181:2181"
+    logging:
+      driver: none
   kafka:
     image: wurstmeister/kafka:2.11-1.1.1
     ports:
       - "9092:9092"
+    expose:
+      - "9092"
     links:
       - zookeeper
+    depends_on: 
+      - zookeeper
+    logging:
+      driver: none
     environment:
       KAFKA_BROKER_ID: 100
       #KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
@@ -298,6 +344,7 @@ services:
         context: .
         dockerfile: ./front/Dockerfile
       environment:
+      ## For integrated test
         - REACT_APP_HOST_ROCKET=rocket-service
         - REACT_APP_PORT_ROCKET=3000
         - REACT_APP_HOST_WEATHER=weather-service
@@ -309,7 +356,7 @@ services:
         - REACT_APP_HOST_BOOSTER=booster-service
         - REACT_APP_PORT_BOOSTER=3004
         - REACT_APP_HOST_PAYLOAD=payload-service
-        - REACT_APP_PORT_PAYLOAD=3005
+        - REACT_APP_PORT_PAYLOAD=3015
         - REACT_APP_HOST_TELEMETRY_ANALYSER=telemetry-analyser-service
         - REACT_APP_PORT_TELEMETRY_ANALYSER=3009
         - REACT_APP_HOST_MISSIONS_COORDINATOR=missions-coordinator-service
@@ -318,16 +365,38 @@ services:
         - REACT_APP_PORT_REAL_TIME=3006
         - REACT_APP_HOST_POLL=poll-service
         - REACT_APP_PORT_POLL=3012
+      ## For front
+        # - REACT_APP_HOST_ROCKET=localhost
+        # - REACT_APP_PORT_ROCKET=3000
+        # - REACT_APP_HOST_WEATHER=localhost
+        # - REACT_APP_PORT_WEATHER=3001
+        # - REACT_APP_HOST_MISSION=localhost
+        # - REACT_APP_PORT_MISSION=3002
+        # - REACT_APP_HOST_TELEMETRY=localhost
+        # - REACT_APP_PORT_TELEMETRY=3003
+        # - REACT_APP_HOST_BOOSTER=localhost
+        # - REACT_APP_PORT_BOOSTER=3004
+        # - REACT_APP_HOST_PAYLOAD=localhost
+        # - REACT_APP_PORT_PAYLOAD=3005
+        # - REACT_APP_HOST_TELEMETRY_ANALYSER=localhost
+        # - REACT_APP_PORT_TELEMETRY_ANALYSER=3009
+        # - REACT_APP_HOST_MISSIONS_COORDINATOR=localhost
+        # - REACT_APP_PORT_MISSIONS_COORDINATOR=3008
+        # - REACT_APP_HOST_REAL_TIME=localhost
+        # - REACT_APP_PORT_REAL_TIME=3006
+        # - REACT_APP_HOST_POLL=localhost
+        # - REACT_APP_PORT_POLL=3012
       # Uncommente below if you want to build all these service when building front
-      #depends_on:
-        #- rocket-service
-        #- weather-service
-        #- mission-service
-        #- telemetry-writer-service
-        #- booster-service
-        #- payload-service
-        #- waitforservices3
-        #- real-time-service
+      volumes:
+        - ./container-logs:/usr/src/app/logs
+      depends_on:
+        - rocket-service
+        - weather-service
+        - mission-service
+        - telemetry-writer-service
+        - booster-service
+        - payload-service
+        - real-time-service
       stdin_open: true
       tty: true
       

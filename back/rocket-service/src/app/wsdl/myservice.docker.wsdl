@@ -1,15 +1,21 @@
+<?xml version="1.0" encoding ="utf-8"?>
 <!--
-TeamA
-2020-10-04
-let you post/retrieve online message by SOAP protocol
-​
+(c) TeamA
+2020-10-18
+Rocket soap wsdl
+
 Online WSDL 1.1 SOAP generator 0.2
 Julien Blitte
-  -->
-<definitions xmlns:tns="fr.teama.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="fr.teama.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="let you post/retrieve online message by SOAP protocol" targetNamespace="fr.teama.wsdl">
-    <!--  definition of datatypes  -->
+ -->
+<definitions name="Rocket soap wsdl"
+             targetNamespace="fr.teamA.wsdl"
+             xmlns:tns="fr.teamA.wsdl"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+    <!-- definition of datatypes -->
     <types>
-        <schema xmlns="http://www.w3.org/2000/10/XMLSchema" targetNamespace="fr.teama.xsd">
+        <schema targetNamespace="fr.teamA.xsd" xmlns="http://www.w3.org/2000/10/XMLSchema">
             <element name="text">
                 <complexType>
                     <all>
@@ -19,75 +25,117 @@ Julien Blitte
             </element>
             <element name="void">
                 <complexType>
-                    <sequence/>
+                    <sequence></sequence>
                 </complexType>
             </element>
         </schema>
     </types>
-    <!--  response messages  -->
-    <message name="returns_text">
-        <part name="text" type="xsd:text"/>
+    <!-- response messages -->
+    <message name='returns_text'>
+        <part name='text' type='xsd:text'/>
     </message>
-    <!--  request messages  -->
-    <message name="destroy">
-        <part name="void" type="xsd:void"/>
+    <!-- request messages -->
+    <message name='putRocketOnInternalPower'>
+        <part name='void' type='xsd:void'/>
     </message>
-    <message name="notifyLaunch">
-        <part name="void" type="xsd:void"/>
+    <message name='initializeStartupProcess'>
+        <part name='void' type='xsd:void'/>
     </message>
-    <message name="notifyBoosterDetachment">
-        <part name="void" type="xsd:void"/>
+    <message name='notifyLaunch'>
+        <part name='void' type='xsd:void'/>
     </message>
-    <!--  server's services  -->
-    <portType name="rocket">
-        <operation name="destroy">
-            <input message="tns:destroy"/>
-            <output message="tns:returns_text"/>
+    <message name='initializeSecondEngineForSecondStage'>
+        <part name='void' type='xsd:void'/>
+    </message>
+    <message name='destroy'>
+        <part name='void' type='xsd:void'/>
+    </message>
+    <!-- server's services -->
+    <portType name='rocket'>
+        <operation name='putRocketOnInternalPower'>
+            <input message='tns:putRocketOnInternalPower'/>
+            <output message='tns:returns_text'/>
         </operation>
-        <operation name="notifyLaunch">
-            <input message="tns:notifyLaunch"/>
-            <output message="tns:returns_text"/>
+        <operation name='initializeStartupProcess'>
+            <input message='tns:initializeStartupProcess'/>
+            <output message='tns:returns_text'/>
         </operation>
-        <operation name="notifyBoosterDetachment">
-            <input message="tns:notifyBoosterDetachment"/>
-            <output message="tns:returns_text"/>
+        <operation name='notifyLaunch'>
+            <input message='tns:notifyLaunch'/>
+            <output message='tns:returns_text'/>
+        </operation>
+        <operation name='initializeSecondEngineForSecondStage'>
+            <input message='tns:initializeSecondEngineForSecondStage'/>
+            <output message='tns:returns_text'/>
+        </operation>
+        <operation name='destroy'>
+            <input message='tns:destroy'/>
+            <output message='tns:returns_text'/>
         </operation>
     </portType>
-    <!--  server encoding  -->
-    <binding name="rocket_webservices" type="tns:rocket">
-        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-        <operation name="destroy">
-            <soap:operation soapAction="urn:xmethods-delayed-quotes#destroy"/>
+    <!-- server encoding -->
+    <binding name='rocket_webservices' type='tns:rocket'>
+        <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+        <operation name='putRocketOnInternalPower'>
+            <soap:operation soapAction='urn:xmethods-delayed-quotes#putRocketOnInternalPower'/>
             <input>
-                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
             </output>
         </operation>
-        <operation name="notifyLaunch">
-            <soap:operation soapAction="urn:xmethods-delayed-quotes#notifyLaunch"/>
+        <operation name='initializeStartupProcess'>
+            <soap:operation soapAction='urn:xmethods-delayed-quotes#initializeStartupProcess'/>
             <input>
-                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
             </output>
         </operation>
-        <operation name="notifyBoosterDetachment">
-            <soap:operation soapAction="urn:xmethods-delayed-quotes#notifyBoosterDetachment"/>
+        <operation name='notifyLaunch'>
+            <soap:operation soapAction='urn:xmethods-delayed-quotes#notifyLaunch'/>
             <input>
-                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+            </output>
+        </operation>
+        <operation name='initializeSecondEngineForSecondStage'>
+            <soap:operation soapAction='urn:xmethods-delayed-quotes#initializeSecondEngineForSecondStage'/>
+            <input>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+            </input>
+            <output>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+            </output>
+        </operation>
+        <operation name='destroy'>
+            <soap:operation soapAction='urn:xmethods-delayed-quotes#destroy'/>
+            <input>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+            </input>
+            <output>
+                <soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+                           encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
             </output>
         </operation>
     </binding>
-    <!--  access to service provider  -->
-    <service name="rocket">
-        <port name="rocket_0" binding="rocket_webservices">
-            <soap:address location="http://rocket-service:3000/wsdl?wsdl"/> <!--FIXME port number-->
+    <!-- access to service provider -->
+    <service name='rocket'>
+        <port name='rocket_0' binding='rocket_webservices'>
+            <soap:address location='http://rocket-service:3000/wsdl?wsdl'/>
         </port>
     </service>
 </definitions>

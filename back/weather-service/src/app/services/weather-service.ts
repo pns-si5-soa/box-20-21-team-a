@@ -2,7 +2,7 @@ const weatherService = ["Sunny", "Cloudy", "Rainy"]
 
 function choice(tab: Array<string>): string {
     let weather = tab[Math.floor(Math.random() * Math.floor(tab.length))];
-    console.log("The weather is currently : "+weather);
+    console.log("The current weather is... " + weather);
     return weather;
 }
 

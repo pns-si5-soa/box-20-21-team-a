@@ -1,7 +1,7 @@
 # Missions coordinator µservice
 
 ## Description 
-This service deal with missions in parrallel
+This service deal with missions in parallel
 ## Install 
 
 To install dependencies :

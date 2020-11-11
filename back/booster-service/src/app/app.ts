@@ -1,23 +1,25 @@
-import express = require('express')
+import express = require('express');
+
 require('dotenv').config()
 import BoosterController from './controller/index';
 import path from 'path';
 import bodyParser from 'body-parser'
-require ("logs-module");
 import indexRouter from "./routes";
+
+require("logs-module");
 
 const cors = require('cors');
 var soap = require('soap');
 
 const app: express.Application = express();
-if(process.env.PORT == undefined) throw Error("port is missing on .env file");
+if (process.env.PORT == undefined) throw Error("port is missing on .env file");
 const port = normalizePort(process.env.PORT)
-if(process.env.PORT_HTTP == undefined) throw Error("port http is missing on .env file");
+if (process.env.PORT_HTTP == undefined) throw Error("port http is missing on .env file");
 const portHttp = normalizePort(process.env.PORT_HTTP)
 
 app.use(cors())
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 
 //Here it's any because everything can be insert on .env file, the goal is verify 
 function normalizePort(val: any) {
@@ -44,39 +46,36 @@ function normalizePort(val: any) {
 var myService = {
     booster: {
         booster_0: {
-            launchBooster : function(args : any){
-                if(BoosterController.boosters[args.id] != undefined){
-                    BoosterController.launch(args.id);
-                    return {booster : BoosterController.boosters[args.id].getBoosterData().toObjectJSON()};
+            destroy: function (args: any) {
+                if (BoosterController.boosters[args.id] != undefined) {
+                    BoosterController.destroy(args.id);
+                    return {booster: BoosterController.boosters[args.id].getBoosterData().toObjectJSON()};
                 }
-                return {booster : 'This booster doesn\'t exist'};
-                },
-            destroy : function(args : any){
-                if(BoosterController.boosters[args.id] != undefined){
-                BoosterController.destroy(args.id);
-                return {booster : BoosterController.boosters[args.id].getBoosterData().toObjectJSON()};
-                }
-                return {booster : 'This booster doesn\'t exist'};
+                return {booster: 'This booster doesn\'t exist'};
             },
         }
     }
-  };
+};
 
-  var pathWsdl = path.resolve("./src/app/wsdl/", "myservice.wsdl");
+var pathWsdl = path.resolve("./src/app/wsdl/", "myservice.wsdl");
 
-  var xml = require('fs').readFileSync(pathWsdl, 'utf8');
+var xml = require('fs').readFileSync(pathWsdl, 'utf8');
 
-  //body parser middleware are supported (optional)
-  app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
-  app.listen(port, function(){
-  //Note: /wsdl route will be handled by soap module
-  //and all other routes & middleware will continue to work
-    soap.listen(app, '/wsdl', myService, xml, function(){
+//body parser middleware are supported (optional)
+app.use(bodyParser.raw({
+    type: function () {
+        return true;
+    }, limit: '5mb'
+}));
+app.listen(port, function () {
+    //Note: /wsdl route will be handled by soap module
+    //and all other routes & middleware will continue to work
+    soap.listen(app, '/wsdl', myService, xml, function () {
         console.log('SOAP server listening on port ' + port);
     });
-  });
+});
 
-   /**
+/**
  * Create HTTP server.
  */
 app.use('/', indexRouter);

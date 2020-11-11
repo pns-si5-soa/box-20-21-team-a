@@ -35,11 +35,16 @@ class TelemetryAnalyserService {
             this.rocketAnomalies[rocketData.getMissionId()]= new RocketAnomalies(rocketData.getMissionId());
         }
         this.newAnomaly = this.rocketAnomalies[rocketData.getMissionId()].analyseRocketData(rocketData);
-        if(this.newAnomaly != null) this.producer.sendAnomaly(this.newAnomaly,this.ANOMALY_TOPIC)
+        if(this.newAnomaly != null) {
+            this.producer.sendAnomaly(this.newAnomaly,this.ANOMALY_TOPIC)
+            console.log("Anomaly on rocket detected ! ")
+            console.log(this.newAnomaly)
+        }
     }
 
 
     analyseBoosterData(boosterDataJSON: BoosterData) {
+        console.log("Analyse BoosterData...")
         let rocketAlreadyExists = false;
         const boosterData = new BoosterData().assign(boosterDataJSON);
        
@@ -50,7 +55,11 @@ class TelemetryAnalyserService {
             this.rocketAnomalies[boosterData.getMissionId()]= new RocketAnomalies(boosterData.getMissionId());
         }
         this.newAnomaly = this.rocketAnomalies[boosterData.getMissionId()].analyseBoosterData(boosterData);
-        if(this.newAnomaly != null) this.producer.sendAnomaly(this.newAnomaly,this.ANOMALY_TOPIC);
+        if(this.newAnomaly != null) {
+            this.producer.sendAnomaly(this.newAnomaly,this.ANOMALY_TOPIC);
+            console.log("Anomaly on booster detected ! ")
+            console.log(this.newAnomaly)
+        }
     }
 }
 

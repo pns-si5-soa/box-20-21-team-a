@@ -1,4 +1,4 @@
-import { run } from "./consumer_kafka"
+import {run} from "./consumer_kafka"
 
 export interface ISubscriptions {
     topic: String

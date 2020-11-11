@@ -1,5 +1,4 @@
-import { AxiosPromise } from 'axios';
-import Payload from '../aggregate/Payload';
+import {AxiosPromise} from 'axios';
 import PayloadData from '../entities/PayloadData';
 import API from './API';
 

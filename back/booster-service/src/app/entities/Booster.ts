@@ -1,6 +1,5 @@
 import {setIntervalConditionPromise} from '../tools/set_intervalx';
 import TelemetryAPI from '../API/telemetryAPI';
-import RocketAPI from "../API/RocketAPI";
 import BoosterStatus from "./BoosterStatus"
 import BoosterData from "./BoosterData";
 import MissionAPI from "../API/MissionAPI";
@@ -10,117 +9,117 @@ import Producer from '../producer/index';
 
 export default class Booster {
 
-    booster : BoosterData;
+    boosterData: BoosterData;
 
     private telemetryAPI: TelemetryAPI = new TelemetryAPI();
-    private rocketAPI: RocketAPI = new RocketAPI();
-    public dataUpdateDelay = 1000;
+    public dataUpdateDelay = 3000;
     private missionAPI = new MissionAPI();
     private boosterDrained = false;
-    private rocketBusConsumer : Consumer;
-    private rocketBusProducer : Producer;
+    private rocketBusConsumer: Consumer;
+    private rocketBusProducer: Producer;
 
     constructor(boosterData: BoosterData) {
-        this.booster = boosterData;
+        this.boosterData = boosterData;
         this.rocketBusProducer = new Producer(boosterData.missionId);
         this.rocketBusConsumer = new Consumer(boosterData.missionId);
-        this.rocketBusConsumer.run('rocket-'+this.booster.missionId+'-booster',(value: Object) => {
-            console.log(" callback");
-
+        this.rocketBusConsumer.run('rocket-' + this.boosterData.missionId + '-booster', (value: Object) => {
             this.triggerActionWhenReceiveBusSignal(value);
-        })
+        });
     }
 
-    private triggerActionWhenReceiveBusSignal(signal : any){
-        if(signal.action == 'launchBooster'){
+    private triggerActionWhenReceiveBusSignal(signal: any) {
+        if (signal.action == 'launchBooster') {
             this.launch();
+        } else if (signal.action == 'updateDataFromHeadStageData' && this.boosterData.boosterStatus === BoosterStatus.ON_THE_ROCKET) {
+            this.boosterData.altitude = signal.headStageTelemetryData.altitude;
+            this.boosterData.speed = signal.headStageTelemetryData.speed;
+            this.sendData();
+        } else if (signal.action == "notifyOfHeadDestruction") {
+            this.destroy();
         }
-        // TODO : if on signal and action to do 
     }
 
     sendData(): void {
-      
         if (process.env.NODE_ENV != 'test') {
-            this.telemetryAPI.sendBoosterData(this.booster);
-            console.log(" ===========> sent to mission : status "+this.booster.boosterStatus+" id : "+this.booster.missionId)
-            this.missionAPI.sendBoosterData(this.booster.boosterStatus,this.booster.missionId);
+            this.telemetryAPI.sendBoosterData(this.boosterData);
+            this.missionAPI.sendBoosterData(this.boosterData.boosterStatus, this.boosterData.missionId);
         }
     }
 
 
-    getBoosterData():BoosterData{
-        return this.booster;
+    getBoosterData(): BoosterData {
+        return this.boosterData;
     }
 
     setTimer(time: number) {
         this.dataUpdateDelay = time;
     }
 
-   
 
     isDestroyed(): boolean {
-        return this.booster.boosterStatus === BoosterStatus.DESTROYED;
+        return this.boosterData.boosterStatus === BoosterStatus.DESTROYED;
     }
 
     canDetachFromRocket(): boolean {
-        return this.booster.fuelLevel <= 15;
+        return this.boosterData.fuelLevel <= 35;
     }
 
-    async initializeDetachment(): Promise<void> {
+    private async initializeDetachment(): Promise<void> {
         console.log("Initializing booster detachment.");
-        this.booster.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         if (process.env.NODE_ENV != 'test') {
             //await this.rocketAPI.initializeSecondEngineForSecondStage();
-            this.rocketBusProducer.sendMessage({action : 'notifyDetachment'},'rocket-'+this.booster.missionId+'-head-stages')
+            this.rocketBusProducer.sendMessage({action: 'notifyDetachment'}, 'rocket-' + this.boosterData.missionId + '-head-stages');
             this.sendData();
-
         }
     }
 
+    // Waiting for detachment
     private async controlFirstStageOfFlight(): Promise<void> {
         const that = this;
         await setIntervalConditionPromise(() => {
                 that.sendData();
-                that.booster.altitude += that.booster.speed;
-                that.booster.speed += 1;
-                if (!this.boosterDrained) that.booster.fuelLevel -= 1;
+                that.boosterData.fuelLevel -= 3;
             },
             this.dataUpdateDelay,
             () => (that.canDetachFromRocket() || that.isDestroyed()));
     }
 
     private async controlLandingProcess(): Promise<void> {
-        console.log("Landing booster");
+        console.log("Landing booster.");
+        this.boosterData.boosterStatus = BoosterStatus.FLIP_MANEUVER;
         const that = this;
-        const altitudeBearings = this.booster.altitude/6;
-        let nextBearing=this.booster.altitude-altitudeBearings;
+        const altitudeBearings = this.boosterData.altitude / 6;
+        let nextBearing = this.boosterData.altitude - altitudeBearings;
         await setIntervalConditionPromise(() => {
-                if (that.booster.altitude<nextBearing){
-                    this.booster.boosterStatus++;
-                    nextBearing=this.booster.altitude-altitudeBearings;
+                if (that.boosterData.altitude < nextBearing) {
+                    this.boosterData.boosterStatus++;
+                    nextBearing = this.boosterData.altitude - altitudeBearings;
                 }
+
+                that.boosterData.altitude -= that.boosterData.speed;
+                that.boosterData.speed -= 0.05;
+                that.boosterData.speed = Math.round(that.boosterData.speed);
+                that.boosterData.speed = that.boosterData.speed < 1 ? 2 : that.boosterData.speed;
+                that.boosterData.fuelLevel -= 1;
                 that.sendData();
-                that.booster.altitude -= that.booster.speed;
-                that.booster.speed -= 1;
-                that.booster.speed = that.booster.speed < 1 ? 2 : that.booster.speed;
-                // that.fuelLevel -= 1;
             },
-            this.dataUpdateDelay+500,
-            () => (that.booster.altitude <= 0 || that.isDestroyed()));
-        if (this.booster.boosterStatus === BoosterStatus.DESTROYED) {
+            this.dataUpdateDelay,
+            () => (that.boosterData.altitude <= 0 || that.isDestroyed()));
+        if (this.boosterData.boosterStatus === 99) {
             return;
         }
+        this.rocketBusProducer.sendMessage({action: 'notifyOfLanding'}, 'rocket-' + this.boosterData.missionId + '-head-stages'); // This should not be here, we put this only so tests are easier to do
         console.log("Booster landed");
-        this.booster.boosterStatus = BoosterStatus.LANDED;
+        this.boosterData.boosterStatus = BoosterStatus.LANDED;
         this.stopBoosterEnginesAfterLanding();
     }
 
     private stopBoosterEnginesAfterLanding() {
-        if (this.booster.boosterStatus !== BoosterStatus.LANDED) {
+        if (this.boosterData.boosterStatus !== BoosterStatus.LANDED) {
             throw new Error(`Cannot stop engines before the booster has landed.`);
         }
-        this.booster.speed = 0;
-        this.booster.altitude = 0;
+        this.boosterData.speed = 0;
+        this.boosterData.altitude = 0;
         this.sendData();
         console.log("Booster stopped");
     }
@@ -128,19 +127,18 @@ export default class Booster {
     async launch(): Promise<void> {
         /**
          *  Step 1 : Verify if the state is not launch to launch the booster
-         *  Step 2 : For 10 iterations, increse altitude, speed
+         *  Step 2 : For 10 iterations, increase altitude, speed
          *  Step 3 : At the mid-flight we land the booster while altitude is not 0
          */
         // if (this.boosterStatus != BoosterStatus.NOT_LAUNCHED) {
         //     throw new Error(`Cannot launch booster. Its current status is ${this.boosterStatus}`);
         // }
         console.log("Launching booster");
-        this.booster.speed = 10;
         console.log("Booster launched");
         this.sendData();
         if (process.env.NODE_ENV != 'test') {
-            this.rocketBusProducer.sendMessage({action : 'notifyLaunch'},'rocket-'+this.booster.missionId+'-head-stages')
-           // await this.rocketAPI.notifyLaunch();
+            this.rocketBusProducer.sendMessage({action: 'notifyLaunch'}, 'rocket-' + this.boosterData.missionId + '-head-stages')
+            // await this.rocketAPI.notifyLaunch();
         }
 
         await this.controlFirstStageOfFlight();
@@ -148,23 +146,24 @@ export default class Booster {
 
         await this.initializeDetachment();
 
-        this.sendData();
-
-        await this.controlLandingProcess();
+        await this.controlLandingProcess(); // todo here
         if (this.isDestroyed()) return;
 
         this.sendData();
     }
 
     destroy(): void {
-        this.booster.boosterStatus = BoosterStatus.DESTROYED;
+        if (this.boosterData.boosterStatus === BoosterStatus.ON_THE_ROCKET) {
+            this.rocketBusProducer.sendMessage({action: 'notifyOfBoosterDestruction'}, 'rocket-' + this.boosterData.missionId + '-head-stages');
+        }
+        this.boosterData.boosterStatus = BoosterStatus.DESTROYED;
         console.log("*BOOM!* - Booster destroyed!");
         this.sendData();
 
     }
 
     drainBooster() {
-        this.booster.fuelLevel=0;
-        this.boosterDrained=true;
+        this.boosterData.fuelLevel = 0;
+        this.boosterDrained = true;
     }
 }

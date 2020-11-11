@@ -11,7 +11,7 @@ export default class Consumer {
 	constructor(uuid:string){
 		this.uuid = uuid;
 		this.kafka = new Kafka({
-			logLevel: logLevel.DEBUG,
+			logLevel: logLevel.NOTHING,
 			brokers: [`${host}:9092`],
 			clientId: 'consumer-head-stages-'+uuid,
 		});
@@ -24,18 +24,10 @@ export default class Consumer {
 
 		// Then subscribe
 		await this.consumer.subscribe({ topic: topic_name, fromBeginning: true });
-		console.log("Head stages consumer subscribing to topic : "+topic_name);
-	
 
 		// Finaly listen 
 		await this.consumer.run({
-			eachBatch: async ({ batch }: any) => {
-				console.log(batch);
-			},
 			eachMessage: async ({ topic, partition, message }: any) => {
-				const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`;
-
-				console.log(`- ${prefix} ${message.key}#${message.value}`);
 				var msg = message.value;
 				var json = JSON.parse(msg);
 				if (topic == topic_name) {
@@ -44,5 +36,4 @@ export default class Consumer {
 			},
 		});
 	};
-
 }

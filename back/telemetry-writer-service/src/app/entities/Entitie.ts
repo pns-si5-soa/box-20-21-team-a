@@ -1,5 +1,4 @@
-import {insertOne, removeOne, update, find} from "../db/Mongo"
-import BoosterData from "./Booster/BoosterData";
+import {find, insertOne, removeOne, update} from "../db/Mongo"
 
 abstract class Entitie {
 
@@ -13,21 +12,18 @@ abstract class Entitie {
         insertOne(this.constructor.name, this.toObjectJSON()).then(res => {
             this.id = res.insertedIds
         }).catch(err => {
-            console.log(err)
         })
     }
 
     delete() {
         if(this.id == -1) throw new Error("Impossible to remove because is not in db")
         removeOne(this.constructor.name, {id: this.id}).catch(err => {
-            console.error(err)
         })
     }
 
     update() {
         if(this.id == -1) throw new Error("Impossible to remove because is not in db")
         update(this.constructor.name, this.toObjectJSON(), {id: this.id}).catch(err => {
-            console.error(err)
         })
     }
 
@@ -60,7 +56,7 @@ abstract class Entitie {
             }).catch(err => reject(err))
         })
     }
-
+    
     //Serialize to database
     abstract toObjectJSON() : Object;
     //Unserialise from database

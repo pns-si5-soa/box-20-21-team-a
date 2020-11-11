@@ -26,7 +26,6 @@ class BoosterAPI {
                     if(err != null){
                         reject(err);
                     }
-                    console.log("oui");
                     client.destroy(args, function (err: String, result: Client) {
                         if(err != null){
                             reject(err);

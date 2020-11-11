@@ -13,29 +13,23 @@ class RocketController {
         this.rockets = {};
     }
 
-
-
     addNewRocket(rocketId :string) : string{
-        console.log(rocketId);
         let rocket = new Rocket(
             new RocketData(rocketId,
-                RocketStatus.PREPARATION, 70, 50, 0)); 
+                RocketStatus.PREPARATION, 70, 0, 0));
            this.rockets[rocketId] = rocket;
         return rocketId;
-        
     }
 
     // For tests only
     getStatus(id : string): RocketStatus {
         return this.rockets[id].getRocketStatus();
-    
     }
 
     /**
      * Puts the rocket on internal power (first action)
      */
     putRocketOnInternalPower(id : string) {
-        
         if(this.rockets[id] != null)
             this.rockets[id].putRocketOnInternalPower();
     }

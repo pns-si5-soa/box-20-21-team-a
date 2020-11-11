@@ -9,7 +9,7 @@ class Producer {
 	constructor(uuid:string) {
 		this.uuid=uuid
 		this.kafka = new Kafka({
-			logLevel: logLevel.DEBUG,
+			logLevel: logLevel.NOTHING,
 			brokers: [`${host}:9092`],
 			clientId: 'producer-rocket-'+uuid,
 		});
@@ -24,7 +24,7 @@ class Producer {
 				compression: CompressionTypes.GZIP,
 				messages: [{ value: JSON.stringify(message) }],
 			})
-			.then(console.log('sent - - - - - - - - - - - - -: ' + JSON.stringify(message)+' on topic '+topic))
+			.then()
 			.catch((e: { message: any }) =>
 				console.error(`[example/producer] ${e.message}`, e)
 			);

@@ -52,6 +52,30 @@ jobs:
         - cp .env.travis .env
         - npm install
         - npm run test
+    - stage: telemetry-analyser
+      script:
+        - cd back/telemetry-analyser-service
+        - cp .env.travis .env
+        - npm install
+        - npm run test
+    - stage: anomaly-handler
+      script:
+        - cd back/anomaly-handler-service
+        - cp .env.travis .env
+        - npm install
+        - npm run test
+    - stage: missions-coordinator
+      script:
+        - cd back/missions-coordinator-service
+        - cp .env.travis .env
+        - npm install
+        - npm run test
+    - stage: poll
+      script:
+        - cd back/poll-service
+        - cp .env.travis .env
+        - npm install
+        - npm run test
     - stage: front
       script:
         - cd front

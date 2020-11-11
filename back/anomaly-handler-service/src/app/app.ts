@@ -1,12 +1,12 @@
 import express = require('express');
 import createError = require('http-errors');
+
 require('dotenv').config();
 import AnomalyHandlerService from "./controller/AnomalyHandlerService";
+
 const cors = require('cors');
 var http = require('http');
 require ("logs-module");
-
-
 
 const app: express.Application = express();
 if(process.env.PORT == undefined) throw Error("port is missing on .env file");
@@ -99,12 +99,11 @@ function onListening() {
 
 // KAFKA
 const { Kafka, logLevel } = require('kafkajs')
-const host = process.env.HOST_IP;
-
+const host = process.env.KAFKA_HOST_IP;
 
 
 const kafka = new Kafka({
-    logLevel: logLevel.INFO,
+    logLevel: logLevel.NOTHING,
     brokers: [`${host}:9092`],
     clientId: 'consumer-anomalies',
 })
@@ -115,19 +114,11 @@ const run = async () => {
     await consumer.connect()
     await consumer.subscribe({ topic : 'anomaly-topic', fromBeginning: true })
     await consumer.run({
-        eachBatch: async ({ batch } : any) => {
-            console.log(batch)
-        },
         eachMessage: async ({ topic, partition, message } : any) => {
-
-            const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
-
-            console.log(`- ${prefix} ${message.key}#${message.value}`)
             var msg = message.value;
             var json = JSON.parse(msg)
             
             if(topic =='anomaly-topic'){
-               console.log("oui")
                 AnomalyHandlerService.analyseAnomaly(json.missionId, json.newAnomaly);
             }
         },
@@ -143,8 +134,6 @@ const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
 errorTypes.map(type => {
     process.on(type, async e => {
         try {
-            console.log(`process.on ${type}`)
-            console.error(e)
             await consumer.disconnect()
             process.exit(0)
         } catch (_) {

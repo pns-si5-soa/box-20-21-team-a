@@ -1,4 +1,4 @@
-import { MongoClient, Db } from 'mongodb'
+import {Db, MongoClient, Logger} from 'mongodb'
 
 
 interface Response {
@@ -10,12 +10,14 @@ function connect() : Promise<Response> {
 	const url = 'mongodb://' + process.env.MONGO_HOST + ':' + process.env.MONGO_PORT
 
 	return new Promise((resolve, reject) => {
-		MongoClient.connect(url, function(err, client) {
+		MongoClient.connect(url, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		  }, function(err, client) {
 			if(err !== null) reject(err)
-			console.log("Connected successfully to server");
 		
 			const db = client.db(process.env.MONGO_DB);
-
+			
 			resolve({client, db})
 		});
 	})

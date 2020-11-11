@@ -38,7 +38,7 @@ if(args["--topic"] == undefined) {
 }
 
 const kafka = new Kafka({
-	logLevel: logLevel.INFO,
+	logLevel: logLevel.NOTHING,
 	brokers: [`${host}:${port}`],
 	clientId: 'example-consumer',
 });
