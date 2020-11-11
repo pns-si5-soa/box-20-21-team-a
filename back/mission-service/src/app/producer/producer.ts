@@ -24,7 +24,7 @@ class Producer{
       this.kafka = new Kafka({
         logLevel: logLevel.NOTHING,
         brokers: [`${host}:9092`],
-        clientId: 'example-producer',
+        clientId: 'real-time',
       });
       this.producer = this.kafka.producer()
     }

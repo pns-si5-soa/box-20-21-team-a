@@ -153,11 +153,6 @@ Then("the status of the rocket is now {string} and everything is going fine for 
 			});
 		},500, ()=> mapStatusToText[rocketStatus]==arg0
 	)
-	rocketStatus = await new Promise<RocketStatus>((resolve, reject) => {
-		realTimeAPI.getStatus(missionID).then(res => {
-			resolve(res.data.rocket)
-		})
-	})
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
 When("he answers positively to the poll", function() {

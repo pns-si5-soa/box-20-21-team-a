@@ -110,8 +110,8 @@ const consumer = kafka.consumer({ groupId: 'group-realtime' });
 
 const run = async () => {
 	await consumer.connect();
-	await consumer.subscribe({ topic: topicRocket });
-	await consumer.subscribe({ topic: topicBooster });
+	await consumer.subscribe({ topic: topicRocket, fromBeginning: true });
+	await consumer.subscribe({ topic: topicBooster, fromBeginning: true });
 	await consumer.run({
 		eachMessage: async ({ topic, partition, message }: any) => {
 			var msg = message.value;
