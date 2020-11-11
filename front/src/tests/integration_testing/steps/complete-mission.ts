@@ -1,12 +1,11 @@
+require('dotenv').config()
+import "logs-module"
 import {BoosterStatus, mapStatusToText as mapStatusToTextBooster} from "../../../main/model/Booster/BoosterStatus";
 import RocketStatus, {mapStatusToText} from "../../../main/model/Rocket/RocketStatus";
 import RocketAPISoap from "../../../main/API/soap/node-calls/rocketAPI";
 import RealTimeAPI from "../../../main/API/rest/realTimeAPI";
 import {setIntervalConditionPromise, setIntervalPromiseX} from "../../../main/tools/set_intervalx";
 import PayloadAPI from "../../../main/API/soap/node-calls/payloadAPI";
-
-require('dotenv').config()
-import "logs-module"
 import MissionsCoordinatorAPI from "../../../main/API/rest/missionsCoordinatorAPI";
 import PollAPI from "../../../main/API/rest/pollAPI";
 import Poll from "../../../main/model/Poll";
@@ -17,8 +16,6 @@ import BoosterData from "../../../main/model/Booster/BoosterData";
 import PayloadData from "../../../main/model/Payload/PayloadData";
 import RocketData from "../../../main/model/Rocket/RocketData";
 import WeatherAPI from "../../../main/API/rest/weatherAPI";
-
-require('dotenv').config()
 
 const {
 	When,
