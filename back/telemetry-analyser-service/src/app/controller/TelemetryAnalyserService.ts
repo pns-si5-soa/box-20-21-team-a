@@ -26,7 +26,6 @@ class TelemetryAnalyserService {
     }
 
     analyseRocketData(rocketDataJSON: RocketData) {
-        console.log("Analyse RocketData...")
         let rocketAlreadyExists = false;
         const rocketData = new RocketData().assign(rocketDataJSON);
         if(this.rocketAnomalies[rocketData.getMissionId()] != undefined){
