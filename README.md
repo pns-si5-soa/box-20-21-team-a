@@ -13,12 +13,16 @@ Thomas Colomban : 100
 
 ### What should be expected when running
 `~$ ./prepare.sh`
-Load dependencies, compile if necessary, prepare the environment and starts the docker images.
+Runs docker-compose build to load and build all dockers images
 
 `~$ ./run.sh`
 Runs docker-compose up and the acceptance scenarios associated to the project and the APIs. 
 
-It must show each step of your acceptance scenarios in a comprehensive manner and include enough logs/traces for us to get a grasp of your architecture as a whole (request payloads, etc...).
+When run.sh is started, all service are up, and it start cucumber scenario. You can see logs in real time to understand what each service is doing. 
+Once run.sh is finished logs are available in the [container-logs](container-logs) folder.
+
+#### Notes : 
+We removed logs from mission in order to improve the logs readability. Mission is just forwarding missions status received from rocket to the kafka bus
 
 # Other infos
 
