@@ -3787,15 +3787,5 @@
 [2020-11-11T18:09:00.690] [INFO] From service telemetry-analyser-service - Analyse BoosterData...
 [2020-11-11T18:09:00.690] [INFO] From service telemetry-analyser-service - Analyse BoosterData...
 [2020-11-11T18:09:08.700] [INFO] From service front - And after the failure of the mission Jeff wants to see where the problem was, so he looks at the telemetries of the rocket
-[2020-11-11T18:09:08.717] [ERROR] From service front - [32m┌──────────────────────────────────────────────────────────────────────────┐[39m
-[32m│[39m Share your Cucumber Report with your team at [4m[1m[36mhttps://reports.cucumber.io[39m[22m[24m [32m│[39m
-[32m│[39m                                                                          [32m│[39m
-[32m│[39m Command line option:    [36m--publish[39m                                        [32m│[39m
-[32m│[39m Environment variable:   [36mCUCUMBER_PUBLISH_ENABLED[39m=[36mtrue[39m                    [32m│[39m
-[32m│[39m                                                                          [32m│[39m
-[32m│[39m More information at [4m[1m[36mhttps://reports.cucumber.io/docs/cucumber-js[39m[22m[24m         [32m│[39m
-[32m│[39m                                                                          [32m│[39m
-[32m│[39m To disable this message, add this to your [1m./cucumber.js[22m:                 [32m│[39m
-[32m│[39m [1mmodule.exports = { default: '--publish-quiet' }[22m                          [32m│[39m
-[32m└──────────────────────────────────────────────────────────────────────────┘[39m
+
 ```

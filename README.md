@@ -26,8 +26,10 @@ Once run.sh is finished logs are available in the [container-logs](container-log
 #### Notes : 
 We removed logs from mission in order to improve the logs readability. Mission is just forwarding missions status received from rocket to the kafka bus
 
-Sometimes we have a timeout error on the integration tests because of kafka. We didn't succeed to prevent it from loading old messages when the consumer is created.
-This lead to a problem because the tests are running during this loading, and it could trigger a timeout error if kafka is too long.
+Sometimes (very rarely) we have a timeout error on the integration tests because of kafka. We didn't succeed to prevent it from loading old messages when the consumer is created.
+This leads to a problem because the tests are running during this loading, and it could trigger a timeout error if kafka is taking too long to load messages.
+
+> If you encounter a problem with the integration scenario when running, logs can be found [here](LOGS.md).
 
 # Other infos
 
@@ -40,12 +42,18 @@ This project is a class project realized during the 5th year of engineering scho
 To install each service, follow the README of each service.
 
 - [Front](front/README.md)
-- [Mission-Service](mission-service/README.md)
-- [Weather-Service](weather-service/README.md)
-- [Rocket-Service](rocket-service/README.md)
-- [Booster-Service](booster-service/README.md)
-- [Payload-Service](payload-service/README.md)
-- [Telemetry-Service](telemetry-writer-service/README.md)
+- [Mission-Service](back/mission-service/README.md)
+- [Weather-Service](back/weather-service/README.md)
+- [Rocket-Service](back/rocket-service/README.md)
+- [Booster-Service](back/booster-service/README.md)
+- [Payload-Service](back/payload-service/README.md)
+- [Telemetry-Service](back/telemetry-writer-service/README.md)
+- [Mission-Coordinator-Service](back/missions-coordinator-service/README.md)
+- [Poll-Service](back/poll-service/README.md)
+- [Real-Time-Service](back/real-time-service/README.md)
+- [Telemetry-Analyser-Service](back/telemetry-analyser-service/README.md)
+- [Telemetry-Listener-Service](back/telemetry-listener-service/README.md)
+- [Telemetry-Writer-Service](back/telemetry-writer-service/README.md)
 
 ## PM2 
 
@@ -104,11 +112,3 @@ First run zookeeper with :
 
 Then run kafka with :
 `bin/kafka-server-start.sh config/server.properties`
-
-## Logs for Release
-
-Voici les logs censés s'afficher une fois que le run.sh a été exécuté. 
-Les logs de tous les services s'affichent tous sur un même fichier dans le dossier logs. 
-Pour avoir ce scénario, il faut exécuter  :
-
-`./sas.sh` pour lancer tous les services, puis dans le dossier front : `npm run demo`
