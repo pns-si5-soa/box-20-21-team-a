@@ -11,6 +11,8 @@ Alexis Lefebvre : 100 <br/>
 Alexandre Longordo : 100 <br/>
 Thomas Colomban : 100
 
+All members worked equally and had the same level of involvement.
+
 ### What should be expected when running
 `~$ ./prepare.sh`
 Runs docker-compose build to load and build all dockers images
