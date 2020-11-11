@@ -8,12 +8,12 @@ Feature: Two missions, anomalies and abort mission
     And the third mission has already its rocket and its booster detached from each other
 
   Scenario: Two simultaneous missions are going wrong in a different way
-    When the anomaly 'skyfall' which have a severity of 3 is detected in the first mission's rocket
-    Then the mission is immediately aborted which cause the head stage status to change to 'Destroyed :('
+    When the anomaly 'skyfall' which has a severity of 3 is detected in the first mission's rocket
+    Then the mission is immediately aborted which causes the head stage status to change to 'Destroyed :('
     And the booster is immediatly 'Destroyed :('
 
-    When the anomaly 'skyfall' which have a severity of 3 is detected in the second mission's rocket
-    Then the second mission is immediately aborted which cause the head stage status to change to 'Destroyed :('
+    When the anomaly 'skyfall' which has a severity of 3 is detected in the second mission's rocket
+    Then the second mission is immediately aborted which causes the head stage status to change to 'Destroyed :('
     And the booster continues its landing process normally and finally has the 'Landed' status
     And after the failure of the mission Jeff wants to see where the problem was, so he looks at the telemetries of the rocket
   #  When the anomaly 'Booster tank leaking' is detected in the second mission while the booster is still attached to the head stage

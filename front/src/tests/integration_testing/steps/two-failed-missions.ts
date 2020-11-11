@@ -35,13 +35,17 @@ const realTimeAPI = new RealTimeAPI();
 
 let missions :string [] =[];
 // // The “given” condition for our test scenario // //
+
+
 Given("three missions which have passed all required controls before the launch procedure",async function () {
+    console.log("Given three missions which have passed all required controls before the launch procedure");
     await missionsCoordinatorAPI.createMission();
     await missionsCoordinatorAPI.createMission();
    
 });
 
 Given("the rocket has been launched for each mission",async function () {
+    console.log("And the rocket has been launched for each mission");
     await missionsCoordinatorAPI.getMissions().then((res)=>{
         missions = res.data;
         missions.forEach(id =>{
@@ -54,17 +58,24 @@ Given("the rocket has been launched for each mission",async function () {
 });
 
 Given("the first mission has its rocket still attached to the booster", function () {
+    console.log("And the first mission has its rocket still attached to the booster");
 });
 Given('the second mission has already its rocket and its booster detached from each other', function () {
+    console.log("And the second mission has already its rocket and its booster detached from each other");
     // Write code here that turns the phrase above into concrete actions
    // return 'pending';
   });
 Given('the third mission has already its rocket and its booster detached from each other', function () {
+    console.log("And the third mission has already its rocket and its booster detached from each other");
     // Write code here that turns the phrase above into concrete actions
    // return 'pending';
   });
-When("the anomaly {string} which have a severity of 3 is detected in the first mission's rocket",{timeout: 15 * 5000},async function(anomaly:string) {
-   let status : RocketStatus;
+
+    
+
+When("the anomaly {string} which has a severity of 3 is detected in the first mission's rocket",{timeout: 15 * 5000},async function(anomaly:string) {
+  console.log("  When the anomaly 'skyfall' which has a severity of 3 is detected in the first mission's rocket");
+    let status : RocketStatus;
     // Wait forrocket on internal power
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-1]).then((res)=>{
@@ -81,7 +92,8 @@ When("the anomaly {string} which have a severity of 3 is detected in the first m
     });
 });
 
-Then("the mission is immediately aborted which cause the head stage status to change to {string}",{timeout: 5 * 5000}, async function(status:string) {
+Then("the mission is immediately aborted which causes the head stage status to change to {string}",{timeout: 5 * 5000}, async function(status:string) {
+    console.log("Then the mission is immediately aborted which causes the head stage status to change to 'Destroyed :('");
     var rocketStatusTemp : RocketStatus = RocketStatus.ON_INTERNAL_POWER;
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-1]).then((res)=>{
@@ -95,8 +107,8 @@ Then("the mission is immediately aborted which cause the head stage status to ch
 });
 
 Then('the booster is immediatly {string}', {timeout: 5 * 5000},async function(status : string){
+    console.log("And the booster is immediatly 'Destroyed :('");
     var boosterStatus : BoosterStatus = BoosterStatus.ON_THE_ROCKET;
-
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-1]).then(function(res){
             
@@ -112,8 +124,9 @@ Then('the booster is immediatly {string}', {timeout: 5 * 5000},async function(st
     expect(mapStatusToText[boosterStatus]).toEqual(status);
 }
 )
-
-When("the anomaly {string} which have a severity of 3 is detected in the second mission's rocket",{timeout: 15 * 5000},async function(anomaly:string) {
+  
+When("the anomaly {string} which has a severity of 3 is detected in the second mission's rocket",{timeout: 15 * 5000},async function(anomaly:string) {
+    console.log("When the anomaly 'skyfall' which has a severity of 3 is detected in the second mission's rocket");
     let status : RocketStatus;
     // Wait forrocket on internal power
     await setIntervalConditionPromise(function(){
@@ -131,7 +144,8 @@ When("the anomaly {string} which have a severity of 3 is detected in the second 
     });
  });
 
- Then("the second mission is immediately aborted which cause the head stage status to change to {string}",{timeout: 5 * 5000}, async function(status:string) {
+ Then("the second mission is immediately aborted which causes the head stage status to change to {string}",{timeout: 5 * 5000}, async function(status:string) {
+    console.log("Then the second mission is immediately aborted which causes the head stage status to change to 'Destroyed :('");
     var rocketStatusTemp : RocketStatus = RocketStatus.ON_INTERNAL_POWER;
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-2]).then((res)=>{
@@ -146,6 +160,7 @@ When("the anomaly {string} which have a severity of 3 is detected in the second 
 });
 
 Then('the booster continues its landing process normally and finally has the {string} status', {timeout: 50 * 5000},async function(status : string){
+    console.log("And the booster continues its landing process normally and finally has the 'Landed' status");
     var responseData;
     var boosterStatus : BoosterStatus = BoosterStatus.ON_THE_ROCKET;
 
@@ -164,7 +179,8 @@ Then('the booster continues its landing process normally and finally has the {st
 }
 )
 Then('after the failure of the mission Jeff wants to see where the problem was, so he looks at the telemetries of the rocket', {timeout: 50 * 5000},async function(){
-   telemetryAPI.getAllRocketData(missions[missions.length-2]).then((res)=>{
+   console.log("And after the failure of the mission Jeff wants to see where the problem was, so he looks at the telemetries of the rocket");
+    telemetryAPI.getAllRocketData(missions[missions.length-2]).then((res)=>{
     expect(res.data.length).toBeGreaterThan(0);
        
    })
