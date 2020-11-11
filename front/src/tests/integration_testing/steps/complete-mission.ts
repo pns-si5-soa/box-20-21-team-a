@@ -66,8 +66,18 @@ const verifyExistTelemetryData = async <T>(api: string, t : T) => {
 }
 
     
-    
-    
+console.log("-------------------------------------------------------")
+console.log("|                                                     |")
+console.log("|                                                     |")
+console.log("|                                                     |")
+console.log("|                                                     |")
+console.log("|                   SCENARIO    1                     |")
+console.log("|                                                     |")
+console.log("|                                                     |")
+console.log("|                                                     |")
+console.log("|                                                     |")
+console.log("-------------------------------------------------------")
+
     
 
 When("Richard creates a new mission", async function() {

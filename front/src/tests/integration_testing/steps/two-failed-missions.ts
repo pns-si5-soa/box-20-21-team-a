@@ -38,6 +38,19 @@ let missions :string [] =[];
 
 
 Given("three missions which have passed all required controls before the launch procedure",async function () {
+
+    console.log("-------------------------------------------------------")
+    console.log("|                                                     |")
+    console.log("|                                                     |")
+    console.log("|                                                     |")
+    console.log("|                                                     |")
+    console.log("|                   SCENARIO    2                     |")
+    console.log("|                                                     |")
+    console.log("|                                                     |")
+    console.log("|                                                     |")
+    console.log("|                                                     |")
+    console.log("-------------------------------------------------------")
+    console.log("\n\n")
     console.log("Given three missions which have passed all required controls before the launch procedure");
     await missionsCoordinatorAPI.createMission();
     await missionsCoordinatorAPI.createMission();
