@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
             res.status(500).send("Error: Rocket wasn't sent");
             return;
         }
-        console.log('Rocket data received : ',  req.body.rocketData)
+        console.log('Rocket data received : ', req.body.rocketData)
         TelemetryController.addRocketData(req.body.rocketData)
         res.send("sent");
     } catch (e: any) {
