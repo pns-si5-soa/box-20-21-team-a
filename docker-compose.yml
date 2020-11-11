@@ -11,37 +11,36 @@ services:
     ports:
         - "27018:27017"
   
-  waitforservices1:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - zookeeper 
-    command: zookeeper:2181
+  # waitforservices1:
+  #   image: dadarek/wait-for-dependencies
+  #   depends_on:
+  #     - zookeeper 
+  #   command: zookeeper:2181
 
-  waitforservices2:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - kafka 
-    command: kafka:9092
-    
+  # waitforservices2:
+  #   image: dadarek/wait-for-dependencies
+  #   depends_on:
+  #     - kafka 
+  #   command: kafka:9092
 
-  waitforservices3:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - rocket-service
-      - weather-service 
-      - mission-service
-      - booster-service
-      - payload-service
-      - real-time-service
-      - telemetry-writer-service
-      - telemetry-listener-service
-      - missions-coordinator-service
-      - telemetry-analyser-service
-      - poll-service
-      - waitforservices1
-      - waitforservices2
-      - anomaly-handler-service
-    command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012 anomaly-handler-service:3013
+  # waitforservices3:
+  #   image: dadarek/wait-for-dependencies
+  #   depends_on:
+  #     - rocket-service
+  #     - weather-service 
+  #     - mission-service
+  #     - booster-service
+  #     - payload-service
+  #     - real-time-service
+  #     - telemetry-writer-service
+  #     - telemetry-listener-service
+  #     - missions-coordinator-service
+  #     - telemetry-analyser-service
+  #     - poll-service
+  #     - waitforservices1
+  #     - waitforservices2
+  #     - anomaly-handler-service
+  #   command: rocket-service:3000 weather-service:3001 mission-service:3002 telemetry-writer-service:3003 booster-service:3004 payload-service:3005 real-time-service:3006 telemetry-listener-service:3007 missions-coordinator-service:3008 telemetry-analyser-service:3009 poll-service:3012 anomaly-handler-service:3013
     
 
   telemetry-writer-service:
@@ -92,7 +91,6 @@ services:
       ports:
         - "3002:3002"
       depends_on:
-        - waitforservices1
         - mongodb
       volumes:
         - ./container-logs:/usr/src/app/logs
@@ -221,6 +219,7 @@ services:
       - PORT_TELEMETRY=3007
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
+      - HOST_IP=kafka
       - NODE_TLS_REJECT_UNAUTHORIZED=0
 
   anomaly-handler-service:
@@ -237,11 +236,11 @@ services:
       - ./container-logs:/usr/src/app/logs
     environment:
       - PORT=3013
-      - HOST_IP=kafka
+      - KAFKA_HOST_IP=kafka
       - HOST_BOOSTER_SOAP=booster-service
       - PORT_BOOSTER_SOAP=3004
-      - PORT_ROCKET_SOAP=rocket-service
-      - HOST_ROCKET_SOAP=3000
+      - PORT_ROCKET_SOAP=3000
+      - HOST_ROCKET_SOAP=rocket-service
       - HOST_MISSION=mission-service
       - PORT_MISSION=3002
 
@@ -320,6 +319,8 @@ services:
       - "9092"
     links:
       - zookeeper
+    depends_on: 
+      - zookeeper
     logging:
       driver: none
     environment:
@@ -391,7 +392,6 @@ services:
         - telemetry-writer-service
         - booster-service
         - payload-service
-        - waitforservices3
         - real-time-service
       stdin_open: true
       tty: true

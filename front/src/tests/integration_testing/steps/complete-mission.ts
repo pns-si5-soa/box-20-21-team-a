@@ -144,7 +144,6 @@ When("Elon puts the rocket on internal power",async function() {
 	await rocketAPISoap.putRocketOnInternalPower(missionID);
 })
 Then("the status of the rocket is now {string} and everything is going fine for the rocket",{timeout: 30*1000},async function(arg0: string) {
-	let tmp = Date.now();
 	await setIntervalConditionPromise(function(){
 		realTimeAPI.getStatus(missionID).then(res => {
 			rocketStatus = res.data.rocket
@@ -152,8 +151,13 @@ Then("the status of the rocket is now {string} and everything is going fine for 
 			{
 				return err.response;
 			});
-		},500, ()=>(mapStatusToText[rocketStatus]==arg0 || Date.now()>(tmp+20000))
+		},500, ()=> mapStatusToText[rocketStatus]==arg0
 	)
+	rocketStatus = await new Promise<RocketStatus>((resolve, reject) => {
+		realTimeAPI.getStatus(missionID).then(res => {
+			resolve(res.data.rocket)
+		})
+	})
 	expect(mapStatusToText[rocketStatus]).toBe(arg0);
 })
 When("he answers positively to the poll", function() {
