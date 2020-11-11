@@ -20,7 +20,6 @@ class PollAPI extends API {
     }
 
     public getPoll(id: string): AxiosPromise {
-        console.log("requestPoll");
         return this.axios(
             '/poll/' + id
         );

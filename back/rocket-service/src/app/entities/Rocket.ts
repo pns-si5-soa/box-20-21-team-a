@@ -13,7 +13,7 @@ const DATA_UPDATE_DELAY_IN_MS = 1000;
 const ACCELERATION = 0.5;
 const PRESSURE_INCREASE = 5;
 
-const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 10; // todo put to 1 minute
+const NUMBER_OF_SECONDS_IN_LAUNCH_COUNTDOWN = 10;
 const NUMBER_OF_SECONDS_REMAINING_WHEN_MAIN_ENGINE_STARTS = 3;
 
 class Rocket {
@@ -302,6 +302,7 @@ class Rocket {
     }
 
     makeRocketFall() {
+        console.log(" ==========>falllllllllllling");
         this.isFallingDown = true;
         this.controlRocketFalling();
     }

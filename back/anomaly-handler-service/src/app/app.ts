@@ -99,7 +99,7 @@ function onListening() {
 
 // KAFKA
 const { Kafka, logLevel } = require('kafkajs')
-const host = process.env.HOST_IP;
+const host = process.env.KAFKA_HOST_IP;
 
 
 const kafka = new Kafka({
