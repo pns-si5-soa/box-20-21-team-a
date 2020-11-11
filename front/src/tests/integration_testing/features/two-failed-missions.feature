@@ -15,7 +15,7 @@ Feature: Two missions, anomalies and abort mission
     When the anomaly 'skyfall' which have a severity of 3 is detected in the second mission's rocket
     Then the second mission is immediately aborted which cause the head stage status to change to 'Destroyed :('
     And the booster continues its landing process normally and finally has the 'Landed' status
-
+    And after the failure of the mission Jeff wants to see where the problem was, so he looks at the telemetries of the rocket
   #  When the anomaly 'Booster tank leaking' is detected in the second mission while the booster is still attached to the head stage
   #  Then the anomaly is not handled automatically as it is not critical and the status of all parts of the rocket do not change
   #  When Richard has evaluated the risk of the anomaly and considers that it could be an issue, he can decide to order the destruction of the booster

@@ -23,6 +23,18 @@ class TelemetryAPI extends API {
         return this.axios('/telemetry/payload/'+id);
     }
 
+    public getAllRocketData<T>(id:string): AxiosPromise {
+        return this.axios('/telemetry/rocket/'+id+'/all');
+    }
+
+    public getAllBoosterData<T>(id:string): AxiosPromise {
+        return this.axios('/telemetry/booster/'+id+'/all');
+    }
+
+    public getAllPayloadData<T>(id:string): AxiosPromise {
+        return this.axios('/telemetry/payload/'+id+'/all');
+    }
+
 }
 
 export default TelemetryAPI;

@@ -119,8 +119,6 @@ When("the anomaly {string} which have a severity of 3 is detected in the second 
     await setIntervalConditionPromise(function(){
         realTimeAPI.getStatus(missions[missions.length-2]).then((res)=>{
             status = res.data.rocket;
-            
-           
         })
         },1000,function(){
             return status >= RocketStatus.SECOND_ENGINE_START ;
@@ -165,6 +163,14 @@ Then('the booster continues its landing process normally and finally has the {st
     expect(mapStatusToText[boosterStatus]).toEqual(status);
 }
 )
+Then('after the failure of the mission Jeff wants to see where the problem was, so he looks at the telemetries of the rocket', {timeout: 50 * 5000},async function(){
+   telemetryAPI.getAllRocketData(missions[missions.length-2]).then((res)=>{
+    expect(res.data.length).toBeGreaterThan(0);
+       
+   })
+}
+)
+
 
 
 
